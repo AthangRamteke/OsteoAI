@@ -40,35 +40,35 @@ function Assessment() {
                         border: "1px solid #E2E8F0",
                     }}
                 >
+
                     <CardContent>
-                        <CardContent>
 
-                            <Typography
-                                variant="h4"
-                                fontWeight={700}
-                                align="center"
-                                gutterBottom
-                            >
-                                Osteoporosis Risk Assessment
-                            </Typography>
+                        <Typography
+                            variant="h4"
+                            fontWeight={700}
+                            align="center"
+                            gutterBottom
+                        >
+                            Osteoporosis Risk Assessment
+                        </Typography>
 
-                            <Typography
-                                variant="body1"
-                                color="text.secondary"
-                                align="center"
-                                sx={{ mb: 5 }}
-                            >
-                                Complete this assessment in about 2 minutes.
-                            </Typography>
+                        <Typography
+                            variant="body1"
+                            color="text.secondary"
+                            align="center"
+                            sx={{ mb: 5 }}
+                        >
+                            Complete this assessment in about 2 minutes.
+                        </Typography>
 
-                            <AssessmentStepper activeStep={activeStep} />
+                        <AssessmentStepper activeStep={activeStep} />
 
-                            {steps[activeStep]}
+                        {steps[activeStep]}
 
-                            <NavigationButtons />
+                        <NavigationButtons />
 
-                        </CardContent>
                     </CardContent>
+
                 </Card>
             </Container>
         </Box>
