@@ -45,7 +45,47 @@ function PersonalInfoForm() {
 
     return bmi.toFixed(1);
   };
+  const getBMICategory = () => {
+    const bmi = Number(calculateBMI());
 
+    if (!bmi) {
+      return "";
+    }
+
+    if (bmi < 18.5) {
+      return "Underweight";
+    }
+
+    if (bmi < 25) {
+      return "Healthy Weight";
+    }
+
+    if (bmi < 30) {
+      return "Overweight";
+    }
+
+    return "Obese";
+  };
+  const getBMIRecommendation = () => {
+    const category = getBMICategory();
+
+    switch (category) {
+      case "Underweight":
+        return "Your BMI is below the healthy range. Consider consulting a healthcare professional and improving your nutrition.";
+
+      case "Healthy Weight":
+        return "Your BMI is within the healthy range. Maintain a balanced diet, regular exercise, and healthy lifestyle habits to support strong bones.";
+
+      case "Overweight":
+        return "Your BMI is above the healthy range. Regular exercise and a balanced diet may help improve your overall bone health.";
+
+      case "Obese":
+        return "Your BMI is significantly above the healthy range. Please consult a healthcare professional for personalized advice.";
+
+      default:
+        return "";
+    }
+  };
   return (
     <Box
       sx={{
@@ -169,6 +209,29 @@ function PersonalInfoForm() {
             sx={{ mt: 2 }}
           >
             {calculateBMI()}
+
+          </Typography>
+          <Typography
+            variant="h5"
+            align="center"
+            fontWeight={600}
+            color="success.main"
+            sx={{ mt: 2 }}
+          >
+            {getBMICategory()}
+          </Typography>
+          <Typography
+            variant="body1"
+            align="center"
+            color="text.secondary"
+            sx={{
+              mt: 2,
+              maxWidth: 500,
+              mx: "auto",
+              lineHeight: 1.8,
+            }}
+          >
+            {getBMIRecommendation()}
           </Typography>
         </CardContent>
       </Card>
