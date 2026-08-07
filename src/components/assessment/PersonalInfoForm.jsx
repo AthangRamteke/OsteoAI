@@ -13,6 +13,11 @@ import {
   CardContent,
 } from "@mui/material";
 
+import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import ErrorIcon from "@mui/icons-material/Error";
+
 function PersonalInfoForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -81,6 +86,86 @@ function PersonalInfoForm() {
 
       case "Obese":
         return "Your BMI is significantly above the healthy range. Please consult a healthcare professional for personalized advice.";
+
+      default:
+        return "";
+    }
+  };
+  const getBMIColor = () => {
+    const category = getBMICategory();
+
+    switch (category) {
+      case "Underweight":
+        return "warning.main";
+
+      case "Healthy Weight":
+        return "success.main";
+
+      case "Overweight":
+        return "warning.dark";
+
+      case "Obese":
+        return "error.main";
+
+      default:
+        return "text.primary";
+    }
+  };
+  const getBMIIcon = () => {
+    const category = getBMICategory();
+
+    switch (category) {
+      case "Healthy Weight":
+        return (
+          <CheckCircleIcon
+            color="success"
+            sx={{ fontSize: 32 }}
+          />
+        );
+
+      case "Underweight":
+        return (
+          <WarningAmberIcon
+            color="warning"
+            sx={{ fontSize: 32 }}
+          />
+        );
+
+      case "Overweight":
+        return (
+          <WarningAmberIcon
+            color="warning"
+            sx={{ fontSize: 32 }}
+          />
+        );
+
+      case "Obese":
+        return (
+          <ErrorIcon
+            color="error"
+            sx={{ fontSize: 32 }}
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
+  const getRiskLevel = () => {
+    const category = getBMICategory();
+
+    switch (category) {
+      case "Healthy Weight":
+        return "LOW";
+
+      case "Underweight":
+        return "MODERATE";
+
+      case "Overweight":
+        return "MODERATE";
+
+      case "Obese":
+        return "HIGH";
 
       default:
         return "";
@@ -167,6 +252,7 @@ function PersonalInfoForm() {
             type="number"
             value={formData.height}
             onChange={handleChange}
+            onWheel={(event) => event.target.blur()}
             fullWidth
           />
         </Grid>
@@ -178,6 +264,7 @@ function PersonalInfoForm() {
             type="number"
             value={formData.weight}
             onChange={handleChange}
+            onWheel={(event) => event.target.blur()}
             fullWidth
           />
         </Grid>
@@ -193,13 +280,27 @@ function PersonalInfoForm() {
         }}
       >
         <CardContent>
-          <Typography
-            variant="h6"
-            align="center"
-            fontWeight={600}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 1,
+            }}
+
           >
-            Your BMI
-          </Typography>
+            <HealthAndSafetyIcon
+              color="primary"
+              sx={{ fontSize: 32 }}
+            />
+
+            <Typography
+              variant="h5"
+              fontWeight={700}
+            >
+              Bone Health Summary
+            </Typography>
+          </Box>
 
           <Typography
             variant="h2"
@@ -211,15 +312,49 @@ function PersonalInfoForm() {
             {calculateBMI()}
 
           </Typography>
-          <Typography
-            variant="h5"
-            align="center"
-            fontWeight={600}
-            color="success.main"
-            sx={{ mt: 2 }}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 1,
+              mt: 2,
+            }}
           >
-            {getBMICategory()}
-          </Typography>
+            {getBMIIcon()}
+
+            <Typography
+              variant="h5"
+              fontWeight={600}
+              sx={{
+                color: getBMIColor(),
+              }}
+            >
+              {getBMICategory()}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              mt: 3,
+              mb: 2,
+            }}
+          >
+            <Typography
+              variant="body2"
+              sx={{
+                px: 2,
+                py: 0.8,
+                borderRadius: 5,
+                bgcolor: "#E8F5E9",
+                color: "success.main",
+                fontWeight: 700,
+              }}
+            >
+              Risk Level: {getRiskLevel()}
+            </Typography>
+          </Box>
           <Typography
             variant="body1"
             align="center"
