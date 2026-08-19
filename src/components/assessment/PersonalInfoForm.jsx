@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Box,
   Typography,
@@ -17,26 +16,22 @@ import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import ErrorIcon from "@mui/icons-material/Error";
+import { useAssessment } from "../../context/AssessmentContext";
 
 function PersonalInfoForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    age: "",
-    gender: "",
-    height: "",
-    weight: "",
-  });
+  const { assessmentData, updatePersonal } = useAssessment();
+
+  const formData = assessmentData.personal;
 
   const handleChange = (event) => {
     const { name, value } = event.target;
 
     console.log(name, value);
 
-    setFormData((prev) => ({
-      ...prev,
+    updatePersonal({
       [name]: value,
-    }));
-  };
+    });
+  };;
 
   const calculateBMI = () => {
     const heightInMeters = Number(formData.height) / 100;
@@ -206,6 +201,12 @@ function PersonalInfoForm() {
         label="Age"
         name="age"
         type="number"
+        slotProps={{
+          htmlInput: {
+            min: 18,
+            max: 120,
+          },
+        }}
         value={formData.age}
         onChange={handleChange}
         fullWidth
@@ -250,6 +251,12 @@ function PersonalInfoForm() {
             label="Height (cm)"
             name="height"
             type="number"
+            slotProps={{
+              htmlInput: {
+                min: 50,
+                max: 250,
+              },
+            }}
             value={formData.height}
             onChange={handleChange}
             onWheel={(event) => event.target.blur()}
@@ -262,6 +269,12 @@ function PersonalInfoForm() {
             label="Weight (kg)"
             name="weight"
             type="number"
+            slotProps={{
+              htmlInput: {
+                min: 20,
+                max: 300,
+              },
+            }}
             value={formData.weight}
             onChange={handleChange}
             onWheel={(event) => event.target.blur()}
