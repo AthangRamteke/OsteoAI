@@ -1,189 +1,267 @@
 import {
   Box,
-  Card,
-  CardContent,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
+  Grid,
   Typography,
 } from "@mui/material";
 
+import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
+import HealingIcon from "@mui/icons-material/Healing";
+import MedicationIcon from "@mui/icons-material/Medication";
+
 import { useAssessment } from "../../context/AssessmentContext";
+import SelectableCard from "../ui/SelectableCard";
 
 function MedicalHistoryForm() {
-  const { assessmentData, updateMedicalHistory } = useAssessment();
+  const {
+    assessmentData,
+    updateMedicalHistory,
+  } = useAssessment();
 
   const medicalHistory = assessmentData.medicalHistory;
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
+  const handleChange = (name, value) => {
     updateMedicalHistory({
       [name]: value,
     });
   };
 
-  return (
-    <Box>
-      <Typography
-        variant="h5"
-        fontWeight={700}
-        gutterBottom
-      >
-        Medical History
-      </Typography>
+  const options = [
+    {
+      value: "No",
+      title: "No",
+      subtitle: "No known history",
+    },
+    {
+      value: "Yes",
+      title: "Yes",
+      subtitle: "Yes, I have relevant history",
+    },
+    {
+      value: "Unknown",
+      title: "Not sure",
+      subtitle: "I don't know",
+    },
+  ];
 
-      <Typography
-        variant="body1"
-        color="text.secondary"
-        sx={{ mb: 3 }}
-      >
-        Tell us about your medical history and factors that may affect bone health.
-      </Typography>
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 4,
+      }}
+    >
+      {/* Header */}
+      <Box>
+        <Typography
+          variant="h5"
+          fontWeight={800}
+        >
+          Medical History
+        </Typography>
+
+        <Typography
+          color="text.secondary"
+          sx={{
+            mt: 1,
+            lineHeight: 1.7,
+          }}
+        >
+          A few medical factors may help us build a more
+          complete assessment of your bone health.
+        </Typography>
+      </Box>
 
       {/* Family History */}
-      <Card
-        elevation={0}
-        sx={{
-          border: "1px solid #E2E8F0",
-          borderRadius: 3,
-          mb: 3,
-        }}
-      >
-        <CardContent>
-          <FormControl>
-            <FormLabel
-              sx={{
-                fontWeight: 700,
-                color: "text.primary",
-                mb: 1,
-              }}
+      <Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            mb: 1,
+          }}
+        >
+          <FamilyRestroomIcon color="primary" />
+
+          <Typography
+            variant="h6"
+            fontWeight={700}
+          >
+            Family History
+          </Typography>
+        </Box>
+
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{
+            mb: 2,
+            lineHeight: 1.6,
+          }}
+        >
+          Does anyone in your family have osteoporosis?
+        </Typography>
+
+        <Grid
+          container
+          spacing={2}
+        >
+          {options.map((option) => (
+            <Grid
+              key={option.value}
+              size={{ xs: 12, sm: 4 }}
             >
-              Does anyone in your immediate family have a history of osteoporosis?
-            </FormLabel>
-
-            <RadioGroup
-              name="familyHistory"
-              value={medicalHistory.familyHistory}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="Yes"
-                control={<Radio />}
-                label="Yes"
+              <SelectableCard
+                selected={
+                  medicalHistory.familyHistory === option.value
+                }
+                onClick={() =>
+                  handleChange(
+                    "familyHistory",
+                    option.value
+                  )
+                }
+                icon={<FamilyRestroomIcon />}
+                title={option.title}
+                subtitle={option.subtitle}
               />
-
-              <FormControlLabel
-                value="No"
-                control={<Radio />}
-                label="No"
-              />
-
-              <FormControlLabel
-                value="Unknown"
-                control={<Radio />}
-                label="I don't know"
-              />
-            </RadioGroup>
-          </FormControl>
-        </CardContent>
-      </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
 
       {/* Previous Fracture */}
-      <Card
-        elevation={0}
-        sx={{
-          border: "1px solid #E2E8F0",
-          borderRadius: 3,
-          mb: 3,
-        }}
-      >
-        <CardContent>
-          <FormControl>
-            <FormLabel
-              sx={{
-                fontWeight: 700,
-                color: "text.primary",
-                mb: 1,
-              }}
-            >
-              Have you ever experienced a bone fracture from a minor fall or injury?
-            </FormLabel>
+      <Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            mb: 1,
+          }}
+        >
+          <HealingIcon color="primary" />
 
-            <RadioGroup
-              name="previousFracture"
-              value={medicalHistory.previousFracture}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="Yes"
-                control={<Radio />}
-                label="Yes"
-              />
+          <Typography
+            variant="h6"
+            fontWeight={700}
+          >
+            Previous Bone Fracture
+          </Typography>
+        </Box>
 
-              <FormControlLabel
-                value="No"
-                control={<Radio />}
-                label="No"
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{
+            mb: 2,
+            lineHeight: 1.6,
+          }}
+        >
+          Have you ever had a bone fracture from a minor
+          fall or injury?
+        </Typography>
+
+        <Grid
+          container
+          spacing={2}
+        >
+          {options.map((option) => (
+            <Grid
+              key={option.value}
+              size={{ xs: 12, sm: 4 }}
+            >
+              <SelectableCard
+                selected={
+                  medicalHistory.previousFracture ===
+                  option.value
+                }
+                onClick={() =>
+                  handleChange(
+                    "previousFracture",
+                    option.value
+                  )
+                }
+                icon={<HealingIcon />}
+                title={option.title}
+                subtitle={option.subtitle}
               />
-              <FormControlLabel
-                value="Unknown"
-                control={<Radio />}
-                label="I'm not sure"
-              />
-            </RadioGroup>
-          </FormControl>
-        </CardContent>
-      </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
 
       {/* Medication */}
-      <Card
-        elevation={0}
-        sx={{
-          border: "1px solid #E2E8F0",
-          borderRadius: 3,
-        }}
-      >
-        <CardContent>
-          <FormControl>
-            <FormLabel
-              sx={{
-                fontWeight: 700,
-                color: "text.primary",
-                mb: 1,
-              }}
+      <Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            mb: 1,
+          }}
+        >
+          <MedicationIcon color="primary" />
+
+          <Typography
+            variant="h6"
+            fontWeight={700}
+          >
+            Long-Term Medication
+          </Typography>
+        </Box>
+
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{
+            mb: 1,
+            lineHeight: 1.6,
+          }}
+        >
+          Have you taken steroids or similar medicines for
+          more than 3 months?
+        </Typography>
+
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{
+            display: "block",
+            mb: 2,
+          }}
+        >
+          Example: long-term corticosteroids such as prednisone.
+        </Typography>
+
+        <Grid
+          container
+          spacing={2}
+        >
+          {options.map((option) => (
+            <Grid
+              key={option.value}
+              size={{ xs: 12, sm: 4 }}
             >
-              Have you used medications for a long period that may affect bone health?
-            </FormLabel>
-
-            <RadioGroup
-              name="medications"
-              value={medicalHistory.medications}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="Yes"
-                control={<Radio />}
-                label="Yes"
+              <SelectableCard
+                selected={
+                  medicalHistory.medications === option.value
+                }
+                onClick={() =>
+                  handleChange(
+                    "medications",
+                    option.value
+                  )
+                }
+                icon={<MedicationIcon />}
+                title={option.title}
+                subtitle={option.subtitle}
               />
-
-              <FormControlLabel
-                value="No"
-                control={<Radio />}
-                label="No"
-              />
-
-              <FormControlLabel
-                value="Unknown"
-                control={<Radio />}
-                label="I'm not sure"
-              />
-            </RadioGroup>
-          </FormControl>
-        </CardContent>
-      </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </Box>
   );
 }

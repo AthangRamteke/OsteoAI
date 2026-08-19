@@ -4,44 +4,51 @@ import StepCard from "./StepCard";
 const steps = [
   {
     step: 1,
-    title: "Enter Health Details",
+    title: "Complete Your Health Assessment",
     description:
-      "Provide your age, BMI, lifestyle habits, medical history, and optional DXA report.",
+      "Provide personal information, lifestyle habits, and relevant medical history to build a comprehensive health profile.",
   },
   {
     step: 2,
-    title: "AI Predicts Risk",
+    title: "AI-Assisted Risk Assessment",
     description:
-      "Our machine learning model analyzes your data and predicts your osteoporosis risk.",
+      "Our planned machine learning system will analyze the collected factors to estimate your osteoporosis risk.",
   },
   {
     step: 3,
-    title: "Understand Results",
+    title: "Understand Your Results",
     description:
-      "Explainable AI (SHAP) shows why the prediction was made in simple language.",
+      "Explore your overall risk, key contributing factors, and explainable insights to better understand your assessment.",
   },
   {
     step: 4,
-    title: "Improve Bone Health",
+    title: "Take Action for Better Bone Health",
     description:
-      "Receive personalized lifestyle suggestions and future risk simulation.",
+      "Receive personalized recommendations, preventive guidance, and future lifestyle insights to support healthier choices.",
   },
 ];
 
 function HowItWorks() {
   return (
     <Box
+      id="how-it-works"
       sx={{
-        py: 10,
-        backgroundColor: "#F8FAFC",
+        py: { xs: 8, md: 12 },
+        bgcolor: "white",
       }}
     >
       <Container maxWidth="lg">
         <Typography
-          variant="h3"
-          fontWeight={700}
+          variant="h2"
+          fontWeight={800}
           align="center"
-          gutterBottom
+          sx={{
+            fontSize: {
+              xs: "2.2rem",
+              md: "3.2rem",
+            },
+            letterSpacing: "-0.02em",
+          }}
         >
           How OsteoAI Works
         </Typography>
@@ -50,20 +57,32 @@ function HowItWorks() {
           variant="h6"
           color="text.secondary"
           align="center"
-          sx={{ mb: 6 }}
+          sx={{
+            maxWidth: 760,
+            mx: "auto",
+            mt: 2,
+            mb: 7,
+            fontWeight: 400,
+            lineHeight: 1.7,
+          }}
         >
-          Get your osteoporosis risk assessment in four simple steps.
+          From health assessment to personalized bone-health insights,
+          OsteoAI is designed to guide users through a simple four-step
+          experience.
         </Typography>
 
-        <Grid container spacing={4}>
+        <Grid
+          container
+          spacing={3}
+        >
           {steps.map((item) => (
             <Grid
+              key={item.step}
               size={{
                 xs: 12,
                 sm: 6,
                 lg: 3,
               }}
-              key={item.step}
             >
               <StepCard
                 step={item.step}

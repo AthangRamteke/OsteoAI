@@ -1,56 +1,136 @@
-import { Container, Typography, Grid } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Grid,
+  Box,
+} from "@mui/material";
+
+import PsychologyIcon from "@mui/icons-material/Psychology";
+import InsightsIcon from "@mui/icons-material/Insights";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import PieChartIcon from "@mui/icons-material/PieChart";
+
 import FeatureCard from "./FeatureCard";
 
 const features = [
   {
-    icon: "🧠",
+    icon: <PsychologyIcon />,
     title: "Explainable AI",
     description:
-      "Understand why the AI predicted your osteoporosis risk instead of receiving only a score.",
+      "Understand which factors may influence an osteoporosis risk prediction instead of receiving only a final score.",
+    tint: "#EEF4FF",
+    iconColor: "#2563EB",
   },
   {
-    icon: "🤖",
-    title: "AI Personal Agent",
+    icon: <ShowChartIcon />,
+    title: "Personalized Risk Insights",
     description:
-      "Interact with an intelligent assistant that answers your questions in simple language.",
+      "Combine personal, lifestyle, and medical information to build a more comprehensive assessment.",
+    tint: "#F3EEFF",
+    iconColor: "#7C3AED",
   },
   {
-    icon: "📈",
-    title: "Lifestyle Simulator",
+    icon: <FavoriteIcon />,
+    title: "OsteoAI Health Assistant",
     description:
-      "See how exercise, nutrition and healthy habits can improve your future bone health.",
+      "Get easy-to-understand guidance about bone health, assessment results, and preventive lifestyle habits.",
+    tint: "#ECFDF3",
+    iconColor: "#16A34A",
   },
   {
-    icon: "📚",
-    title: "Knowledge Center",
+    icon: <PieChartIcon />,
+    title: "Health Analytics",
     description:
-      "Access trusted osteoporosis information and FAQs powered by Salesforce.",
+      "Explore visual insights from your assessment and, later, track changes across multiple assessments.",
+    tint: "#FFF7ED",
+    iconColor: "#EA580C",
   },
 ];
-
 function FeaturesSection() {
   return (
-    <Container sx={{ py: 10 }}>
-      <Typography variant="h3" align="center" gutterBottom>
-        Why OsteoAI?
-      </Typography>
+    <Box
+      id="features"
+      sx={{
+        py: { xs: 8, md: 12 },
+        bgcolor: "#F8FAFC",
+      }}
+    >
+      <Container maxWidth="lg">
+        <Typography
+          variant="h2"
+          align="center"
+          fontWeight={800}
+          sx={{
+            fontSize: {
+              xs: "2.2rem",
+              md: "3.2rem",
+            },
+            letterSpacing: "-0.02em",
+          }}
+        >
+          Why OsteoAI?
+        </Typography>
 
-      <Typography align="center" color="text.secondary" sx={{ mb: 6 }}>
-        Everything you need for smarter bone health decisions.
-      </Typography>
+        <Typography
+          align="center"
+          color="text.secondary"
+          sx={{
+            maxWidth: 720,
+            mx: "auto",
+            mt: 2,
+            mb: 7,
+            fontSize: {
+              xs: "1rem",
+              md: "1.1rem",
+            },
+            lineHeight: 1.8,
+          }}
+        >
+          A multi-factor bone health platform designed to combine
+          assessment, explainable AI, personalized guidance, and
+          meaningful health insights.
+        </Typography>
 
-      <Grid container spacing={4}>
-        {features.map((feature, index) => (
-          <Grid key={index} size={{ xs: 12, sm: 6, lg: 3 }}>
-            <FeatureCard
-              icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
-            />
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+        <Grid
+          container
+          spacing={3}
+        >
+          {features.map((feature) => (
+            <Grid
+              key={feature.title}
+              size={{
+                xs: 12,
+                sm: 6,
+                lg: 3,
+              }}
+            >
+              <FeatureCard
+                icon={
+                  <Box
+                    sx={{
+                      width: 54,
+                      height: 54,
+                      borderRadius: 3,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      bgcolor: feature.tint,
+                      color: feature.iconColor,
+                    }}
+                  >
+                    {feature.icon}
+                  </Box>
+                }
+                title={feature.title}
+                description={feature.description}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </Box>
   );
 }
 

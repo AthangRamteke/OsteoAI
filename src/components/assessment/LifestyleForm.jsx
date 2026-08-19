@@ -1,25 +1,30 @@
 import {
   Box,
+  Grid,
   Typography,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Card,
-  CardContent,
 } from "@mui/material";
 
+import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
+import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
+import ChairIcon from "@mui/icons-material/Chair";
+import SmokeFreeIcon from "@mui/icons-material/SmokeFree";
+import SmokingRoomsIcon from "@mui/icons-material/SmokingRooms";
+import LocalBarIcon from "@mui/icons-material/LocalBar";
+import WineBarIcon from "@mui/icons-material/WineBar";
+import NoDrinksIcon from "@mui/icons-material/NoDrinks";
+
 import { useAssessment } from "../../context/AssessmentContext";
+import SelectableCard from "../ui/SelectableCard";
 
 function LifestyleForm() {
-  const { assessmentData, updateLifestyle } = useAssessment();
+  const {
+    assessmentData,
+    updateLifestyle,
+  } = useAssessment();
 
   const lifestyle = assessmentData.lifestyle;
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
+  const handleChange = (name, value) => {
     updateLifestyle({
       [name]: value,
     });
@@ -30,166 +35,257 @@ function LifestyleForm() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 3,
+        gap: 4,
       }}
     >
+      {/* Header */}
       <Box>
         <Typography
           variant="h5"
-          fontWeight={700}
+          fontWeight={800}
         >
           Lifestyle Factors
         </Typography>
 
         <Typography
-          variant="body1"
           color="text.secondary"
-          sx={{ mt: 1 }}
+          sx={{
+            mt: 1,
+            lineHeight: 1.7,
+          }}
         >
-          Tell us about your daily habits and lifestyle.
+          Your daily habits can play an important role in
+          overall bone health.
         </Typography>
       </Box>
 
       {/* Physical Activity */}
-      <Card
-        elevation={0}
-        sx={{
-          borderRadius: 3,
-          border: "1px solid #E2E8F0",
-        }}
-      >
-        <CardContent>
-          <FormControl>
-            <FormLabel
-              sx={{
-                fontWeight: 600,
-                color: "text.primary",
-                mb: 1,
-              }}
-            >
-              How would you describe your physical activity?
-            </FormLabel>
+      <Box>
+        <Typography
+          variant="h6"
+          fontWeight={700}
+          sx={{ mb: 1 }}
+        >
+          How would you describe your physical activity?
+        </Typography>
 
-            <RadioGroup
-              name="physicalActivity"
-              value={lifestyle.physicalActivity}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="Low"
-                control={<Radio />}
-                label="Low — Little or no regular exercise"
-              />
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ mb: 2 }}
+        >
+          Choose the option that best describes your usual
+          activity level.
+        </Typography>
 
-              <FormControlLabel
-                value="Moderate"
-                control={<Radio />}
-                label="Moderate — Exercise a few times per week"
-              />
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <SelectableCard
+              selected={
+                lifestyle.physicalActivity === "Low"
+              }
+              onClick={() =>
+                handleChange(
+                  "physicalActivity",
+                  "Low"
+                )
+              }
+              icon={
+                <ChairIcon />
+              }
+              title="Low"
+              subtitle="Little or no regular exercise"
+            />
+          </Grid>
 
-              <FormControlLabel
-                value="High"
-                control={<Radio />}
-                label="High — Regular exercise or physically active lifestyle"
-              />
-            </RadioGroup>
-          </FormControl>
-        </CardContent>
-      </Card>
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <SelectableCard
+              selected={
+                lifestyle.physicalActivity === "Moderate"
+              }
+              onClick={() =>
+                handleChange(
+                  "physicalActivity",
+                  "Moderate"
+                )
+              }
+              icon={
+                <DirectionsWalkIcon />
+              }
+              title="Moderate"
+              subtitle="Exercise a few times per week"
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <SelectableCard
+              selected={
+                lifestyle.physicalActivity === "High"
+              }
+              onClick={() =>
+                handleChange(
+                  "physicalActivity",
+                  "High"
+                )
+              }
+              icon={
+                <DirectionsRunIcon />
+              }
+              title="High"
+              subtitle="Regular or highly active lifestyle"
+            />
+          </Grid>
+        </Grid>
+      </Box>
 
       {/* Smoking */}
-      <Card
-        elevation={0}
-        sx={{
-          borderRadius: 3,
-          border: "1px solid #E2E8F0",
-        }}
-      >
-        <CardContent>
-          <FormControl>
-            <FormLabel
-              sx={{
-                fontWeight: 600,
-                color: "text.primary",
-                mb: 1,
-              }}
-            >
-              What is your smoking status?
-            </FormLabel>
+      <Box>
+        <Typography
+          variant="h6"
+          fontWeight={700}
+          sx={{ mb: 1 }}
+        >
+          What is your smoking status?
+        </Typography>
 
-            <RadioGroup
-              name="smoking"
-              value={lifestyle.smoking}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="Never"
-                control={<Radio />}
-                label="Never smoked"
-              />
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <SelectableCard
+              selected={
+                lifestyle.smoking === "Never"
+              }
+              onClick={() =>
+                handleChange(
+                  "smoking",
+                  "Never"
+                )
+              }
+              icon={
+                <SmokeFreeIcon />
+              }
+              title="Never"
+              subtitle="Never smoked"
+            />
+          </Grid>
 
-              <FormControlLabel
-                value="Former"
-                control={<Radio />}
-                label="Former smoker"
-              />
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <SelectableCard
+              selected={
+                lifestyle.smoking === "Former"
+              }
+              onClick={() =>
+                handleChange(
+                  "smoking",
+                  "Former"
+                )
+              }
+              icon={
+                <SmokingRoomsIcon />
+              }
+              title="Former"
+              subtitle="Previously smoked"
+            />
+          </Grid>
 
-              <FormControlLabel
-                value="Current"
-                control={<Radio />}
-                label="Current smoker"
-              />
-            </RadioGroup>
-          </FormControl>
-        </CardContent>
-      </Card>
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <SelectableCard
+              selected={
+                lifestyle.smoking === "Current"
+              }
+              onClick={() =>
+                handleChange(
+                  "smoking",
+                  "Current"
+                )
+              }
+              icon={
+                <SmokingRoomsIcon />
+              }
+              title="Current"
+              subtitle="Currently smoking"
+            />
+          </Grid>
+        </Grid>
+      </Box>
 
       {/* Alcohol */}
-      <Card
-        elevation={0}
-        sx={{
-          borderRadius: 3,
-          border: "1px solid #E2E8F0",
-        }}
-      >
-        <CardContent>
-          <FormControl>
-            <FormLabel
-              sx={{
-                fontWeight: 600,
-                color: "text.primary",
-                mb: 1,
-              }}
-            >
-              How often do you consume alcohol?
-            </FormLabel>
+      <Box>
+        <Typography
+          variant="h6"
+          fontWeight={700}
+          sx={{ mb: 1 }}
+        >
+          How often do you consume alcohol?
+        </Typography>
 
-            <RadioGroup
-              name="alcohol"
-              value={lifestyle.alcohol}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="Never"
-                control={<Radio />}
-                label="Never"
-              />
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <SelectableCard
+              selected={
+                lifestyle.alcohol === "Never"
+              }
+              onClick={() =>
+                handleChange(
+                  "alcohol",
+                  "Never"
+                )
+              }
+              icon={
+                <NoDrinksIcon />
+              }
+              title="Never"
+              subtitle="No alcohol consumption"
+            />
+          </Grid>
 
-              <FormControlLabel
-                value="Occasionally"
-                control={<Radio />}
-                label="Occasionally"
-              />
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <SelectableCard
+              selected={
+                lifestyle.alcohol === "Occasionally"
+              }
+              onClick={() =>
+                handleChange(
+                  "alcohol",
+                  "Occasionally"
+                )
+              }
+              icon={
+                <WineBarIcon />
+              }
+              title="Occasionally"
+              subtitle="Occasional consumption"
+            />
+          </Grid>
 
-              <FormControlLabel
-                value="Frequently"
-                control={<Radio />}
-                label="Frequently"
-              />
-            </RadioGroup>
-          </FormControl>
-        </CardContent>
-      </Card>
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <SelectableCard
+              selected={
+                lifestyle.alcohol === "Frequently"
+              }
+              onClick={() =>
+                handleChange(
+                  "alcohol",
+                  "Frequently"
+                )
+              }
+              icon={
+                <LocalBarIcon />
+              }
+              title="Frequently"
+              subtitle="Frequent consumption"
+            />
+          </Grid>
+        </Grid>
+      </Box>
     </Box>
   );
 }
