@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   AppBar,
   Toolbar,
@@ -28,6 +28,27 @@ function Navbar() {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [navVisible, setNavVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+        // scrolling down past threshold -> hide
+        setNavVisible(false);
+      } else {
+        // scrolling up (or near top) -> show
+        setNavVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -121,6 +142,10 @@ function Navbar() {
         pt: { xs: 1, md: 1.5 },
         px: { xs: 1, md: 2 },
         bgcolor: "transparent",
+        transform: navVisible
+          ? "translateY(0)"
+          : "translateY(-120%)",
+        transition: "transform 0.3s ease",
       }}
     >
       <Toolbar
