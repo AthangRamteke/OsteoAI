@@ -33,6 +33,7 @@ function HowItWorks() {
     <Box
       id="how-it-works"
       sx={{
+        scrollMarginTop: "115px",
         py: { xs: 8, md: 12 },
         bgcolor: "white",
       }}

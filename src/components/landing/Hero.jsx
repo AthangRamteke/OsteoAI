@@ -200,9 +200,7 @@ function Hero() {
               <Typography
                 variant="body2"
                 fontWeight={700}
-                sx={{
-                  color: "#0F172A",
-                }}
+                sx={{ color: "#0F172A" }}
               >
                 Multi-factor assessment
               </Typography>
@@ -216,9 +214,7 @@ function Hero() {
               <Typography
                 variant="body2"
                 fontWeight={700}
-                sx={{
-                  color: "#0F172A",
-                }}
+                sx={{ color: "#0F172A" }}
               >
                 AI-ready architecture
               </Typography>
@@ -380,7 +376,7 @@ function Hero() {
               </Box>
             </Box>
 
-            {/* Assessment Timeline */}
+            {/* Timeline */}
             <Box
               sx={{
                 position: "relative",
@@ -390,7 +386,46 @@ function Hero() {
               {assessmentSteps.map((step, index) => (
                 <Box
                   key={step.number}
+                  sx={{
+                    position: "relative",
+                    minHeight:
+                      index < assessmentSteps.length - 1
+                        ? 108
+                        : "auto",
+                  }}
                 >
+                  {/* Connector */}
+                  {index <
+                    assessmentSteps.length - 1 && (
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        left: 17,
+                        top: 34,
+                        bottom: 0,
+                        width: 2,
+                        display: "flex",
+                        justifyContent: "center",
+                        background:
+                          "repeating-linear-gradient(to bottom, #B7CCF8 0px, #B7CCF8 5px, transparent 5px, transparent 9px)",
+                      }}
+                    >
+                      <KeyboardArrowDownIcon
+                        sx={{
+                          position: "absolute",
+                          bottom: -4,
+                          left: "50%",
+                          transform:
+                            "translateX(-50%)",
+                          fontSize: 18,
+                          color: "primary.main",
+                          bgcolor: "white",
+                        }}
+                      />
+                    </Box>
+                  )}
+
+                  {/* Step */}
                   <Box
                     sx={{
                       display: "flex",
@@ -424,6 +459,8 @@ function Hero() {
                           index === 0
                             ? "0 5px 14px rgba(37,99,235,0.20)"
                             : "none",
+                        position: "relative",
+                        zIndex: 1,
                       }}
                     >
                       {step.number}
@@ -457,35 +494,6 @@ function Hero() {
                       </Typography>
                     </Box>
                   </Box>
-
-                  {index <
-                    assessmentSteps.length - 1 && (
-                    <Box
-                      sx={{
-                        height: 34,
-                        ml: "16px",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          height: 22,
-                          borderLeft:
-                            "2px dotted #C7D2FE",
-                        }}
-                      />
-
-                      <KeyboardArrowDownIcon
-                        sx={{
-                          color: "primary.main",
-                          fontSize: 18,
-                          ml: -1.15,
-                          mt: 1.2,
-                        }}
-                      />
-                    </Box>
-                  )}
                 </Box>
               ))}
             </Box>
@@ -494,11 +502,13 @@ function Hero() {
             <Box
               sx={{
                 display: "flex",
+                justifyContent: "center",
                 alignItems: "center",
                 gap: 1,
-                mt: 3,
+                mt: 1,
                 pt: 2.5,
                 borderTop: "1px solid #E2E8F0",
+                textAlign: "center",
               }}
             >
               <AccessTimeIcon

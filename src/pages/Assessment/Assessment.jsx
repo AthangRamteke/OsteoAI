@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Card,
@@ -17,6 +17,7 @@ import PersonalInfoForm from "../../components/assessment/PersonalInfoForm";
 import LifestyleForm from "../../components/assessment/LifestyleForm";
 import MedicalHistoryForm from "../../components/assessment/MedicalHistoryForm";
 import AssessmentResult from "../../components/assessment/AssessmentResult";
+import AnalysisScreen from "../../components/assessment/AnalysisScreen";
 
 import Navbar from "../../components/common/Navbar";
 
@@ -33,7 +34,10 @@ const stepNames = [
 
 function AssessmentContent() {
   const [activeStep, setActiveStep] = useState(0);
+  const [showAnalysis, setShowAnalysis] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const [analysisProgress, setAnalysisProgress] = useState(0);
+  const [analysisStage, setAnalysisStage] = useState(0);
 
   const {
     assessmentData,
@@ -108,15 +112,62 @@ function AssessmentContent() {
     return false;
   };
 
+  const startAnalysis = () => {
+    setShowAnalysis(true);
+    setShowResult(false);
+    setAnalysisProgress(0);
+    setAnalysisStage(0);
+  };
+
+  useEffect(() => {
+    if (!showAnalysis) {
+      return undefined;
+    }
+
+    const progressTimer = setInterval(() => {
+      setAnalysisProgress((previous) => {
+        const next = previous + 10;
+
+        if (next >= 100) {
+          clearInterval(progressTimer);
+          return 100;
+        }
+
+        return next;
+      });
+    }, 220);
+
+    const stageTimer = setInterval(() => {
+      setAnalysisStage((previous) => {
+        return Math.min(previous + 1, 3);
+      });
+    }, 750);
+
+    const resultTimer = setTimeout(() => {
+      setShowAnalysis(false);
+      setShowResult(true);
+    }, 2500);
+
+    return () => {
+      clearInterval(progressTimer);
+      clearInterval(stageTimer);
+      clearTimeout(resultTimer);
+    };
+  }, [showAnalysis]);
+
   const handleEditAssessment = () => {
     setShowResult(false);
+    setShowAnalysis(false);
     setActiveStep(0);
   };
 
   const handleRetakeAssessment = () => {
     resetAssessment();
     setActiveStep(0);
+    setShowAnalysis(false);
     setShowResult(false);
+    setAnalysisProgress(0);
+    setAnalysisStage(0);
   };
 
   return (
@@ -128,7 +179,7 @@ function AssessmentContent() {
           minHeight: "100vh",
           py: { xs: 4, md: 7 },
           background:
-            "radial-gradient(1200px circle at 50% 0%, rgba(37, 99, 235, 0.05) 0%, #F8FAFC 100%)",
+            "radial-gradient(1200px circle at 50% 0%, rgba(37, 99, 235, 0.06) 0%, #F8FAFC 100%)",
         }}
       >
         <Container maxWidth="md">
@@ -137,7 +188,7 @@ function AssessmentContent() {
             sx={{
               borderRadius: { xs: 3, md: 5 },
               border: "1px solid #E2E8F0",
-              bgcolor: "rgba(255,255,255,0.92)",
+              bgcolor: "rgba(255,255,255,0.94)",
               backdropFilter: "blur(10px)",
               overflow: "hidden",
             }}
@@ -147,148 +198,207 @@ function AssessmentContent() {
                 p: { xs: 2.5, sm: 4, md: 5 },
               }}
             >
-              {showResult ? (
-                <AssessmentResult
-                  onEdit={handleEditAssessment}
-                  onRetake={handleRetakeAssessment}
-                />
-              ) : (
-                <>
-                  {/* Header */}
-                  <Box
-                    sx={{
-                      textAlign: "center",
-                      mb: { xs: 3, md: 4 },
+              <AnimatePresence mode="wait">
+                {showAnalysis ? (
+                  <motion.div
+                    key="analysis"
+                    initial={{
+                      opacity: 0,
+                      y: 15,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      y: -15,
+                    }}
+                    transition={{
+                      duration: 0.3,
                     }}
                   >
-                    <Typography
-                      variant="h4"
-                      fontWeight={800}
-                      sx={{
-                        fontSize: {
-                          xs: "2rem",
-                          sm: "2.5rem",
-                          md: "3rem",
-                        },
-                        letterSpacing: "-0.02em",
-                      }}
-                    >
-                      Osteoporosis Risk Assessment
-                    </Typography>
-
-                    <Typography
-                      color="text.secondary"
-                      sx={{
-                        mt: 1,
-                        lineHeight: 1.7,
-                      }}
-                    >
-                      Complete the assessment in about 2 minutes.
-                    </Typography>
-                  </Box>
-
-                  {/* Progress Pill */}
-                  <Box
-                    sx={{
-                      mb: 4,
-                      p: 2,
-                      borderRadius: 3,
-                      border: "1px solid #E2E8F0",
-                      bgcolor: "#F8FAFC",
+                    <AnalysisScreen
+                      progress={analysisProgress}
+                      currentStep={analysisStage}
+                    />
+                  </motion.div>
+                ) : showResult ? (
+                  <motion.div
+                    key="result"
+                    initial={{
+                      opacity: 0,
+                      y: 15,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      y: -15,
+                    }}
+                    transition={{
+                      duration: 0.3,
                     }}
                   >
+                    <AssessmentResult
+                      onEdit={handleEditAssessment}
+                      onRetake={handleRetakeAssessment}
+                    />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="assessment"
+                    initial={{
+                      opacity: 0,
+                      y: 10,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      y: -10,
+                    }}
+                    transition={{
+                      duration: 0.25,
+                    }}
+                  >
+                    {/* Header */}
                     <Box
                       sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        gap: 2,
-                        mb: 1,
-                        flexWrap: "wrap",
+                        textAlign: "center",
+                        mb: { xs: 3, md: 4 },
                       }}
                     >
                       <Typography
-                        variant="body2"
-                        fontWeight={700}
-                        color="text.primary"
+                        variant="h4"
+                        fontWeight={800}
+                        sx={{
+                          fontSize: {
+                            xs: "2rem",
+                            sm: "2.5rem",
+                            md: "3rem",
+                          },
+                          letterSpacing: "-0.02em",
+                        }}
                       >
-                        Step {activeStep + 1} of {steps.length}{" "}
-                        • {currentStepName}
+                        Osteoporosis Risk Assessment
                       </Typography>
 
                       <Typography
-                        variant="body2"
-                        fontWeight={700}
-                        color="primary"
+                        color="text.secondary"
+                        sx={{
+                          mt: 1,
+                          lineHeight: 1.7,
+                        }}
                       >
-                        {Math.round(progressPercentage)}% Complete
+                        Complete the assessment in about 2 minutes.
                       </Typography>
                     </Box>
 
-                    <LinearProgress
-                      variant="determinate"
-                      value={progressPercentage}
+                    {/* Progress */}
+                    <Box
                       sx={{
-                        height: 8,
-                        borderRadius: 999,
-                        bgcolor: "#E2E8F0",
-                        "& .MuiLinearProgress-bar": {
-                          borderRadius: 999,
-                        },
+                        mb: 4,
+                        p: 2,
+                        borderRadius: 3,
+                        border: "1px solid #E2E8F0",
+                        bgcolor: "#F8FAFC",
                       }}
-                    />
-                  </Box>
-
-                  {/* Stepper */}
-                  <AssessmentStepper
-                    activeStep={activeStep}
-                  />
-
-                  {/* Animated Step Content */}
-                  <Box
-                    sx={{
-                      mt: 4,
-                      overflow: "hidden",
-                    }}
-                  >
-                    <AnimatePresence
-                      mode="wait"
-                      initial={false}
                     >
-                      <motion.div
-                        key={activeStep}
-                        initial={{
-                          opacity: 0,
-                          x: 20,
-                        }}
-                        animate={{
-                          opacity: 1,
-                          x: 0,
-                        }}
-                        exit={{
-                          opacity: 0,
-                          x: -20,
-                        }}
-                        transition={{
-                          duration: 0.25,
-                          ease: "easeOut",
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          gap: 2,
+                          mb: 1,
+                          flexWrap: "wrap",
                         }}
                       >
-                        {steps[activeStep]}
-                      </motion.div>
-                    </AnimatePresence>
-                  </Box>
+                        <Typography
+                          variant="body2"
+                          fontWeight={700}
+                        >
+                          Step {activeStep + 1} of {steps.length}{" "}
+                          • {currentStepName}
+                        </Typography>
 
-                  {/* Navigation */}
-                  <NavigationButtons
-                    activeStep={activeStep}
-                    setActiveStep={setActiveStep}
-                    totalSteps={steps.length}
-                    isStepValid={isStepValid()}
-                    onSubmit={() => setShowResult(true)}
-                  />
-                </>
-              )}
+                        <Typography
+                          variant="body2"
+                          fontWeight={700}
+                          color="primary"
+                        >
+                          {Math.round(progressPercentage)}% Complete
+                        </Typography>
+                      </Box>
+
+                      <LinearProgress
+                        variant="determinate"
+                        value={progressPercentage}
+                        sx={{
+                          height: 8,
+                          borderRadius: 999,
+                          bgcolor: "#E2E8F0",
+                          "& .MuiLinearProgress-bar": {
+                            borderRadius: 999,
+                          },
+                        }}
+                      />
+                    </Box>
+
+                    <AssessmentStepper
+                      activeStep={activeStep}
+                    />
+
+                    {/* Current step */}
+                    <Box
+                      sx={{
+                        mt: 4,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <AnimatePresence
+                        mode="wait"
+                        initial={false}
+                      >
+                        <motion.div
+                          key={activeStep}
+                          initial={{
+                            opacity: 0,
+                            x: 20,
+                          }}
+                          animate={{
+                            opacity: 1,
+                            x: 0,
+                          }}
+                          exit={{
+                            opacity: 0,
+                            x: -20,
+                          }}
+                          transition={{
+                            duration: 0.25,
+                            ease: "easeOut",
+                          }}
+                        >
+                          {steps[activeStep]}
+                        </motion.div>
+                      </AnimatePresence>
+                    </Box>
+
+                    <NavigationButtons
+                      activeStep={activeStep}
+                      setActiveStep={setActiveStep}
+                      totalSteps={steps.length}
+                      isStepValid={isStepValid()}
+                      onSubmit={startAnalysis}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </CardContent>
           </Card>
         </Container>

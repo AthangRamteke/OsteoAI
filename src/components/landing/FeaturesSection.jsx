@@ -1,13 +1,11 @@
 import {
+  Box,
   Container,
   Typography,
   Grid,
-  Box,
 } from "@mui/material";
 
 import PsychologyIcon from "@mui/icons-material/Psychology";
-import InsightsIcon from "@mui/icons-material/Insights";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PieChartIcon from "@mui/icons-material/PieChart";
@@ -48,13 +46,16 @@ const features = [
     iconColor: "#EA580C",
   },
 ];
+
 function FeaturesSection() {
   return (
     <Box
       id="features"
       sx={{
+        scrollMarginTop: "115px",
         py: { xs: 8, md: 12 },
-        bgcolor: "#F8FAFC",
+        background:
+          "radial-gradient(900px circle at 50% 0%, rgba(37, 99, 235, 0.045) 0%, #F8FAFC 65%)",
       }}
     >
       <Container maxWidth="lg">
@@ -68,6 +69,7 @@ function FeaturesSection() {
               md: "3.2rem",
             },
             letterSpacing: "-0.02em",
+            color: "#0F172A",
           }}
         >
           Why OsteoAI?
@@ -75,17 +77,17 @@ function FeaturesSection() {
 
         <Typography
           align="center"
-          color="text.secondary"
           sx={{
-            maxWidth: 720,
+            maxWidth: 760,
             mx: "auto",
             mt: 2,
             mb: 7,
             fontSize: {
               xs: "1rem",
-              md: "1.1rem",
+              md: "1.08rem",
             },
             lineHeight: 1.8,
+            color: "#64748B",
           }}
         >
           A multi-factor bone health platform designed to combine
@@ -106,26 +108,43 @@ function FeaturesSection() {
                 lg: 3,
               }}
             >
-              <FeatureCard
-                icon={
-                  <Box
-                    sx={{
-                      width: 54,
-                      height: 54,
-                      borderRadius: 3,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      bgcolor: feature.tint,
-                      color: feature.iconColor,
-                    }}
-                  >
-                    {feature.icon}
-                  </Box>
-                }
-                title={feature.title}
-                description={feature.description}
-              />
+              <Box
+                sx={{
+                  height: "100%",
+                  p: 0.5,
+                }}
+              >
+                <FeatureCard
+                  icon={
+                    <Box
+                      sx={{
+                        width: 54,
+                        height: 54,
+                        borderRadius: 3,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        bgcolor: feature.tint,
+                        color: feature.iconColor,
+                      }}
+                    >
+                      {feature.icon}
+                    </Box>
+                  }
+                  title={feature.title}
+                  description={feature.description}
+                  sx={{
+                    height: "100%",
+                    transition:
+                      "transform 0.2s ease, box-shadow 0.2s ease",
+                    "&:hover": {
+                      transform: "translateY(-4px)",
+                      boxShadow:
+                        "0 14px 30px rgba(15, 23, 42, 0.07)",
+                    },
+                  }}
+                />
+              </Box>
             </Grid>
           ))}
         </Grid>

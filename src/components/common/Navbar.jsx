@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -28,55 +28,73 @@ function Navbar() {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [navVisible, setNavVisible] = useState(true);
+  const [navbarVisible, setNavbarVisible] = useState(true);
+
   const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
-        // scrolling down past threshold -> hide
-        setNavVisible(false);
+      if (currentScrollY <= 20) {
+        setNavbarVisible(true);
+        lastScrollY.current = currentScrollY;
+        return;
+      }
+
+      if (currentScrollY > lastScrollY.current) {
+        setNavbarVisible(false);
       } else {
-        // scrolling up (or near top) -> show
-        setNavVisible(true);
+        setNavbarVisible(true);
       }
 
       lastScrollY.current = currentScrollY;
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
+    const section = document.getElementById(sectionId);
 
-    if (!element) {
+    if (!section) {
       return;
     }
 
-    const navbarOffset = 96;
+    const heading = section.querySelector("h1, h2, h3");
+    const target = heading || section;
+
+    const navbarOffset = 92;
+
     const targetPosition =
-      element.getBoundingClientRect().top +
+      target.getBoundingClientRect().top +
       window.scrollY -
       navbarOffset;
 
     const startPosition = window.scrollY;
     const distance = targetPosition - startPosition;
+
     const duration = 850;
     const startTime = performance.now();
 
-    const easeInOut = (t) => {
-      return t < 0.5
+    const easeInOut = (t) =>
+      t < 0.5
         ? 2 * t * t
         : 1 - Math.pow(-2 * t + 2, 2) / 2;
-    };
 
     const animateScroll = (currentTime) => {
       const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
+      const progress = Math.min(
+        elapsed / duration,
+        1
+      );
+
       const easedProgress = easeInOut(progress);
 
       window.scrollTo(
@@ -88,6 +106,8 @@ function Navbar() {
         requestAnimationFrame(animateScroll);
       }
     };
+
+    setNavbarVisible(true);
 
     requestAnimationFrame(animateScroll);
   };
@@ -103,7 +123,7 @@ function Navbar() {
 
         setTimeout(() => {
           scrollToSection(sectionId);
-        }, 300);
+        }, 350);
       }
 
       setDrawerOpen(false);
@@ -139,13 +159,15 @@ function Navbar() {
       elevation={0}
       sx={{
         top: 0,
+        zIndex: 1100,
         pt: { xs: 1, md: 1.5 },
         px: { xs: 1, md: 2 },
         bgcolor: "transparent",
-        transform: navVisible
+        transform: navbarVisible
           ? "translateY(0)"
           : "translateY(-120%)",
-        transition: "transform 0.3s ease",
+        transition:
+          "transform 0.32s ease-in-out",
       }}
     >
       <Toolbar
@@ -156,11 +178,14 @@ function Navbar() {
           minHeight: "64px !important",
           px: { xs: 1.5, md: 2.5 },
           py: 1,
-          border: "1px solid rgba(226, 232, 240, 0.9)",
+          border:
+            "1px solid rgba(226, 232, 240, 0.9)",
           borderRadius: 4,
-          bgcolor: "rgba(255, 255, 255, 0.94)",
+          bgcolor:
+            "rgba(255, 255, 255, 0.94)",
           backdropFilter: "blur(14px)",
-          WebkitBackdropFilter: "blur(14px)",
+          WebkitBackdropFilter:
+            "blur(14px)",
           boxShadow:
             "0 8px 28px rgba(15, 23, 42, 0.05)",
           display: "grid",
@@ -241,7 +266,9 @@ function Navbar() {
             {menuItems.map((item) => (
               <Button
                 key={item.label}
-                onClick={() => handleNavigation(item.path)}
+                onClick={() =>
+                  handleNavigation(item.path)
+                }
                 sx={{
                   px: 1.5,
                   py: 1,
@@ -252,7 +279,8 @@ function Navbar() {
                   color: "#0F172A",
                   whiteSpace: "nowrap",
                   "&:hover": {
-                    bgcolor: "rgba(37, 99, 235, 0.06)",
+                    bgcolor:
+                      "rgba(37, 99, 235, 0.06)",
                     color: "#2563EB",
                   },
                 }}
@@ -263,7 +291,7 @@ function Navbar() {
           </Box>
         )}
 
-        {/* AUTH */}
+        {/* AUTH BUTTONS */}
         {!isMobile && (
           <Box
             sx={{
@@ -282,9 +310,12 @@ function Navbar() {
               }}
             />
 
+            {/* LOGIN */}
             <Button
               variant="outlined"
-              onClick={() => handleNavigation("/login")}
+              onClick={() =>
+                handleNavigation("/login")
+              }
               sx={{
                 px: 2,
                 borderRadius: 2.5,
@@ -296,9 +327,12 @@ function Navbar() {
               Login
             </Button>
 
+            {/* SIGN UP */}
             <Button
               variant="contained"
-              onClick={() => handleNavigation("/login")}
+              onClick={() =>
+                handleNavigation("/signup")
+              }
               sx={{
                 px: 2,
                 borderRadius: 2.5,
@@ -369,7 +403,9 @@ function Navbar() {
             </Box>
 
             <IconButton
-              onClick={() => setDrawerOpen(false)}
+              onClick={() =>
+                setDrawerOpen(false)
+              }
               aria-label="close navigation menu"
             >
               <CloseIcon />
@@ -385,20 +421,27 @@ function Navbar() {
                 disablePadding
               >
                 <ListItemButton
-                  onClick={() => handleNavigation(item.path)}
+                  onClick={() =>
+                    handleNavigation(item.path)
+                  }
                   sx={{
                     borderRadius: 2,
                     mb: 0.5,
                   }}
                 >
-                  <ListItemText primary={item.label} />
+                  <ListItemText
+                    primary={item.label}
+                  />
                 </ListItemButton>
               </ListItem>
             ))}
 
+            {/* MOBILE LOGIN */}
             <ListItem disablePadding>
               <ListItemButton
-                onClick={() => handleNavigation("/login")}
+                onClick={() =>
+                  handleNavigation("/login")
+                }
                 sx={{
                   borderRadius: 2,
                   mt: 1,
@@ -408,9 +451,12 @@ function Navbar() {
               </ListItemButton>
             </ListItem>
 
+            {/* MOBILE SIGN UP */}
             <ListItem disablePadding>
               <ListItemButton
-                onClick={() => handleNavigation("/login")}
+                onClick={() =>
+                  handleNavigation("/signup")
+                }
                 sx={{
                   borderRadius: 2,
                   mt: 0.5,
