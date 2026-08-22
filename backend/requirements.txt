@@ -1,0 +1,14 @@
+# OsteoAI backend dependencies.
+# Pin scikit-learn/pandas/numpy/joblib to match the versions the model
+# artifact was pickled with (see models/osteoai_model_metadata.json ->
+# sklearn_version) to avoid unpickling issues. If your local versions
+# differ, re-run train_osteoai_model.py locally to re-freeze the artifact
+# against your installed versions before deploying.
+
+fastapi>=0.110,<1.0
+uvicorn[standard]>=0.29,<1.0
+pydantic>=2.6,<3.0
+scikit-learn==1.8.0
+pandas==3.0.2
+numpy==2.4.4
+joblib==1.5.3

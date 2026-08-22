@@ -159,3 +159,32 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# =============================================================
+# Python / ML / FastAPI backend (added when ml/ and backend/ were merged in)
+# =============================================================
+
+# Virtual environments
+ml/.venv/
+backend/.venv/
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode / caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editor scratch files (Code Runner extension etc.)
+tempCodeRunnerFile.py
+
+# NOTE: ml/models/ and backend/models/ are intentionally tracked (not
+# ignored) - the trained pipeline artifacts are project deliverables that
+# the backend loads directly. Do not add models/ to this ignore list.
+ml/osteoai_data/osteoai_osteoporosis_dataset.csv

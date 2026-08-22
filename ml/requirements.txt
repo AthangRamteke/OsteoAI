@@ -1,0 +1,29 @@
+# OsteoAI ML project dependencies (training + testmodel.py + test_inference.py).
+#
+# These are pinned to EXACTLY the versions the model artifacts in models/ and
+# backend/models/ were pickled with. scikit-learn Pipeline objects embed
+# numpy array internals, so loading a pickle with a different numpy/sklearn
+# major/minor version can fail outright (as with numpy 2.x pickles on numpy
+# <2.0) or silently produce different results. Do not loosen these pins
+# without re-running train_osteoai_model.py to re-freeze the artifacts
+# against whatever new versions you install.
+#
+# IMPORTANT: numpy>=2.3 requires Python 3.11+. If you're on Python 3.10,
+# create a Python 3.11+ virtual environment first (see below) - these pins
+# will fail to install on Python 3.10.
+#
+#   py -3.11 -m venv .venv
+#   .\.venv\Scripts\Activate.ps1
+#   python -m pip install --upgrade pip
+#   pip install -r requirements.txt
+#   python testmodel.py
+
+pandas==3.0.2
+numpy==2.4.4
+scikit-learn==1.8.0
+joblib==1.5.3
+matplotlib==3.10.9
+
+# Optional - enables SHAP explainability output in train_osteoai_model.py.
+# Uncomment if you want models/shap_feature_importance.csv and shap_summary.png:
+# shap

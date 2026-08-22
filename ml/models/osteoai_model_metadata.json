@@ -1,0 +1,155 @@
+{
+  "project_name": "OsteoAI",
+  "model_version": "osteoai-v1",
+  "training_timestamp_utc": "2026-08-22T09:28:47.376830+00:00",
+  "dataset_path": "osteoai_data\\osteoai_osteoporosis_dataset.csv",
+  "target_column": "osteoporosis",
+  "target_mapping": {
+    "0": "No Osteoporosis",
+    "1": "Osteoporosis"
+  },
+  "feature_names": [
+    "age",
+    "gender",
+    "race_ethnicity",
+    "bmi",
+    "weight_kg",
+    "height_cm",
+    "waist_cm",
+    "hip_cm",
+    "other_bone_fracture_after_20",
+    "long_term_steroid_use",
+    "parent_osteoporosis_history",
+    "mother_hip_fracture",
+    "father_hip_fracture",
+    "smoked_100_cigarettes",
+    "alcohol_frequency",
+    "alcohol_drinks_per_day",
+    "vigorous_work_activity",
+    "moderate_work_activity",
+    "walk_or_bicycle",
+    "vigorous_recreation",
+    "moderate_recreation",
+    "sedentary_minutes"
+  ],
+  "feature_count": 22,
+  "numeric_features": [
+    "age",
+    "bmi",
+    "weight_kg",
+    "height_cm",
+    "waist_cm",
+    "hip_cm",
+    "alcohol_drinks_per_day",
+    "sedentary_minutes"
+  ],
+  "categorical_features": [
+    "gender",
+    "race_ethnicity",
+    "other_bone_fracture_after_20",
+    "long_term_steroid_use",
+    "parent_osteoporosis_history",
+    "mother_hip_fracture",
+    "father_hip_fracture",
+    "smoked_100_cigarettes",
+    "alcohol_frequency",
+    "vigorous_work_activity",
+    "moderate_work_activity",
+    "walk_or_bicycle",
+    "vigorous_recreation",
+    "moderate_recreation"
+  ],
+  "excluded_leakage_columns": [
+    "patient_id",
+    "mother_hip_fracture_age",
+    "father_hip_fracture_age",
+    "smokes_now",
+    "doctor_diagnosed_osteoporosis"
+  ],
+  "train_size": 3471,
+  "validation_size": 744,
+  "test_size": 744,
+  "split_fractions": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "random_state": 42,
+  "selected_model": "LogisticRegression_standard",
+  "selected_model_base_algorithm": "LogisticRegression_standard",
+  "selection_metric": "validation ROC-AUC (primary); recall/precision/F1/PR-AUC reviewed secondarily",
+  "imbalance_handling": {
+    "logistic_regression": "class_weight='balanced' variant compared against standard",
+    "random_forest": "class_weight='balanced' variant compared against standard",
+    "hist_gradient_boosting": "Installed scikit-learn 1.8.0 supports HistGradientBoostingClassifier(class_weight='balanced') natively; used directly."
+  },
+  "calibration": {
+    "method_evaluated": "sigmoid (Platt scaling), 5-fold CV on training data",
+    "validation_brier_uncalibrated": 0.0880792620735297,
+    "validation_brier_calibrated": 0.08811842601103505,
+    "calibration_applied": false,
+    "note": "Calibration was evaluated empirically via Brier score on a held-out validation split; it is a statistical fit-quality check only and does NOT constitute clinical calibration."
+  },
+  "selected_threshold": 0.09,
+  "threshold_selection_criterion": "argmax over threshold in [0.05, 0.95] (step 0.01) of F2 score (recall-weighted F-beta) computed on the validation set",
+  "preprocessing_summary": {
+    "numeric_imputation": "median (fit on training split only)",
+    "numeric_scaling": "StandardScaler (fit on training split only)",
+    "categorical_imputation": "most_frequent (fit on training split only)",
+    "categorical_encoding": "sklearn OneHotEncoder(handle_unknown='ignore', drop='if_binary'), categories learned from training split only",
+    "denormal_float_sanitization": "values with abs()<1e-6 snapped to 0.0 (deterministic, no fitting)",
+    "duplicate_removal": "exact duplicate rows on feature+target values removed",
+    "invalid_target_removal": "rows where target not in {0,1} removed",
+    "encoded_feature_count_after_onehot": 26
+  },
+  "class_distribution": {
+    "full_dataset": {
+      "negative_count": 4349,
+      "positive_count": 610,
+      "total": 4959,
+      "positive_rate": 0.12300867110304498
+    },
+    "train": {
+      "negative_count": 3044,
+      "positive_count": 427,
+      "total": 3471,
+      "positive_rate": 0.12301930279458369
+    },
+    "validation": {
+      "negative_count": 652,
+      "positive_count": 92,
+      "total": 744,
+      "positive_rate": 0.12365591397849462
+    },
+    "test": {
+      "negative_count": 653,
+      "positive_count": 91,
+      "total": 744,
+      "positive_rate": 0.12231182795698925
+    }
+  },
+  "test_metrics": {
+    "accuracy": 0.6881720430107527,
+    "precision": 0.2593856655290102,
+    "recall": 0.8351648351648352,
+    "f1_score": 0.3958333333333333,
+    "roc_auc": 0.8096359995288019,
+    "pr_auc_average_precision": 0.38869617713671223,
+    "specificity": 0.667687595712098,
+    "npv": 0.9667405764966741,
+    "brier_score": 0.09095683705160933,
+    "confusion_matrix": {
+      "tn": 436,
+      "fp": 217,
+      "fn": 15,
+      "tp": 76
+    },
+    "positive_count": 91,
+    "negative_count": 653,
+    "test_size": 744,
+    "threshold_used": 0.09
+  },
+  "sklearn_version": "1.8.0",
+  "shap_available": false,
+  "disclaimer": "OsteoAI is a research / prototype risk-assessment model. Its output (osteoporosis_probability and a threshold-derived risk flag) is NOT a medical diagnosis and has NOT been clinically validated. The decision threshold was selected using a documented statistical criterion on a held-out validation split, not derived from clinical guidelines."
+}
