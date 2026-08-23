@@ -7,9 +7,23 @@ import {
 import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
 import HealingIcon from "@mui/icons-material/Healing";
 import MedicationIcon from "@mui/icons-material/Medication";
+import PersonIcon from "@mui/icons-material/Person";
 
 import { useAssessment } from "../../context/AssessmentContext";
 import SelectableCard from "../ui/SelectableCard";
+
+const yesNoOptions = [
+  {
+    value: "Yes",
+    title: "Yes",
+    subtitle: "Yes",
+  },
+  {
+    value: "No",
+    title: "No",
+    subtitle: "No",
+  },
+];
 
 function MedicalHistoryForm() {
   const {
@@ -25,23 +39,67 @@ function MedicalHistoryForm() {
     });
   };
 
-  const options = [
-    {
-      value: "No",
-      title: "No",
-      subtitle: "No known history",
-    },
-    {
-      value: "Yes",
-      title: "Yes",
-      subtitle: "Yes, I have relevant history",
-    },
-    {
-      value: "Unknown",
-      title: "Not sure",
-      subtitle: "I don't know",
-    },
-  ];
+  const YesNoQuestion = ({
+    title,
+    description,
+    field,
+    icon,
+  }) => (
+    <Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          mb: 1,
+        }}
+      >
+        {icon}
+
+        <Typography
+          variant="h6"
+          fontWeight={700}
+        >
+          {title}
+        </Typography>
+      </Box>
+
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{
+          mb: 2,
+          lineHeight: 1.6,
+        }}
+      >
+        {description}
+      </Typography>
+
+      <Grid
+        container
+        spacing={2}
+      >
+        {yesNoOptions.map((option) => (
+          <Grid
+            key={option.value}
+            size={{ xs: 12, sm: 6 }}
+          >
+            <SelectableCard
+              selected={
+                medicalHistory[field] === option.value
+              }
+              onClick={() =>
+                handleChange(field, option.value)
+              }
+              icon={icon}
+              title={option.title}
+              subtitle={option.subtitle}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
 
   return (
     <Box
@@ -67,200 +125,80 @@ function MedicalHistoryForm() {
             lineHeight: 1.7,
           }}
         >
-          A few medical factors may help us build a more
-          complete assessment of your bone health.
+          A few medical and family-history factors help
+          create a more complete bone-health assessment.
         </Typography>
       </Box>
 
-      {/* Family History */}
-      <Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-            mb: 1,
-          }}
-        >
-          <FamilyRestroomIcon color="primary" />
+      {/* Previous fracture */}
+      <YesNoQuestion
+        title="Other Bone Fracture After Age 20"
+        description="Have you had another bone fracture after the age of 20?"
+        field="otherBoneFractureAfter20"
+        icon={<HealingIcon color="primary" />}
+      />
 
-          <Typography
-            variant="h6"
-            fontWeight={700}
-          >
-            Family History
-          </Typography>
-        </Box>
+      {/* Steroid use */}
+      <YesNoQuestion
+        title="Long-Term Steroid Use"
+        description="Have you taken corticosteroids or similar steroid medicines for a prolonged period?"
+        field="longTermSteroidUse"
+        icon={<MedicationIcon color="primary" />}
+      />
+
+      {/* Parent osteoporosis */}
+      <YesNoQuestion
+        title="Parent Osteoporosis History"
+        description="Has a parent ever been diagnosed with osteoporosis?"
+        field="parentOsteoporosisHistory"
+        icon={<FamilyRestroomIcon color="primary" />}
+      />
+
+      {/* Mother hip fracture */}
+      <YesNoQuestion
+        title="Mother's Hip Fracture"
+        description="Has your mother ever had a hip fracture?"
+        field="motherHipFracture"
+        icon={<PersonIcon color="primary" />}
+      />
+
+      {/* Father hip fracture */}
+      <YesNoQuestion
+        title="Father's Hip Fracture"
+        description="Has your father ever had a hip fracture?"
+        field="fatherHipFracture"
+        icon={<PersonIcon color="primary" />}
+      />
+
+      {/* Information note */}
+      <Box
+        sx={{
+          p: 2,
+          borderRadius: 3,
+          bgcolor: "#F8FAFC",
+          border: "1px solid #E2E8F0",
+        }}
+      >
+        <Typography
+          variant="body2"
+          fontWeight={700}
+          color="text.primary"
+        >
+          Why do we ask?
+        </Typography>
 
         <Typography
           variant="body2"
           color="text.secondary"
           sx={{
-            mb: 2,
+            mt: 0.5,
             lineHeight: 1.6,
           }}
         >
-          Does anyone in your family have osteoporosis?
+          Previous fractures, steroid exposure, and family
+          history are among the factors used by the OsteoAI
+          assessment model.
         </Typography>
-
-        <Grid
-          container
-          spacing={2}
-        >
-          {options.map((option) => (
-            <Grid
-              key={option.value}
-              size={{ xs: 12, sm: 4 }}
-            >
-              <SelectableCard
-                selected={
-                  medicalHistory.familyHistory === option.value
-                }
-                onClick={() =>
-                  handleChange(
-                    "familyHistory",
-                    option.value
-                  )
-                }
-                icon={<FamilyRestroomIcon />}
-                title={option.title}
-                subtitle={option.subtitle}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-
-      {/* Previous Fracture */}
-      <Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-            mb: 1,
-          }}
-        >
-          <HealingIcon color="primary" />
-
-          <Typography
-            variant="h6"
-            fontWeight={700}
-          >
-            Previous Bone Fracture
-          </Typography>
-        </Box>
-
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{
-            mb: 2,
-            lineHeight: 1.6,
-          }}
-        >
-          Have you ever had a bone fracture from a minor
-          fall or injury?
-        </Typography>
-
-        <Grid
-          container
-          spacing={2}
-        >
-          {options.map((option) => (
-            <Grid
-              key={option.value}
-              size={{ xs: 12, sm: 4 }}
-            >
-              <SelectableCard
-                selected={
-                  medicalHistory.previousFracture ===
-                  option.value
-                }
-                onClick={() =>
-                  handleChange(
-                    "previousFracture",
-                    option.value
-                  )
-                }
-                icon={<HealingIcon />}
-                title={option.title}
-                subtitle={option.subtitle}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-
-      {/* Medication */}
-      <Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-            mb: 1,
-          }}
-        >
-          <MedicationIcon color="primary" />
-
-          <Typography
-            variant="h6"
-            fontWeight={700}
-          >
-            Long-Term Medication
-          </Typography>
-        </Box>
-
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{
-            mb: 1,
-            lineHeight: 1.6,
-          }}
-        >
-          Have you taken steroids or similar medicines for
-          more than 3 months?
-        </Typography>
-
-        <Typography
-          variant="caption"
-          color="text.secondary"
-          sx={{
-            display: "block",
-            mb: 2,
-          }}
-        >
-          Example: long-term corticosteroids such as prednisone.
-        </Typography>
-
-        <Grid
-          container
-          spacing={2}
-        >
-          {options.map((option) => (
-            <Grid
-              key={option.value}
-              size={{ xs: 12, sm: 4 }}
-            >
-              <SelectableCard
-                selected={
-                  medicalHistory.medications === option.value
-                }
-                onClick={() =>
-                  handleChange(
-                    "medications",
-                    option.value
-                  )
-                }
-                icon={<MedicationIcon />}
-                title={option.title}
-                subtitle={option.subtitle}
-              />
-            </Grid>
-          ))}
-        </Grid>
       </Box>
     </Box>
   );

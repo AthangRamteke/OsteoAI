@@ -2,28 +2,44 @@ import { createContext, useContext, useState } from "react";
 
 const AssessmentContext = createContext(null);
 
+const initialAssessmentData = {
+  personal: {
+    name: "",
+    age: "",
+    gender: "",
+    raceEthnicity: "",
+    height: "",
+    weight: "",
+    waist: "",
+    hip: "",
+  },
+
+  lifestyle: {
+    smoked100Cigarettes: "",
+    alcoholEver: "",
+    alcoholFrequency: "",
+
+    vigorousWorkActivity: "",
+    moderateWorkActivity: "",
+    walkOrBicycle: "",
+    vigorousRecreation: "",
+    moderateRecreation: "",
+    sedentaryMinutes: "",
+  },
+
+  medicalHistory: {
+    otherBoneFractureAfter20: "",
+    longTermSteroidUse: "",
+    parentOsteoporosisHistory: "",
+    motherHipFracture: "",
+    fatherHipFracture: "",
+  },
+};
+
 export function AssessmentProvider({ children }) {
-  const [assessmentData, setAssessmentData] = useState({
-    personal: {
-      name: "",
-      age: "",
-      gender: "",
-      height: "",
-      weight: "",
-    },
-
-    lifestyle: {
-      physicalActivity: "",
-      smoking: "",
-      alcohol: "",
-    },
-
-    medicalHistory: {
-      familyHistory: "",
-      previousFracture: "",
-      medications: "",
-    },
-  });
+  const [assessmentData, setAssessmentData] = useState(
+    initialAssessmentData
+  );
 
   const updatePersonal = (data) => {
     setAssessmentData((prev) => ({
@@ -54,28 +70,9 @@ export function AssessmentProvider({ children }) {
       },
     }));
   };
+
   const resetAssessment = () => {
-    setAssessmentData({
-      personal: {
-        name: "",
-        age: "",
-        gender: "",
-        height: "",
-        weight: "",
-      },
-
-      lifestyle: {
-        physicalActivity: "",
-        smoking: "",
-        alcohol: "",
-      },
-
-      medicalHistory: {
-        familyHistory: "",
-        previousFracture: "",
-        medications: "",
-      },
-    });
+    setAssessmentData(initialAssessmentData);
   };
 
   return (

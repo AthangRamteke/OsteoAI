@@ -17,6 +17,34 @@ import WcIcon from "@mui/icons-material/Wc";
 import { useAssessment } from "../../context/AssessmentContext";
 import SelectableCard from "../ui/SelectableCard";
 
+const raceOptions = [
+  {
+    value: "1",
+    title: "Mexican American",
+    subtitle: "Mexican American",
+  },
+  {
+    value: "2",
+    title: "Other Hispanic",
+    subtitle: "Hispanic / Latino",
+  },
+  {
+    value: "3",
+    title: "White",
+    subtitle: "Non-Hispanic White",
+  },
+  {
+    value: "4",
+    title: "Black",
+    subtitle: "Non-Hispanic Black",
+  },
+  {
+    value: "6",
+    title: "Asian",
+    subtitle: "Non-Hispanic Asian",
+  },
+];
+
 function PersonalInfoForm() {
   const {
     assessmentData,
@@ -36,6 +64,12 @@ function PersonalInfoForm() {
   const handleGenderChange = (value) => {
     updatePersonal({
       gender: value,
+    });
+  };
+
+  const handleRaceChange = (value) => {
+    updatePersonal({
+      raceEthnicity: value,
     });
   };
 
@@ -160,8 +194,8 @@ function PersonalInfoForm() {
             lineHeight: 1.7,
           }}
         >
-          Tell us a little about yourself before we assess your
-          bone health.
+          Tell us a little about yourself before we assess
+          your bone health.
         </Typography>
       </Box>
 
@@ -252,6 +286,49 @@ function PersonalInfoForm() {
         </Grid>
       </Box>
 
+      {/* Race / Ethnicity */}
+      <Box>
+        <Typography
+          variant="h6"
+          fontWeight={700}
+          sx={{ mb: 1 }}
+        >
+          Race / Ethnicity
+        </Typography>
+
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ mb: 2 }}
+        >
+          Choose the option that best matches your background.
+        </Typography>
+
+        <Grid
+          container
+          spacing={2}
+        >
+          {raceOptions.map((option) => (
+            <Grid
+              key={option.value}
+              size={{ xs: 12, sm: 6 }}
+            >
+              <SelectableCard
+                selected={
+                  formData.raceEthnicity === option.value
+                }
+                onClick={() =>
+                  handleRaceChange(option.value)
+                }
+                icon={<WcIcon />}
+                title={option.title}
+                subtitle={option.subtitle}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+
       {/* Height + Weight */}
       <Grid
         container
@@ -287,6 +364,48 @@ function PersonalInfoForm() {
               },
             }}
             value={formData.weight}
+            onChange={handleChange}
+            onWheel={(event) => event.target.blur()}
+            fullWidth
+          />
+        </Grid>
+      </Grid>
+
+      {/* Waist + Hip */}
+      <Grid
+        container
+        spacing={2}
+      >
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TextField
+            label="Waist Circumference (cm)"
+            name="waist"
+            type="number"
+            slotProps={{
+              htmlInput: {
+                min: 40,
+                max: 200,
+              },
+            }}
+            value={formData.waist}
+            onChange={handleChange}
+            onWheel={(event) => event.target.blur()}
+            fullWidth
+          />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TextField
+            label="Hip Circumference (cm)"
+            name="hip"
+            type="number"
+            slotProps={{
+              htmlInput: {
+                min: 40,
+                max: 200,
+              },
+            }}
+            value={formData.hip}
             onChange={handleChange}
             onWheel={(event) => event.target.blur()}
             fullWidth
@@ -374,8 +493,8 @@ function PersonalInfoForm() {
               lineHeight: 1.7,
             }}
           >
-            BMI is one of several factors considered in your
-            overall assessment.
+            BMI is one of several factors considered in
+            your overall assessment.
           </Typography>
 
           <Box

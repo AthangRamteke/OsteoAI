@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -17,10 +18,16 @@ import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import InsightsIcon from "@mui/icons-material/Insights";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 import { useAssessment } from "../../context/AssessmentContext";
 
-function AssessmentResult({ onEdit, onRetake }) {
+function AssessmentResult({
+  predictionResult,
+  onEdit,
+  onRetake,
+}) {
   const { assessmentData } = useAssessment();
 
   const {
@@ -28,6 +35,22 @@ function AssessmentResult({ onEdit, onRetake }) {
     lifestyle,
     medicalHistory,
   } = assessmentData;
+
+  const result = predictionResult || {};
+
+  const probability = Number(
+    result.osteoporosis_probability
+  );
+
+  const probabilityPercent = Number.isFinite(probability)
+    ? (probability * 100).toFixed(1)
+    : "—";
+
+  const prediction = Number(result.prediction);
+
+  const riskLevel = result.risk_level || "Unavailable";
+
+  const isPositive = prediction === 1;
 
   const calculateBMI = () => {
     const heightInMeters =
@@ -65,6 +88,38 @@ function AssessmentResult({ onEdit, onRetake }) {
     }
 
     return "Obese";
+  };
+
+  const getRiskColor = () => {
+    if (riskLevel === "High") {
+      return "#DC2626";
+    }
+
+    if (riskLevel === "Moderate") {
+      return "#D97706";
+    }
+
+    if (riskLevel === "Low") {
+      return "#16A34A";
+    }
+
+    return "#2563EB";
+  };
+
+  const getRiskBackground = () => {
+    if (riskLevel === "High") {
+      return "#FEF2F2";
+    }
+
+    if (riskLevel === "Moderate") {
+      return "#FFFBEB";
+    }
+
+    if (riskLevel === "Low") {
+      return "#F0FDF4";
+    }
+
+    return "#EEF4FF";
   };
 
   const MetricCard = ({
@@ -113,11 +168,7 @@ function AssessmentResult({ onEdit, onRetake }) {
             {icon}
           </Box>
 
-          <Box
-            sx={{
-              minWidth: 0,
-            }}
-          >
+          <Box sx={{ minWidth: 0 }}>
             <Typography
               variant="body2"
               sx={{
@@ -231,29 +282,33 @@ function AssessmentResult({ onEdit, onRetake }) {
       }}
     >
       {/* Header */}
-      <Box
-        sx={{
-          textAlign: "center",
-        }}
-      >
+      <Box sx={{ textAlign: "center" }}>
         <Box
           sx={{
-            width: 64,
-            height: 64,
+            width: 68,
+            height: 68,
             mx: "auto",
             borderRadius: "50%",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            bgcolor: "#EEF4FF",
-            color: "primary.main",
+            bgcolor: isPositive
+              ? "#FEF2F2"
+              : "#F0FDF4",
+            color: isPositive
+              ? "#DC2626"
+              : "#16A34A",
           }}
         >
-          <HealthAndSafetyIcon
-            sx={{
-              fontSize: 34,
-            }}
-          />
+          {isPositive ? (
+            <WarningAmberIcon
+              sx={{ fontSize: 36 }}
+            />
+          ) : (
+            <CheckCircleIcon
+              sx={{ fontSize: 36 }}
+            />
+          )}
         </Box>
 
         <Typography
@@ -275,7 +330,8 @@ function AssessmentResult({ onEdit, onRetake }) {
             lineHeight: 1.7,
           }}
         >
-          Your assessment information has been collected successfully.
+          Your assessment has been processed using the
+          OsteoAI machine-learning model.
         </Typography>
       </Box>
 
@@ -285,7 +341,7 @@ function AssessmentResult({ onEdit, onRetake }) {
         sx={{
           borderRadius: 5,
           border: "1px solid #DCE6F4",
-          bgcolor: "rgba(248,250,252,0.95)",
+          bgcolor: getRiskBackground(),
           overflow: "hidden",
         }}
       >
@@ -295,7 +351,10 @@ function AssessmentResult({ onEdit, onRetake }) {
           }}
         >
           <Stack
-            direction={{ xs: "column", md: "row" }}
+            direction={{
+              xs: "column",
+              md: "row",
+            }}
             spacing={3}
             sx={{
               alignItems: {
@@ -308,8 +367,10 @@ function AssessmentResult({ onEdit, onRetake }) {
             <Box>
               <Typography
                 variant="overline"
-                color="primary"
                 fontWeight={800}
+                sx={{
+                  color: getRiskColor(),
+                }}
               >
                 OVERALL ASSESSMENT
               </Typography>
@@ -322,7 +383,7 @@ function AssessmentResult({ onEdit, onRetake }) {
                   color: "#0F172A",
                 }}
               >
-                Prediction will appear here
+                {riskLevel} Risk Level
               </Typography>
 
               <Typography
@@ -333,15 +394,18 @@ function AssessmentResult({ onEdit, onRetake }) {
                   lineHeight: 1.7,
                 }}
               >
-                The machine-learning model will use the collected
-                personal, lifestyle, and medical factors to generate
-                your osteoporosis risk assessment.
+                The model estimates a{" "}
+                <strong>
+                  {probabilityPercent}%
+                </strong>{" "}
+                probability for the positive osteoporosis
+                class in this assessment.
               </Typography>
             </Box>
 
             <Box
               sx={{
-                minWidth: { md: 190 },
+                minWidth: { md: 210 },
                 p: 2.5,
                 borderRadius: 4,
                 bgcolor: "white",
@@ -355,7 +419,7 @@ function AssessmentResult({ onEdit, onRetake }) {
                   color: "#64748B",
                 }}
               >
-                Risk Score
+                Estimated Probability
               </Typography>
 
               <Typography
@@ -363,26 +427,59 @@ function AssessmentResult({ onEdit, onRetake }) {
                 fontWeight={800}
                 sx={{
                   mt: 0.5,
-                  color: "primary.main",
+                  color: getRiskColor(),
                 }}
               >
-                —
+                {probabilityPercent}%
               </Typography>
 
               <Chip
-                label="Awaiting ML model"
+                label={riskLevel}
                 size="small"
                 sx={{
                   mt: 1,
-                  bgcolor: "#EEF4FF",
-                  color: "primary.main",
-                  fontWeight: 700,
+                  bgcolor: getRiskBackground(),
+                  color: getRiskColor(),
+                  fontWeight: 800,
                 }}
               />
             </Box>
           </Stack>
         </CardContent>
       </Card>
+
+      {/* Model Status */}
+      <Alert
+        severity={isPositive ? "warning" : "success"}
+        icon={
+          isPositive ? (
+            <WarningAmberIcon />
+          ) : (
+            <CheckCircleIcon />
+          )
+        }
+        sx={{
+          borderRadius: 3,
+        }}
+      >
+        <Typography
+          variant="body2"
+          fontWeight={700}
+        >
+          Model prediction:{" "}
+          {isPositive
+            ? "Positive osteoporosis risk flag"
+            : "No osteoporosis risk flag"}
+        </Typography>
+
+        <Typography
+          variant="body2"
+          sx={{ mt: 0.5 }}
+        >
+          This is a research/prototype risk assessment and
+          is not a medical diagnosis.
+        </Typography>
+      </Alert>
 
       {/* Key Metrics */}
       <Box>
@@ -417,7 +514,9 @@ function AssessmentResult({ onEdit, onRetake }) {
             <MetricCard
               icon={<HealthAndSafetyIcon />}
               label="BMI"
-              value={calculateBMI() || "—"}
+              value={
+                calculateBMI() || "—"
+              }
               subtitle={getBMICategory()}
             />
           </Grid>
@@ -425,17 +524,19 @@ function AssessmentResult({ onEdit, onRetake }) {
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <MetricCard
               icon={<FitnessCenterIcon />}
-              label="Activity"
+              label="Sedentary Time"
               value={
-                lifestyle.physicalActivity ||
-                "Not provided"
+                lifestyle.sedentaryMinutes
+                  ? `${lifestyle.sedentaryMinutes} min`
+                  : "Not provided"
               }
+              subtitle="Typical day"
             />
           </Grid>
         </Grid>
       </Box>
 
-      {/* Risk Breakdown */}
+      {/* Assessment Factors */}
       <Card
         elevation={0}
         sx={{
@@ -462,7 +563,7 @@ function AssessmentResult({ onEdit, onRetake }) {
               variant="h6"
               fontWeight={800}
             >
-              Risk Breakdown
+              Assessment Factors
             </Typography>
           </Stack>
 
@@ -474,94 +575,14 @@ function AssessmentResult({ onEdit, onRetake }) {
               lineHeight: 1.7,
             }}
           >
-            These categories will be scored by the ML model after
-            backend integration.
+            Personal, lifestyle, and medical information
+            were combined to generate the model output.
           </Typography>
 
-          <Box
-            sx={{
-              mt: 2.5,
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "1fr",
-                md: "repeat(3, 1fr)",
-              },
-              gap: 2,
-            }}
+          <Stack
+            spacing={1.5}
+            sx={{ mt: 2.5 }}
           >
-            {[
-              "Personal Factors",
-              "Lifestyle Factors",
-              "Medical Factors",
-            ].map((label) => (
-              <Box
-                key={label}
-                sx={{
-                  p: 2,
-                  borderRadius: 3,
-                  bgcolor: "#F8FAFC",
-                  border: "1px solid #E2E8F0",
-                }}
-              >
-                <Typography
-                  variant="body2"
-                  fontWeight={700}
-                  sx={{
-                    color: "#334155",
-                  }}
-                >
-                  {label}
-                </Typography>
-
-                <Typography
-                  variant="h6"
-                  fontWeight={800}
-                  sx={{
-                    mt: 1,
-                    color: "#94A3B8",
-                  }}
-                >
-                  Pending
-                </Typography>
-              </Box>
-            ))}
-          </Box>
-        </CardContent>
-      </Card>
-
-      {/* Key Factors */}
-      <Card
-        elevation={0}
-        sx={{
-          borderRadius: 4,
-          border: "1px solid #E2E8F0",
-          bgcolor: "white",
-        }}
-      >
-        <CardContent
-          sx={{
-            p: { xs: 2.5, md: 3 },
-          }}
-        >
-          <Typography
-            variant="h6"
-            fontWeight={800}
-          >
-            Assessment Factors
-          </Typography>
-
-          <Typography
-            variant="body2"
-            sx={{
-              mt: 1,
-              mb: 2.5,
-              color: "#64748B",
-            }}
-          >
-            Information currently considered by the assessment workflow.
-          </Typography>
-
-          <Stack spacing={1.5}>
             <FactorRow
               icon={<PersonIcon fontSize="small" />}
               title="Gender"
@@ -570,90 +591,123 @@ function AssessmentResult({ onEdit, onRetake }) {
 
             <FactorRow
               icon={<HealthAndSafetyIcon fontSize="small" />}
-              title="Family History"
-              value={medicalHistory.familyHistory}
+              title="Race / Ethnicity"
+              value={
+                personal.raceEthnicity
+                  ? "Provided"
+                  : ""
+              }
             />
 
             <FactorRow
-              icon={<HealthAndSafetyIcon fontSize="small" />}
-              title="Previous Fracture"
-              value={medicalHistory.previousFracture}
+              icon={<FitnessCenterIcon fontSize="small" />}
+              title="Smoking History"
+              value={
+                lifestyle.smoked100Cigarettes
+              }
             />
 
             <FactorRow
               icon={<MedicalInformationIcon fontSize="small" />}
-              title="Long-Term Medication"
-              value={medicalHistory.medications}
+              title="Long-Term Steroid Use"
+              value={
+                medicalHistory.longTermSteroidUse
+              }
             />
 
             <FactorRow
-              icon={<FitnessCenterIcon fontSize="small" />}
-              title="Smoking"
-              value={lifestyle.smoking}
-            />
-
-            <FactorRow
-              icon={<FitnessCenterIcon fontSize="small" />}
-              title="Alcohol"
-              value={lifestyle.alcohol}
+              icon={<HealthAndSafetyIcon fontSize="small" />}
+              title="Family Osteoporosis History"
+              value={
+                medicalHistory.parentOsteoporosisHistory
+              }
             />
           </Stack>
         </CardContent>
       </Card>
 
-      {/* Future Insights */}
+      {/* Model Information */}
       <Card
         elevation={0}
         sx={{
           borderRadius: 4,
-          border: "1px dashed #BFDBFE",
-          bgcolor: "#F8FAFF",
+          border: "1px solid #E2E8F0",
+          bgcolor: "#F8FAFC",
         }}
       >
         <CardContent
           sx={{
             p: { xs: 2.5, md: 3 },
-            textAlign: "center",
           }}
         >
           <Typography
             variant="h6"
             fontWeight={800}
           >
-            Explainable AI & Analytics
+            Model Information
           </Typography>
 
-          <Typography
-            sx={{
-              mt: 1,
-              maxWidth: 620,
-              mx: "auto",
-              color: "#64748B",
-              lineHeight: 1.7,
-            }}
+          <Grid
+            container
+            spacing={2}
+            sx={{ mt: 0.5 }}
           >
-            SHAP explanations, risk-factor charts, personalized
-            recommendations, and advanced analytics will appear here
-            once the prediction model and backend are connected.
-          </Typography>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+              >
+                Model Version
+              </Typography>
 
-          <Chip
-            label="Planned ML + SHAP integration"
-            sx={{
-              mt: 2,
-              bgcolor: "#EEF4FF",
-              color: "primary.main",
-              fontWeight: 700,
-            }}
-          />
+              <Typography
+                fontWeight={800}
+                sx={{ mt: 0.5 }}
+              >
+                {result.model_version || "—"}
+              </Typography>
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+              >
+                Decision Threshold
+              </Typography>
+
+              <Typography
+                fontWeight={800}
+                sx={{ mt: 0.5 }}
+              >
+                {result.threshold_used !== undefined
+                  ? result.threshold_used
+                  : "—"}
+              </Typography>
+            </Grid>
+          </Grid>
         </CardContent>
       </Card>
+
+      {/* Disclaimer */}
+      <Alert
+        severity="info"
+        sx={{
+          borderRadius: 3,
+        }}
+      >
+        {result.disclaimer ||
+          "This is a research/prototype risk-assessment output, not a medical diagnosis, and has not been clinically validated."}
+      </Alert>
 
       <Divider />
 
       {/* Actions */}
       <Stack
-        direction={{ xs: "column", sm: "row" }}
+        direction={{
+          xs: "column",
+          sm: "row",
+        }}
         spacing={2}
         sx={{
           justifyContent: "center",

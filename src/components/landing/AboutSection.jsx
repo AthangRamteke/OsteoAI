@@ -55,7 +55,9 @@ function AboutSection() {
                     <Grid
                         container
                         spacing={{ xs: 5, md: 8 }}
-                        alignItems="center"
+                        sx={{
+                            alignItems: "center",
+                        }}
                     >
                         <Grid size={{ xs: 12, md: 6 }}>
                             <Typography

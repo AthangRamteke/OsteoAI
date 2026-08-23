@@ -13,18 +13,33 @@ function NavigationButtons({
   const handleBack = () => {
     if (!isFirstStep) {
       setActiveStep((prev) => prev - 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   const handleNext = () => {
-    if (!isLastStep) {
-      setActiveStep((prev) => prev + 1);
+    // Hard guard: don't advance if the current step is invalid.
+    if (isLastStep || !isStepValid) {
+      return;
     }
+
+    setActiveStep((prev) => prev + 1);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const handleSubmit = () => {
+    // Hard guard: don't submit invalid data.
+    if (!isLastStep || !isStepValid) {
+      return;
+    }
+
     onSubmit();
   };
+
   return (
     <Box
       sx={{

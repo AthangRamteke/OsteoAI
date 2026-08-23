@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+
 import {
+  Alert,
   Box,
   Card,
   CardContent,
@@ -26,6 +28,8 @@ import {
   useAssessment,
 } from "../../context/AssessmentContext";
 
+import { predictAssessment } from "../../services/predictionService";
+
 const stepNames = [
   "Personal Information",
   "Lifestyle Assessment",
@@ -36,13 +40,14 @@ function AssessmentContent() {
   const [activeStep, setActiveStep] = useState(0);
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [showResult, setShowResult] = useState(false);
+
   const [analysisProgress, setAnalysisProgress] = useState(0);
   const [analysisStage, setAnalysisStage] = useState(0);
 
-  const {
-    assessmentData,
-    resetAssessment,
-  } = useAssessment();
+  const [predictionResult, setPredictionResult] = useState(null);
+  const [predictionError, setPredictionError] = useState("");
+
+  const { assessmentData, resetAssessment } = useAssessment();
 
   const steps = [
     <PersonalInfoForm key="personal" />,
@@ -55,120 +60,298 @@ function AssessmentContent() {
   const progressPercentage =
     ((activeStep + 1) / steps.length) * 100;
 
+  // ---------------------------------------------------------
+  // VALIDATION
+  // ---------------------------------------------------------
+
+  const hasValue = (value) =>
+    value !== null &&
+    value !== undefined &&
+    String(value).trim() !== "";
+
   const isStepValid = () => {
+    // PERSONAL INFORMATION
     if (activeStep === 0) {
       const {
         name,
         age,
         gender,
+        raceEthnicity,
         height,
         weight,
+        waist,
+        hip,
       } = assessmentData.personal;
+
+      // First require every field to actually contain a value.
+      if (
+        !hasValue(name) ||
+        !hasValue(age) ||
+        !hasValue(gender) ||
+        !hasValue(raceEthnicity) ||
+        !hasValue(height) ||
+        !hasValue(weight) ||
+        !hasValue(waist) ||
+        !hasValue(hip)
+      ) {
+        return false;
+      }
 
       const ageNumber = Number(age);
       const heightNumber = Number(height);
       const weightNumber = Number(weight);
+      const waistNumber = Number(waist);
+      const hipNumber = Number(hip);
 
       return (
-        name.trim() !== "" &&
-        gender !== "" &&
+        Number.isFinite(ageNumber) &&
         ageNumber >= 18 &&
         ageNumber <= 120 &&
+        Number.isFinite(heightNumber) &&
         heightNumber >= 50 &&
         heightNumber <= 250 &&
+        Number.isFinite(weightNumber) &&
         weightNumber >= 20 &&
-        weightNumber <= 300
+        weightNumber <= 300 &&
+        Number.isFinite(waistNumber) &&
+        waistNumber >= 40 &&
+        waistNumber <= 200 &&
+        Number.isFinite(hipNumber) &&
+        hipNumber >= 40 &&
+        hipNumber <= 200
       );
     }
 
+    // LIFESTYLE
     if (activeStep === 1) {
       const {
-        physicalActivity,
-        smoking,
-        alcohol,
+        smoked100Cigarettes,
+        alcoholEver,
+        alcoholFrequency,
+        vigorousWorkActivity,
+        moderateWorkActivity,
+        walkOrBicycle,
+        vigorousRecreation,
+        moderateRecreation,
+        sedentaryMinutes,
       } = assessmentData.lifestyle;
 
+      console.log("LIFESTYLE STATE:", {
+        smoked100Cigarettes,
+        alcoholEver,
+        alcoholFrequency,
+        vigorousWorkActivity,
+        moderateWorkActivity,
+        walkOrBicycle,
+        vigorousRecreation,
+        moderateRecreation,
+        sedentaryMinutes,
+      });
+
+      if (
+        !hasValue(smoked100Cigarettes) ||
+        !hasValue(alcoholEver) ||
+        !hasValue(alcoholFrequency) ||
+        !hasValue(vigorousWorkActivity) ||
+        !hasValue(moderateWorkActivity) ||
+        !hasValue(walkOrBicycle) ||
+        !hasValue(vigorousRecreation) ||
+        !hasValue(moderateRecreation) ||
+        !hasValue(sedentaryMinutes)
+      ) {
+        return false;
+      }
+
+      const sedentaryNumber = Number(sedentaryMinutes);
+
       return (
-        physicalActivity !== "" &&
-        smoking !== "" &&
-        alcohol !== ""
+        Number.isFinite(sedentaryNumber) &&
+        sedentaryNumber >= 0 &&
+        sedentaryNumber <= 1440
       );
     }
 
+    // MEDICAL HISTORY
     if (activeStep === 2) {
       const {
-        familyHistory,
-        previousFracture,
-        medications,
+        otherBoneFractureAfter20,
+        longTermSteroidUse,
+        parentOsteoporosisHistory,
+        motherHipFracture,
+        fatherHipFracture,
       } = assessmentData.medicalHistory;
 
       return (
-        familyHistory !== "" &&
-        previousFracture !== "" &&
-        medications !== ""
+        hasValue(otherBoneFractureAfter20) &&
+        hasValue(longTermSteroidUse) &&
+        hasValue(parentOsteoporosisHistory) &&
+        hasValue(motherHipFracture) &&
+        hasValue(fatherHipFracture)
       );
     }
 
     return false;
   };
 
-  const startAnalysis = () => {
-    setShowAnalysis(true);
-    setShowResult(false);
-    setAnalysisProgress(0);
-    setAnalysisStage(0);
-  };
+  // ---------------------------------------------------------
+  // API SUBMISSION
+  // ---------------------------------------------------------
 
-  useEffect(() => {
-    if (!showAnalysis) {
-      return undefined;
+  const wait = (milliseconds) =>
+    new Promise((resolve) => {
+      setTimeout(resolve, milliseconds);
+    });
+
+  const handleSubmit = async () => {
+    if (showAnalysis || !isStepValid()) {
+      return;
     }
 
-    const progressTimer = setInterval(() => {
-      setAnalysisProgress((previous) => {
-        const next = previous + 10;
+    setPredictionError("");
+    setPredictionResult(null);
 
-        if (next >= 100) {
-          clearInterval(progressTimer);
-          return 100;
-        }
+    setShowResult(false);
+    setShowAnalysis(true);
 
-        return next;
-      });
-    }, 220);
+    setAnalysisProgress(0);
+    setAnalysisStage(0);
 
-    const stageTimer = setInterval(() => {
-      setAnalysisStage((previous) => {
-        return Math.min(previous + 1, 3);
-      });
-    }, 750);
+    const startedAt = Date.now();
 
-    const resultTimer = setTimeout(() => {
-      setShowAnalysis(false);
-      setShowResult(true);
-    }, 2500);
+    let progressTimer;
+    let stageTimer;
 
-    return () => {
+    try {
+      progressTimer = setInterval(() => {
+        setAnalysisProgress((previous) => {
+          if (previous >= 92) {
+            return previous;
+          }
+
+          return Math.min(previous + 6, 92);
+        });
+      }, 120);
+
+      stageTimer = setInterval(() => {
+        setAnalysisStage((previous) =>
+          Math.min(previous + 1, 3)
+        );
+      }, 500);
+
+      const result = await predictAssessment(
+        assessmentData
+      );
+
+      const elapsed = Date.now() - startedAt;
+      const minimumDisplayTime = 1200;
+
+      if (elapsed < minimumDisplayTime) {
+        await wait(minimumDisplayTime - elapsed);
+      }
+
       clearInterval(progressTimer);
       clearInterval(stageTimer);
-      clearTimeout(resultTimer);
-    };
-  }, [showAnalysis]);
+
+      setAnalysisProgress(100);
+      setAnalysisStage(3);
+
+      await wait(250);
+
+      setPredictionResult(result);
+      setShowAnalysis(false);
+      setShowResult(true);
+    } catch (error) {
+      clearInterval(progressTimer);
+      clearInterval(stageTimer);
+
+      console.error(
+        "OsteoAI prediction request failed:",
+        error
+      );
+
+      setShowAnalysis(false);
+
+      setPredictionError(
+        error?.message ||
+        "Unable to complete the assessment. Please try again."
+      );
+    }
+  };
+
+  // ---------------------------------------------------------
+  // RESULT ACTIONS
+  // ---------------------------------------------------------
 
   const handleEditAssessment = () => {
     setShowResult(false);
-    setShowAnalysis(false);
-    setActiveStep(0);
+    setPredictionError("");
   };
 
   const handleRetakeAssessment = () => {
     resetAssessment();
+
     setActiveStep(0);
     setShowAnalysis(false);
     setShowResult(false);
+
     setAnalysisProgress(0);
     setAnalysisStage(0);
+
+    setPredictionResult(null);
+    setPredictionError("");
   };
+
+  // ---------------------------------------------------------
+  // SCROLL BEHAVIOR
+  // ---------------------------------------------------------
+
+  // When the assessment page first opens.
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
+  // Whenever the user moves between assessment steps.
+  useEffect(() => {
+    if (showAnalysis || showResult) {
+      return;
+    }
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [activeStep, showAnalysis, showResult]);
+
+  // Analysis screen.
+  useEffect(() => {
+    if (!showAnalysis) {
+      return;
+    }
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [showAnalysis]);
+
+  // Result screen.
+  useEffect(() => {
+    if (!showResult) {
+      return;
+    }
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [showResult]);
+
+  // ---------------------------------------------------------
+  // UI
+  // ---------------------------------------------------------
 
   return (
     <>
@@ -183,6 +366,19 @@ function AssessmentContent() {
         }}
       >
         <Container maxWidth="md">
+          {predictionError && (
+            <Alert
+              severity="error"
+              onClose={() => setPredictionError("")}
+              sx={{
+                mb: 2,
+                borderRadius: 3,
+              }}
+            >
+              {predictionError}
+            </Alert>
+          )}
+
           <Card
             elevation={0}
             sx={{
@@ -243,6 +439,7 @@ function AssessmentContent() {
                     }}
                   >
                     <AssessmentResult
+                      predictionResult={predictionResult}
                       onEdit={handleEditAssessment}
                       onRetake={handleRetakeAssessment}
                     />
@@ -323,8 +520,8 @@ function AssessmentContent() {
                           variant="body2"
                           fontWeight={700}
                         >
-                          Step {activeStep + 1} of {steps.length}{" "}
-                          • {currentStepName}
+                          Step {activeStep + 1} of {steps.length} •{" "}
+                          {currentStepName}
                         </Typography>
 
                         <Typography
@@ -394,7 +591,7 @@ function AssessmentContent() {
                       setActiveStep={setActiveStep}
                       totalSteps={steps.length}
                       isStepValid={isStepValid()}
-                      onSubmit={startAnalysis}
+                      onSubmit={handleSubmit}
                     />
                   </motion.div>
                 )}
