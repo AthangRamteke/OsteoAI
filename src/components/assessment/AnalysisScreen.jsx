@@ -17,6 +17,11 @@ function AnalysisScreen({
   progress = 0,
   currentStep = 0,
 }) {
+  const safeProgress = Math.max(
+    0,
+    Math.min(100, Number(progress) || 0)
+  );
+
   const stages = [
     {
       label: "Personal information",
@@ -36,250 +41,268 @@ function AnalysisScreen({
   ];
 
   const getStageMessage = () => {
-    if (progress < 30) {
-      return "Preparing biometric inputs and personal health details...";
+    if (safeProgress < 30) {
+      return "Preparing personal information and assessment inputs...";
     }
 
-    if (progress < 70) {
-      return "Evaluating lifestyle habits and clinical risk history...";
+    if (safeProgress < 60) {
+      return "Evaluating lifestyle factors and activity patterns...";
     }
 
-    return "Preparing the model-based risk analysis and explainability...";
+    if (safeProgress < 85) {
+      return "Processing medical history and model features...";
+    }
+
+    return "Generating the model-based risk analysis and explainability...";
   };
 
   return (
     <Box
       sx={{
-        minHeight: 520,
+        width: "100%",
         display: "flex",
-        alignItems: "center",
         justifyContent: "center",
-        py: { xs: 4, md: 6 },
+        px: { xs: 0, sm: 1 },
+        py: { xs: 1, md: 2 },
       }}
     >
       <Card
         elevation={0}
         sx={{
           width: "100%",
-          maxWidth: 580,
-          p: { xs: 3, sm: 5 },
+          maxWidth: 620,
           borderRadius: 5,
           border: "1px solid #DCE6F4",
-          bgcolor: "rgba(255,255,255,0.94)",
-          backdropFilter: "blur(14px)",
+          bgcolor: "rgba(255,255,255,0.98)",
           boxShadow:
             "0 24px 60px rgba(15, 23, 42, 0.08)",
           textAlign: "center",
         }}
       >
-        {/* Animated icon */}
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            mb: 3,
+            p: {
+              xs: 2.5,
+              sm: 3.5,
+              md: 4,
+            },
           }}
         >
-          <motion.div
-            animate={{
-              scale: [1, 1.06, 1],
-              rotate: [0, 2, -2, 0],
-            }}
-            transition={{
-              duration: 2.2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            <Box
-              sx={{
-                width: 78,
-                height: 78,
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                bgcolor: "#EEF4FF",
-                color: "primary.main",
-                boxShadow:
-                  "0 12px 30px rgba(37,99,235,0.12)",
-              }}
-            >
-              <PsychologyIcon
-                sx={{ fontSize: 42 }}
-              />
-            </Box>
-          </motion.div>
-        </Box>
-
-        <Typography
-          variant="h4"
-          fontWeight={800}
-          sx={{
-            color: "#0F172A",
-            letterSpacing: "-0.02em",
-          }}
-        >
-          Preparing Your Assessment
-        </Typography>
-
-        <Typography
-          sx={{
-            mt: 1.5,
-            lineHeight: 1.7,
-            color: "#64748B",
-          }}
-        >
-          Your assessment data is being prepared for personalized
-          analysis.
-        </Typography>
-
-        {/* Dynamic stage message */}
-        <Box
-          sx={{
-            mt: 3,
-            px: 2,
-            py: 1.5,
-            borderRadius: 3,
-            bgcolor: "#F8FAFC",
-            border: "1px solid #E2E8F0",
-          }}
-        >
-          <Typography
-            variant="body2"
-            fontWeight={700}
-            sx={{
-              color: "#334155",
-            }}
-          >
-            {getStageMessage()}
-          </Typography>
-        </Box>
-
-        {/* Progress */}
-        <Box
-          sx={{
-            mt: 4,
-            textAlign: "left",
-          }}
-        >
+          {/* Animated icon */}
           <Box
             sx={{
               display: "flex",
-              justifyContent: "space-between",
-              gap: 2,
-              mb: 1,
+              justifyContent: "center",
+              mb: 2.5,
             }}
           >
-            <Typography
-              variant="body2"
-              fontWeight={700}
-              sx={{
-                color: "#0F172A",
+            <motion.div
+              animate={{
+                scale: [1, 1.06, 1],
+                rotate: [0, 2, -2, 0],
               }}
-            >
-              Assessment progress
-            </Typography>
-
-            <Typography
-              variant="body2"
-              fontWeight={700}
-              color="primary"
-            >
-              {Math.round(progress)}%
-            </Typography>
-          </Box>
-
-          <LinearProgress
-            variant="determinate"
-            value={progress}
-            sx={{
-              height: 8,
-              borderRadius: 999,
-              bgcolor: "#E2E8F0",
-              "& .MuiLinearProgress-bar": {
-                borderRadius: 999,
-              },
-            }}
-          />
-        </Box>
-
-        {/* Assessment stages */}
-        <Stack
-          spacing={1.5}
-          sx={{
-            mt: 4,
-            textAlign: "left",
-          }}
-        >
-          {stages.map((stage) => (
-            <Box
-              key={stage.label}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 1.5,
-                p: 1.5,
-                borderRadius: 3,
-                bgcolor: stage.completed
-                  ? "#F0FDF4"
-                  : "#F8FAFC",
-                border: "1px solid",
-                borderColor: stage.completed
-                  ? "#BBF7D0"
-                  : "#E2E8F0",
-                transition:
-                  "background-color 0.25s ease, border-color 0.25s ease",
+              transition={{
+                duration: 2.2,
+                repeat: Infinity,
+                ease: "easeInOut",
               }}
             >
               <Box
                 sx={{
-                  width: 38,
-                  height: 38,
-                  minWidth: 38,
+                  width: 72,
+                  height: 72,
                   borderRadius: "50%",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  bgcolor: stage.completed
-                    ? "#DCFCE7"
-                    : "#EEF4FF",
-                  color: stage.completed
-                    ? "#16A34A"
-                    : "primary.main",
+                  bgcolor: "#EEF4FF",
+                  color: "primary.main",
                 }}
               >
-                {stage.completed ? (
-                  <CheckCircleIcon />
-                ) : (
-                  stage.icon
-                )}
+                <PsychologyIcon
+                  sx={{ fontSize: 40 }}
+                />
               </Box>
+            </motion.div>
+          </Box>
+
+          {/* Heading */}
+          <Typography
+            variant="h4"
+            fontWeight={800}
+            sx={{
+              color: "#0F172A",
+              letterSpacing: "-0.02em",
+              fontSize: {
+                xs: "1.8rem",
+                sm: "2.2rem",
+              },
+            }}
+          >
+            Preparing Your Assessment
+          </Typography>
+
+          <Typography
+            sx={{
+              mt: 1,
+              lineHeight: 1.7,
+              color: "#64748B",
+            }}
+          >
+            Your assessment data is being prepared for
+            personalized analysis.
+          </Typography>
+
+          {/* Dynamic message */}
+          <Box
+            sx={{
+              mt: 2.5,
+              px: 2,
+              py: 1.5,
+              borderRadius: 3,
+              bgcolor: "#F8FAFC",
+              border: "1px solid #E2E8F0",
+              minHeight: 52,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography
+              variant="body2"
+              fontWeight={700}
+              sx={{
+                color: "#334155",
+                lineHeight: 1.5,
+              }}
+            >
+              {getStageMessage()}
+            </Typography>
+          </Box>
+
+          {/* Progress */}
+          <Box
+            sx={{
+              mt: 3,
+              textAlign: "left",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: 2,
+                mb: 1,
+              }}
+            >
+              <Typography
+                variant="body2"
+                fontWeight={700}
+                sx={{ color: "#0F172A" }}
+              >
+                Analysis progress
+              </Typography>
 
               <Typography
                 variant="body2"
                 fontWeight={700}
-                sx={{
-                  color: stage.completed
-                    ? "#166534"
-                    : "#334155",
-                }}
+                color="primary"
               >
-                {stage.label}
+                {Math.round(safeProgress)}%
               </Typography>
             </Box>
-          ))}
-        </Stack>
 
-        <Typography
-          variant="body2"
-          sx={{
-            mt: 3,
-            color: "#94A3B8",
-          }}
-        >
-          Preparing your personalized results...
-        </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={safeProgress}
+              sx={{
+                height: 8,
+                borderRadius: 999,
+                bgcolor: "#E2E8F0",
+                "& .MuiLinearProgress-bar": {
+                  borderRadius: 999,
+                },
+              }}
+            />
+          </Box>
+
+          {/* Stages */}
+          <Stack
+            spacing={1.25}
+            sx={{
+              mt: 3,
+              textAlign: "left",
+            }}
+          >
+            {stages.map((stage) => (
+              <Box
+                key={stage.label}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.25,
+                  p: 1.25,
+                  borderRadius: 3,
+                  bgcolor: stage.completed
+                    ? "#F0FDF4"
+                    : "#F8FAFC",
+                  border: "1px solid",
+                  borderColor: stage.completed
+                    ? "#BBF7D0"
+                    : "#E2E8F0",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 36,
+                    height: 36,
+                    minWidth: 36,
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    bgcolor: stage.completed
+                      ? "#DCFCE7"
+                      : "#EEF4FF",
+                    color: stage.completed
+                      ? "#16A34A"
+                      : "primary.main",
+                  }}
+                >
+                  {stage.completed ? (
+                    <CheckCircleIcon
+                      sx={{ fontSize: 21 }}
+                    />
+                  ) : (
+                    stage.icon
+                  )}
+                </Box>
+
+                <Typography
+                  variant="body2"
+                  fontWeight={700}
+                  sx={{
+                    color: stage.completed
+                      ? "#166534"
+                      : "#334155",
+                  }}
+                >
+                  {stage.label}
+                </Typography>
+              </Box>
+            ))}
+          </Stack>
+
+          <Typography
+            variant="body2"
+            sx={{
+              mt: 2.5,
+              color: "#94A3B8",
+            }}
+          >
+            Please wait while OsteoAI prepares your results...
+          </Typography>
+        </Box>
       </Card>
     </Box>
   );

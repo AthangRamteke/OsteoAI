@@ -10,15 +10,24 @@ function NavigationButtons({
   const isFirstStep = activeStep === 0;
   const isLastStep = activeStep === totalSteps - 1;
 
-  const handleBack = () => {
-    if (!isFirstStep) {
-      setActiveStep((prev) => prev - 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+  const handleBack = (event) => {
+    event.preventDefault();
+
+    if (isFirstStep) {
+      return;
     }
+
+    setActiveStep((prev) => prev - 1);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
-  const handleNext = () => {
-    // Hard guard: don't advance if the current step is invalid.
+  const handleNext = (event) => {
+    event.preventDefault();
+
     if (isLastStep || !isStepValid) {
       return;
     }
@@ -31,13 +40,14 @@ function NavigationButtons({
     });
   };
 
-  const handleSubmit = () => {
-    // Hard guard: don't submit invalid data.
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
     if (!isLastStep || !isStepValid) {
       return;
     }
 
-    onSubmit();
+    await onSubmit();
   };
 
   return (
@@ -49,6 +59,7 @@ function NavigationButtons({
       }}
     >
       <Button
+        type="button"
         variant="outlined"
         onClick={handleBack}
         disabled={isFirstStep}
@@ -57,8 +68,13 @@ function NavigationButtons({
       </Button>
 
       <Button
+        type="button"
         variant="contained"
-        onClick={isLastStep ? handleSubmit : handleNext}
+        onClick={
+          isLastStep
+            ? handleSubmit
+            : handleNext
+        }
         disabled={!isStepValid}
       >
         {isLastStep ? "Submit" : "Next"}

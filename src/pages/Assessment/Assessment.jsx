@@ -38,30 +38,40 @@ const stepNames = [
 
 function AssessmentContent() {
   const [activeStep, setActiveStep] = useState(0);
-  const [showAnalysis, setShowAnalysis] = useState(false);
-  const [showResult, setShowResult] = useState(false);
 
-  const [analysisProgress, setAnalysisProgress] = useState(0);
-  const [analysisStage, setAnalysisStage] = useState(0);
+  const [showAnalysis, setShowAnalysis] =
+    useState(false);
 
-  const [predictionResult, setPredictionResult] = useState(null);
-  const [predictionError, setPredictionError] = useState("");
+  const [showResult, setShowResult] =
+    useState(false);
 
-  const { assessmentData, resetAssessment } = useAssessment();
+  const [analysisProgress, setAnalysisProgress] =
+    useState(0);
 
-  const steps = [
-    <PersonalInfoForm key="personal" />,
-    <LifestyleForm key="lifestyle" />,
-    <MedicalHistoryForm key="medical" />,
-  ];
+  const [analysisStage, setAnalysisStage] =
+    useState(0);
 
-  const currentStepName = stepNames[activeStep];
+  const [predictionResult, setPredictionResult] =
+    useState(null);
 
-  const progressPercentage =
-    ((activeStep + 1) / steps.length) * 100;
+  const [predictionError, setPredictionError] =
+    useState("");
+
+  // Tracks whether the user came back from the
+  // result page to edit an existing assessment.
+  const [isEditing, setIsEditing] =
+    useState(false);
+
+  const {
+    assessmentData,
+    resetAssessment,
+  } = useAssessment();
+
+  const currentStepName =
+    stepNames[activeStep];
 
   // ---------------------------------------------------------
-  // VALIDATION
+  // HELPERS
   // ---------------------------------------------------------
 
   const hasValue = (value) =>
@@ -69,8 +79,148 @@ function AssessmentContent() {
     value !== undefined &&
     String(value).trim() !== "";
 
+  const isValidNumber = (
+    value,
+    min,
+    max
+  ) => {
+    if (!hasValue(value)) {
+      return false;
+    }
+
+    const number = Number(value);
+
+    return (
+      Number.isFinite(number) &&
+      number >= min &&
+      number <= max
+    );
+  };
+
+  // ---------------------------------------------------------
+  // PROGRESS
+  // ---------------------------------------------------------
+
+  const getProgressPercentage = () => {
+    const {
+      personal,
+      lifestyle,
+      medicalHistory,
+    } = assessmentData;
+
+    const personalFields = [
+      hasValue(personal.name),
+      hasValue(personal.gender),
+      hasValue(
+        personal.raceEthnicity
+      ),
+      isValidNumber(
+        personal.age,
+        18,
+        120
+      ),
+      isValidNumber(
+        personal.height,
+        50,
+        250
+      ),
+      isValidNumber(
+        personal.weight,
+        20,
+        300
+      ),
+      isValidNumber(
+        personal.waist,
+        40,
+        200
+      ),
+      isValidNumber(
+        personal.hip,
+        40,
+        200
+      ),
+    ];
+
+    const lifestyleFields = [
+      hasValue(
+        lifestyle.smoked100Cigarettes
+      ),
+      hasValue(
+        lifestyle.alcoholEver
+      ),
+      hasValue(
+        lifestyle.alcoholFrequency
+      ),
+      hasValue(
+        lifestyle.vigorousWorkActivity
+      ),
+      hasValue(
+        lifestyle.moderateWorkActivity
+      ),
+      hasValue(
+        lifestyle.walkOrBicycle
+      ),
+      hasValue(
+        lifestyle.vigorousRecreation
+      ),
+      hasValue(
+        lifestyle.moderateRecreation
+      ),
+      isValidNumber(
+        lifestyle.sedentaryMinutes,
+        0,
+        1440
+      ),
+    ];
+
+    const medicalFields = [
+      hasValue(
+        medicalHistory.otherBoneFractureAfter20
+      ),
+      hasValue(
+        medicalHistory.longTermSteroidUse
+      ),
+      hasValue(
+        medicalHistory.parentOsteoporosisHistory
+      ),
+      hasValue(
+        medicalHistory.motherHipFracture
+      ),
+      hasValue(
+        medicalHistory.fatherHipFracture
+      ),
+    ];
+
+    const totalFields =
+      personalFields.length +
+      lifestyleFields.length +
+      medicalFields.length;
+
+    const completedFields =
+      personalFields.filter(Boolean)
+        .length +
+      lifestyleFields.filter(Boolean)
+        .length +
+      medicalFields.filter(Boolean)
+        .length;
+
+    return totalFields
+      ? Math.round(
+          (completedFields /
+            totalFields) *
+            100
+        )
+      : 0;
+  };
+
+  const progressPercentage =
+    getProgressPercentage();
+
+  // ---------------------------------------------------------
+  // VALIDATION
+  // ---------------------------------------------------------
+
   const isStepValid = () => {
-    // PERSONAL INFORMATION
     if (activeStep === 0) {
       const {
         name,
@@ -83,46 +233,40 @@ function AssessmentContent() {
         hip,
       } = assessmentData.personal;
 
-      // First require every field to actually contain a value.
-      if (
-        !hasValue(name) ||
-        !hasValue(age) ||
-        !hasValue(gender) ||
-        !hasValue(raceEthnicity) ||
-        !hasValue(height) ||
-        !hasValue(weight) ||
-        !hasValue(waist) ||
-        !hasValue(hip)
-      ) {
-        return false;
-      }
-
-      const ageNumber = Number(age);
-      const heightNumber = Number(height);
-      const weightNumber = Number(weight);
-      const waistNumber = Number(waist);
-      const hipNumber = Number(hip);
-
       return (
-        Number.isFinite(ageNumber) &&
-        ageNumber >= 18 &&
-        ageNumber <= 120 &&
-        Number.isFinite(heightNumber) &&
-        heightNumber >= 50 &&
-        heightNumber <= 250 &&
-        Number.isFinite(weightNumber) &&
-        weightNumber >= 20 &&
-        weightNumber <= 300 &&
-        Number.isFinite(waistNumber) &&
-        waistNumber >= 40 &&
-        waistNumber <= 200 &&
-        Number.isFinite(hipNumber) &&
-        hipNumber >= 40 &&
-        hipNumber <= 200
+        hasValue(name) &&
+        hasValue(gender) &&
+        hasValue(
+          raceEthnicity
+        ) &&
+        isValidNumber(
+          age,
+          18,
+          120
+        ) &&
+        isValidNumber(
+          height,
+          50,
+          250
+        ) &&
+        isValidNumber(
+          weight,
+          20,
+          300
+        ) &&
+        isValidNumber(
+          waist,
+          40,
+          200
+        ) &&
+        isValidNumber(
+          hip,
+          40,
+          200
+        )
       );
     }
 
-    // LIFESTYLE
     if (activeStep === 1) {
       const {
         smoked100Cigarettes,
@@ -136,42 +280,39 @@ function AssessmentContent() {
         sedentaryMinutes,
       } = assessmentData.lifestyle;
 
-      console.log("LIFESTYLE STATE:", {
-        smoked100Cigarettes,
-        alcoholEver,
-        alcoholFrequency,
-        vigorousWorkActivity,
-        moderateWorkActivity,
-        walkOrBicycle,
-        vigorousRecreation,
-        moderateRecreation,
-        sedentaryMinutes,
-      });
-
-      if (
-        !hasValue(smoked100Cigarettes) ||
-        !hasValue(alcoholEver) ||
-        !hasValue(alcoholFrequency) ||
-        !hasValue(vigorousWorkActivity) ||
-        !hasValue(moderateWorkActivity) ||
-        !hasValue(walkOrBicycle) ||
-        !hasValue(vigorousRecreation) ||
-        !hasValue(moderateRecreation) ||
-        !hasValue(sedentaryMinutes)
-      ) {
-        return false;
-      }
-
-      const sedentaryNumber = Number(sedentaryMinutes);
-
       return (
-        Number.isFinite(sedentaryNumber) &&
-        sedentaryNumber >= 0 &&
-        sedentaryNumber <= 1440
+        hasValue(
+          smoked100Cigarettes
+        ) &&
+        hasValue(
+          alcoholEver
+        ) &&
+        hasValue(
+          alcoholFrequency
+        ) &&
+        hasValue(
+          vigorousWorkActivity
+        ) &&
+        hasValue(
+          moderateWorkActivity
+        ) &&
+        hasValue(
+          walkOrBicycle
+        ) &&
+        hasValue(
+          vigorousRecreation
+        ) &&
+        hasValue(
+          moderateRecreation
+        ) &&
+        isValidNumber(
+          sedentaryMinutes,
+          0,
+          1440
+        )
       );
     }
 
-    // MEDICAL HISTORY
     if (activeStep === 2) {
       const {
         otherBoneFractureAfter20,
@@ -179,14 +320,25 @@ function AssessmentContent() {
         parentOsteoporosisHistory,
         motherHipFracture,
         fatherHipFracture,
-      } = assessmentData.medicalHistory;
+      } =
+        assessmentData.medicalHistory;
 
       return (
-        hasValue(otherBoneFractureAfter20) &&
-        hasValue(longTermSteroidUse) &&
-        hasValue(parentOsteoporosisHistory) &&
-        hasValue(motherHipFracture) &&
-        hasValue(fatherHipFracture)
+        hasValue(
+          otherBoneFractureAfter20
+        ) &&
+        hasValue(
+          longTermSteroidUse
+        ) &&
+        hasValue(
+          parentOsteoporosisHistory
+        ) &&
+        hasValue(
+          motherHipFracture
+        ) &&
+        hasValue(
+          fatherHipFracture
+        )
       );
     }
 
@@ -194,21 +346,28 @@ function AssessmentContent() {
   };
 
   // ---------------------------------------------------------
-  // API SUBMISSION
+  // PREDICTION / ANALYSIS
   // ---------------------------------------------------------
 
-  const wait = (milliseconds) =>
-    new Promise((resolve) => {
-      setTimeout(resolve, milliseconds);
-    });
+  const wait = (ms) =>
+    new Promise((resolve) =>
+      setTimeout(resolve, ms)
+    );
 
   const handleSubmit = async () => {
-    if (showAnalysis || !isStepValid()) {
+    if (
+      showAnalysis ||
+      !isStepValid()
+    ) {
       return;
     }
 
     setPredictionError("");
     setPredictionResult(null);
+
+    // We are submitting the edited assessment,
+    // so editing mode ends here.
+    setIsEditing(false);
 
     setShowResult(false);
     setShowAnalysis(true);
@@ -218,51 +377,88 @@ function AssessmentContent() {
 
     const startedAt = Date.now();
 
-    let progressTimer;
-    let stageTimer;
+    let progressTimer = null;
+    let stageTimer = null;
 
     try {
-      progressTimer = setInterval(() => {
-        setAnalysisProgress((previous) => {
-          if (previous >= 92) {
-            return previous;
-          }
+      progressTimer =
+        setInterval(() => {
+          setAnalysisProgress(
+            (previous) =>
+              previous >= 92
+                ? previous
+                : Math.min(
+                    previous + 4,
+                    92
+                  )
+          );
+        }, 160);
 
-          return Math.min(previous + 6, 92);
-        });
-      }, 120);
+      stageTimer =
+        setInterval(() => {
+          setAnalysisStage(
+            (previous) =>
+              Math.min(
+                previous + 1,
+                3
+              )
+          );
+        }, 800);
 
-      stageTimer = setInterval(() => {
-        setAnalysisStage((previous) =>
-          Math.min(previous + 1, 3)
+      await wait(150);
+
+      const result =
+        await predictAssessment(
+          assessmentData
         );
-      }, 500);
 
-      const result = await predictAssessment(
-        assessmentData
-      );
+      const minimumDisplayTime =
+        3000;
 
-      const elapsed = Date.now() - startedAt;
-      const minimumDisplayTime = 1200;
+      const elapsed =
+        Date.now() - startedAt;
 
-      if (elapsed < minimumDisplayTime) {
-        await wait(minimumDisplayTime - elapsed);
+      if (
+        elapsed <
+        minimumDisplayTime
+      ) {
+        await wait(
+          minimumDisplayTime -
+            elapsed
+        );
       }
 
-      clearInterval(progressTimer);
-      clearInterval(stageTimer);
+      clearInterval(
+        progressTimer
+      );
+
+      clearInterval(
+        stageTimer
+      );
 
       setAnalysisProgress(100);
       setAnalysisStage(3);
 
       await wait(250);
 
-      setPredictionResult(result);
+      setPredictionResult(
+        result
+      );
+
       setShowAnalysis(false);
       setShowResult(true);
     } catch (error) {
-      clearInterval(progressTimer);
-      clearInterval(stageTimer);
+      if (progressTimer) {
+        clearInterval(
+          progressTimer
+        );
+      }
+
+      if (stageTimer) {
+        clearInterval(
+          stageTimer
+        );
+      }
 
       console.error(
         "OsteoAI prediction request failed:",
@@ -273,24 +469,36 @@ function AssessmentContent() {
 
       setPredictionError(
         error?.message ||
-        "Unable to complete the assessment. Please try again."
+          "Unable to complete the assessment. Please try again."
       );
     }
   };
 
   // ---------------------------------------------------------
-  // RESULT ACTIONS
+  // EDIT
   // ---------------------------------------------------------
 
   const handleEditAssessment = () => {
-    setShowResult(false);
     setPredictionError("");
+
+    // Go back to Personal Information.
+    setActiveStep(0);
+
+    // Keep every existing answer.
+    setIsEditing(true);
+
+    setShowResult(false);
   };
+
+  // ---------------------------------------------------------
+  // RETAKE
+  // ---------------------------------------------------------
 
   const handleRetakeAssessment = () => {
     resetAssessment();
 
     setActiveStep(0);
+
     setShowAnalysis(false);
     setShowResult(false);
 
@@ -299,23 +507,19 @@ function AssessmentContent() {
 
     setPredictionResult(null);
     setPredictionError("");
+
+    setIsEditing(false);
   };
 
   // ---------------------------------------------------------
-  // SCROLL BEHAVIOR
+  // NORMAL ASSESSMENT SCROLLING
   // ---------------------------------------------------------
 
-  // When the assessment page first opens.
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }, []);
-
-  // Whenever the user moves between assessment steps.
-  useEffect(() => {
-    if (showAnalysis || showResult) {
+    if (
+      showAnalysis ||
+      showResult
+    ) {
       return;
     }
 
@@ -323,21 +527,38 @@ function AssessmentContent() {
       top: 0,
       behavior: "smooth",
     });
-  }, [activeStep, showAnalysis, showResult]);
+  }, [
+    activeStep,
+    showAnalysis,
+    showResult,
+  ]);
 
-  // Analysis screen.
+  // ---------------------------------------------------------
+  // ANALYSIS POSITION
+  // ---------------------------------------------------------
+
   useEffect(() => {
     if (!showAnalysis) {
       return;
     }
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    const timer =
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }, 100);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [showAnalysis]);
 
-  // Result screen.
+  // ---------------------------------------------------------
+  // RESULT POSITION
+  // ---------------------------------------------------------
+
   useEffect(() => {
     if (!showResult) {
       return;
@@ -349,9 +570,128 @@ function AssessmentContent() {
     });
   }, [showResult]);
 
-  // ---------------------------------------------------------
-  // UI
-  // ---------------------------------------------------------
+  // =========================================================
+  // ANALYSIS VIEW
+  // =========================================================
+
+  if (showAnalysis) {
+    return (
+      <>
+        <Navbar />
+
+        <Box
+          sx={{
+            minHeight: "100vh",
+            pt: {
+              xs: 10,
+              sm: 11,
+              md: 12,
+            },
+            pb: 6,
+            background:
+              "radial-gradient(1200px circle at 50% 0%, rgba(37, 99, 235, 0.06) 0%, #F8FAFC 100%)",
+          }}
+        >
+          <Container maxWidth="md">
+            <AnalysisScreen
+              progress={
+                analysisProgress
+              }
+              currentStep={
+                analysisStage
+              }
+            />
+          </Container>
+        </Box>
+      </>
+    );
+  }
+
+  // =========================================================
+  // RESULT VIEW
+  // =========================================================
+
+  if (showResult) {
+    return (
+      <>
+        <Navbar />
+
+        <Box
+          sx={{
+            minHeight: "100vh",
+            py: {
+              xs: 4,
+              md: 7,
+            },
+            background:
+              "radial-gradient(1200px circle at 50% 0%, rgba(37, 99, 235, 0.06) 0%, #F8FAFC 100%)",
+          }}
+        >
+          <Container maxWidth="md">
+            {predictionError && (
+              <Alert
+                severity="error"
+                onClose={() =>
+                  setPredictionError(
+                    ""
+                  )
+                }
+                sx={{
+                  mb: 2,
+                  borderRadius: 3,
+                }}
+              >
+                {predictionError}
+              </Alert>
+            )}
+
+            <Card
+              elevation={0}
+              sx={{
+                borderRadius: {
+                  xs: 3,
+                  md: 5,
+                },
+                border:
+                  "1px solid #E2E8F0",
+                bgcolor:
+                  "rgba(255,255,255,0.94)",
+                backdropFilter:
+                  "blur(10px)",
+                overflow: "hidden",
+              }}
+            >
+              <CardContent
+                sx={{
+                  p: {
+                    xs: 2.5,
+                    sm: 4,
+                    md: 5,
+                  },
+                }}
+              >
+                <AssessmentResult
+                  predictionResult={
+                    predictionResult
+                  }
+                  onEdit={
+                    handleEditAssessment
+                  }
+                  onRetake={
+                    handleRetakeAssessment
+                  }
+                />
+              </CardContent>
+            </Card>
+          </Container>
+        </Box>
+      </>
+    );
+  }
+
+  // =========================================================
+  // ASSESSMENT VIEW
+  // =========================================================
 
   return (
     <>
@@ -360,7 +700,10 @@ function AssessmentContent() {
       <Box
         sx={{
           minHeight: "100vh",
-          py: { xs: 4, md: 7 },
+          py: {
+            xs: 4,
+            md: 7,
+          },
           background:
             "radial-gradient(1200px circle at 50% 0%, rgba(37, 99, 235, 0.06) 0%, #F8FAFC 100%)",
         }}
@@ -369,7 +712,11 @@ function AssessmentContent() {
           {predictionError && (
             <Alert
               severity="error"
-              onClose={() => setPredictionError("")}
+              onClose={() =>
+                setPredictionError(
+                  ""
+                )
+              }
               sx={{
                 mb: 2,
                 borderRadius: 3,
@@ -382,220 +729,199 @@ function AssessmentContent() {
           <Card
             elevation={0}
             sx={{
-              borderRadius: { xs: 3, md: 5 },
-              border: "1px solid #E2E8F0",
-              bgcolor: "rgba(255,255,255,0.94)",
-              backdropFilter: "blur(10px)",
+              borderRadius: {
+                xs: 3,
+                md: 5,
+              },
+              border:
+                "1px solid #E2E8F0",
+              bgcolor:
+                "rgba(255,255,255,0.94)",
+              backdropFilter:
+                "blur(10px)",
               overflow: "hidden",
             }}
           >
             <CardContent
               sx={{
-                p: { xs: 2.5, sm: 4, md: 5 },
+                p: {
+                  xs: 2.5,
+                  sm: 4,
+                  md: 5,
+                },
               }}
             >
-              <AnimatePresence mode="wait">
-                {showAnalysis ? (
-                  <motion.div
-                    key="analysis"
-                    initial={{
-                      opacity: 0,
-                      y: 15,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      y: -15,
-                    }}
-                    transition={{
-                      duration: 0.3,
-                    }}
+              <Box
+                sx={{
+                  textAlign: "center",
+                  mb: {
+                    xs: 3,
+                    md: 4,
+                  },
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  fontWeight={800}
+                  sx={{
+                    fontSize: {
+                      xs: "2rem",
+                      sm: "2.5rem",
+                      md: "3rem",
+                    },
+                    letterSpacing:
+                      "-0.02em",
+                  }}
+                >
+                  Osteoporosis Risk Assessment
+                </Typography>
+
+                <Typography
+                  color="text.secondary"
+                  sx={{
+                    mt: 1,
+                    lineHeight: 1.7,
+                  }}
+                >
+                  Complete the assessment in about 2 minutes.
+                </Typography>
+              </Box>
+
+              {/* Progress */}
+              <Box
+                sx={{
+                  mb: 4,
+                  p: 2,
+                  borderRadius: 3,
+                  border:
+                    "1px solid #E2E8F0",
+                  bgcolor:
+                    "#F8FAFC",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent:
+                      "space-between",
+                    alignItems:
+                      "center",
+                    gap: 2,
+                    mb: 1,
+                    flexWrap:
+                      "wrap",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    fontWeight={700}
                   >
-                    <AnalysisScreen
-                      progress={analysisProgress}
-                      currentStep={analysisStage}
-                    />
-                  </motion.div>
-                ) : showResult ? (
-                  <motion.div
-                    key="result"
-                    initial={{
-                      opacity: 0,
-                      y: 15,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      y: -15,
-                    }}
-                    transition={{
-                      duration: 0.3,
-                    }}
+                    Step{" "}
+                    {activeStep + 1} of{" "}
+                    {3} •{" "}
+                    {
+                      currentStepName
+                    }
+                  </Typography>
+
+                  <Typography
+                    variant="body2"
+                    fontWeight={700}
+                    color="primary"
                   >
-                    <AssessmentResult
-                      predictionResult={predictionResult}
-                      onEdit={handleEditAssessment}
-                      onRetake={handleRetakeAssessment}
-                    />
-                  </motion.div>
-                ) : (
+                    {isEditing
+                      ? "Reviewing assessment"
+                      : `${progressPercentage}% Complete`}
+                  </Typography>
+                </Box>
+
+                <LinearProgress
+                  variant="determinate"
+                  value={
+                    progressPercentage
+                  }
+                  sx={{
+                    height: 8,
+                    borderRadius: 999,
+                    bgcolor:
+                      "#E2E8F0",
+                    "& .MuiLinearProgress-bar":
+                      {
+                        borderRadius: 999,
+                      },
+                  }}
+                />
+              </Box>
+
+              <AssessmentStepper
+                activeStep={
+                  activeStep
+                }
+              />
+
+              <Box
+                sx={{
+                  mt: 4,
+                  overflow: "hidden",
+                }}
+              >
+                <AnimatePresence
+                  mode="wait"
+                  initial={false}
+                >
                   <motion.div
-                    key="assessment"
+                    key={
+                      activeStep
+                    }
                     initial={{
                       opacity: 0,
-                      y: 10,
+                      x: 20,
                     }}
                     animate={{
                       opacity: 1,
-                      y: 0,
+                      x: 0,
                     }}
                     exit={{
                       opacity: 0,
-                      y: -10,
+                      x: -20,
                     }}
                     transition={{
                       duration: 0.25,
                     }}
                   >
-                    {/* Header */}
-                    <Box
-                      sx={{
-                        textAlign: "center",
-                        mb: { xs: 3, md: 4 },
-                      }}
-                    >
-                      <Typography
-                        variant="h4"
-                        fontWeight={800}
-                        sx={{
-                          fontSize: {
-                            xs: "2rem",
-                            sm: "2.5rem",
-                            md: "3rem",
-                          },
-                          letterSpacing: "-0.02em",
-                        }}
-                      >
-                        Osteoporosis Risk Assessment
-                      </Typography>
+                    {activeStep ===
+                      0 && (
+                      <PersonalInfoForm />
+                    )}
 
-                      <Typography
-                        color="text.secondary"
-                        sx={{
-                          mt: 1,
-                          lineHeight: 1.7,
-                        }}
-                      >
-                        Complete the assessment in about 2 minutes.
-                      </Typography>
-                    </Box>
+                    {activeStep ===
+                      1 && (
+                      <LifestyleForm />
+                    )}
 
-                    {/* Progress */}
-                    <Box
-                      sx={{
-                        mb: 4,
-                        p: 2,
-                        borderRadius: 3,
-                        border: "1px solid #E2E8F0",
-                        bgcolor: "#F8FAFC",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          gap: 2,
-                          mb: 1,
-                          flexWrap: "wrap",
-                        }}
-                      >
-                        <Typography
-                          variant="body2"
-                          fontWeight={700}
-                        >
-                          Step {activeStep + 1} of {steps.length} •{" "}
-                          {currentStepName}
-                        </Typography>
-
-                        <Typography
-                          variant="body2"
-                          fontWeight={700}
-                          color="primary"
-                        >
-                          {Math.round(progressPercentage)}% Complete
-                        </Typography>
-                      </Box>
-
-                      <LinearProgress
-                        variant="determinate"
-                        value={progressPercentage}
-                        sx={{
-                          height: 8,
-                          borderRadius: 999,
-                          bgcolor: "#E2E8F0",
-                          "& .MuiLinearProgress-bar": {
-                            borderRadius: 999,
-                          },
-                        }}
-                      />
-                    </Box>
-
-                    <AssessmentStepper
-                      activeStep={activeStep}
-                    />
-
-                    {/* Current step */}
-                    <Box
-                      sx={{
-                        mt: 4,
-                        overflow: "hidden",
-                      }}
-                    >
-                      <AnimatePresence
-                        mode="wait"
-                        initial={false}
-                      >
-                        <motion.div
-                          key={activeStep}
-                          initial={{
-                            opacity: 0,
-                            x: 20,
-                          }}
-                          animate={{
-                            opacity: 1,
-                            x: 0,
-                          }}
-                          exit={{
-                            opacity: 0,
-                            x: -20,
-                          }}
-                          transition={{
-                            duration: 0.25,
-                            ease: "easeOut",
-                          }}
-                        >
-                          {steps[activeStep]}
-                        </motion.div>
-                      </AnimatePresence>
-                    </Box>
-
-                    <NavigationButtons
-                      activeStep={activeStep}
-                      setActiveStep={setActiveStep}
-                      totalSteps={steps.length}
-                      isStepValid={isStepValid()}
-                      onSubmit={handleSubmit}
-                    />
+                    {activeStep ===
+                      2 && (
+                      <MedicalHistoryForm />
+                    )}
                   </motion.div>
-                )}
-              </AnimatePresence>
+                </AnimatePresence>
+              </Box>
+
+              <NavigationButtons
+                activeStep={
+                  activeStep
+                }
+                setActiveStep={
+                  setActiveStep
+                }
+                totalSteps={3}
+                isStepValid={
+                  isStepValid()
+                }
+                onSubmit={
+                  handleSubmit
+                }
+              />
             </CardContent>
           </Card>
         </Container>

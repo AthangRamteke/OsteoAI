@@ -61,6 +61,23 @@ function PersonalInfoForm() {
     });
   };
 
+  const handleNumericChange = (event) => {
+    const { name, value } = event.target;
+
+    if (value === "") {
+      updatePersonal({
+        [name]: "",
+      });
+      return;
+    }
+
+    if (/^\d+$/.test(value)) {
+      updatePersonal({
+        [name]: value,
+      });
+    }
+  };
+
   const handleGenderChange = (value) => {
     updatePersonal({
       gender: value,
@@ -74,14 +91,18 @@ function PersonalInfoForm() {
   };
 
   const calculateBMI = () => {
-    const heightInMeters = Number(formData.height) / 100;
+    const heightInMeters =
+      Number(formData.height) / 100;
+
     const weight = Number(formData.weight);
 
     if (!heightInMeters || !weight) {
       return "";
     }
 
-    const bmi = weight / (heightInMeters * heightInMeters);
+    const bmi =
+      weight /
+      (heightInMeters * heightInMeters);
 
     return bmi.toFixed(1);
   };
@@ -142,13 +163,6 @@ function PersonalInfoForm() {
         );
 
       case "Underweight":
-        return (
-          <WarningAmberIcon
-            color="warning"
-            sx={{ fontSize: 30 }}
-          />
-        );
-
       case "Overweight":
         return (
           <WarningAmberIcon
@@ -169,6 +183,33 @@ function PersonalInfoForm() {
         return null;
     }
   };
+
+  const numericInput = (
+    name,
+    value,
+    min,
+    max,
+    label
+  ) => (
+    <TextField
+      label={label}
+      name={name}
+      type="text"
+      value={value}
+      onChange={handleNumericChange}
+      autoComplete="new-password"
+      spellCheck={false}
+      fullWidth
+      slotProps={{
+        htmlInput: {
+          inputMode: "numeric",
+          pattern: "[0-9]*",
+          min,
+          max,
+        },
+      }}
+    />
+  );
 
   return (
     <Box
@@ -210,25 +251,21 @@ function PersonalInfoForm() {
             name="name"
             value={formData.name}
             onChange={handleChange}
+            autoComplete="off"
+            spellCheck={false}
+            autoCorrect="off"
             fullWidth
           />
         </Grid>
 
         <Grid size={{ xs: 12, sm: 4 }}>
-          <TextField
-            label="Age"
-            name="age"
-            type="number"
-            slotProps={{
-              htmlInput: {
-                min: 18,
-                max: 120,
-              },
-            }}
-            value={formData.age}
-            onChange={handleChange}
-            fullWidth
-          />
+          {numericInput(
+            "age",
+            formData.age,
+            18,
+            120,
+            "Age"
+          )}
         </Grid>
       </Grid>
 
@@ -256,8 +293,12 @@ function PersonalInfoForm() {
         >
           <Grid size={{ xs: 12, sm: 4 }}>
             <SelectableCard
-              selected={formData.gender === "Male"}
-              onClick={() => handleGenderChange("Male")}
+              selected={
+                formData.gender === "Male"
+              }
+              onClick={() =>
+                handleGenderChange("Male")
+              }
               icon={<PersonIcon />}
               title="Male"
               subtitle="Male"
@@ -266,8 +307,12 @@ function PersonalInfoForm() {
 
           <Grid size={{ xs: 12, sm: 4 }}>
             <SelectableCard
-              selected={formData.gender === "Female"}
-              onClick={() => handleGenderChange("Female")}
+              selected={
+                formData.gender === "Female"
+              }
+              onClick={() =>
+                handleGenderChange("Female")
+              }
               icon={<PersonIcon />}
               title="Female"
               subtitle="Female"
@@ -276,8 +321,12 @@ function PersonalInfoForm() {
 
           <Grid size={{ xs: 12, sm: 4 }}>
             <SelectableCard
-              selected={formData.gender === "Other"}
-              onClick={() => handleGenderChange("Other")}
+              selected={
+                formData.gender === "Other"
+              }
+              onClick={() =>
+                handleGenderChange("Other")
+              }
               icon={<WcIcon />}
               title="Other"
               subtitle="Prefer to identify differently"
@@ -315,10 +364,13 @@ function PersonalInfoForm() {
             >
               <SelectableCard
                 selected={
-                  formData.raceEthnicity === option.value
+                  formData.raceEthnicity ===
+                  option.value
                 }
                 onClick={() =>
-                  handleRaceChange(option.value)
+                  handleRaceChange(
+                    option.value
+                  )
                 }
                 icon={<WcIcon />}
                 title={option.title}
@@ -335,39 +387,23 @@ function PersonalInfoForm() {
         spacing={2}
       >
         <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            label="Height (cm)"
-            name="height"
-            type="number"
-            slotProps={{
-              htmlInput: {
-                min: 50,
-                max: 250,
-              },
-            }}
-            value={formData.height}
-            onChange={handleChange}
-            onWheel={(event) => event.target.blur()}
-            fullWidth
-          />
+          {numericInput(
+            "height",
+            formData.height,
+            50,
+            250,
+            "Height (cm)"
+          )}
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            label="Weight (kg)"
-            name="weight"
-            type="number"
-            slotProps={{
-              htmlInput: {
-                min: 20,
-                max: 300,
-              },
-            }}
-            value={formData.weight}
-            onChange={handleChange}
-            onWheel={(event) => event.target.blur()}
-            fullWidth
-          />
+          {numericInput(
+            "weight",
+            formData.weight,
+            20,
+            300,
+            "Weight (kg)"
+          )}
         </Grid>
       </Grid>
 
@@ -377,39 +413,23 @@ function PersonalInfoForm() {
         spacing={2}
       >
         <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            label="Waist Circumference (cm)"
-            name="waist"
-            type="number"
-            slotProps={{
-              htmlInput: {
-                min: 40,
-                max: 200,
-              },
-            }}
-            value={formData.waist}
-            onChange={handleChange}
-            onWheel={(event) => event.target.blur()}
-            fullWidth
-          />
+          {numericInput(
+            "waist",
+            formData.waist,
+            40,
+            200,
+            "Waist Circumference (cm)"
+          )}
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            label="Hip Circumference (cm)"
-            name="hip"
-            type="number"
-            slotProps={{
-              htmlInput: {
-                min: 40,
-                max: 200,
-              },
-            }}
-            value={formData.hip}
-            onChange={handleChange}
-            onWheel={(event) => event.target.blur()}
-            fullWidth
-          />
+          {numericInput(
+            "hip",
+            formData.hip,
+            40,
+            200,
+            "Hip Circumference (cm)"
+          )}
         </Grid>
       </Grid>
 
@@ -479,7 +499,8 @@ function PersonalInfoForm() {
                 color: getBMIColor(),
               }}
             >
-              {getBMICategory() || "Waiting for your details"}
+              {getBMICategory() ||
+                "Waiting for your details"}
             </Typography>
           </Box>
 

@@ -16,6 +16,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import InsightsIcon from "@mui/icons-material/Insights";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -51,6 +53,12 @@ function AssessmentResult({
   const riskLevel = result.risk_level || "Unavailable";
 
   const isPositive = prediction === 1;
+
+  const shapExplanations = Array.isArray(
+    result.shap_explanations
+  )
+    ? result.shap_explanations
+    : [];
 
   const calculateBMI = () => {
     const heightInMeters =
@@ -480,6 +488,191 @@ function AssessmentResult({
           is not a medical diagnosis.
         </Typography>
       </Alert>
+      {/* SHAP Explainability */}
+      {shapExplanations.length > 0 && (
+        <Card
+          elevation={0}
+          sx={{
+            borderRadius: 4,
+            border: "1px solid #E2E8F0",
+            bgcolor: "white",
+          }}
+        >
+          <CardContent
+            sx={{
+              p: { xs: 2.5, md: 3 },
+            }}
+          >
+            <Stack
+              direction="row"
+              spacing={1.25}
+              sx={{
+                alignItems: "center",
+              }}
+            >
+              <InsightsIcon color="primary" />
+
+              <Typography
+                variant="h6"
+                fontWeight={800}
+              >
+                Why the Model Produced This Result
+              </Typography>
+            </Stack>
+
+            <Typography
+              variant="body2"
+              sx={{
+                mt: 1,
+                color: "#64748B",
+                lineHeight: 1.7,
+              }}
+            >
+              These are the strongest factors that influenced
+              this particular model prediction. They explain the
+              model output and are not medical diagnoses.
+            </Typography>
+
+            <Stack
+              spacing={1.5}
+              sx={{
+                mt: 2.5,
+              }}
+            >
+              {shapExplanations.map((item) => {
+                const shapValue = Number(
+                  item.shap_value
+                );
+
+                const increases =
+                  item.direction ===
+                  "increases_model_output";
+
+                const magnitude = Number.isFinite(
+                  shapValue
+                )
+                  ? Math.abs(shapValue).toFixed(3)
+                  : "—";
+
+                return (
+                  <Box
+                    key={item.feature}
+                    sx={{
+                      p: 1.75,
+                      borderRadius: 3,
+                      bgcolor: "#F8FAFC",
+                      border: "1px solid #E2E8F0",
+                    }}
+                  >
+                    <Stack
+                      direction={{
+                        xs: "column",
+                        sm: "row",
+                      }}
+                      spacing={1.5}
+                      sx={{
+                        justifyContent: "space-between",
+                        alignItems: {
+                          xs: "stretch",
+                          sm: "center",
+                        },
+                      }}
+                    >
+                      <Stack
+                        direction="row"
+                        spacing={1.25}
+                        sx={{
+                          alignItems: "center",
+                          minWidth: 0,
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: 38,
+                            height: 38,
+                            borderRadius: 2.5,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            bgcolor: increases
+                              ? "#FEF2F2"
+                              : "#F0FDF4",
+                            color: increases
+                              ? "#DC2626"
+                              : "#16A34A",
+                            flexShrink: 0,
+                          }}
+                        >
+                          {increases ? (
+                            <TrendingUpIcon />
+                          ) : (
+                            <TrendingDownIcon />
+                          )}
+                        </Box>
+
+                        <Box>
+                          <Typography
+                            variant="body1"
+                            fontWeight={800}
+                            sx={{
+                              color: "#0F172A",
+                            }}
+                          >
+                            {item.label ||
+                              item.feature}
+                          </Typography>
+
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              mt: 0.25,
+                              color: "#64748B",
+                            }}
+                          >
+                            {increases
+                              ? "Increased the model output"
+                              : "Decreased the model output"}
+                          </Typography>
+                        </Box>
+                      </Stack>
+
+                      <Chip
+                        label={`Influence ${magnitude}`}
+                        size="small"
+                        sx={{
+                          alignSelf: {
+                            xs: "flex-start",
+                            sm: "center",
+                          },
+                          fontWeight: 800,
+                          bgcolor: "white",
+                          border:
+                            "1px solid #E2E8F0",
+                        }}
+                      />
+                    </Stack>
+
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        display: "block",
+                        mt: 1,
+                        color: "#94A3B8",
+                      }}
+                    >
+                      Input value:{" "}
+                      {item.value !== null &&
+                        item.value !== undefined
+                        ? String(item.value)
+                        : "Not provided"}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </Stack>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Key Metrics */}
       <Box>
