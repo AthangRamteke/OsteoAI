@@ -9,10 +9,10 @@ import {
 
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import WarningAmberIcon from "@mui/icons-material/ReportProblem";
 import ErrorIcon from "@mui/icons-material/Error";
 import PersonIcon from "@mui/icons-material/Person";
-import WcIcon from "@mui/icons-material/Wc";
+import WcIcon from "@mui/icons-material/Person";
 
 import { useAssessment } from "../../context/AssessmentContext";
 import SelectableCard from "../ui/SelectableCard";

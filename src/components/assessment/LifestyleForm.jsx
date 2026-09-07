@@ -9,8 +9,8 @@ import {
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import ChairIcon from "@mui/icons-material/Chair";
-import SmokeFreeIcon from "@mui/icons-material/SmokeFree";
-import SmokingRoomsIcon from "@mui/icons-material/SmokingRooms";
+import SmokeFreeIcon from "@mui/icons-material/Air";
+import SmokingRoomsIcon from "@mui/icons-material/LocalFireDepartment";
 import LocalBarIcon from "@mui/icons-material/LocalBar";
 import NoDrinksIcon from "@mui/icons-material/NoDrinks";
 

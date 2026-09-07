@@ -18,7 +18,7 @@ import {
 
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
+import PsychologyIcon from "@mui/icons-material/Psychology";
 import DescriptionIcon from "@mui/icons-material/Description";
 import HistoryIcon from "@mui/icons-material/History";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
@@ -73,7 +73,7 @@ function LoginPage() {
       text: "Continue your personalized journey",
     },
     {
-      icon: <SmartToyIcon />,
+      icon: <PsychologyIcon />,
       text: "Explore personalized AI guidance",
     },
   ];

@@ -11,44 +11,9 @@ import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 
 function Footer() {
   const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-
-    if (!element) {
-      return;
-    }
-
-    const navbarOffset = 96;
-    const targetPosition =
-      element.getBoundingClientRect().top +
-      window.scrollY -
-      navbarOffset;
-
-    const startPosition = window.scrollY;
-    const distance = targetPosition - startPosition;
-    const duration = 850;
-    const startTime = performance.now();
-
-    const easeInOut = (t) =>
-      t < 0.5
-        ? 2 * t * t
-        : 1 - Math.pow(-2 * t + 2, 2) / 2;
-
-    const animateScroll = (currentTime) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const easedProgress = easeInOut(progress);
-
-      window.scrollTo(
-        0,
-        startPosition + distance * easedProgress
-      );
-
-      if (progress < 1) {
-        requestAnimationFrame(animateScroll);
-      }
-    };
-
-    requestAnimationFrame(animateScroll);
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -71,9 +36,7 @@ function Footer() {
             <Stack
               direction="row"
               spacing={1.5}
-              sx={{
-                alignItems: "center",
-              }}
+              alignItems="center"
             >
               <Box
                 sx={{
@@ -84,7 +47,6 @@ function Footer() {
                   alignItems: "center",
                   justifyContent: "center",
                   bgcolor: "primary.main",
-                  flexShrink: 0,
                 }}
               >
                 <HealthAndSafetyIcon />
@@ -93,20 +55,17 @@ function Footer() {
               <Typography
                 variant="h6"
                 fontWeight={800}
-                sx={{
-                  color: "white",
-                }}
               >
                 OsteoAI
               </Typography>
             </Stack>
 
             <Typography
+              color="rgba(255,255,255,0.68)"
               sx={{
                 mt: 2,
                 maxWidth: 500,
                 lineHeight: 1.8,
-                color: "rgba(255,255,255,0.68)",
               }}
             >
               An AI-powered preventive bone-health platform
@@ -119,23 +78,17 @@ function Footer() {
           <Grid size={{ xs: 6, sm: 4, md: 2 }}>
             <Typography
               fontWeight={700}
-              sx={{
-                mb: 2,
-                color: "white",
-              }}
+              sx={{ mb: 2 }}
             >
               Explore
             </Typography>
 
-            <Stack spacing={1.2}>
+            <Stack spacing={1}>
               <Typography
                 component="button"
-                onClick={() => {
-                  window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                  });
-                }}
+                onClick={() =>
+                  (window.location.href = "/")
+                }
                 sx={{
                   border: 0,
                   bgcolor: "transparent",
@@ -144,9 +97,6 @@ function Footer() {
                   cursor: "pointer",
                   p: 0,
                   font: "inherit",
-                  "&:hover": {
-                    color: "white",
-                  },
                 }}
               >
                 Home
@@ -163,9 +113,6 @@ function Footer() {
                   cursor: "pointer",
                   p: 0,
                   font: "inherit",
-                  "&:hover": {
-                    color: "white",
-                  },
                 }}
               >
                 Features
@@ -184,9 +131,6 @@ function Footer() {
                   cursor: "pointer",
                   p: 0,
                   font: "inherit",
-                  "&:hover": {
-                    color: "white",
-                  },
                 }}
               >
                 How It Works
@@ -203,9 +147,6 @@ function Footer() {
                   cursor: "pointer",
                   p: 0,
                   font: "inherit",
-                  "&:hover": {
-                    color: "white",
-                  },
                 }}
               >
                 About
@@ -217,75 +158,59 @@ function Footer() {
           <Grid size={{ xs: 6, sm: 4, md: 2 }}>
             <Typography
               fontWeight={700}
-              sx={{
-                mb: 2,
-                color: "white",
-              }}
+              sx={{ mb: 2 }}
             >
               Project
             </Typography>
 
-            <Stack spacing={1.2}>
+            <Stack spacing={1}>
               <Typography
                 variant="body2"
-                sx={{
-                  color: "rgba(255,255,255,0.68)",
-                }}
+                color="rgba(255,255,255,0.68)"
               >
                 AI Risk Assessment
               </Typography>
 
               <Typography
                 variant="body2"
-                sx={{
-                  color: "rgba(255,255,255,0.68)",
-                }}
+                color="rgba(255,255,255,0.68)"
               >
                 Explainable AI
               </Typography>
 
               <Typography
                 variant="body2"
-                sx={{
-                  color: "rgba(255,255,255,0.68)",
-                }}
+                color="rgba(255,255,255,0.68)"
               >
                 Health Analytics
               </Typography>
 
               <Typography
                 variant="body2"
-                sx={{
-                  color: "rgba(255,255,255,0.68)",
-                }}
+                color="rgba(255,255,255,0.68)"
               >
                 Preventive Guidance
               </Typography>
             </Stack>
           </Grid>
 
-          {/* Bone Health Note */}
+          {/* Disclaimer */}
           <Grid size={{ xs: 12, sm: 4, md: 3 }}>
             <Typography
               fontWeight={700}
-              sx={{
-                mb: 2,
-                color: "white",
-              }}
+              sx={{ mb: 2 }}
             >
-              Bone Health Note
+              Important
             </Typography>
 
             <Typography
               variant="body2"
-              sx={{
-                lineHeight: 1.7,
-                color: "rgba(255,255,255,0.68)",
-              }}
+              color="rgba(255,255,255,0.68)"
+              sx={{ lineHeight: 1.7 }}
             >
-              Osteoporosis weakens bones and can increase the risk
-              of fractures. Understanding risk factors early can
-              support better preventive health decisions.
+              OsteoAI is intended as an educational and
+              risk-assessment project and is not a replacement
+              for professional medical diagnosis or treatment.
             </Typography>
           </Grid>
         </Grid>
@@ -299,13 +224,10 @@ function Footer() {
 
         <Typography
           variant="body2"
+          color="rgba(255,255,255,0.52)"
           align="center"
-          sx={{
-            color: "rgba(255,255,255,0.52)",
-          }}
         >
-          © 2026 OsteoAI. Building smarter preventive bone-health
-          experiences.
+          © 2026 OsteoAI. Final Year Project.
         </Typography>
       </Container>
     </Box>

@@ -16,12 +16,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import InsightsIcon from "@mui/icons-material/Insights";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import TrendingUpIcon from "@mui/icons-material/ArrowUpward";
+import TrendingDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import WarningAmberIcon from "@mui/icons-material/ReportProblem";
 
 import { useAssessment } from "../../context/AssessmentContext";
 

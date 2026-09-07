@@ -11,8 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import DisabledVisibleIcon from "@mui/icons-material/DisabledVisible";
 
 function LoginForm({ onSwitch }) {
   const [showPassword, setShowPassword] =
@@ -98,9 +98,9 @@ function LoginForm({ onSwitch }) {
                     aria-label="toggle password visibility"
                   >
                     {showPassword ? (
-                      <VisibilityOffIcon />
+                      <DisabledVisibleIcon />
                     ) : (
-                      <VisibilityIcon />
+                      <RemoveRedEyeIcon />
                     )}
                   </IconButton>
                 </InputAdornment>
