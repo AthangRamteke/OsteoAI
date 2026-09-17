@@ -2,11 +2,6 @@
 main.py
 =======================================================================
 OsteoAI FastAPI application entry point.
-
-Run from the backend/ directory:
-    uvicorn app.main:app --reload
-
-Then open http://127.0.0.1:8000/docs for the Swagger UI.
 =======================================================================
 """
 
@@ -14,6 +9,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers import predict
+from app.routers import document_extract
 from app.services.predictor import MODEL_VERSION
 
 app = FastAPI(
@@ -26,7 +22,7 @@ app = FastAPI(
     version=MODEL_VERSION,
 )
 
-# Development CORS: allow common local React dev server origins.
+# Development CORS: allow common local React/Vite dev server origins.
 # TODO before production deployment: replace with the real frontend origin(s).
 app.add_middleware(
     CORSMiddleware,
@@ -42,6 +38,7 @@ app.add_middleware(
 )
 
 app.include_router(predict.router)
+app.include_router(document_extract.router)
 
 
 @app.get("/", tags=["health"])
