@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   Alert,
   Box,
@@ -5,9 +8,12 @@ import {
   Card,
   CardContent,
   Chip,
+  CircularProgress,
   Divider,
   Grid,
+  IconButton,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 
@@ -16,14 +22,503 @@ import PersonIcon from "@mui/icons-material/Person";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import InsightsIcon from "@mui/icons-material/Insights";
-import TrendingUpIcon from "@mui/icons-material/ArrowUpward";
-import TrendingDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import WarningAmberIcon from "@mui/icons-material/ReportProblem";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import SendIcon from "@mui/icons-material/Send";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 
 import { useAssessment } from "../../context/AssessmentContext";
+import { streamAgentMessage } from "../../services/agentService";
+import { historyForAgent } from "../../services/historyStore";
+
+
+/* =========================================================
+   Result Assistant
+   ========================================================= */
+
+function ResultAssistant({ predictionResult }) {
+  const navigate = useNavigate();
+
+  const [message, setMessage] = useState("");
+
+  const [messages, setMessages] = useState([
+    {
+      role: "assistant",
+      content:
+        "Hi! I'm your OsteoAI Assistant. I can explain your assessment result, including the model probability and the factors that influenced it.",
+    },
+  ]);
+
+  const [conversationId, setConversationId] =
+    useState(null);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const language =
+    localStorage.getItem("osteoai-language") || "en";
+
+
+  const sendMessage = async (text = message) => {
+    const trimmedMessage = text.trim();
+
+    if (!trimmedMessage || loading) {
+      return;
+    }
+
+    setError("");
+
+    setMessages((previous) => [
+      ...previous,
+      {
+        role: "user",
+        content: trimmedMessage,
+      },
+    ]);
+
+    setMessage("");
+    setLoading(true);
+
+    try {
+      let action = null;
+      let finalMessage = "";
+      let streamedText = "";
+
+      /*
+       * Show the assistant reply as it streams in.
+       * The first chunk adds a bubble marked
+       * `streaming`; later chunks update it.
+       */
+      const showAssistantText = (
+        content,
+        streaming = true
+      ) => {
+        setMessages((previous) => {
+          const last = previous[previous.length - 1];
+          const next = {
+            role: "assistant",
+            content,
+            streaming,
+          };
+
+          return last?.streaming
+            ? [...previous.slice(0, -1), next]
+            : [...previous, next];
+        });
+      };
+
+      await streamAgentMessage({
+        message: trimmedMessage,
+        predictionResult,
+        assessmentHistory: historyForAgent(),
+        conversationId,
+        language,
+        onEvent: (event) => {
+          if (event.type === "meta") {
+            if (event.conversation_id) {
+              setConversationId(
+                event.conversation_id
+              );
+            }
+            action = event.action;
+          }
+
+          if (event.type === "delta") {
+            streamedText += event.text;
+            showAssistantText(streamedText);
+          }
+
+          if (event.type === "done") {
+            finalMessage = event.message;
+          }
+        },
+      });
+
+      /*
+       * Execute Agent actions.
+       *
+       * The backend can return:
+       *
+       * {
+       *   "action": {
+       *     "type": "navigate",
+       *     "path": "/dashboard"
+       *   }
+       * }
+       *
+       * The frontend performs the actual navigation.
+       */
+      const allowedPaths = [
+        "/",
+        "/dashboard",
+        "/assessment",
+        "/history",
+        "/assistant",
+        "/knowledge",
+      ];
+
+      if (
+        action?.type === "navigate" &&
+        allowedPaths.includes(action.path)
+      ) {
+        showAssistantText(
+          finalMessage ||
+          "Opening the requested page.",
+          false
+        );
+
+        setTimeout(() => {
+          if (action.path === "/assessment") {
+            /*
+             * Result and Assessment currently share
+             * the same /assessment route.
+             *
+             * A full navigation resets Assessment.jsx
+             * back to its initial entry state.
+             */
+            window.location.assign(
+              "/assessment"
+            );
+            return;
+          }
+
+          navigate(action.path);
+        }, 350);
+
+        return;
+      }
+
+      // The final message is cleaned of formatting
+      // the chat bubble cannot display.
+      showAssistantText(
+        finalMessage ||
+        streamedText ||
+        "I was unable to generate a response.",
+        false
+      );
+    } catch (agentError) {
+      console.error(
+        "OsteoAI Agent request failed:",
+        agentError
+      );
+
+      setError(
+        agentError?.message ||
+        "Unable to connect to the OsteoAI Assistant."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const handleKeyDown = (event) => {
+    if (
+      event.key === "Enter" &&
+      !event.shiftKey
+    ) {
+      event.preventDefault();
+      sendMessage();
+    }
+  };
+
+
+  const quickQuestions = [
+    "Explain my result",
+    "Why did I get this result?",
+    "What does my risk level mean?",
+  ];
+
+
+  return (
+    <Card
+      elevation={0}
+      sx={{
+        borderRadius: 4,
+        border: "1px solid #DCE6F4",
+        bgcolor: "white",
+        overflow: "hidden",
+      }}
+    >
+      <CardContent
+        sx={{
+          p: { xs: 2.5, md: 3 },
+        }}
+      >
+
+        {/* Header */}
+
+        <Stack
+          direction="row"
+          spacing={1.25}
+          sx={{
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              width: 42,
+              height: 42,
+              borderRadius: 3,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              bgcolor: "#EEF4FF",
+              color: "#2563EB",
+              flexShrink: 0,
+            }}
+          >
+            <AutoAwesomeIcon />
+          </Box>
+
+          <Box>
+            <Typography
+              variant="h6"
+              fontWeight={800}
+              sx={{
+                color: "#0F172A",
+              }}
+            >
+              Ask OsteoAI
+            </Typography>
+
+            <Typography
+              variant="body2"
+              sx={{
+                mt: 0.25,
+                color: "#64748B",
+              }}
+            >
+              Ask questions about this assessment result.
+            </Typography>
+          </Box>
+        </Stack>
+
+
+        {/* Quick Questions */}
+
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            mt: 2,
+            flexWrap: "wrap",
+            gap: 1,
+          }}
+        >
+          {quickQuestions.map((question) => (
+            <Chip
+              key={question}
+              label={question}
+              onClick={() =>
+                sendMessage(question)
+              }
+              clickable
+              variant="outlined"
+              sx={{
+                fontWeight: 600,
+                borderColor: "#D7E3F4",
+              }}
+            />
+          ))}
+        </Stack>
+
+
+        {/* Conversation */}
+
+        <Box
+          sx={{
+            mt: 2.5,
+            display: "flex",
+            flexDirection: "column",
+            gap: 1.5,
+            maxHeight: 360,
+            overflowY: "auto",
+            pr: 0.5,
+          }}
+        >
+          {messages.map((item, index) => {
+            const isAssistant =
+              item.role === "assistant";
+
+            return (
+              <Stack
+                key={`${item.role}-${index}`}
+                direction="row"
+                spacing={1}
+                sx={{
+                  alignItems: "flex-start",
+                  justifyContent: isAssistant
+                    ? "flex-start"
+                    : "flex-end",
+                }}
+              >
+                {isAssistant && (
+                  <Box
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      bgcolor: "#EEF4FF",
+                      color: "#2563EB",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <SmartToyIcon
+                      sx={{ fontSize: 18 }}
+                    />
+                  </Box>
+                )}
+
+                <Box
+                  sx={{
+                    maxWidth: {
+                      xs: "88%",
+                      sm: "78%",
+                    },
+                    px: 1.75,
+                    py: 1.25,
+                    borderRadius: 3,
+                    bgcolor: isAssistant
+                      ? "#F8FAFC"
+                      : "#EEF4FF",
+                    border: isAssistant
+                      ? "1px solid #E2E8F0"
+                      : "1px solid #D7E3F4",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: "#334155",
+                      lineHeight: 1.65,
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
+                    {item.content}
+                  </Typography>
+                </Box>
+              </Stack>
+            );
+          })}
+
+
+          {loading &&
+            !messages[messages.length - 1]
+              ?.streaming && (
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{
+                alignItems: "center",
+              }}
+            >
+              <Box
+                sx={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  bgcolor: "#EEF4FF",
+                  color: "#2563EB",
+                }}
+              >
+                <SmartToyIcon
+                  sx={{ fontSize: 18 }}
+                />
+              </Box>
+
+              <CircularProgress size={18} />
+            </Stack>
+          )}
+        </Box>
+
+
+        {/* Error */}
+
+        {error && (
+          <Alert
+            severity="error"
+            sx={{
+              mt: 2,
+              borderRadius: 3,
+            }}
+          >
+            {error}
+          </Alert>
+        )}
+
+
+        {/* Input */}
+
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            mt: 2.5,
+            alignItems: "flex-end",
+          }}
+        >
+          <TextField
+            fullWidth
+            multiline
+            maxRows={4}
+            value={message}
+            onChange={(event) =>
+              setMessage(event.target.value)
+            }
+            onKeyDown={handleKeyDown}
+            placeholder="Ask about your result..."
+            size="small"
+          />
+
+          <IconButton
+            color="primary"
+            onClick={() => sendMessage()}
+            disabled={
+              loading || !message.trim()
+            }
+            sx={{
+              width: 44,
+              height: 44,
+              borderRadius: 2.5,
+              bgcolor: "#EEF4FF",
+            }}
+          >
+            <SendIcon />
+          </IconButton>
+        </Stack>
+
+
+        <Typography
+          variant="caption"
+          sx={{
+            display: "block",
+            mt: 1,
+            color: "#94A3B8",
+          }}
+        >
+          OsteoAI provides a prototype risk assessment
+          explanation, not a medical diagnosis.
+        </Typography>
+
+      </CardContent>
+    </Card>
+  );
+}
+
+
+/* =========================================================
+   Assessment Result
+   ========================================================= */
 
 function AssessmentResult({
   predictionResult,
@@ -44,29 +539,33 @@ function AssessmentResult({
     result.osteoporosis_probability
   );
 
-  const probabilityPercent = Number.isFinite(probability)
-    ? (probability * 100).toFixed(1)
-    : "—";
+  const probabilityPercent =
+    Number.isFinite(probability)
+      ? (probability * 100).toFixed(1)
+      : "—";
 
-  const prediction = Number(result.prediction);
+  const prediction = Number(
+    result.prediction
+  );
 
-  const riskLevel = result.risk_level || "Unavailable";
+  const riskLevel =
+    result.risk_level || "Unavailable";
 
-  const isPositive = prediction === 1;
+  const isPositive =
+    prediction === 1;
 
-  const shapExplanations = Array.isArray(
-    result.shap_explanations
-  )
-    ? result.shap_explanations
-    : [];
 
   const calculateBMI = () => {
     const heightInMeters =
       Number(personal.height) / 100;
 
-    const weight = Number(personal.weight);
+    const weight =
+      Number(personal.weight);
 
-    if (!heightInMeters || !weight) {
+    if (
+      !heightInMeters ||
+      !weight
+    ) {
       return "";
     }
 
@@ -76,8 +575,10 @@ function AssessmentResult({
     ).toFixed(1);
   };
 
+
   const getBMICategory = () => {
-    const bmi = Number(calculateBMI());
+    const bmi =
+      Number(calculateBMI());
 
     if (!bmi) {
       return "Not available";
@@ -98,6 +599,7 @@ function AssessmentResult({
     return "Obese";
   };
 
+
   const getRiskColor = () => {
     if (riskLevel === "High") {
       return "#DC2626";
@@ -114,6 +616,7 @@ function AssessmentResult({
     return "#2563EB";
   };
 
+
   const getRiskBackground = () => {
     if (riskLevel === "High") {
       return "#FEF2F2";
@@ -129,6 +632,7 @@ function AssessmentResult({
 
     return "#EEF4FF";
   };
+
 
   const MetricCard = ({
     icon,
@@ -216,6 +720,7 @@ function AssessmentResult({
     </Card>
   );
 
+
   const FactorRow = ({
     icon,
     title,
@@ -269,17 +774,21 @@ function AssessmentResult({
       </Stack>
 
       <Chip
-        label={value || "Not provided"}
+        label={
+          value || "Not provided"
+        }
         size="small"
         sx={{
           fontWeight: 700,
           bgcolor: "white",
-          border: "1px solid #E2E8F0",
+          border:
+            "1px solid #E2E8F0",
           maxWidth: "48%",
         }}
       />
     </Box>
   );
+
 
   return (
     <Box
@@ -289,7 +798,9 @@ function AssessmentResult({
         gap: 3,
       }}
     >
+
       {/* Header */}
+
       <Box sx={{ textAlign: "center" }}>
         <Box
           sx={{
@@ -343,19 +854,26 @@ function AssessmentResult({
         </Typography>
       </Box>
 
+
       {/* Overall Assessment */}
+
       <Card
         elevation={0}
         sx={{
           borderRadius: 5,
-          border: "1px solid #DCE6F4",
-          bgcolor: getRiskBackground(),
+          border:
+            "1px solid #DCE6F4",
+          bgcolor:
+            getRiskBackground(),
           overflow: "hidden",
         }}
       >
         <CardContent
           sx={{
-            p: { xs: 3, md: 4 },
+            p: {
+              xs: 3,
+              md: 4,
+            },
           }}
         >
           <Stack
@@ -369,7 +887,8 @@ function AssessmentResult({
                 xs: "stretch",
                 md: "center",
               },
-              justifyContent: "space-between",
+              justifyContent:
+                "space-between",
             }}
           >
             <Box>
@@ -377,7 +896,8 @@ function AssessmentResult({
                 variant="overline"
                 fontWeight={800}
                 sx={{
-                  color: getRiskColor(),
+                  color:
+                    getRiskColor(),
                 }}
               >
                 OVERALL ASSESSMENT
@@ -406,18 +926,22 @@ function AssessmentResult({
                 <strong>
                   {probabilityPercent}%
                 </strong>{" "}
-                probability for the positive osteoporosis
+                probability for the
+                positive osteoporosis
                 class in this assessment.
               </Typography>
             </Box>
 
             <Box
               sx={{
-                minWidth: { md: 210 },
+                minWidth: {
+                  md: 210,
+                },
                 p: 2.5,
                 borderRadius: 4,
                 bgcolor: "white",
-                border: "1px solid #E2E8F0",
+                border:
+                  "1px solid #E2E8F0",
                 textAlign: "center",
               }}
             >
@@ -435,7 +959,8 @@ function AssessmentResult({
                 fontWeight={800}
                 sx={{
                   mt: 0.5,
-                  color: getRiskColor(),
+                  color:
+                    getRiskColor(),
                 }}
               >
                 {probabilityPercent}%
@@ -446,8 +971,10 @@ function AssessmentResult({
                 size="small"
                 sx={{
                   mt: 1,
-                  bgcolor: getRiskBackground(),
-                  color: getRiskColor(),
+                  bgcolor:
+                    getRiskBackground(),
+                  color:
+                    getRiskColor(),
                   fontWeight: 800,
                 }}
               />
@@ -456,9 +983,22 @@ function AssessmentResult({
         </CardContent>
       </Card>
 
+
+      {/* Ask OsteoAI */}
+
+      <ResultAssistant
+        predictionResult={result}
+      />
+
+
       {/* Model Status */}
+
       <Alert
-        severity={isPositive ? "warning" : "success"}
+        severity={
+          isPositive
+            ? "warning"
+            : "success"
+        }
         icon={
           isPositive ? (
             <WarningAmberIcon />
@@ -482,199 +1022,19 @@ function AssessmentResult({
 
         <Typography
           variant="body2"
-          sx={{ mt: 0.5 }}
-        >
-          This is a research/prototype risk assessment and
-          is not a medical diagnosis.
-        </Typography>
-      </Alert>
-      {/* SHAP Explainability */}
-      {shapExplanations.length > 0 && (
-        <Card
-          elevation={0}
           sx={{
-            borderRadius: 4,
-            border: "1px solid #E2E8F0",
-            bgcolor: "white",
+            mt: 0.5,
           }}
         >
-          <CardContent
-            sx={{
-              p: { xs: 2.5, md: 3 },
-            }}
-          >
-            <Stack
-              direction="row"
-              spacing={1.25}
-              sx={{
-                alignItems: "center",
-              }}
-            >
-              <InsightsIcon color="primary" />
+          This is a research/prototype
+          risk assessment and is not a
+          medical diagnosis.
+        </Typography>
+      </Alert>
 
-              <Typography
-                variant="h6"
-                fontWeight={800}
-              >
-                Why the Model Produced This Result
-              </Typography>
-            </Stack>
-
-            <Typography
-              variant="body2"
-              sx={{
-                mt: 1,
-                color: "#64748B",
-                lineHeight: 1.7,
-              }}
-            >
-              These are the strongest factors that influenced
-              this particular model prediction. They explain the
-              model output and are not medical diagnoses.
-            </Typography>
-
-            <Stack
-              spacing={1.5}
-              sx={{
-                mt: 2.5,
-              }}
-            >
-              {shapExplanations.map((item) => {
-                const shapValue = Number(
-                  item.shap_value
-                );
-
-                const increases =
-                  item.direction ===
-                  "increases_model_output";
-
-                const magnitude = Number.isFinite(
-                  shapValue
-                )
-                  ? Math.abs(shapValue).toFixed(3)
-                  : "—";
-
-                return (
-                  <Box
-                    key={item.feature}
-                    sx={{
-                      p: 1.75,
-                      borderRadius: 3,
-                      bgcolor: "#F8FAFC",
-                      border: "1px solid #E2E8F0",
-                    }}
-                  >
-                    <Stack
-                      direction={{
-                        xs: "column",
-                        sm: "row",
-                      }}
-                      spacing={1.5}
-                      sx={{
-                        justifyContent: "space-between",
-                        alignItems: {
-                          xs: "stretch",
-                          sm: "center",
-                        },
-                      }}
-                    >
-                      <Stack
-                        direction="row"
-                        spacing={1.25}
-                        sx={{
-                          alignItems: "center",
-                          minWidth: 0,
-                        }}
-                      >
-                        <Box
-                          sx={{
-                            width: 38,
-                            height: 38,
-                            borderRadius: 2.5,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            bgcolor: increases
-                              ? "#FEF2F2"
-                              : "#F0FDF4",
-                            color: increases
-                              ? "#DC2626"
-                              : "#16A34A",
-                            flexShrink: 0,
-                          }}
-                        >
-                          {increases ? (
-                            <TrendingUpIcon />
-                          ) : (
-                            <TrendingDownIcon />
-                          )}
-                        </Box>
-
-                        <Box>
-                          <Typography
-                            variant="body1"
-                            fontWeight={800}
-                            sx={{
-                              color: "#0F172A",
-                            }}
-                          >
-                            {item.label ||
-                              item.feature}
-                          </Typography>
-
-                          <Typography
-                            variant="body2"
-                            sx={{
-                              mt: 0.25,
-                              color: "#64748B",
-                            }}
-                          >
-                            {increases
-                              ? "Increased the model output"
-                              : "Decreased the model output"}
-                          </Typography>
-                        </Box>
-                      </Stack>
-
-                      <Chip
-                        label={`Influence ${magnitude}`}
-                        size="small"
-                        sx={{
-                          alignSelf: {
-                            xs: "flex-start",
-                            sm: "center",
-                          },
-                          fontWeight: 800,
-                          bgcolor: "white",
-                          border:
-                            "1px solid #E2E8F0",
-                        }}
-                      />
-                    </Stack>
-
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        display: "block",
-                        mt: 1,
-                        color: "#94A3B8",
-                      }}
-                    >
-                      Input value:{" "}
-                      {item.value !== null &&
-                        item.value !== undefined
-                        ? String(item.value)
-                        : "Not provided"}
-                    </Typography>
-                  </Box>
-                );
-              })}
-            </Stack>
-          </CardContent>
-        </Card>
-      )}
 
       {/* Key Metrics */}
+
       <Box>
         <Typography
           variant="h6"
@@ -691,7 +1051,13 @@ function AssessmentResult({
           container
           spacing={2}
         >
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+            }}
+          >
             <MetricCard
               icon={<PersonIcon />}
               label="Age"
@@ -703,20 +1069,39 @@ function AssessmentResult({
             />
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+            }}
+          >
             <MetricCard
-              icon={<HealthAndSafetyIcon />}
+              icon={
+                <HealthAndSafetyIcon />
+              }
               label="BMI"
               value={
-                calculateBMI() || "—"
+                calculateBMI() ||
+                "—"
               }
-              subtitle={getBMICategory()}
+              subtitle={
+                getBMICategory()
+              }
             />
           </Grid>
 
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+            }}
+          >
             <MetricCard
-              icon={<FitnessCenterIcon />}
+              icon={
+                <FitnessCenterIcon />
+              }
               label="Sedentary Time"
               value={
                 lifestyle.sedentaryMinutes
@@ -729,18 +1114,24 @@ function AssessmentResult({
         </Grid>
       </Box>
 
+
       {/* Assessment Factors */}
+
       <Card
         elevation={0}
         sx={{
           borderRadius: 4,
-          border: "1px solid #E2E8F0",
+          border:
+            "1px solid #E2E8F0",
           bgcolor: "white",
         }}
       >
         <CardContent
           sx={{
-            p: { xs: 2.5, md: 3 },
+            p: {
+              xs: 2.5,
+              md: 3,
+            },
           }}
         >
           <Stack
@@ -750,7 +1141,9 @@ function AssessmentResult({
               alignItems: "center",
             }}
           >
-            <InsightsIcon color="primary" />
+            <InsightsIcon
+              color="primary"
+            />
 
             <Typography
               variant="h6"
@@ -768,22 +1161,36 @@ function AssessmentResult({
               lineHeight: 1.7,
             }}
           >
-            Personal, lifestyle, and medical information
-            were combined to generate the model output.
+            Personal, lifestyle, and
+            medical information were
+            combined to generate the
+            model output.
           </Typography>
 
           <Stack
             spacing={1.5}
-            sx={{ mt: 2.5 }}
+            sx={{
+              mt: 2.5,
+            }}
           >
             <FactorRow
-              icon={<PersonIcon fontSize="small" />}
+              icon={
+                <PersonIcon
+                  fontSize="small"
+                />
+              }
               title="Gender"
-              value={personal.gender}
+              value={
+                personal.gender
+              }
             />
 
             <FactorRow
-              icon={<HealthAndSafetyIcon fontSize="small" />}
+              icon={
+                <HealthAndSafetyIcon
+                  fontSize="small"
+                />
+              }
               title="Race / Ethnicity"
               value={
                 personal.raceEthnicity
@@ -793,7 +1200,11 @@ function AssessmentResult({
             />
 
             <FactorRow
-              icon={<FitnessCenterIcon fontSize="small" />}
+              icon={
+                <FitnessCenterIcon
+                  fontSize="small"
+                />
+              }
               title="Smoking History"
               value={
                 lifestyle.smoked100Cigarettes
@@ -801,7 +1212,11 @@ function AssessmentResult({
             />
 
             <FactorRow
-              icon={<MedicalInformationIcon fontSize="small" />}
+              icon={
+                <MedicalInformationIcon
+                  fontSize="small"
+                />
+              }
               title="Long-Term Steroid Use"
               value={
                 medicalHistory.longTermSteroidUse
@@ -809,7 +1224,11 @@ function AssessmentResult({
             />
 
             <FactorRow
-              icon={<HealthAndSafetyIcon fontSize="small" />}
+              icon={
+                <HealthAndSafetyIcon
+                  fontSize="small"
+                />
+              }
               title="Family Osteoporosis History"
               value={
                 medicalHistory.parentOsteoporosisHistory
@@ -819,18 +1238,24 @@ function AssessmentResult({
         </CardContent>
       </Card>
 
+
       {/* Model Information */}
+
       <Card
         elevation={0}
         sx={{
           borderRadius: 4,
-          border: "1px solid #E2E8F0",
+          border:
+            "1px solid #E2E8F0",
           bgcolor: "#F8FAFC",
         }}
       >
         <CardContent
           sx={{
-            p: { xs: 2.5, md: 3 },
+            p: {
+              xs: 2.5,
+              md: 3,
+            },
           }}
         >
           <Typography
@@ -843,9 +1268,16 @@ function AssessmentResult({
           <Grid
             container
             spacing={2}
-            sx={{ mt: 0.5 }}
+            sx={{
+              mt: 0.5,
+            }}
           >
-            <Grid size={{ xs: 12, sm: 6 }}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <Typography
                 variant="body2"
                 color="text.secondary"
@@ -855,13 +1287,21 @@ function AssessmentResult({
 
               <Typography
                 fontWeight={800}
-                sx={{ mt: 0.5 }}
+                sx={{
+                  mt: 0.5,
+                }}
               >
-                {result.model_version || "—"}
+                {result.model_version ||
+                  "—"}
               </Typography>
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6 }}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <Typography
                 variant="body2"
                 color="text.secondary"
@@ -871,9 +1311,12 @@ function AssessmentResult({
 
               <Typography
                 fontWeight={800}
-                sx={{ mt: 0.5 }}
+                sx={{
+                  mt: 0.5,
+                }}
               >
-                {result.threshold_used !== undefined
+                {result.threshold_used !==
+                  undefined
                   ? result.threshold_used
                   : "—"}
               </Typography>
@@ -882,7 +1325,9 @@ function AssessmentResult({
         </CardContent>
       </Card>
 
+
       {/* Disclaimer */}
+
       <Alert
         severity="info"
         sx={{
@@ -893,9 +1338,12 @@ function AssessmentResult({
           "This is a research/prototype risk-assessment output, not a medical diagnosis, and has not been clinically validated."}
       </Alert>
 
+
       <Divider />
 
+
       {/* Actions */}
+
       <Stack
         direction={{
           xs: "column",
@@ -906,30 +1354,38 @@ function AssessmentResult({
           justifyContent: "center",
         }}
       >
+        {onEdit && (
         <Button
           variant="outlined"
-          startIcon={<ArrowBackIcon />}
+          startIcon={
+            <ArrowBackIcon />
+          }
           onClick={onEdit}
           sx={{
             px: 3,
             py: 1.2,
             borderRadius: 3,
-            textTransform: "none",
+            textTransform:
+              "none",
             fontWeight: 700,
           }}
         >
           Edit Assessment
         </Button>
+        )}
 
         <Button
           variant="contained"
-          startIcon={<RestartAltIcon />}
+          startIcon={
+            <RestartAltIcon />
+          }
           onClick={onRetake}
           sx={{
             px: 3,
             py: 1.2,
             borderRadius: 3,
-            textTransform: "none",
+            textTransform:
+              "none",
             fontWeight: 700,
             boxShadow: "none",
           }}
@@ -940,5 +1396,6 @@ function AssessmentResult({
     </Box>
   );
 }
+
 
 export default AssessmentResult;

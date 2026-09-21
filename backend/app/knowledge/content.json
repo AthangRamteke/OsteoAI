@@ -1,0 +1,315 @@
+{
+  "categories": [
+    { "id": "basics", "label": "Osteoporosis basics" },
+    { "id": "risk", "label": "Risk factors" },
+    { "id": "testing", "label": "Testing & diagnosis" },
+    { "id": "lifestyle", "label": "Nutrition & exercise" },
+    { "id": "result", "label": "Understanding your result" },
+    { "id": "app", "label": "Using OsteoAI" }
+  ],
+
+  "articles": [
+    {
+      "id": "what-is-osteoporosis",
+      "category": "basics",
+      "title": "What is osteoporosis?",
+      "summary": "A condition where bones lose density and become fragile, raising the chance of fractures.",
+      "readMinutes": 2,
+      "tags": ["osteoporosis", "bone density", "fragile", "definition", "silent disease"],
+      "body": [
+        "Osteoporosis is a condition in which bones become less dense and their inner structure weakens. Bones become more fragile and can break from a minor fall or even everyday strain.",
+        "It is often called a silent disease because bone loss usually causes no symptoms until a fracture happens. Common fracture sites are the hip, spine and wrist.",
+        "Bone is living tissue that is constantly broken down and rebuilt. Osteoporosis develops when bone is lost faster than it is replaced, which becomes more common with age."
+      ]
+    },
+    {
+      "id": "osteopenia",
+      "category": "basics",
+      "title": "Osteopenia vs osteoporosis",
+      "summary": "Osteopenia means bone density is lower than normal but not yet in the osteoporosis range.",
+      "readMinutes": 1,
+      "tags": ["osteopenia", "low bone mass", "t-score", "difference"],
+      "body": [
+        "Osteopenia describes bone density that is lower than typical for a young healthy adult but not low enough to be classed as osteoporosis.",
+        "It is not a disease on its own, but it can be an early warning sign. A doctor may suggest lifestyle measures and periodic monitoring."
+      ]
+    },
+    {
+      "id": "fractures",
+      "category": "basics",
+      "title": "Fractures and fracture risk",
+      "summary": "Why weaker bones break more easily, and why hip and spine fractures matter.",
+      "readMinutes": 2,
+      "tags": ["fracture", "hip fracture", "spine", "vertebral", "fall", "fracture risk"],
+      "body": [
+        "A fracture is a break or crack in a bone. With osteoporosis, fractures can happen after a fall from standing height or even without a noticeable injury, especially in the spine.",
+        "Hip and spine fractures can affect mobility and independence, which is why preventing falls and protecting bone strength are both important.",
+        "Sudden severe back pain, loss of height or a stooped posture can sometimes be signs of spinal fractures and should be discussed with a doctor."
+      ]
+    },
+    {
+      "id": "age-and-sex",
+      "category": "risk",
+      "title": "Age, sex and bone health",
+      "summary": "Bone mass peaks in early adulthood and declines with age, faster in women after menopause.",
+      "readMinutes": 2,
+      "tags": ["age", "gender", "sex", "women", "menopause", "estrogen", "ageing", "older"],
+      "body": [
+        "Most people reach their peak bone mass in their late 20s to early 30s. After that, bone density slowly declines.",
+        "Women are at higher risk, partly because bone loss speeds up after menopause when estrogen levels fall. Men also lose bone with age, usually later in life.",
+        "Age and sex cannot be changed, which is why the modifiable factors such as activity, nutrition, smoking and alcohol matter."
+      ]
+    },
+    {
+      "id": "family-history",
+      "category": "risk",
+      "title": "Family history",
+      "summary": "A parent with osteoporosis or a hip fracture can indicate higher inherited risk.",
+      "readMinutes": 1,
+      "tags": ["family history", "parent", "mother", "father", "hip fracture", "genetics", "inherited"],
+      "body": [
+        "Genetics influence peak bone mass and bone structure. If a parent had osteoporosis or a hip fracture, your own risk may be higher.",
+        "That is why OsteoAI asks about parental osteoporosis and parental hip fractures. Family history does not mean you will develop osteoporosis, but it is useful to mention to a doctor."
+      ]
+    },
+    {
+      "id": "body-weight",
+      "category": "risk",
+      "title": "Body weight and BMI",
+      "summary": "Low body weight and low BMI are linked with lower bone density.",
+      "readMinutes": 1,
+      "tags": ["bmi", "weight", "underweight", "body mass index", "height", "waist", "hip"],
+      "body": [
+        "BMI (body mass index) is calculated from weight and height. A low BMI is associated with lower bone density and higher fracture risk.",
+        "Body weight puts healthy load on the skeleton, which helps maintain bone. Very low weight or rapid weight loss can be a concern for bone health.",
+        "OsteoAI also asks for waist and hip measurements because body composition is used as a model input."
+      ]
+    },
+    {
+      "id": "smoking-alcohol",
+      "category": "risk",
+      "title": "Smoking and alcohol",
+      "summary": "Smoking and heavy drinking are both linked with bone loss and higher fracture risk.",
+      "readMinutes": 2,
+      "tags": ["smoking", "cigarettes", "tobacco", "alcohol", "drinks", "drinking"],
+      "body": [
+        "Smoking is associated with lower bone density and slower healing. Stopping smoking at any age is beneficial for overall and bone health.",
+        "Heavy alcohol use can interfere with bone formation and increase the chance of falls. Keeping alcohol within recommended limits supports bone health.",
+        "OsteoAI asks whether you have smoked at least 100 cigarettes in your life and about your alcohol frequency because these are model inputs."
+      ]
+    },
+    {
+      "id": "steroids-medical",
+      "category": "risk",
+      "title": "Medications and medical history",
+      "summary": "Long-term steroid use and previous fractures are important risk indicators.",
+      "readMinutes": 2,
+      "tags": ["steroid", "glucocorticoid", "prednisone", "medication", "previous fracture", "medical history"],
+      "body": [
+        "Long-term use of glucocorticoid steroids (for example prednisolone) can reduce bone density. Never stop a prescribed medicine on your own; discuss concerns with your doctor.",
+        "A fracture after age 20 from a minor fall can be a sign of weaker bones, which is why OsteoAI asks about previous fractures.",
+        "Some other conditions and treatments can also affect bone health, so your full medical history is best reviewed by a clinician."
+      ]
+    },
+    {
+      "id": "dexa",
+      "category": "testing",
+      "title": "What is a DEXA scan?",
+      "summary": "A quick, low-radiation scan that measures bone mineral density, usually at the hip and spine.",
+      "readMinutes": 2,
+      "tags": ["dexa", "dxa", "scan", "bone density test", "bmd", "bone mineral density", "diagnosis"],
+      "body": [
+        "DEXA (dual-energy X-ray absorptiometry) measures bone mineral density, usually at the hip and lower spine. It is quick, painless and uses a very low dose of radiation.",
+        "It is the standard test doctors use to diagnose osteoporosis and monitor bone density over time.",
+        "OsteoAI does not replace a DEXA scan. It estimates risk from questionnaire information, which can help you decide whether to talk to a doctor about testing."
+      ]
+    },
+    {
+      "id": "t-score",
+      "category": "testing",
+      "title": "T-scores and Z-scores",
+      "summary": "How DEXA results compare your bone density with reference values.",
+      "readMinutes": 2,
+      "tags": ["t-score", "z-score", "dexa result", "bone density score", "-2.5"],
+      "body": [
+        "A T-score compares your bone density with that of a healthy young adult. A T-score of -1.0 or above is generally considered normal, between -1.0 and -2.5 indicates osteopenia, and -2.5 or below is in the osteoporosis range.",
+        "A Z-score compares your bone density with people of the same age and sex, and is often used for younger adults.",
+        "Your doctor interprets these scores together with your age, history and other risk factors."
+      ]
+    },
+    {
+      "id": "calcium-vitamin-d",
+      "category": "lifestyle",
+      "title": "Calcium and vitamin D",
+      "summary": "Calcium builds bone, and vitamin D helps your body absorb it.",
+      "readMinutes": 2,
+      "tags": ["calcium", "vitamin d", "diet", "nutrition", "milk", "dairy", "sunlight", "supplements", "food"],
+      "body": [
+        "Calcium is a key building block of bone. Good food sources include milk, curd, paneer, cheese, ragi, sesame seeds, leafy greens and calcium-fortified foods.",
+        "Vitamin D helps the body absorb calcium. It is made in the skin with sunlight exposure and is found in a few foods such as eggs and fatty fish.",
+        "Whether you need supplements, and in what dose, depends on your diet and blood levels, so this should be decided with a doctor."
+      ]
+    },
+    {
+      "id": "exercise",
+      "category": "lifestyle",
+      "title": "Exercise for stronger bones",
+      "summary": "Weight-bearing and muscle-strengthening activities help maintain bone and prevent falls.",
+      "readMinutes": 2,
+      "tags": ["exercise", "physical activity", "walking", "weight-bearing", "strength", "resistance", "balance", "yoga", "cycling", "sedentary"],
+      "body": [
+        "Weight-bearing activities such as brisk walking, stair climbing and dancing load the bones and help maintain density.",
+        "Muscle-strengthening exercise (bands, weights, bodyweight exercises) supports bone and improves stability. Balance exercises such as tai chi or yoga help reduce falls.",
+        "Long periods of sitting are linked with poorer health. If you have osteoporosis or a past fracture, ask a doctor or physiotherapist which exercises are safe for you."
+      ]
+    },
+    {
+      "id": "fall-prevention",
+      "category": "lifestyle",
+      "title": "Preventing falls at home",
+      "summary": "Simple home changes that reduce the chance of a fall and a fracture.",
+      "readMinutes": 1,
+      "tags": ["falls", "fall prevention", "home safety", "balance", "lighting"],
+      "body": [
+        "Most fractures in older adults happen after a fall. Good lighting, removing loose rugs, using grab bars in bathrooms and wearing well-fitting footwear all help.",
+        "Regular eye checks and reviewing medicines that cause dizziness with a doctor can also lower fall risk."
+      ]
+    },
+    {
+      "id": "how-osteoai-works",
+      "category": "result",
+      "title": "How OsteoAI estimates your risk",
+      "summary": "A machine-learning model estimates a probability from your assessment answers.",
+      "readMinutes": 2,
+      "tags": ["model", "machine learning", "probability", "prediction", "how it works", "osteoai"],
+      "body": [
+        "OsteoAI uses a supervised machine-learning model trained on health-survey data. It takes your personal, lifestyle and medical-history answers and estimates a probability for osteoporosis.",
+        "The app then shows this as Low, Moderate or High risk. These labels are an application interpretation, not a clinical threshold.",
+        "OsteoAI is an academic research prototype. Its output is a risk estimate, not a diagnosis, and it has not been clinically validated."
+      ]
+    },
+    {
+      "id": "understanding-shap",
+      "category": "result",
+      "title": "What are SHAP factors?",
+      "summary": "SHAP shows which of your answers pushed the model's estimate up or down.",
+      "readMinutes": 2,
+      "tags": ["shap", "explainable ai", "factors", "why", "contribution", "explanation"],
+      "body": [
+        "SHAP (SHapley Additive exPlanations) is an explainable-AI method. For your assessment it shows how much each answer pushed the model's estimate up or down.",
+        "SHAP explains the prediction; it does not change it. A factor that increased the estimate is not necessarily a medical cause, only an influence within this model.",
+        "The model predicts, SHAP explains, and the OsteoAI Assistant helps you understand both in plain language."
+      ]
+    },
+    {
+      "id": "risk-levels",
+      "category": "result",
+      "title": "What do Low, Moderate and High mean?",
+      "summary": "How to read your risk level, and what to do next.",
+      "readMinutes": 1,
+      "tags": ["risk level", "low risk", "moderate risk", "high risk", "what next", "meaning"],
+      "body": [
+        "Low, Moderate and High are ranges of the model's estimated probability. They help you understand the estimate at a glance but are not a medical diagnosis.",
+        "Whatever your result, bone-healthy habits are worthwhile. If your result is Moderate or High, or you have concerns such as past fractures, consider discussing bone density testing with a doctor."
+      ]
+    },
+    {
+      "id": "using-osteoai",
+      "category": "app",
+      "title": "Getting around OsteoAI",
+      "summary": "Assessment, Dashboard, History, AI Assistant and Knowledge & Support explained.",
+      "readMinutes": 1,
+      "tags": ["navigation", "dashboard", "history", "assistant", "how to use", "app", "features"],
+      "body": [
+        "New Assessment walks you through personal, lifestyle and medical questions, or lets you upload a document to autofill answers for review.",
+        "Dashboard shows your latest result and trends. Assessment History lists every past assessment, lets you compare two and reopen any result.",
+        "The AI Assistant answers questions in natural language, and Knowledge & Support collects reference articles, FAQs and a glossary."
+      ]
+    },
+    {
+      "id": "document-autofill",
+      "category": "app",
+      "title": "Autofill from a document",
+      "summary": "Upload a report and review the extracted answers before they are used.",
+      "readMinutes": 1,
+      "tags": ["document", "upload", "autofill", "report", "pdf", "extraction", "review"],
+      "body": [
+        "OsteoAI can read a PDF, Word file or image of a health report and suggest answers for the assessment.",
+        "Extraction is conservative: uncertain values are left for you to review and confirm. Nothing is used until you check it."
+      ]
+    }
+  ],
+
+  "myths": [
+    {
+      "myth": "Osteoporosis only affects women.",
+      "fact": "Women are at higher risk, but men develop osteoporosis too, usually later in life."
+    },
+    {
+      "myth": "If I had weak bones, I would feel it.",
+      "fact": "Bone loss is usually painless. Many people only find out after a fracture, which is why risk assessment and testing matter."
+    },
+    {
+      "myth": "Drinking milk is enough to prevent osteoporosis.",
+      "fact": "Calcium helps, but bone health also depends on vitamin D, physical activity, not smoking, limited alcohol and genetics."
+    },
+    {
+      "myth": "Exercise is dangerous once bones are weak.",
+      "fact": "The right exercise, chosen with a doctor or physiotherapist, helps maintain bone and reduces falls."
+    },
+    {
+      "myth": "Osteoporosis is just a normal part of ageing.",
+      "fact": "Bone loss is common with age, but osteoporosis can often be prevented, detected and managed."
+    },
+    {
+      "myth": "A Low risk result from OsteoAI means I can never get osteoporosis.",
+      "fact": "OsteoAI gives a prototype risk estimate, not a guarantee. Risk changes over time, so healthy habits and regular check-ups still matter."
+    }
+  ],
+
+  "glossary": [
+    { "term": "BMI", "definition": "Body mass index: weight in kilograms divided by height in metres squared." },
+    { "term": "Bone mineral density (BMD)", "definition": "The amount of mineral in a given area of bone, measured by a DEXA scan." },
+    { "term": "DEXA", "definition": "Dual-energy X-ray absorptiometry, the standard scan for measuring bone density." },
+    { "term": "T-score", "definition": "Bone density compared with a healthy young adult; -2.5 or below is in the osteoporosis range." },
+    { "term": "Osteopenia", "definition": "Lower-than-normal bone density that is not yet in the osteoporosis range." },
+    { "term": "Fragility fracture", "definition": "A fracture from a fall at standing height or less, which a healthy bone would usually withstand." },
+    { "term": "SHAP", "definition": "An explainable-AI method showing how each input pushed the model's estimate up or down." },
+    { "term": "Probability", "definition": "The model's estimated likelihood (0-100%) for the osteoporosis class; not a diagnosis." },
+    { "term": "Risk level", "definition": "OsteoAI's Low / Moderate / High label for the probability; an app interpretation, not a clinical threshold." },
+    { "term": "Sedentary time", "definition": "Time spent sitting or lying down while awake, such as desk work or watching TV." },
+    { "term": "Glucocorticoids", "definition": "Steroid medicines such as prednisolone; long-term use can reduce bone density." }
+  ],
+
+  "faqs": [
+    {
+      "question": "Is OsteoAI a medical diagnosis?",
+      "answer": "No. OsteoAI is an academic research prototype that estimates risk. Only a doctor can diagnose osteoporosis, usually with a DEXA scan."
+    },
+    {
+      "question": "Where is my assessment data stored?",
+      "answer": "In this prototype your assessment history is stored in your browser on this device. Clearing browser data removes it."
+    },
+    {
+      "question": "Does the AI Assistant send my data to the internet?",
+      "answer": "The assistant runs on a local AI model (Qwen via Ollama) on the OsteoAI server, so your questions and result are processed locally when the local model is used."
+    },
+    {
+      "question": "Why does my result change between assessments?",
+      "answer": "The model uses your current answers. If inputs such as weight, activity or medical history change, the estimate can change too. Assessment History lets you compare two assessments."
+    },
+    {
+      "question": "Can the assistant change my answers or create reminders on its own?",
+      "answer": "No. Reading, explaining and navigating happen immediately, but any change to your data or any reminder always needs your explicit confirmation."
+    },
+    {
+      "question": "What should I do if my risk is High?",
+      "answer": "Treat it as a prompt to talk to a doctor, who can decide whether a DEXA scan or other checks are appropriate. Do not start or stop medicines based on OsteoAI."
+    }
+  ],
+
+  "support": {
+    "disclaimer": "OsteoAI is an academic research prototype. It provides educational information and a model-based risk estimate, not a medical diagnosis. In an emergency, call 112 (India) or your local emergency number.",
+    "contact": ""
+  }
+}

@@ -359,6 +359,11 @@ function LandingPage() {
     closeSidebar();
   };
 
+  const goTo = (path) => () => {
+    navigate(path);
+    closeSidebar();
+  };
+
   /*
   |--------------------------------------------------------------------------
   | NAVBAR ↔ SIDEBAR SYNCHRONIZATION
@@ -442,17 +447,20 @@ function LandingPage() {
     {
       label: "Assessment History",
       icon: <HistorySvg />,
-      disabled: true,
+      action: goTo("/history"),
+      disabled: false,
     },
     {
       label: "AI Assistant",
       icon: <AIIcon />,
-      disabled: true,
+      action: goTo("/assistant"),
+      disabled: false,
     },
     {
       label: "Knowledge & Support",
       icon: <KnowledgeSvg />,
-      disabled: true,
+      action: goTo("/knowledge"),
+      disabled: false,
     },
   ];
 

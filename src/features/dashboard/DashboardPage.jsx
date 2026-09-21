@@ -468,20 +468,17 @@ function DashboardPage() {
     {
       label: "Assessment History",
       icon: <HistorySvg />,
-      path: "#",
-      disabled: true,
+      path: "/history",
     },
     {
       label: "AI Assistant",
       icon: <AIIcon />,
-      path: "#",
-      disabled: true,
+      path: "/assistant",
     },
     {
       label: "Knowledge & Support",
       icon: <KnowledgeSvg />,
-      path: "#",
-      disabled: true,
+      path: "/knowledge",
     },
   ];
 
@@ -3437,14 +3434,16 @@ function DashboardPage() {
               {
                 title: "AI Assistant",
                 description:
-                  "Get guided help with future assessments, explanations, and health documents.",
+                  "Ask about your result, track progress, or prepare for a doctor visit.",
                 icon: <AIIcon />,
+                path: "/assistant",
               },
               {
                 title: "Knowledge & Support",
                 description:
                   "Access understandable bone-health education and frequently asked questions.",
                 icon: <KnowledgeSvg />,
+                path: "/knowledge",
               },
               {
                 title: "Notifications",
@@ -3462,12 +3461,28 @@ function DashboardPage() {
               >
                 <Paper
                   elevation={0}
+                  onClick={
+                    item.path
+                      ? () => navigate(item.path)
+                      : undefined
+                  }
                   sx={{
                     height: "100%",
                     p: 2.5,
                     borderRadius: 4,
                     border: "1px solid #E2E8F0",
                     bgcolor: "white",
+                    cursor: item.path
+                      ? "pointer"
+                      : "default",
+                    transition: "all 0.2s",
+                    "&:hover": item.path
+                      ? {
+                          borderColor: "#93C5FD",
+                          transform:
+                            "translateY(-2px)",
+                        }
+                      : {},
                   }}
                 >
                   <Box

@@ -36,9 +36,12 @@ const initialAssessmentData = {
   },
 };
 
-export function AssessmentProvider({ children }) {
+export function AssessmentProvider({
+  children,
+  initialData = initialAssessmentData,
+}) {
   const [assessmentData, setAssessmentData] = useState(
-    initialAssessmentData
+    initialData
   );
 
   const updatePersonal = (data) => {
