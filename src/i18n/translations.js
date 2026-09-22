@@ -1,0 +1,2209 @@
+/*
+|--------------------------------------------------------------------------
+| OsteoAI Translation Dictionary
+|--------------------------------------------------------------------------
+| Centralized copy for every user-facing string in the app, keyed by
+| language code. Consumed through the LanguageContext's `t(path, vars)`
+| helper (see src/context/LanguageContext.jsx), which resolves a
+| dot-separated path such as "hero.ctaStart" and falls back to English
+| when a key is missing in the active language.
+|
+| Medical / technical terms that would lose clarity in translation are
+| intentionally kept in English, sometimes with a local-language gloss
+| in parentheses, matching how these terms are normally used in Indian
+| clinical and everyday contexts.
+*/
+
+export const SUPPORTED_LANGUAGES = [
+  { code: "en", label: "English" },
+  { code: "hi", label: "हिंदी" },
+  { code: "mr", label: "मराठी" },
+];
+
+const translations = {
+  /* ======================================================================
+     ENGLISH (default / fallback)
+     ====================================================================== */
+  en: {
+    common: {
+      yes: "Yes",
+      no: "No",
+      back: "Back",
+      next: "Next",
+      submit: "Submit",
+      cancel: "Cancel",
+      close: "Close",
+      loading: "Loading...",
+      notProvided: "Not provided",
+      notAvailable: "Not available",
+      values: {
+        male: "Male",
+        female: "Female",
+        other: "Other",
+        yes: "Yes",
+        no: "No",
+      },
+      riskLevels: {
+        High: "High",
+        Moderate: "Moderate",
+        Low: "Low",
+        Unavailable: "Unavailable",
+      },
+      bmiCategories: {
+        Underweight: "Underweight",
+        "Healthy Weight": "Healthy Weight",
+        Overweight: "Overweight",
+        Obese: "Obese",
+      },
+      race: {
+        "Mexican American": "Mexican American",
+        "Other Hispanic": "Other Hispanic",
+        White: "White",
+        Black: "Black",
+        Asian: "Asian",
+      },
+    },
+
+    brand: {
+      name: "OsteoAI",
+      tagline: "Bone Health Intelligence",
+    },
+
+    nav: {
+      home: "Home",
+      features: "Features",
+      howItWorks: "How It Works",
+      about: "About",
+      login: "Login",
+      signUp: "Sign Up",
+    },
+
+    sidebar: {
+      openMenu: "Open menu",
+      closeMenu: "Close menu",
+      collapseMenu: "Collapse menu",
+      userProfile: "User Profile",
+      activeAccount: "Active account",
+      home: "Home",
+      dashboard: "Dashboard",
+      newAssessment: "New Assessment",
+      assessmentHistory: "Assessment History",
+      aiAssistant: "AI Assistant",
+      knowledgeSupport: "Knowledge & Support",
+      settings: "Change Language",
+      logout: "Logout",
+      boneHealth: "Bone Health",
+    },
+
+    settingsMenu: {
+      changeLanguage: "Change Language",
+    },
+
+    hero: {
+      badge: "AI-POWERED BONE HEALTH PLATFORM",
+      titleLine1: "Understand Your Bone Health",
+      titleLine2: "Before It Becomes a Problem.",
+      subtitle:
+        "OsteoAI combines personal, lifestyle, and medical factors to build a personalized osteoporosis risk assessment and help you understand the factors that may influence your bone health.",
+      ctaStart: "Start Your Assessment",
+      ctaLearnMore: "Learn More",
+      statMultiFactorTitle: "Multi-factor assessment",
+      statMultiFactorDesc: "Personal + lifestyle + medical",
+      statAiTitle: "AI-ready architecture",
+      statAiDesc: "Explainable predictions planned",
+      cardTitle: "OsteoAI Assessment",
+      cardBadge: "~2-minute assessment • Free",
+      cardNote: "A complete picture takes more than BMI.",
+      step1Title: "Personal Information",
+      step1Desc: "Basic health indicators and personal details.",
+      step2Title: "Lifestyle Factors",
+      step2Desc: "Habits that may influence bone health.",
+      step3Title: "Medical History",
+      step3Desc: "Relevant medical background and risk factors.",
+      bottomNote: "Takes less than 2 minutes",
+    },
+
+    features: {
+      title: "Why OsteoAI?",
+      subtitle:
+        "A multi-factor bone health platform designed to combine assessment, explainable AI, personalized guidance, and meaningful health insights.",
+      item1Title: "Explainable AI",
+      item1Desc:
+        "Understand which factors may influence an osteoporosis risk prediction instead of receiving only a final score.",
+      item2Title: "Personalized Risk Insights",
+      item2Desc:
+        "Combine personal, lifestyle, and medical information to build a more comprehensive assessment.",
+      item3Title: "OsteoAI Health Assistant",
+      item3Desc:
+        "Get easy-to-understand guidance about bone health, assessment results, and preventive lifestyle habits.",
+      item4Title: "Health Analytics",
+      item4Desc:
+        "Explore visual insights from your assessment and, later, track changes across multiple assessments.",
+    },
+
+    howItWorks: {
+      title: "How OsteoAI Works",
+      subtitle:
+        "From health assessment to personalized bone-health insights, OsteoAI is designed to guide users through a simple four-step experience.",
+      step1Title: "Complete Your Health Assessment",
+      step1Desc:
+        "Provide personal information, lifestyle habits, and relevant medical history to build a comprehensive health profile.",
+      step2Title: "AI-Assisted Risk Assessment",
+      step2Desc:
+        "Our planned machine learning system will analyze the collected factors to estimate your osteoporosis risk.",
+      step3Title: "Understand Your Results",
+      step3Desc:
+        "Explore your overall risk, key contributing factors, and explainable insights to better understand your assessment.",
+      step4Title: "Take Action for Better Bone Health",
+      step4Desc:
+        "Receive personalized recommendations, preventive guidance, and future lifestyle insights to support healthier choices.",
+    },
+
+    about: {
+      eyebrow: "ABOUT OSTEOAI",
+      titleLine1: "A smarter approach to",
+      titleLine2: "preventive bone health.",
+      paragraph1:
+        "OsteoAI is being developed as an AI-powered bone health platform that brings together assessment, machine learning, explainability, analytics, and personalized guidance in one place.",
+      paragraph2:
+        "The goal is not to replace medical professionals, but to help users better understand important risk factors and make informed preventive health decisions.",
+      highlight1Title: "Prevention First",
+      highlight1Desc:
+        "OsteoAI focuses on identifying risk factors early and encouraging healthier decisions before serious complications occur.",
+      highlight2Title: "Data-Driven Insights",
+      highlight2Desc:
+        "The platform is designed to combine personal, lifestyle, and medical information into meaningful risk insights.",
+      highlight3Title: "Personalized Guidance",
+      highlight3Desc:
+        "Future recommendations and AI assistance will be tailored to the user's assessment and health profile.",
+      ctaTitleLine1: "Ready to understand your",
+      ctaTitleLine2: "bone health?",
+      ctaText:
+        "Complete the assessment to explore your personal, lifestyle, and medical health factors.",
+      ctaSubtext:
+        "Your complete personalized risk assessment is generated after the full assessment is completed.",
+    },
+
+    footer: {
+      description:
+        "An AI-powered preventive bone-health platform designed to help users understand risk factors, explore insights, and make informed health decisions.",
+      exploreTitle: "Explore",
+      linkHome: "Home",
+      linkFeatures: "Features",
+      linkHowItWorks: "How It Works",
+      linkAbout: "About",
+      projectTitle: "Project",
+      projectItem1: "AI Risk Assessment",
+      projectItem2: "Explainable AI",
+      projectItem3: "Health Analytics",
+      projectItem4: "Preventive Guidance",
+      importantTitle: "Important",
+      disclaimer:
+        "OsteoAI is intended as an educational and risk-assessment project and is not a replacement for professional medical diagnosis or treatment.",
+      copyright: "© 2026 OsteoAI. Final Year Project.",
+    },
+
+    auth: {
+      loginBenefit1: "Access your saved assessments",
+      loginBenefit2: "Continue your personalized journey",
+      loginBenefit3: "Explore personalized AI guidance",
+      registerBenefit1: "Build your personal health profile",
+      registerBenefit2: "Save your assessment history",
+      registerBenefit3: "Access future reports and insights",
+      welcomeBack1: "Welcome back to",
+      welcomeBack2: "OsteoAI.",
+      startJourney1: "Start your",
+      startJourney2: "OsteoAI journey.",
+      loginSubtitle:
+        "Continue your bone-health journey and access your saved assessment experience.",
+      registerSubtitle:
+        "Create your account to save your assessment history and build your personalized bone-health profile.",
+      signIn: "Sign In",
+      signUp: "Sign Up",
+      loginTitle: "Welcome back",
+      loginDesc: "Sign in to continue to your OsteoAI account.",
+      emailLabel: "Email Address",
+      passwordLabel: "Password",
+      rememberMe: "Remember me",
+      forgotPassword: "Forgot Password?",
+      noAccount: "Don't have an account?",
+      registerTitle: "Create your account",
+      registerDesc: "Start your personalized OsteoAI experience.",
+      fullNameLabel: "Full Name",
+      passwordHelper: "Use at least 8 characters.",
+      passwordStrength: "Password strength",
+      confirmPasswordLabel: "Confirm Password",
+      passwordMismatch: "Passwords do not match.",
+      createAccount: "Create Free Account",
+      alreadyRegistered: "Already registered?",
+    },
+
+    assessment: {
+      stepNamePersonal: "Personal Information",
+      stepNameLifestyle: "Lifestyle Assessment",
+      stepNameMedical: "Medical History",
+      title: "Osteoporosis Risk Assessment",
+      subtitle: "Complete the assessment in about 2 minutes.",
+      stepProgress: "Step {current} of {total} • {stepName}",
+      percentComplete: "{percent}% Complete",
+      genericError: "Unable to complete the assessment. Please try again.",
+
+      entryChoice: {
+        badge: "BEFORE YOU START",
+        title: "How would you like to fill your assessment?",
+        subtitle:
+          "Choose the way that is easiest for you. You can always review and edit the information before OsteoAI runs the assessment.",
+        aiEyebrow: "SMART OPTION",
+        aiTitle: "AI Assistant Autofill",
+        aiDesc:
+          "Upload a health report or document and use the AI Assistant to extract relevant assessment information for your review.",
+        aiAction: "Use AI Autofill",
+        selfEyebrow: "MANUAL OPTION",
+        selfTitle: "Fill It Myself",
+        selfDesc:
+          "Enter your information yourself through the normal OsteoAI assessment. You remain in control of every value.",
+        selfAction: "Fill It Myself",
+        note: "AI-assisted entries will be reviewed by you before they are used. The assessment remains a research/prototype risk estimate and is not a medical diagnosis.",
+      },
+
+      aiEntry: {
+        badge: "AI ASSISTANT",
+        title: "Autofill your assessment",
+        subtitle:
+          "Upload a health report or document. The AI Assistant will extract relevant information, show you what it found, and let you confirm the values before they are used in the assessment.",
+        chooseDocument: "Choose a document",
+        fileTypes: "PDF, DOC, DOCX, JPG, JPEG, or PNG",
+        selectDocument: "Select Document",
+        selectedDocument: "Selected document",
+        changeDocument: "Change Document",
+        remove: "Remove",
+        analyzeDocument: "Analyze Document",
+        analyzing: "Analyzing Document...",
+        infoNote:
+          "AI-assisted values will be shown for your review before they are used. Document extraction does not run the osteoporosis prediction model.",
+        pleaseChooseDocument: "Please choose a document first.",
+        continueSelfFill: "Continue with Self-Fill",
+        noDataReturned: "No assessment data was returned from the document.",
+        confirmationFailed:
+          "The extracted information could not be added to the assessment. Please use Self-Fill.",
+        extractionFailed: "Unable to analyze this document. Please try again.",
+      },
+
+      autofillReview: {
+        badge: "AI REVIEW",
+        title: "Review information found",
+        subtitle:
+          'OsteoAI found candidate information in {fileName}. Review the values before continuing. Values marked "Review" can be confirmed and added to the assessment; values that need mapping stay out until you enter them manually.',
+        warning:
+          'Document extraction can be imperfect. "Review" means OsteoAI found a usable candidate but wants you to verify it. "Needs mapping" means the document wording does not yet match one of the assessment\'s allowed choices, so OsteoAI will not guess for you.',
+        sectionPersonal: "Personal Information",
+        sectionLifestyle: "Lifestyle",
+        sectionMedical: "Medical & Family History",
+        statusFound: "Found",
+        statusNeedsMapping: "Needs mapping",
+        statusReference: "Reference",
+        statusReview: "Review",
+        notFound: "Not found",
+        sourceLabel: "Source: {source}",
+        foundCount:
+          "Found {count} candidate fields. Reference-only values such as BMI are shown for context and are not copied directly; values needing mapping must be entered using the assessment choices.",
+        backToDocument: "Back to Document",
+        confirmContinue: "Confirm & Continue",
+      },
+
+      analysis: {
+        title: "Preparing Your Assessment",
+        subtitle:
+          "Your assessment data is being prepared for personalized analysis.",
+        stageMessage1: "Preparing personal information and assessment inputs...",
+        stageMessage2: "Evaluating lifestyle factors and activity patterns...",
+        stageMessage3: "Processing medical history and model features...",
+        stageMessage4:
+          "Generating the model-based risk analysis and explainability...",
+        progressLabel: "Analysis progress",
+        stage1: "Personal information",
+        stage2: "Lifestyle factors",
+        stage3: "Medical history",
+        footerNote: "Please wait while OsteoAI prepares your results...",
+      },
+
+      personal: {
+        title: "Personal Information",
+        subtitle:
+          "Tell us a little about yourself before we assess your bone health.",
+        fullName: "Full Name",
+        age: "Age",
+        genderTitle: "Gender",
+        genderSubtitle: "Select the option that best describes you.",
+        male: "Male",
+        female: "Female",
+        other: "Other",
+        otherSubtitle: "Prefer to identify differently",
+        raceTitle: "Race / Ethnicity",
+        raceSubtitle: "Choose the option that best matches your background.",
+        raceMexicanAmerican: "Mexican American",
+        raceOtherHispanic: "Other Hispanic",
+        raceHispanicLatino: "Hispanic / Latino",
+        raceWhite: "White",
+        raceWhiteSubtitle: "Non-Hispanic White",
+        raceBlack: "Black",
+        raceBlackSubtitle: "Non-Hispanic Black",
+        raceAsian: "Asian",
+        raceAsianSubtitle: "Non-Hispanic Asian",
+        height: "Height (cm)",
+        weight: "Weight (kg)",
+        waist: "Waist Circumference (cm)",
+        hip: "Hip Circumference (cm)",
+        bmiTitle: "Your BMI",
+        bmiUnderweight: "Underweight",
+        bmiHealthy: "Healthy Weight",
+        bmiOverweight: "Overweight",
+        bmiObese: "Obese",
+        bmiWaiting: "Waiting for your details",
+        bmiNote:
+          "BMI is one of several factors considered in your overall assessment.",
+        completeNoteTitle: "Complete Lifestyle + Medical History",
+        completeNoteDesc: "to generate your personalized bone-health assessment.",
+      },
+
+      medical: {
+        title: "Medical History",
+        subtitle:
+          "A few medical and family-history factors help create a more complete bone-health assessment.",
+        q1Title: "Other Bone Fracture After Age 20",
+        q1Desc: "Have you had another bone fracture after the age of 20?",
+        q2Title: "Long-Term Steroid Use",
+        q2Desc:
+          "Have you taken corticosteroids or similar steroid medicines for a prolonged period?",
+        q3Title: "Parent Osteoporosis History",
+        q3Desc: "Has a parent ever been diagnosed with osteoporosis?",
+        q4Title: "Mother's Hip Fracture",
+        q4Desc: "Has your mother ever had a hip fracture?",
+        q5Title: "Father's Hip Fracture",
+        q5Desc: "Has your father ever had a hip fracture?",
+        whyAskTitle: "Why do we ask?",
+        whyAskDesc:
+          "Previous fractures, steroid exposure, and family history are among the factors used by the OsteoAI assessment model.",
+      },
+
+      lifestyle: {
+        title: "Lifestyle Factors",
+        subtitle:
+          "Your daily habits can play an important role in overall bone health.",
+        smokingTitle:
+          "Have you smoked at least 100 cigarettes in your lifetime?",
+        smokingDesc: "This matches the smoking measure used by the OsteoAI model.",
+        alcoholEverTitle: "Have you ever had an alcoholic drink?",
+        alcoholEverDesc: "This refers to whether you have ever consumed alcohol.",
+        alcoholFreqTitle:
+          "How often did you drink alcohol during the past 12 months?",
+        alcoholFreqDesc:
+          "Select the option that best describes your drinking frequency.",
+        alcoholFreqLabel: "Alcohol frequency",
+        alcoholFreq0: "Never",
+        alcoholFreq1: "Every day",
+        alcoholFreq2: "Nearly every day",
+        alcoholFreq3: "3–4 times per week",
+        alcoholFreq4: "2 times per week",
+        alcoholFreq5: "Once a week",
+        alcoholFreq6: "2–3 times per month",
+        alcoholFreq7: "Once a month",
+        alcoholFreq8: "7–11 times per year",
+        alcoholFreq9: "3–6 times per year",
+        alcoholFreq10: "1–2 times per year",
+        workActivityTitle: "Work Activity",
+        workActivitySubtitle: "Answer Yes or No for each activity.",
+        vigorousWorkTitle: "Vigorous Work Activity",
+        vigorousWorkDesc: "Heavy physical work involving substantial effort.",
+        moderateWorkTitle: "Moderate Work Activity",
+        moderateWorkDesc: "Moderate physical work as part of your usual routine.",
+        movementTitle: "Movement & Recreation",
+        movementSubtitle: "Answer Yes or No for each activity.",
+        walkBicycleTitle: "Walk or Bicycle",
+        walkBicycleDesc: "Regular walking or cycling.",
+        vigorousRecreationTitle: "Vigorous Recreation",
+        vigorousRecreationDesc: "Running, vigorous sports, or similar exercise.",
+        moderateRecreationTitle: "Moderate Recreation",
+        moderateRecreationDesc: "Moderate sports or exercise.",
+        sedentaryTitle: "Sedentary Time",
+        sedentarySubtitle:
+          "Approximately how many minutes do you spend sitting or inactive on a typical day?",
+        sedentaryLabel: "Sedentary minutes per day",
+        infoNoteTitle:
+          "Your information is used to build a multi-factor bone-health assessment.",
+        infoNoteDesc:
+          "Lifestyle information is combined with personal and medical factors before the model generates a result.",
+      },
+
+      stepperPersonal: "Personal",
+      stepperLifestyle: "Lifestyle",
+      stepperMedical: "Medical",
+
+      result: {
+        title: "Your Bone Health Assessment",
+        subtitle:
+          "Your assessment has been processed using the OsteoAI machine-learning model.",
+        overallAssessment: "OVERALL ASSESSMENT",
+        riskLevelSuffix: "{level} Risk Level",
+        probabilityText:
+          "The model estimates a {percent}% probability for the positive osteoporosis class in this assessment.",
+        estimatedProbability: "Estimated Probability",
+        modelPredictionLabel: "Model prediction:",
+        positiveFlag: "Positive osteoporosis risk flag",
+        negativeFlag: "No osteoporosis risk flag",
+        researchNote:
+          "This is a research/prototype risk assessment and is not a medical diagnosis.",
+        shapTitle: "Why the Model Produced This Result",
+        shapDesc:
+          "These are the strongest factors that influenced this particular model prediction. They explain the model output and are not medical diagnoses.",
+        increasedOutput: "Increased the model output",
+        decreasedOutput: "Decreased the model output",
+        influence: "Influence {value}",
+        inputValueLabel: "Input value: {value}",
+        keyMetricsTitle: "Key Health Metrics",
+        ageLabel: "Age",
+        yearsSuffix: "{value} years",
+        bmiLabel: "BMI",
+        sedentaryTimeLabel: "Sedentary Time",
+        minSuffix: "{value} min",
+        typicalDay: "Typical day",
+        assessmentFactorsTitle: "Assessment Factors",
+        assessmentFactorsDesc:
+          "Personal, lifestyle, and medical information were combined to generate the model output.",
+        genderLabel: "Gender",
+        raceLabel: "Race / Ethnicity",
+        provided: "Provided",
+        smokingHistoryLabel: "Smoking History",
+        steroidUseLabel: "Long-Term Steroid Use",
+        familyHistoryLabel: "Family Osteoporosis History",
+        modelInfoTitle: "Model Information",
+        modelVersionLabel: "Model Version",
+        decisionThresholdLabel: "Decision Threshold",
+        defaultDisclaimer:
+          "This is a research/prototype risk-assessment output, not a medical diagnosis, and has not been clinically validated.",
+        editAssessment: "Edit Assessment",
+        retakeAssessment: "Retake Assessment",
+        viewForecast: "View Forecast & Recommendations",
+      },
+    },
+
+    dashboard: {
+      badge: "PERSONAL HEALTH DASHBOARD",
+      title: "Your bone-health overview",
+      subtitle:
+        "Track your latest OsteoAI assessment, understand contributing factors, and build a clearer picture of your health data over time.",
+      newAssessment: "New Assessment",
+      viewForecast: "View Forecast & Recommendations",
+      latestAssessmentTitle: "Latest Assessment",
+      latestAssessmentSubtitle: "Your most recent model-based assessment",
+      estimatedRisk: "Estimated risk: {percent}",
+      noCompletedAssessment: "No completed assessment yet",
+      riskCategory:
+        "Risk category: {level}. Your detailed health metrics and model explanations are available as your dashboard workspace expands.",
+      completeAssessmentPrompt:
+        "Complete an assessment to populate your risk score, health metrics, SHAP explanations, history, and trend visualizations on this dashboard.",
+      assessmentDateLabel: "Assessment date: {date}",
+      currentRisk: "CURRENT RISK",
+      awaitingAssessment: "Awaiting assessment",
+      riskSuffix: "{level} risk",
+      lastAssessed: "Last assessed {date}",
+      healthSnapshot: "Health Snapshot",
+      metricBmi: "BMI",
+      metricAge: "Age",
+      metricHeight: "Height",
+      metricWeight: "Weight",
+      personalProfile: "Personal profile",
+      bodyMeasurement: "Body measurement",
+      bodyPersonalDetailsTitle: "Body & Personal Details",
+      bodyPersonalDetailsSubtitle: "Values captured from your latest assessment.",
+      genderLabel: "Gender",
+      raceLabel: "Race / Ethnicity",
+      waistLabel: "Waist",
+      hipLabel: "Hip",
+      lifestyleProfileTitle: "Lifestyle Profile",
+      lifestyleProfileSubtitle: "Lifestyle information used in the latest assessment.",
+      smokingHistoryLabel: "Smoking history",
+      alcoholUseLabel: "Alcohol use",
+      alcoholFrequencyLabel: "Alcohol frequency",
+      walkBicycleLabel: "Walk / bicycle",
+      vigorousWorkLabel: "Vigorous work activity",
+      moderateWorkLabel: "Moderate work activity",
+      vigorousRecreationLabel: "Vigorous recreation",
+      moderateRecreationLabel: "Moderate recreation",
+      sedentaryTimeLabel: "Sedentary time",
+      medicalFamilyHistoryTitle: "Medical & Family History",
+      medicalFamilyHistorySubtitle: "Risk-history information from your latest assessment.",
+      fractureAfter20Label: "Bone fracture after age 20",
+      steroidUseLabel: "Long-term steroid use",
+      parentOsteoporosisLabel: "Parent osteoporosis history",
+      motherHipFractureLabel: "Mother hip fracture",
+      fatherHipFractureLabel: "Father hip fracture",
+      riskAnalyticsTitle: "Risk Analytics",
+      riskAnalyticsSubtitle:
+        "Your deeper analytics workspace will grow as assessment data is collected.",
+      personalDataTag: "PERSONAL DATA • MODEL EXPLANATION",
+      riskTrendTitle: "Risk Trend",
+      riskTrendSubtitle: "See how your estimated risk changes across saved assessments.",
+      saved: "saved",
+      latestPrefix: "Latest: {percent}%",
+      trendHint:
+        "Each point is one saved model estimate. Hover a point to see its assessment number, date, percentage, and risk level.",
+      trendEmptyTitle: "Your trend chart will appear here",
+      trendEmptyDesc:
+        "Complete additional assessments to compare saved risk estimates over time.",
+      explainableAiTitle: "Explainable AI",
+      explainableAiSubtitle: "Why the model moved toward this result",
+      increasesModelOutput: "Increases model output",
+      decreasesModelOutput: "Decreases model output",
+      shapFooter: "SHAP explains this prediction; it does not change the model result.",
+      shapEmpty: "Complete an assessment to see the real SHAP factors returned by the model.",
+      inputPrefix: "Input: {value}",
+      powerBiTitle: "Power BI Analytics",
+      powerBiSubtitle: "Population-level and research analytics workspace",
+      connectLater: "CONNECT LATER",
+      powerBiAreaTitle: "Power BI report area",
+      powerBiAreaDesc:
+        "The final report can be embedded here once the actual Power BI report, dataset, and embedding configuration are ready.",
+      reportsDocsTitle: "Reports & Documents",
+      reportsDocsSubtitle:
+        "Your future document workspace for uploaded reports, AI-extracted information, and generated health summaries.",
+      documentIntelligenceTitle: "Document intelligence",
+      documentIntelligenceDesc: "Planned AI-assisted autofill workspace",
+      generatedSummaryTitle: "Generated health summary",
+      generatedSummaryDesc: "Available after the reporting workflow is connected.",
+      assessmentHistoryTitle: "Assessment History",
+      assessmentHistorySubtitle: "Your saved assessment results and estimated risk levels.",
+      latestAssessmentLabel: "Latest assessment",
+      assessmentNumber: "Assessment {number}",
+      noSavedAssessments: "No saved assessments",
+      noSavedAssessmentsDesc: "Complete another assessment to start building your history.",
+      exploreTitle: "Explore OsteoAI",
+      exploreAiTitle: "AI Assistant",
+      exploreAiDesc:
+        "Get guided help with future assessments, explanations, and health documents.",
+      exploreKnowledgeTitle: "Knowledge & Support",
+      exploreKnowledgeDesc:
+        "Access understandable bone-health education and frequently asked questions.",
+      exploreNotificationsTitle: "Notifications",
+      exploreNotificationsDesc:
+        "Future email, WhatsApp, and SMS updates can be managed from your account.",
+      alcoholFreqNever: "Never",
+      alcoholFreqLess1: "Less than once a week",
+      alcoholFreqOnce1: "Once a week",
+      alcoholFreq23: "2–3 days a week",
+      alcoholFreq46: "4–6 days a week",
+      alcoholFreqDaily: "Daily or almost daily",
+      hrsPerDay: "{value} hrs/day",
+      increasedModelOutput: "Increased model output",
+      decreasedModelOutput: "Decreased model output",
+      trendPointTitle: "Assessment {number} • {date} • {percent}% • {level}",
+      trendAriaLabel: "Estimated osteoporosis risk trend across saved assessments",
+      activitySummaryActive: "Active",
+      activitySummaryRecorded: "Recorded",
+      medicalSummaryPresent: "Factors present",
+      medicalSummaryNone: "No reported factors",
+      unknownFactor: "Unknown factor",
+    },
+
+    forecast: {
+      pageTitle: "Risk Forecast & Recommendations",
+      pageSubtitle:
+        "A personalized summary built from your OsteoAI model score and your own assessment answers.",
+      backToResult: "Back to Assessment Result",
+      scoreLabel: "Your OsteoAI Model Score",
+      rangeDisclaimer:
+        "This risk range is defined by the OsteoAI model for this project. It is not a clinical diagnostic threshold.",
+
+      unavailableTitle: "Risk score unavailable",
+      unavailableBody:
+        "Please complete the assessment again to generate your OsteoAI risk report.",
+      unavailableCta: "Start Assessment",
+
+      scale: {
+        title: "Visual Risk Indicator",
+        axisStart: "0%",
+        axis20: "20%",
+        axis60: "60%",
+        axisEnd: "100%",
+        lower: "Lower-risk range",
+        moderate: "Moderate-risk range",
+        higher: "Higher-risk range",
+        note: "These are project-defined model ranges, not official clinical categories.",
+        markerAria: "Your score: {percent}%",
+      },
+
+      outlook: {
+        lowerTitle: "Lower Risk Range",
+        lowerBody:
+          "Your current OsteoAI model score falls within the lower-risk range defined for this project. This does not mean osteoporosis is impossible. Continue maintaining healthy bone-health habits and address any modifiable risk factors identified in your assessment.",
+        moderateTitle: "Moderate Risk Range",
+        moderateBody:
+          "Your current OsteoAI model score falls within the moderate-risk range defined for this project. Focus on the modifiable factors identified in your assessment and consider discussing your individual risk factors with a healthcare professional.",
+        higherTitle: "Higher Risk — Professional Evaluation Recommended",
+        higherBody:
+          "Your OsteoAI model score is above the project's higher-risk threshold. This result is a model-based risk estimate, not a diagnosis. Consider consulting a qualified healthcare professional for an appropriate clinical evaluation.",
+      },
+
+      factors: {
+        title: "Factors Identified",
+        desc: "Only information you actually provided in your assessment is shown here.",
+        modifiableTitle: "Modifiable Factors",
+        modifiableHelp: "Factors you can realistically work on.",
+        nonModifiableTitle: "Non-modifiable / Background Factors",
+        nonModifiableHelp:
+          "Background information the model used that generally cannot be changed.",
+        physicalActivity: "Physical activity",
+        physicalActivityLow: "Low",
+        physicalActivityActive: "Active",
+        smoking: "Smoking history",
+        alcohol: "Alcohol consumption",
+        sedentaryTime: "Sedentary time",
+        age: "Age",
+        sex: "Sex",
+        bmi: "BMI",
+        familyHistory: "Parent osteoporosis history",
+        motherHipFracture: "Mother's hip fracture history",
+        fatherHipFracture: "Father's hip fracture history",
+        fractureHistory: "Previous fracture after age 20",
+        steroidUse: "Long-term steroid use",
+      },
+
+      priorities: {
+        title: "Your Recommended Priorities",
+        desc: "Selected from the factors identified in your assessment — not the same list for everyone.",
+        none: "No major modifiable risk flags were identified from your current assessment. Continue maintaining your healthy habits.",
+        activityTitle: "🏃 Increase appropriate physical activity",
+        activityBody:
+          "Gradually introduce suitable weight-bearing and resistance activity.",
+        smokingTitle: "🚭 Smoking cessation",
+        smokingBody:
+          "Smoking is a modifiable factor associated with bone health. Consider professional support for quitting.",
+        alcoholTitle: "🍷 Reduce excessive alcohol consumption",
+        alcoholBody:
+          "Lowering frequent or heavy alcohol intake may support better bone health.",
+        weightTitle: "⚖️ Discuss healthy weight management",
+        weightBody:
+          "Low body weight can be associated with increased osteoporosis risk.",
+      },
+
+      outlookFuture: {
+        title: "🔮 Future Risk Management",
+        body: "Your current model score represents the result of this assessment. The actions below focus on modifiable factors that may support better bone health over time. Future risk cannot be predicted with certainty from this single assessment.",
+      },
+
+      eat: {
+        title: "🥗 What to Eat",
+        calciumTitle: "Calcium-rich foods",
+        calciumItem1: "Milk",
+        calciumItem2: "Yogurt",
+        calciumItem3: "Paneer / cheese",
+        calciumItem4: "Calcium-fortified foods",
+        calciumItem5:
+          "Suitable plant-based calcium sources (e.g. ragi, sesame seeds, leafy greens)",
+        proteinTitle: "Protein sources",
+        proteinBody:
+          "Adequate protein supports bone and muscle strength. Depending on your dietary preferences, suitable sources include dals and legumes, eggs, fish, poultry, or dairy.",
+        vitaminDTitle: "Vitamin D",
+        vitaminDBody:
+          "Vitamin D helps the body absorb calcium. Sensible sunlight exposure and vitamin-D-containing foods can contribute to this. OsteoAI does not prescribe supplements or doses — discuss testing or supplementation with a healthcare professional if needed.",
+      },
+
+      limit: {
+        title: "⚠️ What to Limit",
+        alcohol: "Limit excessive alcohol intake.",
+        smoking: "Avoid smoking where possible.",
+        crashDiets: "Limit severe calorie restriction or crash diets.",
+        poorDiet: "Limit poorly balanced diets that lack variety.",
+      },
+
+      exercise: {
+        title: "🏃 Physical Activity",
+        walking: "Walking regularly.",
+        weightBearing: "Suitable weight-bearing activity.",
+        resistance: "Resistance / strength training.",
+        balance: "Balance exercises, where appropriate.",
+        cautionNote:
+          "Exercise should be individualized with guidance from an appropriate healthcare professional or physiotherapist.",
+      },
+
+      nextSteps: {
+        title: "🎯 Recommended Next Steps",
+        activity: "Increase appropriate weight-bearing activity.",
+        generalActivity:
+          "Maintain regular weight-bearing activity as part of a healthy routine.",
+        calcium: "Improve calcium-rich food intake as part of a balanced diet.",
+        protein: "Maintain adequate protein intake.",
+        avoidSmokingAlcohol: "Avoid smoking and excessive alcohol.",
+        discussProfessional:
+          "Discuss relevant risk factors with a healthcare professional when appropriate.",
+      },
+
+      professional: {
+        title: "👨‍⚕️ Professional Evaluation Recommended",
+        body: "Your OsteoAI model score is above the project's higher-risk threshold. Consider discussing your result and individual risk factors with a qualified healthcare professional.",
+        cannotDetermine:
+          "OsteoAI cannot determine whether medication, bone-density testing, laboratory testing, or other clinical interventions are required.",
+      },
+
+      sources: {
+        title: "📚 Sources & Evidence",
+        badge: "Evidence: IOF",
+        iofName: "International Osteoporosis Foundation (IOF)",
+        iofDesc:
+          "Primary reference for general guidance on calcium, vitamin D, protein, nutrition, weight-bearing exercise, resistance training, smoking, alcohol, healthy body weight, and fall prevention.",
+      },
+
+      disclaimerTitle: "Medical Disclaimer",
+      disclaimerBody:
+        "OsteoAI provides a model-based risk estimate and general bone-health information for educational purposes. It is not a diagnosis and does not replace evaluation, diagnosis, treatment, or advice from a qualified healthcare professional.",
+    },
+  },
+
+  /* ======================================================================
+     HINDI
+     ====================================================================== */
+  hi: {
+    common: {
+      yes: "हाँ",
+      no: "नहीं",
+      back: "पीछे",
+      next: "आगे",
+      submit: "सबमिट करें",
+      cancel: "रद्द करें",
+      close: "बंद करें",
+      loading: "लोड हो रहा है...",
+      notProvided: "उपलब्ध नहीं",
+      notAvailable: "उपलब्ध नहीं",
+      values: {
+        male: "पुरुष",
+        female: "महिला",
+        other: "अन्य",
+        yes: "हाँ",
+        no: "नहीं",
+      },
+      riskLevels: {
+        High: "उच्च (High)",
+        Moderate: "मध्यम (Moderate)",
+        Low: "कम (Low)",
+        Unavailable: "उपलब्ध नहीं",
+      },
+      bmiCategories: {
+        Underweight: "कम वज़न (Underweight)",
+        "Healthy Weight": "स्वस्थ वज़न",
+        Overweight: "अधिक वज़न (Overweight)",
+        Obese: "मोटापा (Obese)",
+      },
+      race: {
+        "Mexican American": "मेक्सिकन अमेरिकी",
+        "Other Hispanic": "अन्य हिस्पैनिक",
+        White: "श्वेत (White)",
+        Black: "अश्वेत (Black)",
+        Asian: "एशियाई (Asian)",
+      },
+    },
+
+    brand: {
+      name: "OsteoAI",
+      tagline: "हड्डी स्वास्थ्य इंटेलिजेंस",
+    },
+
+    nav: {
+      home: "होम",
+      features: "विशेषताएँ",
+      howItWorks: "यह कैसे काम करता है",
+      about: "हमारे बारे में",
+      login: "लॉगिन",
+      signUp: "साइन अप",
+    },
+
+    sidebar: {
+      openMenu: "मेनू खोलें",
+      closeMenu: "मेनू बंद करें",
+      collapseMenu: "मेनू छोटा करें",
+      userProfile: "यूज़र प्रोफ़ाइल",
+      activeAccount: "सक्रिय खाता",
+      home: "होम",
+      dashboard: "डैशबोर्ड",
+      newAssessment: "नया असेसमेंट",
+      assessmentHistory: "असेसमेंट इतिहास",
+      aiAssistant: "AI सहायक",
+      knowledgeSupport: "जानकारी और सहायता",
+      settings: "भाषा बदलें",
+      logout: "लॉगआउट",
+      boneHealth: "हड्डी स्वास्थ्य",
+    },
+
+    settingsMenu: {
+      changeLanguage: "भाषा बदलें",
+    },
+
+    hero: {
+      badge: "AI-संचालित बोन हेल्थ प्लेटफ़ॉर्म",
+      titleLine1: "अपनी हड्डियों के स्वास्थ्य को समझें",
+      titleLine2: "समस्या बनने से पहले।",
+      subtitle:
+        "OsteoAI व्यक्तिगत, जीवनशैली और चिकित्सीय कारकों को मिलाकर एक व्यक्तिगत ऑस्टियोपोरोसिस जोखिम मूल्यांकन तैयार करता है और आपको उन कारकों को समझने में मदद करता है जो आपकी हड्डियों के स्वास्थ्य को प्रभावित कर सकते हैं।",
+      ctaStart: "अपना असेसमेंट शुरू करें",
+      ctaLearnMore: "और जानें",
+      statMultiFactorTitle: "बहु-कारक मूल्यांकन",
+      statMultiFactorDesc: "व्यक्तिगत + जीवनशैली + चिकित्सीय",
+      statAiTitle: "AI-रेडी आर्किटेक्चर",
+      statAiDesc: "व्याख्यायोग्य (Explainable) भविष्यवाणियों की योजना",
+      cardTitle: "OsteoAI असेसमेंट",
+      cardBadge: "~2-मिनट का असेसमेंट • मुफ़्त",
+      cardNote: "पूरी तस्वीर के लिए सिर्फ़ BMI काफ़ी नहीं है।",
+      step1Title: "व्यक्तिगत जानकारी",
+      step1Desc: "बुनियादी स्वास्थ्य संकेतक और व्यक्तिगत विवरण।",
+      step2Title: "जीवनशैली कारक",
+      step2Desc: "ऐसी आदतें जो हड्डियों के स्वास्थ्य को प्रभावित कर सकती हैं।",
+      step3Title: "चिकित्सीय इतिहास",
+      step3Desc: "प्रासंगिक चिकित्सीय पृष्ठभूमि और जोखिम कारक।",
+      bottomNote: "2 मिनट से भी कम समय लगता है",
+    },
+
+    features: {
+      title: "OsteoAI क्यों?",
+      subtitle:
+        "एक बहु-कारक बोन हेल्थ प्लेटफ़ॉर्म, जो असेसमेंट, एक्सप्लेनेबल AI, व्यक्तिगत मार्गदर्शन और सार्थक स्वास्थ्य जानकारी को एक साथ लाता है।",
+      item1Title: "एक्सप्लेनेबल AI",
+      item1Desc:
+        "सिर्फ़ एक अंतिम स्कोर पाने के बजाय यह समझें कि कौन-से कारक ऑस्टियोपोरोसिस जोखिम की भविष्यवाणी को प्रभावित कर सकते हैं।",
+      item2Title: "व्यक्तिगत जोखिम जानकारी",
+      item2Desc:
+        "अधिक व्यापक मूल्यांकन बनाने के लिए व्यक्तिगत, जीवनशैली और चिकित्सीय जानकारी को मिलाएँ।",
+      item3Title: "OsteoAI स्वास्थ्य सहायक",
+      item3Desc:
+        "हड्डी स्वास्थ्य, असेसमेंट परिणामों और निवारक जीवनशैली आदतों के बारे में आसानी से समझ में आने वाला मार्गदर्शन पाएँ।",
+      item4Title: "हेल्थ एनालिटिक्स",
+      item4Desc:
+        "अपने असेसमेंट से विज़ुअल जानकारी देखें और आगे चलकर कई असेसमेंट में बदलाव को ट्रैक करें।",
+    },
+
+    howItWorks: {
+      title: "OsteoAI कैसे काम करता है",
+      subtitle:
+        "स्वास्थ्य मूल्यांकन से लेकर व्यक्तिगत बोन-हेल्थ जानकारी तक, OsteoAI को एक सरल चार-चरण अनुभव के ज़रिए उपयोगकर्ताओं का मार्गदर्शन करने के लिए डिज़ाइन किया गया है।",
+      step1Title: "अपना स्वास्थ्य मूल्यांकन पूरा करें",
+      step1Desc:
+        "एक व्यापक स्वास्थ्य प्रोफ़ाइल बनाने के लिए व्यक्तिगत जानकारी, जीवनशैली की आदतें और प्रासंगिक चिकित्सीय इतिहास दर्ज करें।",
+      step2Title: "AI-सहायता प्राप्त जोखिम मूल्यांकन",
+      step2Desc:
+        "हमारी नियोजित मशीन लर्निंग प्रणाली एकत्रित कारकों का विश्लेषण करके आपके ऑस्टियोपोरोसिस जोखिम का अनुमान लगाएगी।",
+      step3Title: "अपने परिणामों को समझें",
+      step3Desc:
+        "अपने कुल जोखिम, मुख्य योगदान देने वाले कारकों और अपने असेसमेंट को बेहतर ढंग से समझने के लिए व्याख्यायोग्य जानकारी देखें।",
+      step4Title: "बेहतर हड्डी स्वास्थ्य के लिए कदम उठाएँ",
+      step4Desc:
+        "स्वस्थ विकल्पों के समर्थन के लिए व्यक्तिगत सिफ़ारिशें, निवारक मार्गदर्शन और भविष्य की जीवनशैली संबंधी जानकारी प्राप्त करें।",
+    },
+
+    about: {
+      eyebrow: "OSTEOAI के बारे में",
+      titleLine1: "निवारक हड्डी स्वास्थ्य के लिए",
+      titleLine2: "एक समझदार तरीका।",
+      paragraph1:
+        "OsteoAI को एक AI-संचालित बोन हेल्थ प्लेटफ़ॉर्म के रूप में विकसित किया जा रहा है, जो असेसमेंट, मशीन लर्निंग, एक्सप्लेनेबिलिटी, एनालिटिक्स और व्यक्तिगत मार्गदर्शन को एक ही जगह लाता है।",
+      paragraph2:
+        "लक्ष्य चिकित्सा पेशेवरों की जगह लेना नहीं है, बल्कि उपयोगकर्ताओं को महत्वपूर्ण जोखिम कारकों को बेहतर ढंग से समझने और सूचित निवारक स्वास्थ्य निर्णय लेने में मदद करना है।",
+      highlight1Title: "रोकथाम सबसे पहले",
+      highlight1Desc:
+        "OsteoAI गंभीर जटिलताओं के होने से पहले जोखिम कारकों की जल्द पहचान करने और स्वस्थ निर्णयों को प्रोत्साहित करने पर ध्यान केंद्रित करता है।",
+      highlight2Title: "डेटा-आधारित जानकारी",
+      highlight2Desc:
+        "यह प्लेटफ़ॉर्म व्यक्तिगत, जीवनशैली और चिकित्सीय जानकारी को सार्थक जोखिम जानकारी में बदलने के लिए डिज़ाइन किया गया है।",
+      highlight3Title: "व्यक्तिगत मार्गदर्शन",
+      highlight3Desc:
+        "भविष्य की सिफ़ारिशें और AI सहायता उपयोगकर्ता के असेसमेंट और स्वास्थ्य प्रोफ़ाइल के अनुसार तैयार की जाएँगी।",
+      ctaTitleLine1: "क्या आप अपनी हड्डियों के",
+      ctaTitleLine2: "स्वास्थ्य को समझने के लिए तैयार हैं?",
+      ctaText:
+        "अपने व्यक्तिगत, जीवनशैली और चिकित्सीय स्वास्थ्य कारकों को जानने के लिए असेसमेंट पूरा करें।",
+      ctaSubtext:
+        "पूरा असेसमेंट पूरा होने के बाद आपका पूर्ण व्यक्तिगत जोखिम मूल्यांकन तैयार किया जाता है।",
+    },
+
+    footer: {
+      description:
+        "एक AI-संचालित निवारक बोन-हेल्थ प्लेटफ़ॉर्म, जो उपयोगकर्ताओं को जोखिम कारकों को समझने, जानकारी जानने और सूचित स्वास्थ्य निर्णय लेने में मदद करने के लिए डिज़ाइन किया गया है।",
+      exploreTitle: "एक्सप्लोर करें",
+      linkHome: "होम",
+      linkFeatures: "विशेषताएँ",
+      linkHowItWorks: "यह कैसे काम करता है",
+      linkAbout: "हमारे बारे में",
+      projectTitle: "प्रोजेक्ट",
+      projectItem1: "AI जोखिम मूल्यांकन",
+      projectItem2: "एक्सप्लेनेबल AI",
+      projectItem3: "हेल्थ एनालिटिक्स",
+      projectItem4: "निवारक मार्गदर्शन",
+      importantTitle: "महत्वपूर्ण",
+      disclaimer:
+        "OsteoAI एक शैक्षिक और जोखिम-मूल्यांकन परियोजना के रूप में तैयार किया गया है और यह पेशेवर चिकित्सा निदान या उपचार का विकल्प नहीं है।",
+      copyright: "© 2026 OsteoAI. फ़ाइनल ईयर प्रोजेक्ट।",
+    },
+
+    auth: {
+      loginBenefit1: "अपने सहेजे गए असेसमेंट देखें",
+      loginBenefit2: "अपनी व्यक्तिगत यात्रा जारी रखें",
+      loginBenefit3: "व्यक्तिगत AI मार्गदर्शन देखें",
+      registerBenefit1: "अपनी व्यक्तिगत स्वास्थ्य प्रोफ़ाइल बनाएँ",
+      registerBenefit2: "अपना असेसमेंट इतिहास सहेजें",
+      registerBenefit3: "भविष्य की रिपोर्ट और जानकारी पाएँ",
+      welcomeBack1: "वापसी पर स्वागत है,",
+      welcomeBack2: "OsteoAI में।",
+      startJourney1: "शुरू करें अपनी",
+      startJourney2: "OsteoAI यात्रा।",
+      loginSubtitle:
+        "अपनी हड्डी-स्वास्थ्य यात्रा जारी रखें और अपने सहेजे गए असेसमेंट अनुभव तक पहुँचें।",
+      registerSubtitle:
+        "अपना असेसमेंट इतिहास सहेजने और अपनी व्यक्तिगत बोन-हेल्थ प्रोफ़ाइल बनाने के लिए खाता बनाएँ।",
+      signIn: "साइन इन",
+      signUp: "साइन अप",
+      loginTitle: "वापसी पर स्वागत है",
+      loginDesc: "अपने OsteoAI खाते में जारी रखने के लिए साइन इन करें।",
+      emailLabel: "ईमेल पता",
+      passwordLabel: "पासवर्ड",
+      rememberMe: "मुझे याद रखें",
+      forgotPassword: "पासवर्ड भूल गए?",
+      noAccount: "खाता नहीं है?",
+      registerTitle: "अपना खाता बनाएँ",
+      registerDesc: "अपना व्यक्तिगत OsteoAI अनुभव शुरू करें।",
+      fullNameLabel: "पूरा नाम",
+      passwordHelper: "कम से कम 8 अक्षरों का उपयोग करें।",
+      passwordStrength: "पासवर्ड की मज़बूती",
+      confirmPasswordLabel: "पासवर्ड की पुष्टि करें",
+      passwordMismatch: "पासवर्ड मेल नहीं खाते।",
+      createAccount: "मुफ़्त खाता बनाएँ",
+      alreadyRegistered: "पहले से रजिस्टर्ड हैं?",
+    },
+
+    assessment: {
+      stepNamePersonal: "व्यक्तिगत जानकारी",
+      stepNameLifestyle: "जीवनशैली मूल्यांकन",
+      stepNameMedical: "चिकित्सीय इतिहास",
+      title: "ऑस्टियोपोरोसिस जोखिम मूल्यांकन",
+      subtitle: "लगभग 2 मिनट में असेसमेंट पूरा करें।",
+      stepProgress: "चरण {current} / {total} • {stepName}",
+      percentComplete: "{percent}% पूर्ण",
+      genericError: "असेसमेंट पूरा नहीं हो सका। कृपया फिर से प्रयास करें।",
+
+      entryChoice: {
+        badge: "शुरू करने से पहले",
+        title: "आप अपना असेसमेंट कैसे भरना चाहेंगे?",
+        subtitle:
+          "अपने लिए सबसे आसान तरीका चुनें। OsteoAI द्वारा असेसमेंट चलाने से पहले आप हमेशा जानकारी की समीक्षा और संपादन कर सकते हैं।",
+        aiEyebrow: "स्मार्ट विकल्प",
+        aiTitle: "AI सहायक ऑटोफ़िल",
+        aiDesc:
+          "अपने रिव्यू के लिए संबंधित असेसमेंट जानकारी निकालने हेतु स्वास्थ्य रिपोर्ट या दस्तावेज़ अपलोड करें और AI सहायक का उपयोग करें।",
+        aiAction: "AI ऑटोफ़िल का उपयोग करें",
+        selfEyebrow: "मैनुअल विकल्प",
+        selfTitle: "स्वयं भरें",
+        selfDesc:
+          "सामान्य OsteoAI असेसमेंट के ज़रिए स्वयं अपनी जानकारी दर्ज करें। हर मान पर नियंत्रण आपके पास ही रहता है।",
+        selfAction: "स्वयं भरें",
+        note: "AI-सहायता प्राप्त प्रविष्टियों की समीक्षा उपयोग से पहले आप स्वयं करेंगे। यह असेसमेंट एक शोध/प्रोटोटाइप जोखिम अनुमान है और चिकित्सा निदान नहीं है।",
+      },
+
+      aiEntry: {
+        badge: "AI सहायक",
+        title: "अपना असेसमेंट ऑटोफ़िल करें",
+        subtitle:
+          "एक स्वास्थ्य रिपोर्ट या दस्तावेज़ अपलोड करें। AI सहायक संबंधित जानकारी निकालेगा, आपको बताएगा कि क्या मिला, और असेसमेंट में उपयोग करने से पहले आपसे मानों की पुष्टि करवाएगा।",
+        chooseDocument: "एक दस्तावेज़ चुनें",
+        fileTypes: "PDF, DOC, DOCX, JPG, JPEG, या PNG",
+        selectDocument: "दस्तावेज़ चुनें",
+        selectedDocument: "चुना गया दस्तावेज़",
+        changeDocument: "दस्तावेज़ बदलें",
+        remove: "हटाएँ",
+        analyzeDocument: "दस्तावेज़ का विश्लेषण करें",
+        analyzing: "दस्तावेज़ का विश्लेषण हो रहा है...",
+        infoNote:
+          "उपयोग से पहले AI-सहायता प्राप्त मान आपकी समीक्षा के लिए दिखाए जाएँगे। दस्तावेज़ निष्कर्षण ऑस्टियोपोरोसिस प्रेडिक्शन मॉडल नहीं चलाता।",
+        pleaseChooseDocument: "कृपया पहले एक दस्तावेज़ चुनें।",
+        continueSelfFill: "स्वयं भरने के साथ जारी रखें",
+        noDataReturned: "दस्तावेज़ से कोई असेसमेंट डेटा नहीं मिला।",
+        confirmationFailed:
+          "निकाली गई जानकारी को असेसमेंट में नहीं जोड़ा जा सका। कृपया स्वयं भरें विकल्प का उपयोग करें।",
+        extractionFailed: "इस दस्तावेज़ का विश्लेषण नहीं हो सका। कृपया फिर से प्रयास करें।",
+      },
+
+      autofillReview: {
+        badge: "AI समीक्षा",
+        title: "मिली हुई जानकारी की समीक्षा करें",
+        subtitle:
+          'OsteoAI को {fileName} में संभावित जानकारी मिली है। आगे बढ़ने से पहले मानों की समीक्षा करें। "समीक्षा करें" चिह्नित मानों की पुष्टि करके असेसमेंट में जोड़ा जा सकता है; जिन मानों को मैपिंग की ज़रूरत है वे तब तक शामिल नहीं होंगे जब तक आप उन्हें स्वयं दर्ज न करें।',
+        warning:
+          'दस्तावेज़ निष्कर्षण में त्रुटि हो सकती है। "समीक्षा करें" का मतलब है कि OsteoAI को एक उपयोगी संभावित मान मिला है लेकिन वह चाहता है कि आप इसकी पुष्टि करें। "मैपिंग ज़रूरी" का मतलब है कि दस्तावेज़ की भाषा अभी असेसमेंट के किसी स्वीकृत विकल्प से मेल नहीं खाती, इसलिए OsteoAI अनुमान नहीं लगाएगा।',
+        sectionPersonal: "व्यक्तिगत जानकारी",
+        sectionLifestyle: "जीवनशैली",
+        sectionMedical: "चिकित्सीय और पारिवारिक इतिहास",
+        statusFound: "मिला",
+        statusNeedsMapping: "मैपिंग ज़रूरी",
+        statusReference: "संदर्भ",
+        statusReview: "समीक्षा करें",
+        notFound: "नहीं मिला",
+        sourceLabel: "स्रोत: {source}",
+        foundCount:
+          "{count} संभावित फ़ील्ड मिले। BMI जैसे केवल-संदर्भ मान संदर्भ के लिए दिखाए जाते हैं और सीधे कॉपी नहीं किए जाते; मैपिंग की ज़रूरत वाले मानों को असेसमेंट के विकल्पों का उपयोग करके दर्ज किया जाना चाहिए।",
+        backToDocument: "दस्तावेज़ पर वापस जाएँ",
+        confirmContinue: "पुष्टि करें और जारी रखें",
+      },
+
+      analysis: {
+        title: "आपका असेसमेंट तैयार किया जा रहा है",
+        subtitle:
+          "व्यक्तिगत विश्लेषण के लिए आपका असेसमेंट डेटा तैयार किया जा रहा है।",
+        stageMessage1: "व्यक्तिगत जानकारी और असेसमेंट इनपुट तैयार किए जा रहे हैं...",
+        stageMessage2: "जीवनशैली कारकों और गतिविधि पैटर्न का मूल्यांकन किया जा रहा है...",
+        stageMessage3: "चिकित्सीय इतिहास और मॉडल फ़ीचर्स को प्रोसेस किया जा रहा है...",
+        stageMessage4: "मॉडल-आधारित जोखिम विश्लेषण और स्पष्टीकरण तैयार किया जा रहा है...",
+        progressLabel: "विश्लेषण प्रगति",
+        stage1: "व्यक्तिगत जानकारी",
+        stage2: "जीवनशैली कारक",
+        stage3: "चिकित्सीय इतिहास",
+        footerNote: "कृपया प्रतीक्षा करें जब तक OsteoAI आपके परिणाम तैयार करता है...",
+      },
+
+      personal: {
+        title: "व्यक्तिगत जानकारी",
+        subtitle:
+          "आपकी हड्डियों के स्वास्थ्य का आकलन करने से पहले हमें अपने बारे में थोड़ा बताएँ।",
+        fullName: "पूरा नाम",
+        age: "आयु",
+        genderTitle: "लिंग",
+        genderSubtitle: "वह विकल्प चुनें जो आपको सबसे बेहतर दर्शाता हो।",
+        male: "पुरुष",
+        female: "महिला",
+        other: "अन्य",
+        otherSubtitle: "अलग तरीके से पहचान बताना पसंद करते हैं",
+        raceTitle: "जाति / नस्ल (Race / Ethnicity)",
+        raceSubtitle: "वह विकल्प चुनें जो आपकी पृष्ठभूमि से सबसे अधिक मेल खाता हो।",
+        raceMexicanAmerican: "मेक्सिकन अमेरिकी",
+        raceOtherHispanic: "अन्य हिस्पैनिक",
+        raceHispanicLatino: "हिस्पैनिक / लातीनी",
+        raceWhite: "श्वेत (White)",
+        raceWhiteSubtitle: "गैर-हिस्पैनिक श्वेत",
+        raceBlack: "अश्वेत (Black)",
+        raceBlackSubtitle: "गैर-हिस्पैनिक अश्वेत",
+        raceAsian: "एशियाई (Asian)",
+        raceAsianSubtitle: "गैर-हिस्पैनिक एशियाई",
+        height: "ऊँचाई (सेमी)",
+        weight: "वज़न (किग्रा)",
+        waist: "कमर की परिधि (सेमी)",
+        hip: "कूल्हे की परिधि (सेमी)",
+        bmiTitle: "आपका BMI",
+        bmiUnderweight: "कम वज़न (Underweight)",
+        bmiHealthy: "स्वस्थ वज़न",
+        bmiOverweight: "अधिक वज़न (Overweight)",
+        bmiObese: "मोटापा (Obese)",
+        bmiWaiting: "आपके विवरण की प्रतीक्षा है",
+        bmiNote: "BMI आपके कुल मूल्यांकन में शामिल कई कारकों में से एक है।",
+        completeNoteTitle: "जीवनशैली + चिकित्सीय इतिहास पूरा करें",
+        completeNoteDesc: "अपना व्यक्तिगत बोन-हेल्थ असेसमेंट तैयार करने के लिए।",
+      },
+
+      medical: {
+        title: "चिकित्सीय इतिहास",
+        subtitle:
+          "कुछ चिकित्सीय और पारिवारिक-इतिहास संबंधी कारक अधिक संपूर्ण बोन-हेल्थ असेसमेंट बनाने में मदद करते हैं।",
+        q1Title: "20 वर्ष की आयु के बाद हड्डी टूटना",
+        q1Desc: "क्या 20 वर्ष की आयु के बाद आपकी कोई हड्डी टूटी है?",
+        q2Title: "दीर्घकालिक स्टेरॉयड उपयोग",
+        q2Desc:
+          "क्या आपने लंबे समय तक कॉर्टिकोस्टेरॉइड्स या समान स्टेरॉयड दवाएँ ली हैं?",
+        q3Title: "माता-पिता में ऑस्टियोपोरोसिस का इतिहास",
+        q3Desc: "क्या आपके माता-पिता में से किसी को कभी ऑस्टियोपोरोसिस का निदान हुआ है?",
+        q4Title: "माँ का कूल्हे का फ्रैक्चर",
+        q4Desc: "क्या आपकी माँ को कभी कूल्हे का फ्रैक्चर हुआ है?",
+        q5Title: "पिता का कूल्हे का फ्रैक्चर",
+        q5Desc: "क्या आपके पिता को कभी कूल्हे का फ्रैक्चर हुआ है?",
+        whyAskTitle: "हम यह क्यों पूछते हैं?",
+        whyAskDesc:
+          "पिछली हड्डी की चोटें, स्टेरॉयड का उपयोग और पारिवारिक इतिहास उन कारकों में शामिल हैं जिनका उपयोग OsteoAI असेसमेंट मॉडल करता है।",
+      },
+
+      lifestyle: {
+        title: "जीवनशैली कारक",
+        subtitle:
+          "आपकी रोज़मर्रा की आदतें समग्र हड्डी स्वास्थ्य में महत्वपूर्ण भूमिका निभा सकती हैं।",
+        smokingTitle: "क्या आपने अपने जीवनकाल में कम से कम 100 सिगरेट पी हैं?",
+        smokingDesc: "यह OsteoAI मॉडल में उपयोग किए जाने वाले धूम्रपान माप से मेल खाता है।",
+        alcoholEverTitle: "क्या आपने कभी शराब पी है?",
+        alcoholEverDesc: "यह इस बारे में है कि क्या आपने कभी शराब का सेवन किया है।",
+        alcoholFreqTitle: "पिछले 12 महीनों में आपने कितनी बार शराब पी?",
+        alcoholFreqDesc: "वह विकल्प चुनें जो आपकी पीने की आवृत्ति को सबसे अच्छे से दर्शाता हो।",
+        alcoholFreqLabel: "शराब पीने की आवृत्ति",
+        alcoholFreq0: "कभी नहीं",
+        alcoholFreq1: "हर दिन",
+        alcoholFreq2: "लगभग हर दिन",
+        alcoholFreq3: "सप्ताह में 3–4 बार",
+        alcoholFreq4: "सप्ताह में 2 बार",
+        alcoholFreq5: "सप्ताह में एक बार",
+        alcoholFreq6: "महीने में 2–3 बार",
+        alcoholFreq7: "महीने में एक बार",
+        alcoholFreq8: "साल में 7–11 बार",
+        alcoholFreq9: "साल में 3–6 बार",
+        alcoholFreq10: "साल में 1–2 बार",
+        workActivityTitle: "कार्य गतिविधि",
+        workActivitySubtitle: "प्रत्येक गतिविधि के लिए हाँ या नहीं में उत्तर दें।",
+        vigorousWorkTitle: "अत्यधिक शारीरिक श्रम वाला कार्य",
+        vigorousWorkDesc: "पर्याप्त प्रयास वाला भारी शारीरिक कार्य।",
+        moderateWorkTitle: "मध्यम शारीरिक श्रम वाला कार्य",
+        moderateWorkDesc: "आपकी सामान्य दिनचर्या के हिस्से के रूप में मध्यम शारीरिक कार्य।",
+        movementTitle: "गतिविधि और मनोरंजन",
+        movementSubtitle: "प्रत्येक गतिविधि के लिए हाँ या नहीं में उत्तर दें।",
+        walkBicycleTitle: "पैदल चलना या साइकिल चलाना",
+        walkBicycleDesc: "नियमित रूप से पैदल चलना या साइकिल चलाना।",
+        vigorousRecreationTitle: "अत्यधिक शारीरिक मनोरंजन",
+        vigorousRecreationDesc: "दौड़ना, ज़ोरदार खेल, या इसी तरह का व्यायाम।",
+        moderateRecreationTitle: "मध्यम मनोरंजन",
+        moderateRecreationDesc: "मध्यम खेल या व्यायाम।",
+        sedentaryTitle: "गतिहीन समय (Sedentary Time)",
+        sedentarySubtitle:
+          "एक सामान्य दिन में आप लगभग कितने मिनट बैठे या निष्क्रिय रहते हैं?",
+        sedentaryLabel: "प्रति दिन गतिहीन मिनट",
+        infoNoteTitle: "आपकी जानकारी का उपयोग बहु-कारक बोन-हेल्थ असेसमेंट बनाने के लिए किया जाता है।",
+        infoNoteDesc:
+          "मॉडल द्वारा परिणाम तैयार करने से पहले जीवनशैली की जानकारी को व्यक्तिगत और चिकित्सीय कारकों के साथ मिलाया जाता है।",
+      },
+
+      stepperPersonal: "व्यक्तिगत",
+      stepperLifestyle: "जीवनशैली",
+      stepperMedical: "चिकित्सीय",
+
+      result: {
+        title: "आपका हड्डी स्वास्थ्य मूल्यांकन",
+        subtitle: "आपके असेसमेंट को OsteoAI मशीन-लर्निंग मॉडल का उपयोग करके प्रोसेस किया गया है।",
+        overallAssessment: "कुल मूल्यांकन",
+        riskLevelSuffix: "{level} जोखिम स्तर",
+        probabilityText:
+          "मॉडल इस असेसमेंट में सकारात्मक ऑस्टियोपोरोसिस वर्ग के लिए {percent}% संभावना का अनुमान लगाता है।",
+        estimatedProbability: "अनुमानित संभावना",
+        modelPredictionLabel: "मॉडल की भविष्यवाणी:",
+        positiveFlag: "सकारात्मक ऑस्टियोपोरोसिस जोखिम फ़्लैग",
+        negativeFlag: "कोई ऑस्टियोपोरोसिस जोखिम फ़्लैग नहीं",
+        researchNote: "यह एक शोध/प्रोटोटाइप जोखिम मूल्यांकन है और चिकित्सा निदान नहीं है।",
+        shapTitle: "मॉडल ने यह परिणाम क्यों दिया",
+        shapDesc:
+          "ये वे सबसे मज़बूत कारक हैं जिन्होंने इस विशेष मॉडल भविष्यवाणी को प्रभावित किया। ये मॉडल के आउटपुट की व्याख्या करते हैं और चिकित्सा निदान नहीं हैं।",
+        increasedOutput: "मॉडल आउटपुट को बढ़ाया",
+        decreasedOutput: "मॉडल आउटपुट को घटाया",
+        influence: "प्रभाव {value}",
+        inputValueLabel: "इनपुट मान: {value}",
+        keyMetricsTitle: "मुख्य स्वास्थ्य मेट्रिक्स",
+        ageLabel: "आयु",
+        yearsSuffix: "{value} वर्ष",
+        bmiLabel: "BMI",
+        sedentaryTimeLabel: "गतिहीन समय",
+        minSuffix: "{value} मिनट",
+        typicalDay: "सामान्य दिन",
+        assessmentFactorsTitle: "असेसमेंट कारक",
+        assessmentFactorsDesc:
+          "मॉडल आउटपुट तैयार करने के लिए व्यक्तिगत, जीवनशैली और चिकित्सीय जानकारी को मिलाया गया।",
+        genderLabel: "लिंग",
+        raceLabel: "जाति / नस्ल",
+        provided: "प्रदान किया गया",
+        smokingHistoryLabel: "धूम्रपान इतिहास",
+        steroidUseLabel: "दीर्घकालिक स्टेरॉयड उपयोग",
+        familyHistoryLabel: "पारिवारिक ऑस्टियोपोरोसिस इतिहास",
+        modelInfoTitle: "मॉडल जानकारी",
+        modelVersionLabel: "मॉडल वर्शन",
+        decisionThresholdLabel: "निर्णय थ्रेशोल्ड",
+        defaultDisclaimer:
+          "यह एक शोध/प्रोटोटाइप जोखिम-मूल्यांकन आउटपुट है, चिकित्सा निदान नहीं है, और इसे नैदानिक रूप से मान्य नहीं किया गया है।",
+        editAssessment: "असेसमेंट संपादित करें",
+        retakeAssessment: "असेसमेंट फिर से करें",
+        viewForecast: "जोखिम पूर्वानुमान और सिफारिशें देखें",
+      },
+    },
+
+    dashboard: {
+      badge: "व्यक्तिगत स्वास्थ्य डैशबोर्ड",
+      title: "आपकी हड्डी-स्वास्थ्य की झलक",
+      subtitle:
+        "अपने नवीनतम OsteoAI असेसमेंट को ट्रैक करें, योगदान देने वाले कारकों को समझें, और समय के साथ अपने स्वास्थ्य डेटा की स्पष्ट तस्वीर बनाएँ।",
+      newAssessment: "नया असेसमेंट",
+      viewForecast: "जोखिम पूर्वानुमान और सिफारिशें देखें",
+      latestAssessmentTitle: "नवीनतम असेसमेंट",
+      latestAssessmentSubtitle: "आपका सबसे हालिया मॉडल-आधारित असेसमेंट",
+      estimatedRisk: "अनुमानित जोखिम: {percent}",
+      noCompletedAssessment: "अभी तक कोई पूर्ण असेसमेंट नहीं",
+      riskCategory:
+        "जोखिम श्रेणी: {level}। जैसे-जैसे आपका डैशबोर्ड वर्कस्पेस बढ़ेगा, आपके विस्तृत स्वास्थ्य मेट्रिक्स और मॉडल स्पष्टीकरण उपलब्ध होंगे।",
+      completeAssessmentPrompt:
+        "इस डैशबोर्ड पर अपना जोखिम स्कोर, स्वास्थ्य मेट्रिक्स, SHAP स्पष्टीकरण, इतिहास और ट्रेंड विज़ुअलाइज़ेशन भरने के लिए एक असेसमेंट पूरा करें।",
+      assessmentDateLabel: "असेसमेंट की तारीख: {date}",
+      currentRisk: "वर्तमान जोखिम",
+      awaitingAssessment: "असेसमेंट की प्रतीक्षा है",
+      riskSuffix: "{level} जोखिम",
+      lastAssessed: "अंतिम बार आकलन: {date}",
+      healthSnapshot: "स्वास्थ्य स्नैपशॉट",
+      metricBmi: "BMI",
+      metricAge: "आयु",
+      metricHeight: "ऊँचाई",
+      metricWeight: "वज़न",
+      personalProfile: "व्यक्तिगत प्रोफ़ाइल",
+      bodyMeasurement: "शरीर की माप",
+      bodyPersonalDetailsTitle: "शारीरिक और व्यक्तिगत विवरण",
+      bodyPersonalDetailsSubtitle: "आपके नवीनतम असेसमेंट से लिए गए मान।",
+      genderLabel: "लिंग",
+      raceLabel: "जाति / नस्ल",
+      waistLabel: "कमर",
+      hipLabel: "कूल्हा",
+      lifestyleProfileTitle: "जीवनशैली प्रोफ़ाइल",
+      lifestyleProfileSubtitle: "नवीनतम असेसमेंट में उपयोग की गई जीवनशैली जानकारी।",
+      smokingHistoryLabel: "धूम्रपान इतिहास",
+      alcoholUseLabel: "शराब का सेवन",
+      alcoholFrequencyLabel: "शराब पीने की आवृत्ति",
+      walkBicycleLabel: "पैदल चलना / साइकिल चलाना",
+      vigorousWorkLabel: "अत्यधिक शारीरिक कार्य",
+      moderateWorkLabel: "मध्यम शारीरिक कार्य",
+      vigorousRecreationLabel: "अत्यधिक मनोरंजन",
+      moderateRecreationLabel: "मध्यम मनोरंजन",
+      sedentaryTimeLabel: "गतिहीन समय",
+      medicalFamilyHistoryTitle: "चिकित्सीय और पारिवारिक इतिहास",
+      medicalFamilyHistorySubtitle: "आपके नवीनतम असेसमेंट से जोखिम-इतिहास जानकारी।",
+      fractureAfter20Label: "20 वर्ष की आयु के बाद हड्डी टूटना",
+      steroidUseLabel: "दीर्घकालिक स्टेरॉयड उपयोग",
+      parentOsteoporosisLabel: "माता-पिता में ऑस्टियोपोरोसिस इतिहास",
+      motherHipFractureLabel: "माँ का कूल्हे का फ्रैक्चर",
+      fatherHipFractureLabel: "पिता का कूल्हे का फ्रैक्चर",
+      riskAnalyticsTitle: "जोखिम एनालिटिक्स",
+      riskAnalyticsSubtitle:
+        "असेसमेंट डेटा एकत्र होने के साथ आपका गहरा एनालिटिक्स वर्कस्पेस बढ़ेगा।",
+      personalDataTag: "व्यक्तिगत डेटा • मॉडल स्पष्टीकरण",
+      riskTrendTitle: "जोखिम ट्रेंड",
+      riskTrendSubtitle: "देखें कि आपका अनुमानित जोखिम सहेजे गए असेसमेंट में कैसे बदलता है।",
+      saved: "सहेजा गया",
+      latestPrefix: "नवीनतम: {percent}%",
+      trendHint:
+        "प्रत्येक बिंदु एक सहेजा गया मॉडल अनुमान है। किसी बिंदु का असेसमेंट नंबर, तारीख, प्रतिशत और जोखिम स्तर देखने के लिए उस पर होवर करें।",
+      trendEmptyTitle: "आपका ट्रेंड चार्ट यहाँ दिखाई देगा",
+      trendEmptyDesc: "समय के साथ सहेजे गए जोखिम अनुमानों की तुलना करने के लिए अतिरिक्त असेसमेंट पूरे करें।",
+      explainableAiTitle: "एक्सप्लेनेबल AI",
+      explainableAiSubtitle: "मॉडल इस परिणाम की ओर क्यों बढ़ा",
+      increasesModelOutput: "मॉडल आउटपुट को बढ़ाता है",
+      decreasesModelOutput: "मॉडल आउटपुट को घटाता है",
+      shapFooter: "SHAP इस भविष्यवाणी की व्याख्या करता है; यह मॉडल के परिणाम को नहीं बदलता।",
+      shapEmpty: "मॉडल द्वारा लौटाए गए वास्तविक SHAP कारकों को देखने के लिए एक असेसमेंट पूरा करें।",
+      inputPrefix: "इनपुट: {value}",
+      powerBiTitle: "Power BI एनालिटिक्स",
+      powerBiSubtitle: "जनसंख्या-स्तर और शोध एनालिटिक्स वर्कस्पेस",
+      connectLater: "बाद में कनेक्ट करें",
+      powerBiAreaTitle: "Power BI रिपोर्ट क्षेत्र",
+      powerBiAreaDesc:
+        "वास्तविक Power BI रिपोर्ट, डेटासेट और एम्बेडिंग कॉन्फ़िगरेशन तैयार होने के बाद अंतिम रिपोर्ट यहाँ एम्बेड की जा सकती है।",
+      reportsDocsTitle: "रिपोर्ट और दस्तावेज़",
+      reportsDocsSubtitle:
+        "अपलोड की गई रिपोर्ट, AI-निकाली गई जानकारी और तैयार किए गए स्वास्थ्य सारांश के लिए आपका भविष्य का दस्तावेज़ वर्कस्पेस।",
+      documentIntelligenceTitle: "दस्तावेज़ इंटेलिजेंस",
+      documentIntelligenceDesc: "नियोजित AI-सहायता प्राप्त ऑटोफ़िल वर्कस्पेस",
+      generatedSummaryTitle: "तैयार किया गया स्वास्थ्य सारांश",
+      generatedSummaryDesc: "रिपोर्टिंग वर्कफ़्लो कनेक्ट होने के बाद उपलब्ध होगा।",
+      assessmentHistoryTitle: "असेसमेंट इतिहास",
+      assessmentHistorySubtitle: "आपके सहेजे गए असेसमेंट परिणाम और अनुमानित जोखिम स्तर।",
+      latestAssessmentLabel: "नवीनतम असेसमेंट",
+      assessmentNumber: "असेसमेंट {number}",
+      noSavedAssessments: "कोई सहेजा गया असेसमेंट नहीं",
+      noSavedAssessmentsDesc: "अपना इतिहास बनाना शुरू करने के लिए एक और असेसमेंट पूरा करें।",
+      exploreTitle: "OsteoAI एक्सप्लोर करें",
+      exploreAiTitle: "AI सहायक",
+      exploreAiDesc: "भविष्य के असेसमेंट, स्पष्टीकरण और स्वास्थ्य दस्तावेज़ों में निर्देशित सहायता पाएँ।",
+      exploreKnowledgeTitle: "जानकारी और सहायता",
+      exploreKnowledgeDesc: "समझने में आसान बोन-हेल्थ शिक्षा और सामान्य प्रश्नों तक पहुँचें।",
+      exploreNotificationsTitle: "सूचनाएँ",
+      exploreNotificationsDesc: "भविष्य के ईमेल, व्हाट्सएप और SMS अपडेट आपके खाते से प्रबंधित किए जा सकते हैं।",
+      alcoholFreqNever: "कभी नहीं",
+      alcoholFreqLess1: "सप्ताह में एक बार से कम",
+      alcoholFreqOnce1: "सप्ताह में एक बार",
+      alcoholFreq23: "सप्ताह में 2–3 दिन",
+      alcoholFreq46: "सप्ताह में 4–6 दिन",
+      alcoholFreqDaily: "रोज़ या लगभग रोज़",
+      hrsPerDay: "{value} घंटे/दिन",
+      increasedModelOutput: "मॉडल आउटपुट बढ़ा",
+      decreasedModelOutput: "मॉडल आउटपुट घटा",
+      trendPointTitle: "असेसमेंट {number} • {date} • {percent}% • {level}",
+      trendAriaLabel: "सहेजे गए असेसमेंट में अनुमानित ऑस्टियोपोरोसिस जोखिम का रुझान",
+      activitySummaryActive: "सक्रिय",
+      activitySummaryRecorded: "दर्ज किया गया",
+      medicalSummaryPresent: "कारक मौजूद हैं",
+      medicalSummaryNone: "कोई कारक नहीं मिला",
+      unknownFactor: "अज्ञात कारक",
+    },
+
+    forecast: {
+      pageTitle: "जोखिम पूर्वानुमान और सिफारिशें",
+      pageSubtitle:
+        "आपके OsteoAI मॉडल स्कोर और आपके स्वयं के असेसमेंट उत्तरों के आधार पर तैयार किया गया व्यक्तिगत सारांश।",
+      backToResult: "असेसमेंट परिणाम पर वापस जाएँ",
+      scoreLabel: "आपका OsteoAI मॉडल स्कोर",
+      rangeDisclaimer:
+        "यह जोखिम श्रेणी इस प्रोजेक्ट के लिए OsteoAI मॉडल द्वारा परिभाषित की गई है। यह कोई नैदानिक निदान सीमा नहीं है।",
+
+      unavailableTitle: "जोखिम स्कोर उपलब्ध नहीं है",
+      unavailableBody:
+        "कृपया अपना OsteoAI जोखिम रिपोर्ट बनाने के लिए असेसमेंट दोबारा पूरा करें।",
+      unavailableCta: "असेसमेंट शुरू करें",
+
+      scale: {
+        title: "दृश्य जोखिम संकेतक",
+        axisStart: "0%",
+        axis20: "20%",
+        axis60: "60%",
+        axisEnd: "100%",
+        lower: "निम्न-जोखिम श्रेणी",
+        moderate: "मध्यम-जोखिम श्रेणी",
+        higher: "उच्च-जोखिम श्रेणी",
+        note: "ये इस प्रोजेक्ट द्वारा परिभाषित मॉडल श्रेणियाँ हैं, आधिकारिक नैदानिक श्रेणियाँ नहीं।",
+        markerAria: "आपका स्कोर: {percent}%",
+      },
+
+      outlook: {
+        lowerTitle: "निम्न जोखिम श्रेणी",
+        lowerBody:
+          "आपका वर्तमान OsteoAI मॉडल स्कोर इस प्रोजेक्ट के लिए परिभाषित निम्न-जोखिम श्रेणी में आता है। इसका मतलब यह नहीं है कि ऑस्टियोपोरोसिस असंभव है। स्वस्थ हड्डी-स्वास्थ्य आदतें जारी रखें और अपने असेसमेंट में पहचाने गए किसी भी परिवर्तनीय जोखिम कारक पर ध्यान दें।",
+        moderateTitle: "मध्यम जोखिम श्रेणी",
+        moderateBody:
+          "आपका वर्तमान OsteoAI मॉडल स्कोर इस प्रोजेक्ट के लिए परिभाषित मध्यम-जोखिम श्रेणी में आता है। अपने असेसमेंट में पहचाने गए परिवर्तनीय कारकों पर ध्यान दें और अपने व्यक्तिगत जोखिम कारकों पर किसी स्वास्थ्य विशेषज्ञ से चर्चा करने पर विचार करें।",
+        higherTitle: "उच्च जोखिम — विशेषज्ञ मूल्यांकन की सलाह",
+        higherBody:
+          "आपका OsteoAI मॉडल स्कोर प्रोजेक्ट की उच्च-जोखिम सीमा से अधिक है। यह परिणाम एक मॉडल-आधारित जोखिम अनुमान है, निदान नहीं। उचित नैदानिक मूल्यांकन के लिए किसी योग्य स्वास्थ्य विशेषज्ञ से परामर्श करने पर विचार करें।",
+      },
+
+      factors: {
+        title: "पहचाने गए कारक",
+        desc: "यहाँ केवल वही जानकारी दिखाई गई है जो आपने अपने असेसमेंट में वास्तव में दी थी।",
+        modifiableTitle: "परिवर्तनीय कारक",
+        modifiableHelp: "वे कारक जिन पर आप वास्तव में काम कर सकते हैं।",
+        nonModifiableTitle: "अपरिवर्तनीय / पृष्ठभूमि कारक",
+        nonModifiableHelp:
+          "पृष्ठभूमि जानकारी जिसका मॉडल ने उपयोग किया और जिसे सामान्यतः बदला नहीं जा सकता।",
+        physicalActivity: "शारीरिक गतिविधि",
+        physicalActivityLow: "कम",
+        physicalActivityActive: "सक्रिय",
+        smoking: "धूम्रपान इतिहास",
+        alcohol: "मदिरा सेवन",
+        sedentaryTime: "निष्क्रिय समय",
+        age: "आयु",
+        sex: "लिंग",
+        bmi: "BMI",
+        familyHistory: "माता-पिता में ऑस्टियोपोरोसिस का इतिहास",
+        motherHipFracture: "माँ की हिप फ्रैक्चर का इतिहास",
+        fatherHipFracture: "पिता की हिप फ्रैक्चर का इतिहास",
+        fractureHistory: "20 वर्ष की आयु के बाद पूर्व फ्रैक्चर",
+        steroidUse: "दीर्घकालिक स्टेरॉयड उपयोग",
+      },
+
+      priorities: {
+        title: "आपकी अनुशंसित प्राथमिकताएँ",
+        desc: "आपके असेसमेंट में पहचाने गए कारकों के आधार पर चुनी गई — सभी के लिए एक जैसी सूची नहीं।",
+        none: "आपके वर्तमान असेसमेंट से कोई प्रमुख परिवर्तनीय जोखिम संकेत नहीं मिला। अपनी स्वस्थ आदतें जारी रखें।",
+        activityTitle: "🏃 उचित शारीरिक गतिविधि बढ़ाएँ",
+        activityBody:
+          "धीरे-धीरे उपयुक्त भार-वहन (weight-bearing) और प्रतिरोध गतिविधि शुरू करें।",
+        smokingTitle: "🚭 धूम्रपान छोड़ें",
+        smokingBody:
+          "धूम्रपान हड्डी-स्वास्थ्य से जुड़ा एक परिवर्तनीय कारक है। छोड़ने के लिए विशेषज्ञ सहायता लेने पर विचार करें।",
+        alcoholTitle: "🍷 अत्यधिक मदिरा सेवन कम करें",
+        alcoholBody:
+          "बार-बार या अधिक मात्रा में मदिरा सेवन कम करने से हड्डी-स्वास्थ्य बेहतर हो सकता है।",
+        weightTitle: "⚖️ स्वस्थ वजन प्रबंधन पर चर्चा करें",
+        weightBody:
+          "कम शरीर वजन ऑस्टियोपोरोसिस के बढ़े हुए जोखिम से जुड़ा हो सकता है।",
+      },
+
+      outlookFuture: {
+        title: "🔮 भविष्य का जोखिम प्रबंधन",
+        body: "आपका वर्तमान मॉडल स्कोर इस असेसमेंट का परिणाम दर्शाता है। नीचे दिए गए कदम उन परिवर्तनीय कारकों पर केंद्रित हैं जो समय के साथ बेहतर हड्डी-स्वास्थ्य में सहायक हो सकते हैं। इस एक असेसमेंट से भविष्य के जोखिम की निश्चितता के साथ भविष्यवाणी नहीं की जा सकती।",
+      },
+
+      eat: {
+        title: "🥗 क्या खाएँ",
+        calciumTitle: "कैल्शियम युक्त खाद्य पदार्थ",
+        calciumItem1: "दूध",
+        calciumItem2: "दही",
+        calciumItem3: "पनीर / चीज़",
+        calciumItem4: "कैल्शियम-फोर्टिफाइड खाद्य पदार्थ",
+        calciumItem5:
+          "उपयुक्त पौधा-आधारित कैल्शियम स्रोत (जैसे रागी, तिल, हरी पत्तेदार सब्जियाँ)",
+        proteinTitle: "प्रोटीन स्रोत",
+        proteinBody:
+          "पर्याप्त प्रोटीन हड्डी और मांसपेशियों की मजबूती में सहायक होता है। आपकी आहार प्राथमिकताओं के अनुसार, दालें और फलियाँ, अंडे, मछली, मुर्गी, या डेयरी उपयुक्त स्रोत हो सकते हैं।",
+        vitaminDTitle: "विटामिन D",
+        vitaminDBody:
+          "विटामिन D शरीर को कैल्शियम अवशोषित करने में मदद करता है। उचित मात्रा में धूप और विटामिन-D युक्त खाद्य पदार्थ इसमें सहायक हो सकते हैं। OsteoAI सप्लीमेंट या उनकी मात्रा निर्धारित नहीं करता — यदि आवश्यक हो तो जाँच या सप्लीमेंटेशन के बारे में स्वास्थ्य विशेषज्ञ से चर्चा करें।",
+      },
+
+      limit: {
+        title: "⚠️ किन चीज़ों को सीमित करें",
+        alcohol: "अत्यधिक मदिरा सेवन सीमित करें।",
+        smoking: "जहाँ तक संभव हो धूम्रपान से बचें।",
+        crashDiets: "गंभीर कैलोरी कटौती या क्रैश डाइट सीमित करें।",
+        poorDiet: "विविधता की कमी वाले असंतुलित आहार को सीमित करें।",
+      },
+
+      exercise: {
+        title: "🏃 शारीरिक गतिविधि",
+        walking: "नियमित रूप से टहलना।",
+        weightBearing: "उपयुक्त भार-वहन (weight-bearing) गतिविधि।",
+        resistance: "प्रतिरोध / शक्ति प्रशिक्षण।",
+        balance: "जहाँ उपयुक्त हो, संतुलन व्यायाम।",
+        cautionNote:
+          "व्यायाम को किसी उपयुक्त स्वास्थ्य विशेषज्ञ या फिजियोथेरेपिस्ट के मार्गदर्शन में व्यक्तिगत रूप से तय किया जाना चाहिए।",
+      },
+
+      nextSteps: {
+        title: "🎯 अनुशंसित अगले कदम",
+        activity: "उचित भार-वहन गतिविधि बढ़ाएँ।",
+        generalActivity:
+          "स्वस्थ दिनचर्या के हिस्से के रूप में नियमित भार-वहन गतिविधि बनाए रखें।",
+        calcium: "संतुलित आहार के हिस्से के रूप में कैल्शियम युक्त भोजन बढ़ाएँ।",
+        protein: "पर्याप्त प्रोटीन सेवन बनाए रखें।",
+        avoidSmokingAlcohol: "धूम्रपान और अत्यधिक मदिरा सेवन से बचें।",
+        discussProfessional:
+          "उपयुक्त होने पर अपने प्रासंगिक जोखिम कारकों पर किसी स्वास्थ्य विशेषज्ञ से चर्चा करें।",
+      },
+
+      professional: {
+        title: "👨‍⚕️ विशेषज्ञ मूल्यांकन की सलाह",
+        body: "आपका OsteoAI मॉडल स्कोर प्रोजेक्ट की उच्च-जोखिम सीमा से अधिक है। अपने परिणाम और व्यक्तिगत जोखिम कारकों पर किसी योग्य स्वास्थ्य विशेषज्ञ से चर्चा करने पर विचार करें।",
+        cannotDetermine:
+          "OsteoAI यह निर्धारित नहीं कर सकता कि दवा, बोन-डेंसिटी जाँच, प्रयोगशाला परीक्षण, या अन्य नैदानिक हस्तक्षेप आवश्यक हैं या नहीं।",
+      },
+
+      sources: {
+        title: "📚 स्रोत और साक्ष्य",
+        badge: "साक्ष्य: IOF",
+        iofName: "इंटरनेशनल ऑस्टियोपोरोसिस फाउंडेशन (IOF)",
+        iofDesc:
+          "कैल्शियम, विटामिन D, प्रोटीन, पोषण, भार-वहन व्यायाम, प्रतिरोध प्रशिक्षण, धूम्रपान, मदिरा सेवन, स्वस्थ शरीर वजन, और गिरने से बचाव पर सामान्य मार्गदर्शन का प्राथमिक स्रोत।",
+      },
+
+      disclaimerTitle: "चिकित्सा अस्वीकरण",
+      disclaimerBody:
+        "OsteoAI शैक्षणिक उद्देश्यों के लिए एक मॉडल-आधारित जोखिम अनुमान और सामान्य हड्डी-स्वास्थ्य जानकारी प्रदान करता है। यह कोई निदान नहीं है और किसी योग्य स्वास्थ्य विशेषज्ञ द्वारा मूल्यांकन, निदान, उपचार, या सलाह का विकल्प नहीं है।",
+    },
+  },
+
+  /* ======================================================================
+     MARATHI
+     ====================================================================== */
+  mr: {
+    common: {
+      yes: "होय",
+      no: "नाही",
+      back: "मागे",
+      next: "पुढे",
+      submit: "सबमिट करा",
+      cancel: "रद्द करा",
+      close: "बंद करा",
+      loading: "लोड होत आहे...",
+      notProvided: "उपलब्ध नाही",
+      notAvailable: "उपलब्ध नाही",
+      values: {
+        male: "पुरुष",
+        female: "स्त्री",
+        other: "इतर",
+        yes: "होय",
+        no: "नाही",
+      },
+      riskLevels: {
+        High: "उच्च (High)",
+        Moderate: "मध्यम (Moderate)",
+        Low: "कमी (Low)",
+        Unavailable: "उपलब्ध नाही",
+      },
+      bmiCategories: {
+        Underweight: "कमी वजन (Underweight)",
+        "Healthy Weight": "निरोगी वजन",
+        Overweight: "जास्त वजन (Overweight)",
+        Obese: "लठ्ठपणा (Obese)",
+      },
+      race: {
+        "Mexican American": "मेक्सिकन अमेरिकन",
+        "Other Hispanic": "इतर हिस्पॅनिक",
+        White: "श्वेत (White)",
+        Black: "कृष्णवर्णीय (Black)",
+        Asian: "आशियाई (Asian)",
+      },
+    },
+
+    brand: {
+      name: "OsteoAI",
+      tagline: "हाडांच्या आरोग्याची बुद्धिमत्ता",
+    },
+
+    nav: {
+      home: "मुख्यपृष्ठ",
+      features: "वैशिष्ट्ये",
+      howItWorks: "हे कसे कार्य करते",
+      about: "आमच्याबद्दल",
+      login: "लॉगिन",
+      signUp: "साइन अप",
+    },
+
+    sidebar: {
+      openMenu: "मेनू उघडा",
+      closeMenu: "मेनू बंद करा",
+      collapseMenu: "मेनू लहान करा",
+      userProfile: "युजर प्रोफाइल",
+      activeAccount: "सक्रिय खाते",
+      home: "मुख्यपृष्ठ",
+      dashboard: "डॅशबोर्ड",
+      newAssessment: "नवीन असेसमेंट",
+      assessmentHistory: "असेसमेंट इतिहास",
+      aiAssistant: "AI सहाय्यक",
+      knowledgeSupport: "माहिती आणि सहाय्य",
+      settings: "भाषा बदला",
+      logout: "लॉगआउट",
+      boneHealth: "हाडांचे आरोग्य",
+    },
+
+    settingsMenu: {
+      changeLanguage: "भाषा बदला",
+    },
+
+    hero: {
+      badge: "AI-चालित बोन हेल्थ प्लॅटफॉर्म",
+      titleLine1: "तुमच्या हाडांचे आरोग्य समजून घ्या",
+      titleLine2: "समस्या बनण्यापूर्वी.",
+      subtitle:
+        "OsteoAI वैयक्तिक, जीवनशैली आणि वैद्यकीय घटक एकत्र करून एक वैयक्तिक ऑस्टिओपोरोसिस जोखीम मूल्यांकन तयार करते आणि तुमच्या हाडांच्या आरोग्यावर परिणाम करणारे घटक समजून घेण्यास मदत करते.",
+      ctaStart: "तुमचे असेसमेंट सुरू करा",
+      ctaLearnMore: "अधिक जाणून घ्या",
+      statMultiFactorTitle: "बहु-घटक मूल्यांकन",
+      statMultiFactorDesc: "वैयक्तिक + जीवनशैली + वैद्यकीय",
+      statAiTitle: "AI-रेडी आर्किटेक्चर",
+      statAiDesc: "स्पष्टीकरणीय (Explainable) अंदाजांचे नियोजन",
+      cardTitle: "OsteoAI असेसमेंट",
+      cardBadge: "~2-मिनिटांचे असेसमेंट • मोफत",
+      cardNote: "संपूर्ण चित्रासाठी केवळ BMI पुरेसे नाही.",
+      step1Title: "वैयक्तिक माहिती",
+      step1Desc: "मूलभूत आरोग्य निर्देशक आणि वैयक्तिक तपशील.",
+      step2Title: "जीवनशैली घटक",
+      step2Desc: "हाडांच्या आरोग्यावर परिणाम करू शकणाऱ्या सवयी.",
+      step3Title: "वैद्यकीय इतिहास",
+      step3Desc: "संबंधित वैद्यकीय पार्श्वभूमी आणि जोखीम घटक.",
+      bottomNote: "2 मिनिटांपेक्षा कमी वेळ लागतो",
+    },
+
+    features: {
+      title: "OsteoAI का?",
+      subtitle:
+        "असेसमेंट, स्पष्टीकरणीय AI, वैयक्तिक मार्गदर्शन आणि अर्थपूर्ण आरोग्य माहिती एकत्र आणणारे बहु-घटक बोन हेल्थ प्लॅटफॉर्म.",
+      item1Title: "स्पष्टीकरणीय AI",
+      item1Desc:
+        "फक्त अंतिम स्कोअर मिळण्याऐवजी, ऑस्टिओपोरोसिस जोखीम अंदाजावर कोणते घटक परिणाम करू शकतात हे समजून घ्या.",
+      item2Title: "वैयक्तिक जोखीम माहिती",
+      item2Desc:
+        "अधिक सर्वसमावेशक मूल्यांकन तयार करण्यासाठी वैयक्तिक, जीवनशैली आणि वैद्यकीय माहिती एकत्र करा.",
+      item3Title: "OsteoAI आरोग्य सहाय्यक",
+      item3Desc:
+        "हाडांचे आरोग्य, असेसमेंट निकाल आणि प्रतिबंधात्मक जीवनशैली सवयींबद्दल सहज समजणारे मार्गदर्शन मिळवा.",
+      item4Title: "हेल्थ अॅनालिटिक्स",
+      item4Desc:
+        "तुमच्या असेसमेंटमधील दृश्य माहिती पहा आणि पुढे अनेक असेसमेंट्समधील बदल ट्रॅक करा.",
+    },
+
+    howItWorks: {
+      title: "OsteoAI कसे कार्य करते",
+      subtitle:
+        "आरोग्य मूल्यांकनापासून वैयक्तिक बोन-हेल्थ माहितीपर्यंत, OsteoAI वापरकर्त्यांना एका सोप्या चार-टप्प्यांच्या अनुभवातून मार्गदर्शन करण्यासाठी तयार केले आहे.",
+      step1Title: "तुमचे आरोग्य मूल्यांकन पूर्ण करा",
+      step1Desc:
+        "सर्वसमावेशक आरोग्य प्रोफाइल तयार करण्यासाठी वैयक्तिक माहिती, जीवनशैलीच्या सवयी आणि संबंधित वैद्यकीय इतिहास द्या.",
+      step2Title: "AI-सहाय्यित जोखीम मूल्यांकन",
+      step2Desc:
+        "आमची नियोजित मशीन लर्निंग प्रणाली गोळा केलेल्या घटकांचे विश्लेषण करून तुमच्या ऑस्टिओपोरोसिस जोखमीचा अंदाज लावेल.",
+      step3Title: "तुमचे निकाल समजून घ्या",
+      step3Desc:
+        "तुमचे असेसमेंट अधिक चांगल्या प्रकारे समजून घेण्यासाठी एकूण जोखीम, मुख्य कारणीभूत घटक आणि स्पष्टीकरणीय माहिती पहा.",
+      step4Title: "उत्तम हाडांच्या आरोग्यासाठी पावले उचला",
+      step4Desc:
+        "आरोग्यदायी निवडींसाठी वैयक्तिक शिफारसी, प्रतिबंधात्मक मार्गदर्शन आणि भविष्यातील जीवनशैली माहिती मिळवा.",
+    },
+
+    about: {
+      eyebrow: "OSTEOAI बद्दल",
+      titleLine1: "प्रतिबंधात्मक हाडांच्या आरोग्यासाठी",
+      titleLine2: "एक हुशार दृष्टिकोन.",
+      paragraph1:
+        "OsteoAI हे एक AI-चालित बोन हेल्थ प्लॅटफॉर्म म्हणून विकसित केले जात आहे, जे असेसमेंट, मशीन लर्निंग, स्पष्टीकरणक्षमता, अॅनालिटिक्स आणि वैयक्तिक मार्गदर्शन एकाच ठिकाणी आणते.",
+      paragraph2:
+        "उद्दिष्ट वैद्यकीय व्यावसायिकांची जागा घेणे नाही, तर वापरकर्त्यांना महत्त्वाचे जोखीम घटक अधिक चांगल्या प्रकारे समजून घेण्यास आणि माहितीपूर्ण प्रतिबंधात्मक आरोग्य निर्णय घेण्यास मदत करणे आहे.",
+      highlight1Title: "प्रतिबंध सर्वप्रथम",
+      highlight1Desc:
+        "गंभीर गुंतागुंत होण्यापूर्वी जोखीम घटक लवकर ओळखणे आणि आरोग्यदायी निर्णयांना प्रोत्साहन देणे यावर OsteoAI लक्ष केंद्रित करते.",
+      highlight2Title: "डेटा-आधारित माहिती",
+      highlight2Desc:
+        "वैयक्तिक, जीवनशैली आणि वैद्यकीय माहितीचे अर्थपूर्ण जोखीम माहितीत रूपांतर करण्यासाठी हे प्लॅटफॉर्म तयार केले आहे.",
+      highlight3Title: "वैयक्तिक मार्गदर्शन",
+      highlight3Desc:
+        "भविष्यातील शिफारसी आणि AI सहाय्य वापरकर्त्याच्या असेसमेंट आणि आरोग्य प्रोफाइलनुसार तयार केले जाईल.",
+      ctaTitleLine1: "तुमचे हाडांचे आरोग्य",
+      ctaTitleLine2: "समजून घेण्यास तयार आहात?",
+      ctaText:
+        "तुमचे वैयक्तिक, जीवनशैली आणि वैद्यकीय आरोग्य घटक जाणून घेण्यासाठी असेसमेंट पूर्ण करा.",
+      ctaSubtext:
+        "संपूर्ण असेसमेंट पूर्ण झाल्यानंतर तुमचे पूर्ण वैयक्तिक जोखीम मूल्यांकन तयार केले जाते.",
+    },
+
+    footer: {
+      description:
+        "वापरकर्त्यांना जोखीम घटक समजून घेण्यास, माहिती जाणून घेण्यास आणि माहितीपूर्ण आरोग्य निर्णय घेण्यास मदत करण्यासाठी तयार केलेले AI-चालित प्रतिबंधात्मक बोन-हेल्थ प्लॅटफॉर्म.",
+      exploreTitle: "एक्सप्लोर करा",
+      linkHome: "मुख्यपृष्ठ",
+      linkFeatures: "वैशिष्ट्ये",
+      linkHowItWorks: "हे कसे कार्य करते",
+      linkAbout: "आमच्याबद्दल",
+      projectTitle: "प्रोजेक्ट",
+      projectItem1: "AI जोखीम मूल्यांकन",
+      projectItem2: "स्पष्टीकरणीय AI",
+      projectItem3: "हेल्थ अॅनालिटिक्स",
+      projectItem4: "प्रतिबंधात्मक मार्गदर्शन",
+      importantTitle: "महत्त्वाचे",
+      disclaimer:
+        "OsteoAI हे एक शैक्षणिक आणि जोखीम-मूल्यांकन प्रकल्प म्हणून तयार केले आहे आणि व्यावसायिक वैद्यकीय निदान किंवा उपचारांना पर्याय नाही.",
+      copyright: "© 2026 OsteoAI. फायनल इयर प्रोजेक्ट.",
+    },
+
+    auth: {
+      loginBenefit1: "तुमचे जतन केलेले असेसमेंट्स पहा",
+      loginBenefit2: "तुमचा वैयक्तिक प्रवास सुरू ठेवा",
+      loginBenefit3: "वैयक्तिक AI मार्गदर्शन एक्सप्लोर करा",
+      registerBenefit1: "तुमची वैयक्तिक आरोग्य प्रोफाइल तयार करा",
+      registerBenefit2: "तुमचा असेसमेंट इतिहास जतन करा",
+      registerBenefit3: "भविष्यातील अहवाल आणि माहिती मिळवा",
+      welcomeBack1: "पुन्हा स्वागत आहे",
+      welcomeBack2: "OsteoAI मध्ये.",
+      startJourney1: "सुरू करा तुमचा",
+      startJourney2: "OsteoAI प्रवास.",
+      loginSubtitle:
+        "तुमचा हाडांच्या आरोग्याचा प्रवास सुरू ठेवा आणि तुमच्या जतन केलेल्या असेसमेंट अनुभवात प्रवेश करा.",
+      registerSubtitle:
+        "तुमचा असेसमेंट इतिहास जतन करण्यासाठी आणि तुमची वैयक्तिक बोन-हेल्थ प्रोफाइल तयार करण्यासाठी खाते तयार करा.",
+      signIn: "साइन इन",
+      signUp: "साइन अप",
+      loginTitle: "पुन्हा स्वागत आहे",
+      loginDesc: "तुमच्या OsteoAI खात्यात सुरू ठेवण्यासाठी साइन इन करा.",
+      emailLabel: "ईमेल पत्ता",
+      passwordLabel: "पासवर्ड",
+      rememberMe: "मला लक्षात ठेवा",
+      forgotPassword: "पासवर्ड विसरलात?",
+      noAccount: "खाते नाही?",
+      registerTitle: "तुमचे खाते तयार करा",
+      registerDesc: "तुमचा वैयक्तिक OsteoAI अनुभव सुरू करा.",
+      fullNameLabel: "पूर्ण नाव",
+      passwordHelper: "किमान 8 अक्षरे वापरा.",
+      passwordStrength: "पासवर्डची ताकद",
+      confirmPasswordLabel: "पासवर्डची पुष्टी करा",
+      passwordMismatch: "पासवर्ड जुळत नाहीत.",
+      createAccount: "मोफत खाते तयार करा",
+      alreadyRegistered: "आधीच नोंदणीकृत आहात?",
+    },
+
+    assessment: {
+      stepNamePersonal: "वैयक्तिक माहिती",
+      stepNameLifestyle: "जीवनशैली मूल्यांकन",
+      stepNameMedical: "वैद्यकीय इतिहास",
+      title: "ऑस्टिओपोरोसिस जोखीम मूल्यांकन",
+      subtitle: "सुमारे 2 मिनिटांत असेसमेंट पूर्ण करा.",
+      stepProgress: "टप्पा {current} / {total} • {stepName}",
+      percentComplete: "{percent}% पूर्ण",
+      genericError: "असेसमेंट पूर्ण करता आले नाही. कृपया पुन्हा प्रयत्न करा.",
+
+      entryChoice: {
+        badge: "सुरू करण्यापूर्वी",
+        title: "तुम्ही तुमचे असेसमेंट कसे भरू इच्छिता?",
+        subtitle:
+          "तुमच्यासाठी सर्वात सोपा मार्ग निवडा. OsteoAI असेसमेंट चालवण्यापूर्वी तुम्ही नेहमी माहितीचे पुनरावलोकन आणि संपादन करू शकता.",
+        aiEyebrow: "स्मार्ट पर्याय",
+        aiTitle: "AI सहाय्यक ऑटोफिल",
+        aiDesc:
+          "तुमच्या पुनरावलोकनासाठी संबंधित असेसमेंट माहिती काढण्यासाठी आरोग्य अहवाल किंवा दस्तऐवज अपलोड करा आणि AI सहाय्यक वापरा.",
+        aiAction: "AI ऑटोफिल वापरा",
+        selfEyebrow: "मॅन्युअल पर्याय",
+        selfTitle: "स्वतः भरा",
+        selfDesc:
+          "नेहमीच्या OsteoAI असेसमेंटद्वारे स्वतः तुमची माहिती भरा. प्रत्येक मूल्यावर नियंत्रण तुमच्याकडेच राहते.",
+        selfAction: "स्वतः भरा",
+        note: "AI-सहाय्यित नोंदींचे पुनरावलोकन वापरण्यापूर्वी तुम्ही स्वतः कराल. हे असेसमेंट एक संशोधन/प्रोटोटाइप जोखीम अंदाज आहे आणि वैद्यकीय निदान नाही.",
+      },
+
+      aiEntry: {
+        badge: "AI सहाय्यक",
+        title: "तुमचे असेसमेंट ऑटोफिल करा",
+        subtitle:
+          "आरोग्य अहवाल किंवा दस्तऐवज अपलोड करा. AI सहाय्यक संबंधित माहिती काढेल, त्याला काय सापडले ते दाखवेल, आणि असेसमेंटमध्ये वापरण्यापूर्वी मूल्यांची पुष्टी करण्याची संधी देईल.",
+        chooseDocument: "एक दस्तऐवज निवडा",
+        fileTypes: "PDF, DOC, DOCX, JPG, JPEG, किंवा PNG",
+        selectDocument: "दस्तऐवज निवडा",
+        selectedDocument: "निवडलेला दस्तऐवज",
+        changeDocument: "दस्तऐवज बदला",
+        remove: "काढा",
+        analyzeDocument: "दस्तऐवजाचे विश्लेषण करा",
+        analyzing: "दस्तऐवजाचे विश्लेषण होत आहे...",
+        infoNote:
+          "वापरण्यापूर्वी AI-सहाय्यित मूल्ये तुमच्या पुनरावलोकनासाठी दाखवली जातील. दस्तऐवज एक्सट्रॅक्शन ऑस्टिओपोरोसिस प्रेडिक्शन मॉडेल चालवत नाही.",
+        pleaseChooseDocument: "कृपया आधी एक दस्तऐवज निवडा.",
+        continueSelfFill: "स्वतः भरणे सुरू ठेवा",
+        noDataReturned: "दस्तऐवजातून कोणताही असेसमेंट डेटा मिळाला नाही.",
+        confirmationFailed:
+          "काढलेली माहिती असेसमेंटमध्ये जोडता आली नाही. कृपया स्वतः भरा हा पर्याय वापरा.",
+        extractionFailed: "या दस्तऐवजाचे विश्लेषण करता आले नाही. कृपया पुन्हा प्रयत्न करा.",
+      },
+
+      autofillReview: {
+        badge: "AI पुनरावलोकन",
+        title: "सापडलेल्या माहितीचे पुनरावलोकन करा",
+        subtitle:
+          'OsteoAI ला {fileName} मध्ये संभाव्य माहिती सापडली आहे. पुढे जाण्यापूर्वी मूल्यांचे पुनरावलोकन करा. "पुनरावलोकन करा" असे चिन्हांकित मूल्ये पुष्टी करून असेसमेंटमध्ये जोडता येतात; मॅपिंग आवश्यक असलेली मूल्ये तुम्ही स्वतः प्रविष्ट करेपर्यंत वगळली जातात.',
+        warning:
+          'दस्तऐवज एक्सट्रॅक्शन अपूर्ण असू शकते. "पुनरावलोकन करा" म्हणजे OsteoAI ला एक उपयुक्त संभाव्य मूल्य सापडले आहे पण त्याची पडताळणी तुम्ही करावी असे त्याला वाटते. "मॅपिंग आवश्यक" म्हणजे दस्तऐवजातील शब्दरचना अद्याप असेसमेंटच्या कोणत्याही मान्य पर्यायाशी जुळत नाही, त्यामुळे OsteoAI अंदाज लावणार नाही.',
+        sectionPersonal: "वैयक्तिक माहिती",
+        sectionLifestyle: "जीवनशैली",
+        sectionMedical: "वैद्यकीय आणि कौटुंबिक इतिहास",
+        statusFound: "सापडले",
+        statusNeedsMapping: "मॅपिंग आवश्यक",
+        statusReference: "संदर्भ",
+        statusReview: "पुनरावलोकन करा",
+        notFound: "सापडले नाही",
+        sourceLabel: "स्रोत: {source}",
+        foundCount:
+          "{count} संभाव्य फील्ड सापडले. BMI सारखी केवळ-संदर्भासाठी असलेली मूल्ये संदर्भासाठी दाखवली जातात आणि थेट कॉपी केली जात नाहीत; मॅपिंग आवश्यक असलेली मूल्ये असेसमेंटच्या पर्यायांचा वापर करून प्रविष्ट करावी लागतात.",
+        backToDocument: "दस्तऐवजाकडे परत जा",
+        confirmContinue: "पुष्टी करा आणि सुरू ठेवा",
+      },
+
+      analysis: {
+        title: "तुमचे असेसमेंट तयार केले जात आहे",
+        subtitle: "वैयक्तिक विश्लेषणासाठी तुमचा असेसमेंट डेटा तयार केला जात आहे.",
+        stageMessage1: "वैयक्तिक माहिती आणि असेसमेंट इनपुट तयार केले जात आहेत...",
+        stageMessage2: "जीवनशैली घटक आणि क्रियाकलाप पद्धतींचे मूल्यमापन केले जात आहे...",
+        stageMessage3: "वैद्यकीय इतिहास आणि मॉडेल फीचर्सवर प्रक्रिया केली जात आहे...",
+        stageMessage4: "मॉडेल-आधारित जोखीम विश्लेषण आणि स्पष्टीकरण तयार केले जात आहे...",
+        progressLabel: "विश्लेषण प्रगती",
+        stage1: "वैयक्तिक माहिती",
+        stage2: "जीवनशैली घटक",
+        stage3: "वैद्यकीय इतिहास",
+        footerNote: "OsteoAI तुमचे निकाल तयार करेपर्यंत कृपया प्रतीक्षा करा...",
+      },
+
+      personal: {
+        title: "वैयक्तिक माहिती",
+        subtitle: "तुमच्या हाडांच्या आरोग्याचे मूल्यांकन करण्यापूर्वी आम्हाला तुमच्याबद्दल थोडे सांगा.",
+        fullName: "पूर्ण नाव",
+        age: "वय",
+        genderTitle: "लिंग",
+        genderSubtitle: "तुम्हाला सर्वोत्तम वर्णन करणारा पर्याय निवडा.",
+        male: "पुरुष",
+        female: "स्त्री",
+        other: "इतर",
+        otherSubtitle: "वेगळ्या पद्धतीने ओळख सांगणे पसंत करतात",
+        raceTitle: "वंश / जातीयता (Race / Ethnicity)",
+        raceSubtitle: "तुमच्या पार्श्वभूमीशी सर्वात जास्त जुळणारा पर्याय निवडा.",
+        raceMexicanAmerican: "मेक्सिकन अमेरिकन",
+        raceOtherHispanic: "इतर हिस्पॅनिक",
+        raceHispanicLatino: "हिस्पॅनिक / लॅटिनो",
+        raceWhite: "श्वेत (White)",
+        raceWhiteSubtitle: "गैर-हिस्पॅनिक श्वेत",
+        raceBlack: "कृष्णवर्णीय (Black)",
+        raceBlackSubtitle: "गैर-हिस्पॅनिक कृष्णवर्णीय",
+        raceAsian: "आशियाई (Asian)",
+        raceAsianSubtitle: "गैर-हिस्पॅनिक आशियाई",
+        height: "उंची (सेमी)",
+        weight: "वजन (किलो)",
+        waist: "कंबरेचा घेर (सेमी)",
+        hip: "नितंबाचा घेर (सेमी)",
+        bmiTitle: "तुमचा BMI",
+        bmiUnderweight: "कमी वजन (Underweight)",
+        bmiHealthy: "निरोगी वजन",
+        bmiOverweight: "जास्त वजन (Overweight)",
+        bmiObese: "लठ्ठपणा (Obese)",
+        bmiWaiting: "तुमच्या तपशीलांची प्रतीक्षा आहे",
+        bmiNote: "तुमच्या एकूण मूल्यांकनात विचारात घेतलेल्या अनेक घटकांपैकी BMI हा एक घटक आहे.",
+        completeNoteTitle: "जीवनशैली + वैद्यकीय इतिहास पूर्ण करा",
+        completeNoteDesc: "तुमचे वैयक्तिक बोन-हेल्थ असेसमेंट तयार करण्यासाठी.",
+      },
+
+      medical: {
+        title: "वैद्यकीय इतिहास",
+        subtitle:
+          "काही वैद्यकीय आणि कौटुंबिक-इतिहास घटक अधिक संपूर्ण बोन-हेल्थ असेसमेंट तयार करण्यास मदत करतात.",
+        q1Title: "वयाच्या 20 वर्षांनंतर हाड मोडणे",
+        q1Desc: "वयाच्या 20 वर्षांनंतर तुमचे हाड कधी मोडले आहे का?",
+        q2Title: "दीर्घकालीन स्टिरॉइड वापर",
+        q2Desc: "तुम्ही दीर्घकाळासाठी कॉर्टिकोस्टिरॉइड्स किंवा तत्सम स्टिरॉइड औषधे घेतली आहेत का?",
+        q3Title: "पालकांमध्ये ऑस्टिओपोरोसिसचा इतिहास",
+        q3Desc: "तुमच्या पालकांपैकी कोणाला कधी ऑस्टिओपोरोसिसचे निदान झाले आहे का?",
+        q4Title: "आईच्या नितंबाचे फ्रॅक्चर",
+        q4Desc: "तुमच्या आईला कधी नितंबाचे फ्रॅक्चर झाले आहे का?",
+        q5Title: "वडिलांच्या नितंबाचे फ्रॅक्चर",
+        q5Desc: "तुमच्या वडिलांना कधी नितंबाचे फ्रॅक्चर झाले आहे का?",
+        whyAskTitle: "आम्ही हे का विचारतो?",
+        whyAskDesc:
+          "आधीच्या हाडांच्या दुखापती, स्टिरॉइडचा वापर आणि कौटुंबिक इतिहास हे OsteoAI असेसमेंट मॉडेल वापरत असलेल्या घटकांपैकी आहेत.",
+      },
+
+      lifestyle: {
+        title: "जीवनशैली घटक",
+        subtitle: "तुमच्या रोजच्या सवयी एकूण हाडांच्या आरोग्यात महत्त्वाची भूमिका बजावू शकतात.",
+        smokingTitle: "तुम्ही तुमच्या आयुष्यात किमान 100 सिगारेट ओढल्या आहेत का?",
+        smokingDesc: "हे OsteoAI मॉडेलमध्ये वापरल्या जाणाऱ्या धूम्रपान मापाशी जुळते.",
+        alcoholEverTitle: "तुम्ही कधी मद्यपान केले आहे का?",
+        alcoholEverDesc: "हे तुम्ही कधी मद्यसेवन केले आहे का याबद्दल आहे.",
+        alcoholFreqTitle: "गेल्या 12 महिन्यांत तुम्ही किती वेळा मद्यपान केले?",
+        alcoholFreqDesc: "तुमच्या मद्यपानाच्या वारंवारतेचे सर्वोत्तम वर्णन करणारा पर्याय निवडा.",
+        alcoholFreqLabel: "मद्यपानाची वारंवारता",
+        alcoholFreq0: "कधीच नाही",
+        alcoholFreq1: "दररोज",
+        alcoholFreq2: "जवळजवळ दररोज",
+        alcoholFreq3: "आठवड्यातून 3–4 वेळा",
+        alcoholFreq4: "आठवड्यातून 2 वेळा",
+        alcoholFreq5: "आठवड्यातून एकदा",
+        alcoholFreq6: "महिन्यातून 2–3 वेळा",
+        alcoholFreq7: "महिन्यातून एकदा",
+        alcoholFreq8: "वर्षातून 7–11 वेळा",
+        alcoholFreq9: "वर्षातून 3–6 वेळा",
+        alcoholFreq10: "वर्षातून 1–2 वेळा",
+        workActivityTitle: "कामाची क्रियाशीलता",
+        workActivitySubtitle: "प्रत्येक क्रियाकलापासाठी होय किंवा नाही असे उत्तर द्या.",
+        vigorousWorkTitle: "अत्यंत श्रमाचे काम",
+        vigorousWorkDesc: "पुरेसे परिश्रम असलेले जड शारीरिक काम.",
+        moderateWorkTitle: "मध्यम श्रमाचे काम",
+        moderateWorkDesc: "तुमच्या नेहमीच्या दिनचर्येचा भाग असलेले मध्यम शारीरिक काम.",
+        movementTitle: "हालचाल आणि मनोरंजन",
+        movementSubtitle: "प्रत्येक क्रियाकलापासाठी होय किंवा नाही असे उत्तर द्या.",
+        walkBicycleTitle: "चालणे किंवा सायकल चालवणे",
+        walkBicycleDesc: "नियमित चालणे किंवा सायकल चालवणे.",
+        vigorousRecreationTitle: "अत्यंत शारीरिक मनोरंजन",
+        vigorousRecreationDesc: "धावणे, जोरदार खेळ किंवा तत्सम व्यायाम.",
+        moderateRecreationTitle: "मध्यम मनोरंजन",
+        moderateRecreationDesc: "मध्यम खेळ किंवा व्यायाम.",
+        sedentaryTitle: "बैठी जीवनशैलीचा वेळ (Sedentary Time)",
+        sedentarySubtitle: "एका नेहमीच्या दिवशी तुम्ही अंदाजे किती मिनिटे बसून किंवा निष्क्रिय असता?",
+        sedentaryLabel: "दररोज बैठे मिनिटे",
+        infoNoteTitle: "बहु-घटक बोन-हेल्थ असेसमेंट तयार करण्यासाठी तुमची माहिती वापरली जाते.",
+        infoNoteDesc:
+          "मॉडेल निकाल तयार करण्यापूर्वी जीवनशैलीची माहिती वैयक्तिक आणि वैद्यकीय घटकांसह एकत्र केली जाते.",
+      },
+
+      stepperPersonal: "वैयक्तिक",
+      stepperLifestyle: "जीवनशैली",
+      stepperMedical: "वैद्यकीय",
+
+      result: {
+        title: "तुमचे हाडांच्या आरोग्याचे मूल्यांकन",
+        subtitle: "तुमचे असेसमेंट OsteoAI मशीन-लर्निंग मॉडेल वापरून प्रक्रिया केले गेले आहे.",
+        overallAssessment: "एकूण मूल्यांकन",
+        riskLevelSuffix: "{level} जोखीम पातळी",
+        probabilityText:
+          "या असेसमेंटमध्ये सकारात्मक ऑस्टिओपोरोसिस वर्गासाठी मॉडेल {percent}% शक्यतेचा अंदाज लावते.",
+        estimatedProbability: "अंदाजित शक्यता",
+        modelPredictionLabel: "मॉडेलचा अंदाज:",
+        positiveFlag: "सकारात्मक ऑस्टिओपोरोसिस जोखीम फ्लॅग",
+        negativeFlag: "कोणताही ऑस्टिओपोरोसिस जोखीम फ्लॅग नाही",
+        researchNote: "हे एक संशोधन/प्रोटोटाइप जोखीम मूल्यांकन आहे आणि वैद्यकीय निदान नाही.",
+        shapTitle: "मॉडेलने हा निकाल का दिला",
+        shapDesc:
+          "या विशिष्ट मॉडेल अंदाजावर परिणाम करणारे हे सर्वात मजबूत घटक आहेत. हे मॉडेलच्या निकालाचे स्पष्टीकरण देतात आणि वैद्यकीय निदान नाहीत.",
+        increasedOutput: "मॉडेलचा निकाल वाढवला",
+        decreasedOutput: "मॉडेलचा निकाल कमी केला",
+        influence: "प्रभाव {value}",
+        inputValueLabel: "इनपुट मूल्य: {value}",
+        keyMetricsTitle: "मुख्य आरोग्य मेट्रिक्स",
+        ageLabel: "वय",
+        yearsSuffix: "{value} वर्षे",
+        bmiLabel: "BMI",
+        sedentaryTimeLabel: "बैठ्या जीवनशैलीचा वेळ",
+        minSuffix: "{value} मिनिटे",
+        typicalDay: "नेहमीचा दिवस",
+        assessmentFactorsTitle: "असेसमेंट घटक",
+        assessmentFactorsDesc:
+          "मॉडेलचा निकाल तयार करण्यासाठी वैयक्तिक, जीवनशैली आणि वैद्यकीय माहिती एकत्र केली गेली.",
+        genderLabel: "लिंग",
+        raceLabel: "वंश / जातीयता",
+        provided: "दिलेले",
+        smokingHistoryLabel: "धूम्रपानाचा इतिहास",
+        steroidUseLabel: "दीर्घकालीन स्टिरॉइड वापर",
+        familyHistoryLabel: "कौटुंबिक ऑस्टिओपोरोसिस इतिहास",
+        modelInfoTitle: "मॉडेल माहिती",
+        modelVersionLabel: "मॉडेल व्हर्जन",
+        decisionThresholdLabel: "निर्णय थ्रेशोल्ड",
+        defaultDisclaimer:
+          "हा एक संशोधन/प्रोटोटाइप जोखीम-मूल्यांकन निकाल आहे, वैद्यकीय निदान नाही, आणि याची वैद्यकीयदृष्ट्या पडताळणी केलेली नाही.",
+        editAssessment: "असेसमेंट संपादित करा",
+        retakeAssessment: "पुन्हा असेसमेंट करा",
+        viewForecast: "जोखीम अंदाज आणि शिफारसी पहा",
+      },
+    },
+
+    dashboard: {
+      badge: "वैयक्तिक आरोग्य डॅशबोर्ड",
+      title: "तुमचा हाडांच्या आरोग्याचा आढावा",
+      subtitle:
+        "तुमचे नवीनतम OsteoAI असेसमेंट ट्रॅक करा, कारणीभूत घटक समजून घ्या आणि कालांतराने तुमच्या आरोग्य डेटाचे स्पष्ट चित्र तयार करा.",
+      newAssessment: "नवीन असेसमेंट",
+      viewForecast: "जोखीम अंदाज आणि शिफारसी पहा",
+      latestAssessmentTitle: "नवीनतम असेसमेंट",
+      latestAssessmentSubtitle: "तुमचे सर्वात अलीकडील मॉडेल-आधारित असेसमेंट",
+      estimatedRisk: "अंदाजित जोखीम: {percent}",
+      noCompletedAssessment: "अद्याप कोणतेही पूर्ण असेसमेंट नाही",
+      riskCategory:
+        "जोखीम श्रेणी: {level}. तुमचा डॅशबोर्ड वर्कस्पेस वाढत असताना तुमचे तपशीलवार आरोग्य मेट्रिक्स आणि मॉडेल स्पष्टीकरण उपलब्ध होतील.",
+      completeAssessmentPrompt:
+        "या डॅशबोर्डवर तुमचा जोखीम स्कोअर, आरोग्य मेट्रिक्स, SHAP स्पष्टीकरण, इतिहास आणि ट्रेंड व्हिज्युअलायझेशन भरण्यासाठी असेसमेंट पूर्ण करा.",
+      assessmentDateLabel: "असेसमेंटची तारीख: {date}",
+      currentRisk: "सध्याची जोखीम",
+      awaitingAssessment: "असेसमेंटची प्रतीक्षा आहे",
+      riskSuffix: "{level} जोखीम",
+      lastAssessed: "शेवटचे मूल्यांकन: {date}",
+      healthSnapshot: "आरोग्य स्नॅपशॉट",
+      metricBmi: "BMI",
+      metricAge: "वय",
+      metricHeight: "उंची",
+      metricWeight: "वजन",
+      personalProfile: "वैयक्तिक प्रोफाइल",
+      bodyMeasurement: "शरीराचे माप",
+      bodyPersonalDetailsTitle: "शारीरिक आणि वैयक्तिक तपशील",
+      bodyPersonalDetailsSubtitle: "तुमच्या नवीनतम असेसमेंटमधून घेतलेली मूल्ये.",
+      genderLabel: "लिंग",
+      raceLabel: "वंश / जातीयता",
+      waistLabel: "कंबर",
+      hipLabel: "नितंब",
+      lifestyleProfileTitle: "जीवनशैली प्रोफाइल",
+      lifestyleProfileSubtitle: "नवीनतम असेसमेंटमध्ये वापरलेली जीवनशैली माहिती.",
+      smokingHistoryLabel: "धूम्रपानाचा इतिहास",
+      alcoholUseLabel: "मद्यसेवन",
+      alcoholFrequencyLabel: "मद्यपानाची वारंवारता",
+      walkBicycleLabel: "चालणे / सायकल चालवणे",
+      vigorousWorkLabel: "अत्यंत श्रमाचे काम",
+      moderateWorkLabel: "मध्यम श्रमाचे काम",
+      vigorousRecreationLabel: "अत्यंत मनोरंजन",
+      moderateRecreationLabel: "मध्यम मनोरंजन",
+      sedentaryTimeLabel: "बैठ्या जीवनशैलीचा वेळ",
+      medicalFamilyHistoryTitle: "वैद्यकीय आणि कौटुंबिक इतिहास",
+      medicalFamilyHistorySubtitle: "तुमच्या नवीनतम असेसमेंटमधील जोखीम-इतिहास माहिती.",
+      fractureAfter20Label: "वयाच्या 20 वर्षांनंतर हाड मोडणे",
+      steroidUseLabel: "दीर्घकालीन स्टिरॉइड वापर",
+      parentOsteoporosisLabel: "पालकांमध्ये ऑस्टिओपोरोसिस इतिहास",
+      motherHipFractureLabel: "आईच्या नितंबाचे फ्रॅक्चर",
+      fatherHipFractureLabel: "वडिलांच्या नितंबाचे फ्रॅक्चर",
+      riskAnalyticsTitle: "जोखीम अॅनालिटिक्स",
+      riskAnalyticsSubtitle: "असेसमेंट डेटा गोळा होत असताना तुमचा सखोल अॅनालिटिक्स वर्कस्पेस वाढेल.",
+      personalDataTag: "वैयक्तिक डेटा • मॉडेल स्पष्टीकरण",
+      riskTrendTitle: "जोखीम ट्रेंड",
+      riskTrendSubtitle: "जतन केलेल्या असेसमेंट्समध्ये तुमची अंदाजित जोखीम कशी बदलते ते पहा.",
+      saved: "जतन केले",
+      latestPrefix: "नवीनतम: {percent}%",
+      trendHint:
+        "प्रत्येक बिंदू एक जतन केलेला मॉडेल अंदाज आहे. एखाद्या बिंदूचा असेसमेंट क्रमांक, तारीख, टक्केवारी आणि जोखीम पातळी पाहण्यासाठी त्यावर होव्हर करा.",
+      trendEmptyTitle: "तुमचा ट्रेंड चार्ट येथे दिसेल",
+      trendEmptyDesc: "कालांतराने जतन केलेल्या जोखीम अंदाजांची तुलना करण्यासाठी अतिरिक्त असेसमेंट पूर्ण करा.",
+      explainableAiTitle: "स्पष्टीकरणीय AI",
+      explainableAiSubtitle: "मॉडेल या निकालाकडे का वळले",
+      increasesModelOutput: "मॉडेलचा निकाल वाढवतो",
+      decreasesModelOutput: "मॉडेलचा निकाल कमी करतो",
+      shapFooter: "SHAP या अंदाजाचे स्पष्टीकरण देते; ते मॉडेलचा निकाल बदलत नाही.",
+      shapEmpty: "मॉडेलने परत केलेले वास्तविक SHAP घटक पाहण्यासाठी असेसमेंट पूर्ण करा.",
+      inputPrefix: "इनपुट: {value}",
+      powerBiTitle: "Power BI अॅनालिटिक्स",
+      powerBiSubtitle: "लोकसंख्या-स्तरीय आणि संशोधन अॅनालिटिक्स वर्कस्पेस",
+      connectLater: "नंतर कनेक्ट करा",
+      powerBiAreaTitle: "Power BI अहवाल क्षेत्र",
+      powerBiAreaDesc:
+        "प्रत्यक्ष Power BI अहवाल, डेटासेट आणि एम्बेडिंग कॉन्फिगरेशन तयार झाल्यावर अंतिम अहवाल येथे एम्बेड केला जाऊ शकतो.",
+      reportsDocsTitle: "अहवाल आणि दस्तऐवज",
+      reportsDocsSubtitle:
+        "अपलोड केलेले अहवाल, AI-काढलेली माहिती आणि तयार केलेल्या आरोग्य सारांशांसाठी तुमचा भविष्यातील दस्तऐवज वर्कस्पेस.",
+      documentIntelligenceTitle: "दस्तऐवज इंटेलिजन्स",
+      documentIntelligenceDesc: "नियोजित AI-सहाय्यित ऑटोफिल वर्कस्पेस",
+      generatedSummaryTitle: "तयार केलेला आरोग्य सारांश",
+      generatedSummaryDesc: "अहवाल वर्कफ्लो कनेक्ट झाल्यानंतर उपलब्ध होईल.",
+      assessmentHistoryTitle: "असेसमेंट इतिहास",
+      assessmentHistorySubtitle: "तुमचे जतन केलेले असेसमेंट निकाल आणि अंदाजित जोखीम पातळी.",
+      latestAssessmentLabel: "नवीनतम असेसमेंट",
+      assessmentNumber: "असेसमेंट {number}",
+      noSavedAssessments: "कोणतेही जतन केलेले असेसमेंट नाही",
+      noSavedAssessmentsDesc: "तुमचा इतिहास तयार करण्यास सुरुवात करण्यासाठी आणखी एक असेसमेंट पूर्ण करा.",
+      exploreTitle: "OsteoAI एक्सप्लोर करा",
+      exploreAiTitle: "AI सहाय्यक",
+      exploreAiDesc: "भविष्यातील असेसमेंट्स, स्पष्टीकरणे आणि आरोग्य दस्तऐवजांसाठी मार्गदर्शित मदत मिळवा.",
+      exploreKnowledgeTitle: "माहिती आणि सहाय्य",
+      exploreKnowledgeDesc: "समजण्यास सोपे बोन-हेल्थ शिक्षण आणि वारंवार विचारले जाणारे प्रश्न पहा.",
+      exploreNotificationsTitle: "सूचना",
+      exploreNotificationsDesc: "भविष्यातील ईमेल, व्हॉट्सअॅप आणि SMS अपडेट्स तुमच्या खात्यातून व्यवस्थापित करता येतील.",
+      alcoholFreqNever: "कधीच नाही",
+      alcoholFreqLess1: "आठवड्यातून एकदापेक्षा कमी",
+      alcoholFreqOnce1: "आठवड्यातून एकदा",
+      alcoholFreq23: "आठवड्यातून 2–3 दिवस",
+      alcoholFreq46: "आठवड्यातून 4–6 दिवस",
+      alcoholFreqDaily: "दररोज किंवा जवळजवळ दररोज",
+      hrsPerDay: "{value} तास/दिवस",
+      increasedModelOutput: "मॉडेलचा निकाल वाढला",
+      decreasedModelOutput: "मॉडेलचा निकाल कमी झाला",
+      trendPointTitle: "असेसमेंट {number} • {date} • {percent}% • {level}",
+      trendAriaLabel: "जतन केलेल्या असेसमेंट्समधील अंदाजित ऑस्टिओपोरोसिस जोखमीचा कल",
+      activitySummaryActive: "सक्रिय",
+      activitySummaryRecorded: "नोंदवले",
+      medicalSummaryPresent: "घटक आढळले",
+      medicalSummaryNone: "कोणतेही घटक नाहीत",
+      unknownFactor: "अज्ञात घटक",
+    },
+
+    forecast: {
+      pageTitle: "जोखीम अंदाज आणि शिफारसी",
+      pageSubtitle:
+        "तुमच्या OsteoAI मॉडेल स्कोअर आणि तुमच्या स्वतःच्या असेसमेंट उत्तरांवर आधारित वैयक्तिक सारांश.",
+      backToResult: "असेसमेंट निकालाकडे परत जा",
+      scoreLabel: "तुमचा OsteoAI मॉडेल स्कोअर",
+      rangeDisclaimer:
+        "ही जोखीम श्रेणी या प्रकल्पासाठी OsteoAI मॉडेलद्वारे निश्चित केली आहे. ही क्लिनिकल निदान मर्यादा नाही.",
+
+      unavailableTitle: "जोखीम स्कोअर उपलब्ध नाही",
+      unavailableBody:
+        "कृपया तुमचा OsteoAI जोखीम अहवाल तयार करण्यासाठी असेसमेंट पुन्हा पूर्ण करा.",
+      unavailableCta: "असेसमेंट सुरू करा",
+
+      scale: {
+        title: "दृश्य जोखीम निर्देशक",
+        axisStart: "0%",
+        axis20: "20%",
+        axis60: "60%",
+        axisEnd: "100%",
+        lower: "कमी-जोखीम श्रेणी",
+        moderate: "मध्यम-जोखीम श्रेणी",
+        higher: "अधिक-जोखीम श्रेणी",
+        note: "या प्रकल्पाने निश्चित केलेल्या मॉडेल श्रेणी आहेत, अधिकृत क्लिनिकल श्रेणी नाहीत.",
+        markerAria: "तुमचा स्कोअर: {percent}%",
+      },
+
+      outlook: {
+        lowerTitle: "कमी जोखीम श्रेणी",
+        lowerBody:
+          "तुमचा सध्याचा OsteoAI मॉडेल स्कोअर या प्रकल्पासाठी निश्चित केलेल्या कमी-जोखीम श्रेणीत येतो. याचा अर्थ ऑस्टिओपोरोसिस अशक्य आहे असे नाही. निरोगी हाडांच्या-आरोग्याच्या सवयी सुरू ठेवा आणि तुमच्या असेसमेंटमध्ये आढळलेल्या कोणत्याही बदलण्यायोग्य जोखीम घटकांकडे लक्ष द्या.",
+        moderateTitle: "मध्यम जोखीम श्रेणी",
+        moderateBody:
+          "तुमचा सध्याचा OsteoAI मॉडेल स्कोअर या प्रकल्पासाठी निश्चित केलेल्या मध्यम-जोखीम श्रेणीत येतो. तुमच्या असेसमेंटमध्ये आढळलेल्या बदलण्यायोग्य घटकांवर लक्ष केंद्रित करा आणि तुमच्या वैयक्तिक जोखीम घटकांबद्दल आरोग्य तज्ज्ञांशी चर्चा करण्याचा विचार करा.",
+        higherTitle: "अधिक जोखीम — तज्ज्ञ मूल्यांकनाची शिफारस",
+        higherBody:
+          "तुमचा OsteoAI मॉडेल स्कोअर प्रकल्पाच्या अधिक-जोखीम मर्यादेपेक्षा जास्त आहे. हा निकाल एक मॉडेल-आधारित जोखीम अंदाज आहे, निदान नाही. योग्य क्लिनिकल मूल्यांकनासाठी पात्र आरोग्य तज्ज्ञांचा सल्ला घेण्याचा विचार करा.",
+      },
+
+      factors: {
+        title: "ओळखलेले घटक",
+        desc: "येथे फक्त तुम्ही तुमच्या असेसमेंटमध्ये प्रत्यक्ष दिलेली माहिती दाखवली आहे.",
+        modifiableTitle: "बदलण्यायोग्य घटक",
+        modifiableHelp: "ज्या घटकांवर तुम्ही प्रत्यक्षात काम करू शकता.",
+        nonModifiableTitle: "न बदलण्यायोग्य / पार्श्वभूमी घटक",
+        nonModifiableHelp:
+          "मॉडेलने वापरलेली पार्श्वभूमी माहिती जी सहसा बदलता येत नाही.",
+        physicalActivity: "शारीरिक हालचाल",
+        physicalActivityLow: "कमी",
+        physicalActivityActive: "सक्रिय",
+        smoking: "धूम्रपान इतिहास",
+        alcohol: "मद्यसेवन",
+        sedentaryTime: "निष्क्रिय वेळ",
+        age: "वय",
+        sex: "लिंग",
+        bmi: "BMI",
+        familyHistory: "पालकांमध्ये ऑस्टिओपोरोसिसचा इतिहास",
+        motherHipFracture: "आईच्या हिप फ्रॅक्चरचा इतिहास",
+        fatherHipFracture: "वडिलांच्या हिप फ्रॅक्चरचा इतिहास",
+        fractureHistory: "वयाच्या 20 वर्षांनंतरचे मागील फ्रॅक्चर",
+        steroidUse: "दीर्घकालीन स्टिरॉइड वापर",
+      },
+
+      priorities: {
+        title: "तुमच्या शिफारस केलेल्या प्राधान्यक्रम",
+        desc: "तुमच्या असेसमेंटमध्ये आढळलेल्या घटकांवर आधारित निवडलेले — सर्वांसाठी एकसारखी यादी नाही.",
+        none: "तुमच्या सध्याच्या असेसमेंटमधून कोणतेही मोठे बदलण्यायोग्य जोखीम संकेत आढळले नाहीत. तुमच्या निरोगी सवयी सुरू ठेवा.",
+        activityTitle: "🏃 योग्य शारीरिक हालचाल वाढवा",
+        activityBody:
+          "हळूहळू योग्य भार-सहन (weight-bearing) आणि प्रतिरोध क्रिया सुरू करा.",
+        smokingTitle: "🚭 धूम्रपान सोडा",
+        smokingBody:
+          "धूम्रपान हा हाडांच्या आरोग्याशी संबंधित एक बदलण्यायोग्य घटक आहे. सोडण्यासाठी व्यावसायिक मदत घेण्याचा विचार करा.",
+        alcoholTitle: "🍷 अतिरिक्त मद्यसेवन कमी करा",
+        alcoholBody:
+          "वारंवार किंवा जास्त प्रमाणात मद्यसेवन कमी केल्यास हाडांचे आरोग्य सुधारण्यास मदत होऊ शकते.",
+        weightTitle: "⚖️ निरोगी वजन व्यवस्थापनाबद्दल चर्चा करा",
+        weightBody:
+          "कमी शरीराचे वजन ऑस्टिओपोरोसिसच्या वाढलेल्या जोखमीशी संबंधित असू शकते.",
+      },
+
+      outlookFuture: {
+        title: "🔮 भविष्यातील जोखीम व्यवस्थापन",
+        body: "तुमचा सध्याचा मॉडेल स्कोअर या असेसमेंटचा निकाल दर्शवतो. खालील कृती त्या बदलण्यायोग्य घटकांवर लक्ष केंद्रित करतात जे कालांतराने चांगल्या हाडांच्या आरोग्यास मदत करू शकतात. या एकाच असेसमेंटवरून भविष्यातील जोखमीचा निश्चितपणे अंदाज लावता येत नाही.",
+      },
+
+      eat: {
+        title: "🥗 काय खावे",
+        calciumTitle: "कॅल्शियमयुक्त पदार्थ",
+        calciumItem1: "दूध",
+        calciumItem2: "दही",
+        calciumItem3: "पनीर / चीज",
+        calciumItem4: "कॅल्शियम-फोर्टिफाइड पदार्थ",
+        calciumItem5:
+          "योग्य वनस्पती-आधारित कॅल्शियम स्रोत (उदा. नाचणी, तीळ, हिरव्या पालेभाज्या)",
+        proteinTitle: "प्रथिन स्रोत",
+        proteinBody:
+          "पुरेसे प्रथिन हाडे आणि स्नायूंच्या मजबुतीसाठी उपयुक्त असते. तुमच्या आहार प्राधान्यांनुसार, डाळी आणि कडधान्ये, अंडी, मासे, कोंबडी किंवा दुग्धजन्य पदार्थ योग्य स्रोत असू शकतात.",
+        vitaminDTitle: "व्हिटॅमिन D",
+        vitaminDBody:
+          "व्हिटॅमिन D शरीराला कॅल्शियम शोषण्यास मदत करते. योग्य प्रमाणात सूर्यप्रकाश आणि व्हिटॅमिन-D असलेले पदार्थ यासाठी उपयुक्त ठरू शकतात. OsteoAI सप्लिमेंट किंवा त्यांचे प्रमाण सुचवत नाही — आवश्यक असल्यास चाचणी किंवा सप्लिमेंटेशनबद्दल आरोग्य तज्ज्ञांशी चर्चा करा.",
+      },
+
+      limit: {
+        title: "⚠️ काय मर्यादित ठेवावे",
+        alcohol: "अतिरिक्त मद्यसेवन मर्यादित ठेवा.",
+        smoking: "शक्य तितके धूम्रपान टाळा.",
+        crashDiets: "अति कॅलरी कपात किंवा क्रॅश डाएट मर्यादित ठेवा.",
+        poorDiet: "विविधतेचा अभाव असलेला असंतुलित आहार मर्यादित ठेवा.",
+      },
+
+      exercise: {
+        title: "🏃 शारीरिक हालचाल",
+        walking: "नियमित चालणे.",
+        weightBearing: "योग्य भार-सहन (weight-bearing) क्रिया.",
+        resistance: "प्रतिरोध / शक्ती प्रशिक्षण.",
+        balance: "योग्य असेल तेथे संतुलन व्यायाम.",
+        cautionNote:
+          "व्यायाम योग्य आरोग्य तज्ज्ञ किंवा फिजिओथेरपिस्टच्या मार्गदर्शनाखाली वैयक्तिकरित्या ठरवला जावा.",
+      },
+
+      nextSteps: {
+        title: "🎯 शिफारस केलेली पुढील पावले",
+        activity: "योग्य भार-सहन हालचाल वाढवा.",
+        generalActivity:
+          "निरोगी दिनचर्येचा भाग म्हणून नियमित भार-सहन हालचाल सुरू ठेवा.",
+        calcium: "संतुलित आहाराचा भाग म्हणून कॅल्शियमयुक्त पदार्थांचे सेवन वाढवा.",
+        protein: "पुरेसे प्रथिन सेवन सुरू ठेवा.",
+        avoidSmokingAlcohol: "धूम्रपान आणि अतिरिक्त मद्यसेवन टाळा.",
+        discussProfessional:
+          "योग्य वेळी तुमच्या संबंधित जोखीम घटकांबद्दल आरोग्य तज्ज्ञांशी चर्चा करा.",
+      },
+
+      professional: {
+        title: "👨‍⚕️ तज्ज्ञ मूल्यांकनाची शिफारस",
+        body: "तुमचा OsteoAI मॉडेल स्कोअर प्रकल्पाच्या अधिक-जोखीम मर्यादेपेक्षा जास्त आहे. तुमच्या निकालाबद्दल आणि वैयक्तिक जोखीम घटकांबद्दल पात्र आरोग्य तज्ज्ञांशी चर्चा करण्याचा विचार करा.",
+        cannotDetermine:
+          "औषधोपचार, बोन-डेन्सिटी चाचणी, प्रयोगशाळा चाचणी किंवा इतर क्लिनिकल हस्तक्षेप आवश्यक आहेत का हे OsteoAI ठरवू शकत नाही.",
+      },
+
+      sources: {
+        title: "📚 स्रोत आणि पुरावे",
+        badge: "पुरावा: IOF",
+        iofName: "इंटरनॅशनल ऑस्टिओपोरोसिस फाउंडेशन (IOF)",
+        iofDesc:
+          "कॅल्शियम, व्हिटॅमिन D, प्रथिने, पोषण, भार-सहन व्यायाम, प्रतिरोध प्रशिक्षण, धूम्रपान, मद्यसेवन, निरोगी शरीराचे वजन आणि पडझड प्रतिबंध यावरील सामान्य मार्गदर्शनाचा प्राथमिक स्रोत.",
+      },
+
+      disclaimerTitle: "वैद्यकीय अस्वीकरण",
+      disclaimerBody:
+        "OsteoAI शैक्षणिक उद्देशांसाठी मॉडेल-आधारित जोखीम अंदाज आणि सामान्य हाडांच्या-आरोग्याची माहिती पुरवते. हे निदान नाही आणि पात्र आरोग्य तज्ज्ञाकडून मूल्यांकन, निदान, उपचार किंवा सल्ल्याची जागा घेत नाही.",
+    },
+  },
+};
+
+export default translations;

@@ -4,6 +4,7 @@ import { useAssessment } from "../../context/AssessmentContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import AutofillReview from "./AutofillReview";
 import { extractAssessmentDocument } from "../../services/documentExtractionService";
+import { useLanguage } from "../../context/LanguageContext";
 
 import {
   Alert,
@@ -194,6 +195,7 @@ const formatFileSize = (bytes) => {
 };
 
 function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBack }) {
+  const { t } = useLanguage();
   const { updatePersonal, updateLifestyle, updateMedicalHistory } = useAssessment();
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -225,7 +227,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
 
       if (!extracted) {
         setFileMessage(
-          "No assessment data was returned from the document."
+          t("assessment.aiEntry.noDataReturned")
         );
         return;
       }
@@ -372,7 +374,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
         );
 
         setFileMessage(
-          "The extracted information could not be added to the assessment. Please use Self-Fill."
+          t("assessment.aiEntry.confirmationFailed")
         );
       }
     };
@@ -384,7 +386,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
 
     const handleAnalyze = async () => {
       if (!selectedFile) {
-        setFileMessage("Please choose a document first.");
+        setFileMessage(t("assessment.aiEntry.pleaseChooseDocument"));
         return;
       }
 
@@ -402,7 +404,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
         );
         setFileMessage(
           error?.message ||
-            "Unable to analyze this document. Please try again."
+            t("assessment.aiEntry.extractionFailed")
         );
       } finally {
         setIsAnalyzing(false);
@@ -424,7 +426,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
       <Box>
         <Box sx={{ textAlign: "center", mb: { xs: 3, md: 4 } }}>
           <Chip
-            label="AI ASSISTANT"
+            label={t("assessment.aiEntry.badge")}
             size="small"
             sx={{
               mb: 1.2,
@@ -441,14 +443,13 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
               fontSize: { xs: "2rem", sm: "2.4rem", md: "2.8rem" },
             }}
           >
-            Autofill your assessment
+            {t("assessment.aiEntry.title")}
           </Typography>
           <Typography
             color="text.secondary"
             sx={{ mt: 1, lineHeight: 1.7, maxWidth: 700, mx: "auto" }}
           >
-            Upload a health report or document. The AI Assistant will extract relevant information,
-            show you what it found, and let you confirm the values before they are used in the assessment.
+            {t("assessment.aiEntry.subtitle")}
           </Typography>
         </Box>
 
@@ -488,10 +489,10 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
               </Box>
 
               <Typography sx={{ mt: 2, fontWeight: 800, color: "#0F172A" }}>
-                Choose a document
+                {t("assessment.aiEntry.chooseDocument")}
               </Typography>
               <Typography variant="body2" sx={{ mt: 0.6, color: "#64748B" }}>
-                PDF, DOC, DOCX, JPG, JPEG, or PNG
+                {t("assessment.aiEntry.fileTypes")}
               </Typography>
 
               <Button
@@ -506,7 +507,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
                   fontWeight: 700,
                 }}
               >
-                Select Document
+                {t("assessment.aiEntry.selectDocument")}
               </Button>
             </>
           ) : (
@@ -521,7 +522,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
                   letterSpacing: "0.06em",
                 }}
               >
-                Selected document
+                {t("assessment.aiEntry.selectedDocument")}
               </Typography>
 
               <Box
@@ -584,7 +585,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
                     fontWeight: 700,
                   }}
                 >
-                  Change Document
+                  {t("assessment.aiEntry.changeDocument")}
                 </Button>
                 <Button
                   variant="text"
@@ -603,7 +604,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
                     },
                   }}
                 >
-                  Remove
+                  {t("assessment.aiEntry.remove")}
                 </Button>
               </Stack>
 
@@ -627,7 +628,9 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
                   fontWeight: 800,
                 }}
               >
-                {isAnalyzing ? "Analyzing Document..." : "Analyze Document"}
+                {isAnalyzing
+                  ? t("assessment.aiEntry.analyzing")
+                  : t("assessment.aiEntry.analyzeDocument")}
               </Button>
             </Box>
           )}
@@ -635,8 +638,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
 
         <Alert severity="info" icon={false} sx={{ mt: 2.2, borderRadius: 3 }}>
           <Typography variant="body2" sx={{ lineHeight: 1.7 }}>
-            AI-assisted values will be shown for your review before they are used. Document extraction
-            does not run the osteoporosis prediction model.
+            {t("assessment.aiEntry.infoNote")}
           </Typography>
         </Alert>
 
@@ -672,7 +674,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
               fontWeight: 700,
             }}
           >
-            Back
+            {t("common.back")}
           </Button>
           <Button
             variant="outlined"
@@ -685,7 +687,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
               fontWeight: 700,
             }}
           >
-            Continue with Self-Fill
+            {t("assessment.aiEntry.continueSelfFill")}
           </Button>
         </Stack>
       </Box>
@@ -696,7 +698,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
     <Box>
       <Box sx={{ textAlign: "center", mb: { xs: 3.5, md: 4.5 } }}>
         <Chip
-          label="BEFORE YOU START"
+          label={t("assessment.entryChoice.badge")}
           size="small"
           sx={{
             mb: 1.2,
@@ -713,14 +715,13 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
             fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
           }}
         >
-          How would you like to fill your assessment?
+          {t("assessment.entryChoice.title")}
         </Typography>
         <Typography
           color="text.secondary"
           sx={{ mt: 1, lineHeight: 1.7, maxWidth: 700, mx: "auto" }}
         >
-          Choose the way that is easiest for you. You can always review and edit the information
-          before OsteoAI runs the assessment.
+          {t("assessment.entryChoice.subtitle")}
         </Typography>
       </Box>
 
@@ -732,10 +733,10 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
         <Box sx={{ flex: 1 }}>
           <ChoiceCard
             iconType="ai"
-            eyebrow="SMART OPTION"
-            title="AI Assistant Autofill"
-            description="Upload a health report or document and use the AI Assistant to extract relevant assessment information for your review."
-            actionLabel="Use AI Autofill"
+            eyebrow={t("assessment.entryChoice.aiEyebrow")}
+            title={t("assessment.entryChoice.aiTitle")}
+            description={t("assessment.entryChoice.aiDesc")}
+            actionLabel={t("assessment.entryChoice.aiAction")}
             onClick={onAIAutofill}
           />
         </Box>
@@ -743,10 +744,10 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
         <Box sx={{ flex: 1 }}>
           <ChoiceCard
             iconType="self"
-            eyebrow="MANUAL OPTION"
-            title="Fill It Myself"
-            description="Enter your information yourself through the normal OsteoAI assessment. You remain in control of every value."
-            actionLabel="Fill It Myself"
+            eyebrow={t("assessment.entryChoice.selfEyebrow")}
+            title={t("assessment.entryChoice.selfTitle")}
+            description={t("assessment.entryChoice.selfDesc")}
+            actionLabel={t("assessment.entryChoice.selfAction")}
             onClick={onSelfFill}
           />
         </Box>
@@ -762,8 +763,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
         }}
       >
         <Typography variant="caption" sx={{ color: "#64748B", lineHeight: 1.7 }}>
-          AI-assisted entries will be reviewed by you before they are used. The assessment remains a
-          research/prototype risk estimate and is not a medical diagnosis.
+          {t("assessment.entryChoice.note")}
         </Typography>
       </Box>
     </Box>

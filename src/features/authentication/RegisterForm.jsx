@@ -8,7 +8,11 @@ import {
   Typography,
 } from "@mui/material";
 
+import { useLanguage } from "../../context/LanguageContext";
+
 function RegisterForm({ onSwitch }) {
+  const { t } = useLanguage();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] =
@@ -70,7 +74,7 @@ function RegisterForm({ onSwitch }) {
           color: "#0F172A",
         }}
       >
-        Create your account
+        {t("auth.registerTitle")}
       </Typography>
 
       <Typography
@@ -79,7 +83,7 @@ function RegisterForm({ onSwitch }) {
           color: "#64748B",
         }}
       >
-        Start your personalized OsteoAI experience.
+        {t("auth.registerDesc")}
       </Typography>
 
       <Box
@@ -94,7 +98,7 @@ function RegisterForm({ onSwitch }) {
       >
         <TextField
           fullWidth
-          label="Full Name"
+          label={t("auth.fullNameLabel")}
           value={name}
           onChange={(event) =>
             setName(event.target.value)
@@ -103,7 +107,7 @@ function RegisterForm({ onSwitch }) {
 
         <TextField
           fullWidth
-          label="Email Address"
+          label={t("auth.emailLabel")}
           type="email"
           value={email}
           onChange={(event) =>
@@ -113,13 +117,13 @@ function RegisterForm({ onSwitch }) {
 
         <TextField
           fullWidth
-          label="Password"
+          label={t("auth.passwordLabel")}
           type="password"
           value={password}
           onChange={(event) =>
             setPassword(event.target.value)
           }
-          helperText="Use at least 8 characters."
+          helperText={t("auth.passwordHelper")}
         />
 
         {password && (
@@ -130,7 +134,7 @@ function RegisterForm({ onSwitch }) {
                 color: "#64748B",
               }}
             >
-              Password strength
+              {t("auth.passwordStrength")}
             </Typography>
 
             <LinearProgress
@@ -147,7 +151,7 @@ function RegisterForm({ onSwitch }) {
 
         <TextField
           fullWidth
-          label="Confirm Password"
+          label={t("auth.confirmPasswordLabel")}
           type="password"
           value={confirmPassword}
           onChange={(event) =>
@@ -162,7 +166,7 @@ function RegisterForm({ onSwitch }) {
           helperText={
             confirmPassword !== "" &&
             !passwordsMatch
-              ? "Passwords do not match."
+              ? t("auth.passwordMismatch")
               : ""
           }
         />
@@ -180,7 +184,7 @@ function RegisterForm({ onSwitch }) {
             boxShadow: "none",
           }}
         >
-          Create Free Account
+          {t("auth.createAccount")}
         </Button>
       </Box>
 
@@ -191,7 +195,7 @@ function RegisterForm({ onSwitch }) {
           color: "#64748B",
         }}
       >
-        Already registered?{" "}
+        {t("auth.alreadyRegistered")}{" "}
         <Button
           onClick={onSwitch}
           sx={{
@@ -202,7 +206,7 @@ function RegisterForm({ onSwitch }) {
             verticalAlign: "baseline",
           }}
         >
-          Sign In
+          {t("auth.signIn")}
         </Button>
       </Typography>
     </Box>

@@ -26,10 +26,12 @@ import InsightsIcon from "@mui/icons-material/Insights";
 
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
+import { useLanguage } from "../../context/LanguageContext";
 
 function LoginPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const isSignupPath =
     location.pathname === "/signup" ||
@@ -66,30 +68,30 @@ function LoginPage() {
   const loginBenefits = [
     {
       icon: <HistoryIcon />,
-      text: "Access your saved assessments",
+      text: t("auth.loginBenefit1"),
     },
     {
       icon: <InsightsIcon />,
-      text: "Continue your personalized journey",
+      text: t("auth.loginBenefit2"),
     },
     {
       icon: <PsychologyIcon />,
-      text: "Explore personalized AI guidance",
+      text: t("auth.loginBenefit3"),
     },
   ];
 
   const registerBenefits = [
     {
       icon: <PersonAddAltIcon />,
-      text: "Build your personal health profile",
+      text: t("auth.registerBenefit1"),
     },
     {
       icon: <HistoryIcon />,
-      text: "Save your assessment history",
+      text: t("auth.registerBenefit2"),
     },
     {
       icon: <DescriptionIcon />,
-      text: "Access future reports and insights",
+      text: t("auth.registerBenefit3"),
     },
   ];
 
@@ -171,7 +173,7 @@ function LoginPage() {
                     lineHeight: 1,
                   }}
                 >
-                  OsteoAI
+                  {t("brand.name")}
                 </Typography>
 
                 <Typography
@@ -181,7 +183,7 @@ function LoginPage() {
                     color: "#64748B",
                   }}
                 >
-                  Bone Health Intelligence
+                  {t("brand.tagline")}
                 </Typography>
               </Box>
             </Box>
@@ -203,7 +205,7 @@ function LoginPage() {
             >
               {isLogin ? (
                 <>
-                  Welcome back to
+                  {t("auth.welcomeBack1")}
                   <Box
                     component="span"
                     sx={{
@@ -211,12 +213,12 @@ function LoginPage() {
                       color: "primary.main",
                     }}
                   >
-                    OsteoAI.
+                    {t("auth.welcomeBack2")}
                   </Box>
                 </>
               ) : (
                 <>
-                  Start your
+                  {t("auth.startJourney1")}
                   <Box
                     component="span"
                     sx={{
@@ -224,7 +226,7 @@ function LoginPage() {
                       color: "primary.main",
                     }}
                   >
-                    OsteoAI journey.
+                    {t("auth.startJourney2")}
                   </Box>
                 </>
               )}
@@ -239,8 +241,8 @@ function LoginPage() {
               }}
             >
               {isLogin
-                ? "Continue your bone-health journey and access your saved assessment experience."
-                : "Create your account to save your assessment history and build your personalized bone-health profile."}
+                ? t("auth.loginSubtitle")
+                : t("auth.registerSubtitle")}
             </Typography>
 
             <Box
@@ -336,7 +338,7 @@ function LoginPage() {
                   },
                 }}
               >
-                Sign In
+                {t("auth.signIn")}
               </Button>
 
               <Button
@@ -366,7 +368,7 @@ function LoginPage() {
                   },
                 }}
               >
-                Sign Up
+                {t("auth.signUp")}
               </Button>
             </Box>
 

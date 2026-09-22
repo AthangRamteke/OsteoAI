@@ -13,42 +13,42 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import PieChartIcon from "@mui/icons-material/PieChart";
 
 import FeatureCard from "./FeatureCard";
+import { useLanguage } from "../../context/LanguageContext";
 
-const features = [
-  {
-    icon: <PsychologyIcon />,
-    title: "Explainable AI",
-    description:
-      "Understand which factors may influence an osteoporosis risk prediction instead of receiving only a final score.",
-    tint: "#EEF4FF",
-    iconColor: "#2563EB",
-  },
-  {
-    icon: <ShowChartIcon />,
-    title: "Personalized Risk Insights",
-    description:
-      "Combine personal, lifestyle, and medical information to build a more comprehensive assessment.",
-    tint: "#F3EEFF",
-    iconColor: "#7C3AED",
-  },
-  {
-    icon: <FavoriteIcon />,
-    title: "OsteoAI Health Assistant",
-    description:
-      "Get easy-to-understand guidance about bone health, assessment results, and preventive lifestyle habits.",
-    tint: "#ECFDF3",
-    iconColor: "#16A34A",
-  },
-  {
-    icon: <PieChartIcon />,
-    title: "Health Analytics",
-    description:
-      "Explore visual insights from your assessment and, later, track changes across multiple assessments.",
-    tint: "#FFF7ED",
-    iconColor: "#EA580C",
-  },
-];
 function FeaturesSection() {
+  const { t } = useLanguage();
+
+  const features = [
+    {
+      icon: <PsychologyIcon />,
+      title: t("features.item1Title"),
+      description: t("features.item1Desc"),
+      tint: "#EEF4FF",
+      iconColor: "#2563EB",
+    },
+    {
+      icon: <ShowChartIcon />,
+      title: t("features.item2Title"),
+      description: t("features.item2Desc"),
+      tint: "#F3EEFF",
+      iconColor: "#7C3AED",
+    },
+    {
+      icon: <FavoriteIcon />,
+      title: t("features.item3Title"),
+      description: t("features.item3Desc"),
+      tint: "#ECFDF3",
+      iconColor: "#16A34A",
+    },
+    {
+      icon: <PieChartIcon />,
+      title: t("features.item4Title"),
+      description: t("features.item4Desc"),
+      tint: "#FFF7ED",
+      iconColor: "#EA580C",
+    },
+  ];
+
   return (
     <Box
       id="features"
@@ -70,7 +70,7 @@ function FeaturesSection() {
             letterSpacing: "-0.02em",
           }}
         >
-          Why OsteoAI?
+          {t("features.title")}
         </Typography>
 
         <Typography
@@ -88,9 +88,7 @@ function FeaturesSection() {
             lineHeight: 1.8,
           }}
         >
-          A multi-factor bone health platform designed to combine
-          assessment, explainable AI, personalized guidance, and
-          meaningful health insights.
+          {t("features.subtitle")}
         </Typography>
 
         <Grid

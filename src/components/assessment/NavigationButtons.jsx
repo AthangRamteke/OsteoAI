@@ -1,5 +1,7 @@
 import { Box, Button } from "@mui/material";
 
+import { useLanguage } from "../../context/LanguageContext";
+
 function NavigationButtons({
   activeStep,
   setActiveStep,
@@ -7,6 +9,8 @@ function NavigationButtons({
   onSubmit,
   isStepValid,
 }) {
+  const { t } = useLanguage();
+
   const isFirstStep = activeStep === 0;
   const isLastStep = activeStep === totalSteps - 1;
 
@@ -64,7 +68,7 @@ function NavigationButtons({
         onClick={handleBack}
         disabled={isFirstStep}
       >
-        Back
+        {t("common.back")}
       </Button>
 
       <Button
@@ -77,7 +81,7 @@ function NavigationButtons({
         }
         disabled={!isStepValid}
       >
-        {isLastStep ? "Submit" : "Next"}
+        {isLastStep ? t("common.submit") : t("common.next")}
       </Button>
     </Box>
   );

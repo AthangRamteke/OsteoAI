@@ -16,35 +16,25 @@ import NoDrinksIcon from "@mui/icons-material/NoDrinks";
 
 import { useAssessment } from "../../context/AssessmentContext";
 import SelectableCard from "../ui/SelectableCard";
-
-const yesNoOptions = [
-  {
-    value: "Yes",
-    title: "Yes",
-    subtitle: "Yes",
-  },
-  {
-    value: "No",
-    title: "No",
-    subtitle: "No",
-  },
-];
-
-const alcoholFrequencyOptions = [
-  { value: "0", label: "Never" },
-  { value: "1", label: "Every day" },
-  { value: "2", label: "Nearly every day" },
-  { value: "3", label: "3–4 times per week" },
-  { value: "4", label: "2 times per week" },
-  { value: "5", label: "Once a week" },
-  { value: "6", label: "2–3 times per month" },
-  { value: "7", label: "Once a month" },
-  { value: "8", label: "7–11 times per year" },
-  { value: "9", label: "3–6 times per year" },
-  { value: "10", label: "1–2 times per year" },
-];
+import { useLanguage } from "../../context/LanguageContext";
 
 function LifestyleForm() {
+  const { t } = useLanguage();
+
+  const alcoholFrequencyOptions = [
+    { value: "0", label: t("assessment.lifestyle.alcoholFreq0") },
+    { value: "1", label: t("assessment.lifestyle.alcoholFreq1") },
+    { value: "2", label: t("assessment.lifestyle.alcoholFreq2") },
+    { value: "3", label: t("assessment.lifestyle.alcoholFreq3") },
+    { value: "4", label: t("assessment.lifestyle.alcoholFreq4") },
+    { value: "5", label: t("assessment.lifestyle.alcoholFreq5") },
+    { value: "6", label: t("assessment.lifestyle.alcoholFreq6") },
+    { value: "7", label: t("assessment.lifestyle.alcoholFreq7") },
+    { value: "8", label: t("assessment.lifestyle.alcoholFreq8") },
+    { value: "9", label: t("assessment.lifestyle.alcoholFreq9") },
+    { value: "10", label: t("assessment.lifestyle.alcoholFreq10") },
+  ];
+
   const { assessmentData, updateLifestyle } = useAssessment();
 
   const lifestyle = assessmentData.lifestyle;
@@ -97,8 +87,8 @@ function LifestyleForm() {
             selected={lifestyle[field] === "Yes"}
             onClick={() => handleChange(field, "Yes")}
             icon={yesIcon}
-            title="Yes"
-            subtitle="Yes"
+            title={t("common.yes")}
+            subtitle={t("common.yes")}
           />
         </Grid>
 
@@ -107,8 +97,8 @@ function LifestyleForm() {
             selected={lifestyle[field] === "No"}
             onClick={() => handleChange(field, "No")}
             icon={noIcon}
-            title="No"
-            subtitle="No"
+            title={t("common.no")}
+            subtitle={t("common.no")}
           />
         </Grid>
       </Grid>
@@ -129,7 +119,7 @@ function LifestyleForm() {
           variant="h5"
           fontWeight={800}
         >
-          Lifestyle Factors
+          {t("assessment.lifestyle.title")}
         </Typography>
 
         <Typography
@@ -139,15 +129,14 @@ function LifestyleForm() {
             lineHeight: 1.7,
           }}
         >
-          Your daily habits can play an important role in
-          overall bone health.
+          {t("assessment.lifestyle.subtitle")}
         </Typography>
       </Box>
 
       {/* Smoking */}
       <BinaryQuestion
-        title="Have you smoked at least 100 cigarettes in your lifetime?"
-        description="This matches the smoking measure used by the OsteoAI model."
+        title={t("assessment.lifestyle.smokingTitle")}
+        description={t("assessment.lifestyle.smokingDesc")}
         field="smoked100Cigarettes"
         yesIcon={<SmokingRoomsIcon />}
         noIcon={<SmokeFreeIcon />}
@@ -160,7 +149,7 @@ function LifestyleForm() {
           fontWeight={700}
           sx={{ mb: 1 }}
         >
-          Have you ever had an alcoholic drink?
+          {t("assessment.lifestyle.alcoholEverTitle")}
         </Typography>
 
         <Typography
@@ -168,7 +157,7 @@ function LifestyleForm() {
           color="text.secondary"
           sx={{ mb: 2 }}
         >
-          This refers to whether you have ever consumed alcohol.
+          {t("assessment.lifestyle.alcoholEverDesc")}
         </Typography>
 
         <Grid container spacing={2}>
@@ -177,8 +166,8 @@ function LifestyleForm() {
               selected={lifestyle.alcoholEver === "Yes"}
               onClick={() => handleAlcoholEver("Yes")}
               icon={<LocalBarIcon />}
-              title="Yes"
-              subtitle="Yes"
+              title={t("common.yes")}
+              subtitle={t("common.yes")}
             />
           </Grid>
 
@@ -187,8 +176,8 @@ function LifestyleForm() {
               selected={lifestyle.alcoholEver === "No"}
               onClick={() => handleAlcoholEver("No")}
               icon={<NoDrinksIcon />}
-              title="No"
-              subtitle="No"
+              title={t("common.no")}
+              subtitle={t("common.no")}
             />
           </Grid>
         </Grid>
@@ -201,7 +190,7 @@ function LifestyleForm() {
           fontWeight={700}
           sx={{ mb: 1 }}
         >
-          How often did you drink alcohol during the past 12 months?
+          {t("assessment.lifestyle.alcoholFreqTitle")}
         </Typography>
 
         <Typography
@@ -209,13 +198,13 @@ function LifestyleForm() {
           color="text.secondary"
           sx={{ mb: 2 }}
         >
-          Select the option that best describes your drinking frequency.
+          {t("assessment.lifestyle.alcoholFreqDesc")}
         </Typography>
 
         <TextField
           select
           fullWidth
-          label="Alcohol frequency"
+          label={t("assessment.lifestyle.alcoholFreqLabel")}
           value={lifestyle.alcoholFrequency}
           onChange={(event) =>
             handleChange(
@@ -242,7 +231,7 @@ function LifestyleForm() {
           fontWeight={700}
           sx={{ mb: 1 }}
         >
-          Work Activity
+          {t("assessment.lifestyle.workActivityTitle")}
         </Typography>
 
         <Typography
@@ -250,7 +239,7 @@ function LifestyleForm() {
           color="text.secondary"
           sx={{ mb: 2 }}
         >
-          Answer Yes or No for each activity.
+          {t("assessment.lifestyle.workActivitySubtitle")}
         </Typography>
 
         <Box
@@ -261,16 +250,16 @@ function LifestyleForm() {
           }}
         >
           <BinaryQuestion
-            title="Vigorous Work Activity"
-            description="Heavy physical work involving substantial effort."
+            title={t("assessment.lifestyle.vigorousWorkTitle")}
+            description={t("assessment.lifestyle.vigorousWorkDesc")}
             field="vigorousWorkActivity"
             yesIcon={<DirectionsRunIcon />}
             noIcon={<ChairIcon />}
           />
 
           <BinaryQuestion
-            title="Moderate Work Activity"
-            description="Moderate physical work as part of your usual routine."
+            title={t("assessment.lifestyle.moderateWorkTitle")}
+            description={t("assessment.lifestyle.moderateWorkDesc")}
             field="moderateWorkActivity"
             yesIcon={<DirectionsWalkIcon />}
             noIcon={<ChairIcon />}
@@ -285,7 +274,7 @@ function LifestyleForm() {
           fontWeight={700}
           sx={{ mb: 1 }}
         >
-          Movement & Recreation
+          {t("assessment.lifestyle.movementTitle")}
         </Typography>
 
         <Typography
@@ -293,7 +282,7 @@ function LifestyleForm() {
           color="text.secondary"
           sx={{ mb: 2 }}
         >
-          Answer Yes or No for each activity.
+          {t("assessment.lifestyle.movementSubtitle")}
         </Typography>
 
         <Box
@@ -304,24 +293,24 @@ function LifestyleForm() {
           }}
         >
           <BinaryQuestion
-            title="Walk or Bicycle"
-            description="Regular walking or cycling."
+            title={t("assessment.lifestyle.walkBicycleTitle")}
+            description={t("assessment.lifestyle.walkBicycleDesc")}
             field="walkOrBicycle"
             yesIcon={<DirectionsWalkIcon />}
             noIcon={<ChairIcon />}
           />
 
           <BinaryQuestion
-            title="Vigorous Recreation"
-            description="Running, vigorous sports, or similar exercise."
+            title={t("assessment.lifestyle.vigorousRecreationTitle")}
+            description={t("assessment.lifestyle.vigorousRecreationDesc")}
             field="vigorousRecreation"
             yesIcon={<DirectionsRunIcon />}
             noIcon={<ChairIcon />}
           />
 
           <BinaryQuestion
-            title="Moderate Recreation"
-            description="Moderate sports or exercise."
+            title={t("assessment.lifestyle.moderateRecreationTitle")}
+            description={t("assessment.lifestyle.moderateRecreationDesc")}
             field="moderateRecreation"
             yesIcon={<DirectionsWalkIcon />}
             noIcon={<ChairIcon />}
@@ -336,7 +325,7 @@ function LifestyleForm() {
           fontWeight={700}
           sx={{ mb: 1 }}
         >
-          Sedentary Time
+          {t("assessment.lifestyle.sedentaryTitle")}
         </Typography>
 
         <Typography
@@ -344,13 +333,12 @@ function LifestyleForm() {
           color="text.secondary"
           sx={{ mb: 2 }}
         >
-          Approximately how many minutes do you spend sitting
-          or inactive on a typical day?
+          {t("assessment.lifestyle.sedentarySubtitle")}
         </Typography>
 
         <TextField
           fullWidth
-          label="Sedentary minutes per day"
+          label={t("assessment.lifestyle.sedentaryLabel")}
           type="number"
           value={lifestyle.sedentaryMinutes}
           onChange={(event) =>
@@ -382,8 +370,7 @@ function LifestyleForm() {
           variant="body2"
           fontWeight={700}
         >
-          Your information is used to build a multi-factor
-          bone-health assessment.
+          {t("assessment.lifestyle.infoNoteTitle")}
         </Typography>
 
         <Typography
@@ -394,8 +381,7 @@ function LifestyleForm() {
             lineHeight: 1.6,
           }}
         >
-          Lifestyle information is combined with personal and
-          medical factors before the model generates a result.
+          {t("assessment.lifestyle.infoNoteDesc")}
         </Typography>
       </Box>
     </Box>

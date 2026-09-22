@@ -1,34 +1,33 @@
 import { Box, Container, Typography, Grid } from "@mui/material";
 import StepCard from "./StepCard";
-
-const steps = [
-  {
-    step: 1,
-    title: "Complete Your Health Assessment",
-    description:
-      "Provide personal information, lifestyle habits, and relevant medical history to build a comprehensive health profile.",
-  },
-  {
-    step: 2,
-    title: "AI-Assisted Risk Assessment",
-    description:
-      "Our planned machine learning system will analyze the collected factors to estimate your osteoporosis risk.",
-  },
-  {
-    step: 3,
-    title: "Understand Your Results",
-    description:
-      "Explore your overall risk, key contributing factors, and explainable insights to better understand your assessment.",
-  },
-  {
-    step: 4,
-    title: "Take Action for Better Bone Health",
-    description:
-      "Receive personalized recommendations, preventive guidance, and future lifestyle insights to support healthier choices.",
-  },
-];
+import { useLanguage } from "../../context/LanguageContext";
 
 function HowItWorks() {
+  const { t } = useLanguage();
+
+  const steps = [
+    {
+      step: 1,
+      title: t("howItWorks.step1Title"),
+      description: t("howItWorks.step1Desc"),
+    },
+    {
+      step: 2,
+      title: t("howItWorks.step2Title"),
+      description: t("howItWorks.step2Desc"),
+    },
+    {
+      step: 3,
+      title: t("howItWorks.step3Title"),
+      description: t("howItWorks.step3Desc"),
+    },
+    {
+      step: 4,
+      title: t("howItWorks.step4Title"),
+      description: t("howItWorks.step4Desc"),
+    },
+  ];
+
   return (
     <Box
       id="how-it-works"
@@ -51,7 +50,7 @@ function HowItWorks() {
             letterSpacing: "-0.02em",
           }}
         >
-          How OsteoAI Works
+          {t("howItWorks.title")}
         </Typography>
 
         <Typography
@@ -67,9 +66,7 @@ function HowItWorks() {
             lineHeight: 1.7,
           }}
         >
-          From health assessment to personalized bone-health insights,
-          OsteoAI is designed to guide users through a simple four-step
-          experience.
+          {t("howItWorks.subtitle")}
         </Typography>
 
         <Grid

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -12,6 +12,7 @@ import {
   ListItemIcon,
   ListItemText,
   Tooltip,
+  Menu,
 } from "@mui/material";
 
 import ScrollProgressBar from "../../components/common/ScrollProgressBar";
@@ -22,6 +23,9 @@ import FeaturesSection from "../../components/landing/FeaturesSection";
 import HowItWorks from "../../components/landing/HowItWorks";
 import AboutSection from "../../components/landing/AboutSection";
 import Footer from "../../components/common/Footer";
+import LanguageMenuItems from "../../components/common/LanguageMenuItems";
+
+import { useLanguage } from "../../context/LanguageContext";
 
 /*
 |--------------------------------------------------------------------------
@@ -278,17 +282,26 @@ const KnowledgeSvg = () => (
   </IconBase>
 );
 
-const SettingsSvg = () => (
+// Globe/language icon — the sidebar's popover only ever offered the
+// language switcher, so the gear ("Settings") icon and label were
+// misleading; this is a plain globe to signal "change language" instead.
+const LanguageSvg = () => (
   <IconBase>
     <circle
       cx="12"
       cy="12"
-      r="3"
+      r="9"
       stroke="currentColor"
       strokeWidth="1.9"
     />
     <path
-      d="M19.4 15A1.65 1.65 0 0 0 19.73 16.82L19.77 16.86L17.86 18.77L17.82 18.73A1.65 1.65 0 0 0 16 19.4A1.65 1.65 0 0 0 15 20.73V20.8H9V20.73A1.65 1.65 0 0 0 8 19.4A1.65 1.65 0 0 0 6.18 19.73L6.14 19.77L4.23 17.86L4.27 17.82A1.65 1.65 0 0 0 4.6 16A1.65 1.65 0 0 0 3.27 15H3.2V9H3.27A1.65 1.65 0 0 0 4.6 8A1.65 1.65 0 0 0 4.27 6.18L4.23 6.14L6.14 4.23L6.18 4.27A1.65 1.65 0 0 0 8 4.6A1.65 1.65 0 0 0 9 3.27V3.2H15V3.27A1.65 1.65 0 0 0 16 4.6A1.65 1.65 0 0 0 17.82 4.27L17.86 4.23L19.77 6.14L19.73 6.18A1.65 1.65 0 0 0 19.4 8A1.65 1.65 0 0 0 20.73 9H20.8V15H20.73A1.65 1.65 0 0 0 19.4 15Z"
+      d="M3 12H21"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinecap="round"
+    />
+    <path
+      d="M12 3C14.5 5.5 15.8 8.6 15.8 12C15.8 15.4 14.5 18.5 12 21C9.5 18.5 8.2 15.4 8.2 12C8.2 8.6 9.5 5.5 12 3Z"
       stroke="currentColor"
       strokeWidth="1.9"
       strokeLinejoin="round"
@@ -335,11 +348,23 @@ const ChevronSvg = () => (
 
 function LandingPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const [sidebarOpen, setSidebarOpen] =
     useState(false);
 
+  const [settingsAnchorEl, setSettingsAnchorEl] =
+    useState(null);
+
   const sidebarRef = useRef(null);
+
+  const openSettingsMenu = (event) => {
+    setSettingsAnchorEl(event.currentTarget);
+  };
+
+  const closeSettingsMenu = () => {
+    setSettingsAnchorEl(null);
+  };
 
   const closeSidebar = () => {
     setSidebarOpen(false);
@@ -366,62 +391,15 @@ function LandingPage() {
 
   /*
   |--------------------------------------------------------------------------
-  | NAVBAR ↔ SIDEBAR SYNCHRONIZATION
+  | NAVBAR ↔ SIDEBAR LAYOUT
   |--------------------------------------------------------------------------
+  | The sidebar always sits flush with the very top of the viewport (see
+  | its `top: 0` below, at rest and while expanded) and the navbar shrinks
+  | and shifts to match whichever width the sidebar currently is — see the
+  | `sidebarOpen` prop passed to <Navbar /> below. That keeps the two from
+  | ever overlapping or leaving a gap, without needing to measure either
+  | element's position on every frame.
   */
-
-  useEffect(() => {
-    let animationFrameId;
-    let running = true;
-
-    const syncPosition = () => {
-      if (!running) {
-        return;
-      }
-
-      const navbar = document.querySelector(
-        ".MuiAppBar-root"
-      );
-
-      const sidebar = sidebarRef.current;
-
-      if (navbar && sidebar) {
-        const rect =
-          navbar.getBoundingClientRect();
-
-        const navbarBottom = Math.max(
-          0,
-          Math.min(
-            window.innerHeight,
-            rect.bottom
-          )
-        );
-
-        sidebar.style.top =
-          `${navbarBottom}px`;
-      }
-
-      animationFrameId =
-        window.requestAnimationFrame(
-          syncPosition
-        );
-    };
-
-    animationFrameId =
-      window.requestAnimationFrame(
-        syncPosition
-      );
-
-    return () => {
-      running = false;
-
-      if (animationFrameId) {
-        window.cancelAnimationFrame(
-          animationFrameId
-        );
-      }
-    };
-  }, []);
 
   /*
   |--------------------------------------------------------------------------
@@ -431,33 +409,33 @@ function LandingPage() {
 
   const menuItems = [
     {
-      label: "Home",
+      label: t("sidebar.home"),
       icon: <HomeSvg />,
       action: handleHome,
       disabled: false,
       active: true,
     },
     {
-      label: "New Assessment",
+      label: t("sidebar.newAssessment"),
       icon: <AssessmentSvg />,
       action: handleAssessment,
       disabled: false,
       emphasis: true,
     },
     {
-      label: "Assessment History",
+      label: t("sidebar.assessmentHistory"),
       icon: <HistorySvg />,
       action: goTo("/history"),
       disabled: false,
     },
     {
-      label: "AI Assistant",
+      label: t("sidebar.aiAssistant"),
       icon: <AIIcon />,
       action: goTo("/assistant"),
       disabled: false,
     },
     {
-      label: "Knowledge & Support",
+      label: t("sidebar.knowledgeSupport"),
       icon: <KnowledgeSvg />,
       action: goTo("/knowledge"),
       disabled: false,
@@ -466,12 +444,15 @@ function LandingPage() {
 
   const bottomItems = [
     {
-      label: "Settings",
-      icon: <SettingsSvg />,
-      disabled: true,
+      id: "settings",
+      label: t("sidebar.settings"),
+      icon: <LanguageSvg />,
+      disabled: false,
+      action: openSettingsMenu,
     },
     {
-      label: "Logout",
+      id: "logout",
+      label: t("sidebar.logout"),
       icon: <LogoutSvg />,
       disabled: true,
     },
@@ -487,7 +468,7 @@ function LandingPage() {
     >
       <ScrollProgressBar />
 
-      <Navbar />
+      <Navbar sidebarOpen={sidebarOpen} />
 
       {/* =========================================================
           BACKGROUND OVERLAY
@@ -590,8 +571,8 @@ function LandingPage() {
           <Tooltip
             title={
               sidebarOpen
-                ? "Close menu"
-                : "Open menu"
+                ? t("sidebar.closeMenu")
+                : t("sidebar.openMenu")
             }
             placement="right"
           >
@@ -687,7 +668,7 @@ function LandingPage() {
               title={
                 sidebarOpen
                   ? ""
-                  : "User Profile"
+                  : t("sidebar.userProfile")
               }
               placement="right"
             >
@@ -767,7 +748,7 @@ function LandingPage() {
                   textOverflow: "ellipsis",
                 }}
               >
-                User Profile
+                {t("sidebar.userProfile")}
               </Typography>
 
               <Box
@@ -802,7 +783,7 @@ function LandingPage() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Active account
+                  {t("sidebar.activeAccount")}
                 </Typography>
               </Box>
             </Box>
@@ -829,235 +810,268 @@ function LandingPage() {
         <Divider />
 
         {/* =======================================================
-            MAIN NAVIGATION
-            ======================================================= */}
-        <List
-          sx={{
-            px: 0.75,
-            py: 1.25,
-          }}
-        >
-          {menuItems.map((item) => (
-            <Tooltip
-              key={item.label}
-              title={
-                sidebarOpen
-                  ? ""
-                  : item.label
-              }
-              placement="right"
-            >
-              <span>
-                <ListItemButton
-                  disabled={item.disabled}
-                  onClick={item.action}
-                  sx={{
-                    minHeight: 52,
-
-                    px: sidebarOpen
-                      ? 1.5
-                      : 0,
-
-                    mb: 0.65,
-
-                    borderRadius: 2.5,
-
-                    justifyContent:
-                      sidebarOpen
-                        ? "flex-start"
-                        : "center",
-
-                    color: item.disabled
-                      ? "#94A3B8"
-                      : item.active
-                        ? "#1D4ED8"
-                        : "#334155",
-
-                    bgcolor: item.active
-                      ? "rgba(37, 99, 235, 0.10)"
-                      : item.emphasis
-                        ? "rgba(240, 249, 255, 0.72)"
-                        : "transparent",
-
-                    border:
-                      "1px solid transparent",
-
-                    borderColor:
-                      item.active
-                        ? "rgba(37, 99, 235, 0.16)"
-                        : item.emphasis
-                          ? "rgba(56, 189, 248, 0.18)"
-                          : "transparent",
-
-                    transition:
-                      "all 0.2s ease",
-
-                    "&:hover": {
-                      bgcolor:
-                        "rgba(37, 99, 235, 0.10)",
-
-                      color: "#2563EB",
-
-                      transform:
-                        item.disabled
-                          ? "none"
-                          : "translateX(2px)",
-                    },
-
-                    "&.Mui-disabled": {
-                      opacity: 0.48,
-                    },
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth:
-                        sidebarOpen
-                          ? 42
-                          : 0,
-
-                      width: sidebarOpen
-                        ? 32
-                        : 38,
-
-                      height: sidebarOpen
-                        ? 32
-                        : 38,
-
-                      borderRadius: 2,
-
-                      bgcolor: item.active
-                        ? "rgba(37, 99, 235, 0.14)"
-                        : item.emphasis
-                          ? "rgba(14, 165, 233, 0.12)"
-                          : "transparent",
-
-                      color: item.emphasis
-                        ? "#0284C7"
-                        : "inherit",
-
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-
-                      flexShrink: 0,
-                    }}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-
-                  {sidebarOpen && (
-                    <ListItemText
-                      primary={item.label}
-                      primaryTypographyProps={{
-                        fontWeight:
-                          item.active
-                            ? 700
-                            : 600,
-
-                        fontSize:
-                          "0.91rem",
-
-                        whiteSpace:
-                          "nowrap",
-                      }}
-                    />
-                  )}
-                </ListItemButton>
-              </span>
-            </Tooltip>
-          ))}
-        </List>
-
-        {/* =======================================================
-            BOTTOM NAVIGATION
+            NAVIGATION
             ======================================================= */}
         <Box
           sx={{
-            mt: "auto",
-
-            px: 0.75,
-            pb: 1.25,
+            position: "relative",
+            flex: 1,
+            minHeight: 0,
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <Divider sx={{ mb: 1 }} />
-
-          {bottomItems.map((item) => (
-            <Tooltip
-              key={item.label}
-              title={
-                sidebarOpen
-                  ? ""
-                  : item.label
-              }
-              placement="right"
-            >
-              <span>
-                <ListItemButton
-                  disabled={item.disabled}
-                  sx={{
-                    minHeight: 52,
-
-                    px: sidebarOpen
-                      ? 1.5
-                      : 0,
-
-                    mb: 0.4,
-
-                    borderRadius: 2,
-
-                    justifyContent:
-                      sidebarOpen
-                        ? "flex-start"
-                        : "center",
-
-                    color:
-                      item.label === "Logout"
-                        ? "#EF4444"
-                        : "#64748B",
-
-                    "&.Mui-disabled": {
-                      opacity: 0.48,
-                    },
-                  }}
-                >
-                  <ListItemIcon
+          <List
+            sx={{
+              px: 0.75,
+              py: 1.25,
+            }}
+          >
+            {menuItems.map((item) => (
+              <Tooltip
+                key={item.label}
+                title={
+                  sidebarOpen
+                    ? ""
+                    : item.label
+                }
+                placement="right"
+              >
+                <span>
+                  <ListItemButton
+                    disabled={item.disabled}
+                    onClick={item.action}
                     sx={{
-                      minWidth:
-                        sidebarOpen
-                          ? 42
-                          : 0,
+                      minHeight: 52,
+
+                      px: sidebarOpen
+                        ? 1.5
+                        : 0,
+
+                      mb: 0.65,
+
+                      borderRadius: 2.5,
 
                       justifyContent:
-                        "center",
+                        sidebarOpen
+                          ? "flex-start"
+                          : "center",
 
-                      color: "inherit",
+                      color: item.disabled
+                        ? "#94A3B8"
+                        : item.active
+                          ? "#1D4ED8"
+                          : "#334155",
+
+                      bgcolor: item.active
+                        ? "rgba(37, 99, 235, 0.10)"
+                        : item.emphasis
+                          ? "rgba(240, 249, 255, 0.72)"
+                          : "transparent",
+
+                      border:
+                        "1px solid transparent",
+
+                      borderColor:
+                        item.active
+                          ? "rgba(37, 99, 235, 0.16)"
+                          : item.emphasis
+                            ? "rgba(56, 189, 248, 0.18)"
+                            : "transparent",
+
+                      transition:
+                        "all 0.2s ease",
+
+                      "&:hover": {
+                        bgcolor:
+                          "rgba(37, 99, 235, 0.10)",
+
+                        color: "#2563EB",
+
+                        transform:
+                          item.disabled
+                            ? "none"
+                            : "translateX(2px)",
+                      },
+
+                      "&.Mui-disabled": {
+                        opacity: 0.48,
+                      },
                     }}
                   >
-                    {item.icon}
-                  </ListItemIcon>
+                    <ListItemIcon
+                      sx={{
+                        minWidth:
+                          sidebarOpen
+                            ? 42
+                            : 0,
 
-                  {sidebarOpen && (
-                    <ListItemText
-                      primary={item.label}
-                      primaryTypographyProps={{
-                        fontWeight: 600,
-                        fontSize:
-                          "0.91rem",
+                        width: sidebarOpen
+                          ? 32
+                          : 38,
 
-                        color:
-                          item.label ===
-                            "Logout"
-                            ? "#EF4444"
-                            : "#475569",
+                        height: sidebarOpen
+                          ? 32
+                          : 38,
+
+                        borderRadius: 2,
+
+                        bgcolor: item.active
+                          ? "rgba(37, 99, 235, 0.14)"
+                          : item.emphasis
+                            ? "rgba(14, 165, 233, 0.12)"
+                            : "transparent",
+
+                        color: item.emphasis
+                          ? "#0284C7"
+                          : "inherit",
+
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+
+                        flexShrink: 0,
                       }}
-                    />
-                  )}
-                </ListItemButton>
-              </span>
-            </Tooltip>
-          ))}
+                    >
+                      {item.icon}
+                    </ListItemIcon>
+
+                    {sidebarOpen && (
+                      <ListItemText
+                        primary={item.label}
+                        slotProps={{
+                          primary: {
+                            fontWeight:
+                              item.active
+                                ? 700
+                                : 600,
+
+                            fontSize:
+                              "0.91rem",
+
+                            whiteSpace:
+                              "nowrap",
+                          },
+                        }}
+                      />
+                    )}
+                  </ListItemButton>
+                </span>
+              </Tooltip>
+            ))}
+          </List>
+
+          {/* BOTTOM NAVIGATION */}
+          <Box
+            sx={{
+              mt: "auto",
+              px: 0.75,
+              pb: 1.25,
+            }}
+          >
+            <Divider sx={{ mb: 1 }} />
+
+            {bottomItems.map((item) => (
+              <Tooltip
+                key={item.id}
+                title={
+                  sidebarOpen
+                    ? ""
+                    : item.label
+                }
+                placement="right"
+              >
+                <span>
+                  <ListItemButton
+                    disabled={item.disabled}
+                    onClick={item.action}
+                    sx={{
+                      minHeight: 52,
+
+                      px: sidebarOpen
+                        ? 1.5
+                        : 0,
+
+                      mb: 0.4,
+
+                      borderRadius: 2,
+
+                      justifyContent:
+                        sidebarOpen
+                          ? "flex-start"
+                          : "center",
+
+                      color:
+                        item.id === "logout"
+                          ? "#EF4444"
+                          : "#64748B",
+
+                      "&.Mui-disabled": {
+                        opacity: 0.48,
+                      },
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth:
+                          sidebarOpen
+                            ? 42
+                            : 0,
+
+                        justifyContent:
+                          "center",
+
+                        color: "inherit",
+                      }}
+                    >
+                      {item.icon}
+                    </ListItemIcon>
+
+                    {sidebarOpen && (
+                      <ListItemText
+                        primary={item.label}
+                        slotProps={{
+                          primary: {
+                            fontWeight: 600,
+                            fontSize:
+                              "0.91rem",
+
+                            color:
+                              item.id ===
+                                "logout"
+                                ? "#EF4444"
+                                : "#475569",
+                          },
+                        }}
+                      />
+                    )}
+                  </ListItemButton>
+                </span>
+              </Tooltip>
+            ))}
+          </Box>
         </Box>
+
+        {/* SETTINGS POPOVER — Change Language */}
+        <Menu
+          anchorEl={settingsAnchorEl}
+          open={Boolean(settingsAnchorEl)}
+          onClose={closeSettingsMenu}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          transformOrigin={{ vertical: "bottom", horizontal: "left" }}
+          slotProps={{
+            paper: {
+              sx: {
+                borderRadius: 3,
+                border: "1px solid #E2E8F0",
+                boxShadow: "0 18px 44px rgba(15, 23, 42, 0.12)",
+                mb: 1,
+              },
+            },
+          }}
+        >
+          <LanguageMenuItems onSelected={closeSettingsMenu} />
+        </Menu>
       </Box>
 
       {/* =========================================================

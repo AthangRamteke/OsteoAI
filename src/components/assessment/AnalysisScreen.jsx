@@ -13,10 +13,14 @@ import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 
 import { motion } from "framer-motion";
 
+import { useLanguage } from "../../context/LanguageContext";
+
 function AnalysisScreen({
   progress = 0,
   currentStep = 0,
 }) {
+  const { t } = useLanguage();
+
   const safeProgress = Math.max(
     0,
     Math.min(100, Number(progress) || 0)
@@ -24,17 +28,17 @@ function AnalysisScreen({
 
   const stages = [
     {
-      label: "Personal information",
+      label: t("assessment.analysis.stage1"),
       icon: <HealthAndSafetyIcon />,
       completed: currentStep >= 1,
     },
     {
-      label: "Lifestyle factors",
+      label: t("assessment.analysis.stage2"),
       icon: <AutoGraphIcon />,
       completed: currentStep >= 2,
     },
     {
-      label: "Medical history",
+      label: t("assessment.analysis.stage3"),
       icon: <PsychologyIcon />,
       completed: currentStep >= 3,
     },
@@ -42,18 +46,18 @@ function AnalysisScreen({
 
   const getStageMessage = () => {
     if (safeProgress < 30) {
-      return "Preparing personal information and assessment inputs...";
+      return t("assessment.analysis.stageMessage1");
     }
 
     if (safeProgress < 60) {
-      return "Evaluating lifestyle factors and activity patterns...";
+      return t("assessment.analysis.stageMessage2");
     }
 
     if (safeProgress < 85) {
-      return "Processing medical history and model features...";
+      return t("assessment.analysis.stageMessage3");
     }
 
-    return "Generating the model-based risk analysis and explainability...";
+    return t("assessment.analysis.stageMessage4");
   };
 
   return (
@@ -139,7 +143,7 @@ function AnalysisScreen({
               },
             }}
           >
-            Preparing Your Assessment
+            {t("assessment.analysis.title")}
           </Typography>
 
           <Typography
@@ -149,8 +153,7 @@ function AnalysisScreen({
               color: "#64748B",
             }}
           >
-            Your assessment data is being prepared for
-            personalized analysis.
+            {t("assessment.analysis.subtitle")}
           </Typography>
 
           {/* Dynamic message */}
@@ -200,7 +203,7 @@ function AnalysisScreen({
                 fontWeight={700}
                 sx={{ color: "#0F172A" }}
               >
-                Analysis progress
+                {t("assessment.analysis.progressLabel")}
               </Typography>
 
               <Typography
@@ -300,7 +303,7 @@ function AnalysisScreen({
               color: "#94A3B8",
             }}
           >
-            Please wait while OsteoAI prepares your results...
+            {t("assessment.analysis.footerNote")}
           </Typography>
         </Box>
       </Card>

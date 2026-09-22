@@ -1,12 +1,16 @@
 import { Stepper, Step, StepLabel } from "@mui/material";
 
-const steps = [
-  "Personal",
-  "Lifestyle",
-  "Medical",
-];
+import { useLanguage } from "../../context/LanguageContext";
 
 function AssessmentStepper({ activeStep }) {
+  const { t } = useLanguage();
+
+  const steps = [
+    t("assessment.stepperPersonal"),
+    t("assessment.stepperLifestyle"),
+    t("assessment.stepperMedical"),
+  ];
+
   return (
     <Stepper
       activeStep={activeStep}

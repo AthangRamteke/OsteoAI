@@ -14,7 +14,11 @@ import {
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import DisabledVisibleIcon from "@mui/icons-material/DisabledVisible";
 
+import { useLanguage } from "../../context/LanguageContext";
+
 function LoginForm({ onSwitch }) {
+  const { t } = useLanguage();
+
   const [showPassword, setShowPassword] =
     useState(false);
 
@@ -44,7 +48,7 @@ function LoginForm({ onSwitch }) {
           color: "#0F172A",
         }}
       >
-        Welcome back
+        {t("auth.loginTitle")}
       </Typography>
 
       <Typography
@@ -53,7 +57,7 @@ function LoginForm({ onSwitch }) {
           color: "#64748B",
         }}
       >
-        Sign in to continue to your OsteoAI account.
+        {t("auth.loginDesc")}
       </Typography>
 
       <Box
@@ -68,7 +72,7 @@ function LoginForm({ onSwitch }) {
       >
         <TextField
           fullWidth
-          label="Email Address"
+          label={t("auth.emailLabel")}
           type="email"
           value={email}
           onChange={(event) =>
@@ -78,7 +82,7 @@ function LoginForm({ onSwitch }) {
 
         <TextField
           fullWidth
-          label="Password"
+          label={t("auth.passwordLabel")}
           type={showPassword ? "text" : "password"}
           value={password}
           onChange={(event) =>
@@ -120,7 +124,7 @@ function LoginForm({ onSwitch }) {
         >
           <FormControlLabel
             control={<Checkbox />}
-            label="Remember me"
+            label={t("auth.rememberMe")}
           />
 
           <Button
@@ -131,7 +135,7 @@ function LoginForm({ onSwitch }) {
               p: 0.5,
             }}
           >
-            Forgot Password?
+            {t("auth.forgotPassword")}
           </Button>
         </Box>
 
@@ -148,7 +152,7 @@ function LoginForm({ onSwitch }) {
             boxShadow: "none",
           }}
         >
-          Sign In
+          {t("auth.signIn")}
         </Button>
       </Box>
 
@@ -159,7 +163,7 @@ function LoginForm({ onSwitch }) {
           color: "#64748B",
         }}
       >
-        Don't have an account?{" "}
+        {t("auth.noAccount")}{" "}
         <Button
           onClick={onSwitch}
           sx={{
@@ -170,7 +174,7 @@ function LoginForm({ onSwitch }) {
             verticalAlign: "baseline",
           }}
         >
-          Sign Up
+          {t("auth.signUp")}
         </Button>
       </Typography>
     </Box>

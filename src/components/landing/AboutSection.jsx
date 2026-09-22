@@ -10,26 +10,26 @@ import {
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useLanguage } from "../../context/LanguageContext";
 
 function AboutSection() {
+    const { t } = useLanguage();
+
     const highlights = [
         {
             icon: <HealthAndSafetyIcon />,
-            title: "Prevention First",
-            description:
-                "OsteoAI focuses on identifying risk factors early and encouraging healthier decisions before serious complications occur.",
+            title: t("about.highlight1Title"),
+            description: t("about.highlight1Desc"),
         },
         {
             icon: <AutoGraphIcon />,
-            title: "Data-Driven Insights",
-            description:
-                "The platform is designed to combine personal, lifestyle, and medical information into meaningful risk insights.",
+            title: t("about.highlight2Title"),
+            description: t("about.highlight2Desc"),
         },
         {
             icon: <FavoriteBorderIcon />,
-            title: "Personalized Guidance",
-            description:
-                "Future recommendations and AI assistance will be tailored to the user's assessment and health profile.",
+            title: t("about.highlight3Title"),
+            description: t("about.highlight3Desc"),
         },
     ];
 
@@ -54,7 +54,7 @@ function AboutSection() {
                                 color="primary"
                                 fontWeight={700}
                             >
-                                ABOUT OSTEOAI
+                                {t("about.eyebrow")}
                             </Typography>
 
                             <Typography
@@ -70,7 +70,7 @@ function AboutSection() {
                                     letterSpacing: "-0.02em",
                                 }}
                             >
-                                A smarter approach to
+                                {t("about.titleLine1")}
                                 <Box
                                     component="span"
                                     sx={{
@@ -78,7 +78,7 @@ function AboutSection() {
                                         color: "primary.main",
                                     }}
                                 >
-                                    preventive bone health.
+                                    {t("about.titleLine2")}
                                 </Box>
                             </Typography>
 
@@ -92,10 +92,7 @@ function AboutSection() {
                                     fontSize: "1.05rem",
                                 }}
                             >
-                                OsteoAI is being developed as an AI-powered bone
-                                health platform that brings together assessment,
-                                machine learning, explainability, analytics, and
-                                personalized guidance in one place.
+                                {t("about.paragraph1")}
                             </Typography>
 
                             <Typography
@@ -108,9 +105,7 @@ function AboutSection() {
                                     fontSize: "1.05rem",
                                 }}
                             >
-                                The goal is not to replace medical professionals,
-                                but to help users better understand important risk
-                                factors and make informed preventive health decisions.
+                                {t("about.paragraph2")}
                             </Typography>
                         </Grid>
 
@@ -206,7 +201,7 @@ function AboutSection() {
                                 letterSpacing: "-0.02em",
                             }}
                         >
-                            Ready to understand your
+                            {t("about.ctaTitleLine1")}
                             <Box
                                 component="span"
                                 sx={{
@@ -214,7 +209,7 @@ function AboutSection() {
                                     color: "primary.main",
                                 }}
                             >
-                                bone health?
+                                {t("about.ctaTitleLine2")}
                             </Box>
                         </Typography>
 
@@ -227,8 +222,7 @@ function AboutSection() {
                                 lineHeight: 1.8,
                             }}
                         >
-                            Complete the assessment to explore your personal,
-                            lifestyle, and medical health factors.
+                            {t("about.ctaText")}
                         </Typography>
 
                         <Typography
@@ -238,8 +232,7 @@ function AboutSection() {
                                 mt: 2,
                             }}
                         >
-                            Your complete personalized risk assessment is
-                            generated after the full assessment is completed.
+                            {t("about.ctaSubtext")}
                         </Typography>
                     </Paper>
                 </Container>

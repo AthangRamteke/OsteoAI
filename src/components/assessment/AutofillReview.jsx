@@ -10,29 +10,49 @@ import {
   Typography,
 } from "@mui/material";
 
-const sectionTitles = {
-  personal: "Personal Information",
-  lifestyle: "Lifestyle",
-  medical: "Medical & Family History",
-};
-
-const getStatus = (status) => {
-  if (status === "found") {
-    return { label: "Found", color: "#166534", bgcolor: "#DCFCE7" };
-  }
-
-  if (status === "manual_mapping_required") {
-    return { label: "Needs mapping", color: "#92400E", bgcolor: "#FEF3C7" };
-  }
-
-  if (status === "reference_only") {
-    return { label: "Reference", color: "#475569", bgcolor: "#F1F5F9" };
-  }
-
-  return { label: "Review", color: "#1D4ED8", bgcolor: "#EEF4FF" };
-};
+import { useLanguage } from "../../context/LanguageContext";
 
 function AutofillReview({ result, fileName, onBack, onContinue }) {
+  const { t } = useLanguage();
+
+  const sectionTitles = {
+    personal: t("assessment.autofillReview.sectionPersonal"),
+    lifestyle: t("assessment.autofillReview.sectionLifestyle"),
+    medical: t("assessment.autofillReview.sectionMedical"),
+  };
+
+  const getStatus = (status) => {
+    if (status === "found") {
+      return {
+        label: t("assessment.autofillReview.statusFound"),
+        color: "#166534",
+        bgcolor: "#DCFCE7",
+      };
+    }
+
+    if (status === "manual_mapping_required") {
+      return {
+        label: t("assessment.autofillReview.statusNeedsMapping"),
+        color: "#92400E",
+        bgcolor: "#FEF3C7",
+      };
+    }
+
+    if (status === "reference_only") {
+      return {
+        label: t("assessment.autofillReview.statusReference"),
+        color: "#475569",
+        bgcolor: "#F1F5F9",
+      };
+    }
+
+    return {
+      label: t("assessment.autofillReview.statusReview"),
+      color: "#1D4ED8",
+      bgcolor: "#EEF4FF",
+    };
+  };
+
   const fields = Array.isArray(result?.fields) ? result.fields : [];
 
   const groups = ["personal", "lifestyle", "medical"]
@@ -46,7 +66,7 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
     <Box>
       <Box sx={{ textAlign: "center", mb: { xs: 3, md: 4 } }}>
         <Chip
-          label="AI REVIEW"
+          label={t("assessment.autofillReview.badge")}
           size="small"
           sx={{
             mb: 1.2,
@@ -64,7 +84,7 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
             fontSize: { xs: "2rem", sm: "2.4rem", md: "2.8rem" },
           }}
         >
-          Review information found
+          {t("assessment.autofillReview.title")}
         </Typography>
 
         <Typography
@@ -76,19 +96,15 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
             mx: "auto",
           }}
         >
-          OsteoAI found candidate information in <strong>{fileName}</strong>.
-          Review the values before continuing. Values marked “Review” can be
-          confirmed and added to the assessment; values that need mapping
-          stay out until you enter them manually.
+          {t("assessment.autofillReview.subtitle", {
+            fileName,
+          })}
         </Typography>
       </Box>
 
       <Alert severity="warning" icon={false} sx={{ mb: 2.5, borderRadius: 3 }}>
         <Typography variant="body2" sx={{ lineHeight: 1.7 }}>
-          Document extraction can be imperfect. “Review” means OsteoAI found a
-          usable candidate but wants you to verify it. “Needs mapping” means
-          the document wording does not yet match one of the assessment’s
-          allowed choices, so OsteoAI will not guess for you.
+          {t("assessment.autofillReview.warning")}
         </Typography>
       </Alert>
 
@@ -166,7 +182,7 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
                           }}
                         >
                           {field.value === null || field.value === undefined || field.value === ""
-                            ? "Not found"
+                            ? t("assessment.autofillReview.notFound")
                             : String(field.value)}
                         </Typography>
 
@@ -175,7 +191,9 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
                             variant="caption"
                             sx={{ display: "block", mt: 0.8, color: "#64748B" }}
                           >
-                            Source: {field.source_text}
+                            {t("assessment.autofillReview.sourceLabel", {
+                              source: field.source_text,
+                            })}
                           </Typography>
                         )}
                       </Box>
@@ -200,10 +218,9 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
         }}
       >
         <Typography variant="body2" sx={{ color: "#075985", lineHeight: 1.7 }}>
-          Found <strong>{result?.field_count_found ?? fields.length}</strong> candidate
-          fields. Reference-only values such as BMI are shown for context and
-          are not copied directly; values needing mapping must be entered using
-          the assessment choices.
+          {t("assessment.autofillReview.foundCount", {
+            count: result?.field_count_found ?? fields.length,
+          })}
         </Typography>
       </Box>
 
@@ -219,7 +236,7 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
             fontWeight: 700,
           }}
         >
-          Back to Document
+          {t("assessment.autofillReview.backToDocument")}
         </Button>
 
         <Button
@@ -233,7 +250,7 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
             fontWeight: 800,
           }}
         >
-          Confirm & Continue
+          {t("assessment.autofillReview.confirmContinue")}
         </Button>
       </Stack>
     </Box>

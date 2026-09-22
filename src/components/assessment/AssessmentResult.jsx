@@ -25,12 +25,16 @@ import InsightsIcon from "@mui/icons-material/Insights";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import SendIcon from "@mui/icons-material/Send";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
+import WarningAmberIcon from "@mui/icons-material/ReportProblem";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 
 import { useAssessment } from "../../context/AssessmentContext";
+import { useLanguage } from "../../context/LanguageContext";
 import { streamAgentMessage } from "../../services/agentService";
 import { historyForAgent } from "../../services/historyStore";
 
@@ -525,6 +529,9 @@ function AssessmentResult({
   onEdit,
   onRetake,
 }) {
+  const { t } = useLanguage();
+  const navigate = useNavigate();
+
   const { assessmentData } = useAssessment();
 
   const {
@@ -599,6 +606,40 @@ function AssessmentResult({
     return "Obese";
   };
 
+  const translateBMICategory = (category) => {
+    if (category === "Not available") {
+      return t("common.notAvailable");
+    }
+
+    return (
+      t(`common.bmiCategories.${category}`) || category
+    );
+  };
+
+  const translateRiskLevel = (level) =>
+    t(`common.riskLevels.${level}`) || level;
+
+  const translateGender = (gender) => {
+    if (!gender) {
+      return "";
+    }
+
+    return (
+      t(`common.values.${gender.toLowerCase()}`) || gender
+    );
+  };
+
+  const translateYesNo = (value) => {
+    if (value === "Yes") {
+      return t("common.yes");
+    }
+
+    if (value === "No") {
+      return t("common.no");
+    }
+
+    return value;
+  };
 
   const getRiskColor = () => {
     if (riskLevel === "High") {
@@ -774,9 +815,7 @@ function AssessmentResult({
       </Stack>
 
       <Chip
-        label={
-          value || "Not provided"
-        }
+        label={value || t("common.notProvided")}
         size="small"
         sx={{
           fontWeight: 700,
@@ -839,7 +878,7 @@ function AssessmentResult({
             letterSpacing: "-0.02em",
           }}
         >
-          Your Bone Health Assessment
+          {t("assessment.result.title")}
         </Typography>
 
         <Typography
@@ -849,8 +888,7 @@ function AssessmentResult({
             lineHeight: 1.7,
           }}
         >
-          Your assessment has been processed using the
-          OsteoAI machine-learning model.
+          {t("assessment.result.subtitle")}
         </Typography>
       </Box>
 
@@ -900,7 +938,7 @@ function AssessmentResult({
                     getRiskColor(),
                 }}
               >
-                OVERALL ASSESSMENT
+                {t("assessment.result.overallAssessment")}
               </Typography>
 
               <Typography
@@ -911,7 +949,9 @@ function AssessmentResult({
                   color: "#0F172A",
                 }}
               >
-                {riskLevel} Risk Level
+                {t("assessment.result.riskLevelSuffix", {
+                  level: translateRiskLevel(riskLevel),
+                })}
               </Typography>
 
               <Typography
@@ -922,13 +962,9 @@ function AssessmentResult({
                   lineHeight: 1.7,
                 }}
               >
-                The model estimates a{" "}
-                <strong>
-                  {probabilityPercent}%
-                </strong>{" "}
-                probability for the
-                positive osteoporosis
-                class in this assessment.
+                {t("assessment.result.probabilityText", {
+                  percent: probabilityPercent,
+                })}
               </Typography>
             </Box>
 
@@ -951,7 +987,7 @@ function AssessmentResult({
                   color: "#64748B",
                 }}
               >
-                Estimated Probability
+                {t("assessment.result.estimatedProbability")}
               </Typography>
 
               <Typography
@@ -967,7 +1003,7 @@ function AssessmentResult({
               </Typography>
 
               <Chip
-                label={riskLevel}
+                label={translateRiskLevel(riskLevel)}
                 size="small"
                 sx={{
                   mt: 1,
@@ -1014,24 +1050,211 @@ function AssessmentResult({
           variant="body2"
           fontWeight={700}
         >
-          Model prediction:{" "}
+          {t("assessment.result.modelPredictionLabel")}{" "}
           {isPositive
-            ? "Positive osteoporosis risk flag"
-            : "No osteoporosis risk flag"}
+            ? t("assessment.result.positiveFlag")
+            : t("assessment.result.negativeFlag")}
         </Typography>
 
         <Typography
           variant="body2"
-          sx={{
-            mt: 0.5,
-          }}
+          sx={{ mt: 0.5 }}
         >
-          This is a research/prototype
-          risk assessment and is not a
-          medical diagnosis.
+          {t("assessment.result.researchNote")}
         </Typography>
       </Alert>
+      {/* SHAP Explainability */}
+      {shapExplanations.length > 0 && (
+        <Card
+          elevation={0}
+          sx={{
+            borderRadius: 4,
+            border: "1px solid #E2E8F0",
+            bgcolor: "white",
+          }}
+        >
+          <CardContent
+            sx={{
+              p: {
+                xs: 2.5,
+                md: 3,
+              },
+            }}
+          >
+            <Stack
+              direction="row"
+              spacing={1.25}
+              sx={{
+                alignItems: "center",
+              }}
+            >
+              <AutoAwesomeIcon
+                color="primary"
+              />
 
+              <Typography
+                variant="h6"
+                fontWeight={800}
+              >
+                {t("assessment.result.shapTitle")}
+              </Typography>
+            </Stack>
+
+            <Typography
+              variant="body2"
+              sx={{
+                mt: 1,
+                color: "#64748B",
+                lineHeight: 1.7,
+              }}
+            >
+              {t("assessment.result.shapDesc")}
+            </Typography>
+
+            <Stack
+              spacing={1.5}
+              sx={{
+                mt: 2.5,
+              }}
+            >
+              {shapExplanations.map((item) => {
+                const shapValue = Number(
+                  item.shap_value
+                );
+
+                const increases =
+                  item.direction ===
+                  "increases_model_output";
+
+                const magnitude = Number.isFinite(
+                  shapValue
+                )
+                  ? Math.abs(shapValue).toFixed(3)
+                  : "—";
+
+                return (
+                  <Box
+                    key={item.feature}
+                    sx={{
+                      p: 1.75,
+                      borderRadius: 3,
+                      bgcolor: "#F8FAFC",
+                      border: "1px solid #E2E8F0",
+                    }}
+                  >
+                    <Stack
+                      direction={{
+                        xs: "column",
+                        sm: "row",
+                      }}
+                      spacing={1.5}
+                      sx={{
+                        justifyContent: "space-between",
+                        alignItems: {
+                          xs: "stretch",
+                          sm: "center",
+                        },
+                      }}
+                    >
+                      <Stack
+                        direction="row"
+                        spacing={1.25}
+                        sx={{
+                          alignItems: "center",
+                          minWidth: 0,
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: 38,
+                            height: 38,
+                            borderRadius: 2.5,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            bgcolor: increases
+                              ? "#FEF2F2"
+                              : "#F0FDF4",
+                            color: increases
+                              ? "#DC2626"
+                              : "#16A34A",
+                            flexShrink: 0,
+                          }}
+                        >
+                          {increases ? (
+                            <TrendingUpIcon />
+                          ) : (
+                            <TrendingDownIcon />
+                          )}
+                        </Box>
+
+                        <Box>
+                          <Typography
+                            variant="body1"
+                            fontWeight={800}
+                            sx={{
+                              color: "#0F172A",
+                            }}
+                          >
+                            {item.label ||
+                              item.feature}
+                          </Typography>
+
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              mt: 0.25,
+                              color: "#64748B",
+                            }}
+                          >
+                            {increases
+                              ? t("assessment.result.increasedOutput")
+                              : t("assessment.result.decreasedOutput")}
+                          </Typography>
+                        </Box>
+                      </Stack>
+
+                      <Chip
+                        label={t("assessment.result.influence", {
+                          value: magnitude,
+                        })}
+                        size="small"
+                        sx={{
+                          alignSelf: {
+                            xs: "flex-start",
+                            sm: "center",
+                          },
+                          fontWeight: 800,
+                          bgcolor: "white",
+                          border:
+                            "1px solid #E2E8F0",
+                        }}
+                      />
+                    </Stack>
+
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        display: "block",
+                        mt: 1,
+                        color: "#94A3B8",
+                      }}
+                    >
+                      {t("assessment.result.inputValueLabel", {
+                        value:
+                          item.value !== null &&
+                          item.value !== undefined
+                            ? String(item.value)
+                            : t("common.notProvided"),
+                      })}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </Stack>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Key Metrics */}
 
@@ -1044,7 +1267,7 @@ function AssessmentResult({
             color: "#0F172A",
           }}
         >
-          Key Health Metrics
+          {t("assessment.result.keyMetricsTitle")}
         </Typography>
 
         <Grid
@@ -1060,11 +1283,13 @@ function AssessmentResult({
           >
             <MetricCard
               icon={<PersonIcon />}
-              label="Age"
+              label={t("assessment.result.ageLabel")}
               value={
                 personal.age
-                  ? `${personal.age} years`
-                  : "Not provided"
+                  ? t("assessment.result.yearsSuffix", {
+                      value: personal.age,
+                    })
+                  : t("common.notProvided")
               }
             />
           </Grid>
@@ -1077,17 +1302,13 @@ function AssessmentResult({
             }}
           >
             <MetricCard
-              icon={
-                <HealthAndSafetyIcon />
-              }
-              label="BMI"
+              icon={<HealthAndSafetyIcon />}
+              label={t("assessment.result.bmiLabel")}
               value={
                 calculateBMI() ||
                 "—"
               }
-              subtitle={
-                getBMICategory()
-              }
+              subtitle={translateBMICategory(getBMICategory())}
             />
           </Grid>
 
@@ -1099,16 +1320,16 @@ function AssessmentResult({
             }}
           >
             <MetricCard
-              icon={
-                <FitnessCenterIcon />
-              }
-              label="Sedentary Time"
+              icon={<FitnessCenterIcon />}
+              label={t("assessment.result.sedentaryTimeLabel")}
               value={
                 lifestyle.sedentaryMinutes
-                  ? `${lifestyle.sedentaryMinutes} min`
-                  : "Not provided"
+                  ? t("assessment.result.minSuffix", {
+                      value: lifestyle.sedentaryMinutes,
+                    })
+                  : t("common.notProvided")
               }
-              subtitle="Typical day"
+              subtitle={t("assessment.result.typicalDay")}
             />
           </Grid>
         </Grid>
@@ -1149,7 +1370,7 @@ function AssessmentResult({
               variant="h6"
               fontWeight={800}
             >
-              Assessment Factors
+              {t("assessment.result.assessmentFactorsTitle")}
             </Typography>
           </Stack>
 
@@ -1161,10 +1382,7 @@ function AssessmentResult({
               lineHeight: 1.7,
             }}
           >
-            Personal, lifestyle, and
-            medical information were
-            combined to generate the
-            model output.
+            {t("assessment.result.assessmentFactorsDesc")}
           </Typography>
 
           <Stack
@@ -1174,65 +1392,43 @@ function AssessmentResult({
             }}
           >
             <FactorRow
-              icon={
-                <PersonIcon
-                  fontSize="small"
-                />
-              }
-              title="Gender"
-              value={
-                personal.gender
-              }
+              icon={<PersonIcon fontSize="small" />}
+              title={t("assessment.result.genderLabel")}
+              value={translateGender(personal.gender)}
             />
 
             <FactorRow
-              icon={
-                <HealthAndSafetyIcon
-                  fontSize="small"
-                />
-              }
-              title="Race / Ethnicity"
+              icon={<HealthAndSafetyIcon fontSize="small" />}
+              title={t("assessment.result.raceLabel")}
               value={
                 personal.raceEthnicity
-                  ? "Provided"
+                  ? t("assessment.result.provided")
                   : ""
               }
             />
 
             <FactorRow
-              icon={
-                <FitnessCenterIcon
-                  fontSize="small"
-                />
-              }
-              title="Smoking History"
-              value={
+              icon={<FitnessCenterIcon fontSize="small" />}
+              title={t("assessment.result.smokingHistoryLabel")}
+              value={translateYesNo(
                 lifestyle.smoked100Cigarettes
-              }
+              )}
             />
 
             <FactorRow
-              icon={
-                <MedicalInformationIcon
-                  fontSize="small"
-                />
-              }
-              title="Long-Term Steroid Use"
-              value={
+              icon={<MedicalInformationIcon fontSize="small" />}
+              title={t("assessment.result.steroidUseLabel")}
+              value={translateYesNo(
                 medicalHistory.longTermSteroidUse
-              }
+              )}
             />
 
             <FactorRow
-              icon={
-                <HealthAndSafetyIcon
-                  fontSize="small"
-                />
-              }
-              title="Family Osteoporosis History"
-              value={
+              icon={<HealthAndSafetyIcon fontSize="small" />}
+              title={t("assessment.result.familyHistoryLabel")}
+              value={translateYesNo(
                 medicalHistory.parentOsteoporosisHistory
-              }
+              )}
             />
           </Stack>
         </CardContent>
@@ -1262,7 +1458,7 @@ function AssessmentResult({
             variant="h6"
             fontWeight={800}
           >
-            Model Information
+            {t("assessment.result.modelInfoTitle")}
           </Typography>
 
           <Grid
@@ -1282,7 +1478,7 @@ function AssessmentResult({
                 variant="body2"
                 color="text.secondary"
               >
-                Model Version
+                {t("assessment.result.modelVersionLabel")}
               </Typography>
 
               <Typography
@@ -1306,7 +1502,7 @@ function AssessmentResult({
                 variant="body2"
                 color="text.secondary"
               >
-                Decision Threshold
+                {t("assessment.result.decisionThresholdLabel")}
               </Typography>
 
               <Typography
@@ -1335,12 +1531,30 @@ function AssessmentResult({
         }}
       >
         {result.disclaimer ||
-          "This is a research/prototype risk-assessment output, not a medical diagnosis, and has not been clinically validated."}
+          t("assessment.result.defaultDisclaimer")}
       </Alert>
 
 
       <Divider />
 
+      {/* Forecast & Recommendations */}
+      <Box sx={{ textAlign: "center" }}>
+        <Button
+          variant="contained"
+          endIcon={<ArrowForwardIcon />}
+          onClick={() => navigate("/forecast")}
+          sx={{
+            px: 3.5,
+            py: 1.3,
+            borderRadius: 3,
+            textTransform: "none",
+            fontWeight: 700,
+            boxShadow: "none",
+          }}
+        >
+          {t("assessment.result.viewForecast")}
+        </Button>
+      </Box>
 
       {/* Actions */}
 
@@ -1370,7 +1584,7 @@ function AssessmentResult({
             fontWeight: 700,
           }}
         >
-          Edit Assessment
+          {t("assessment.result.editAssessment")}
         </Button>
         )}
 
@@ -1390,7 +1604,7 @@ function AssessmentResult({
             boxShadow: "none",
           }}
         >
-          Retake Assessment
+          {t("assessment.result.retakeAssessment")}
         </Button>
       </Stack>
     </Box>

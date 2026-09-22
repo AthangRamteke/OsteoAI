@@ -30,14 +30,17 @@ import {
 } from "../../context/AssessmentContext";
 
 import { predictAssessment } from "../../services/predictionService";
-
-const stepNames = [
-  "Personal Information",
-  "Lifestyle Assessment",
-  "Medical History",
-];
+import { useLanguage } from "../../context/LanguageContext";
 
 function AssessmentContent() {
+  const { t } = useLanguage();
+
+  const stepNames = [
+    t("assessment.stepNamePersonal"),
+    t("assessment.stepNameLifestyle"),
+    t("assessment.stepNameMedical"),
+  ];
+
   const [activeStep, setActiveStep] = useState(0);
   const [entryMode, setEntryMode] = useState("choice");
 
@@ -408,7 +411,7 @@ function AssessmentContent() {
 
       setPredictionError(
         error?.message ||
-          "Unable to complete the assessment. Please try again."
+          t("assessment.genericError")
       );
     }
   };
@@ -724,7 +727,7 @@ function AssessmentContent() {
                             "-0.02em",
                         }}
                       >
-                        Osteoporosis Risk Assessment
+                        {t("assessment.title")}
                       </Typography>
 
                       <Typography
@@ -734,7 +737,7 @@ function AssessmentContent() {
                           lineHeight: 1.7,
                         }}
                       >
-                        Complete the assessment in about 2 minutes.
+                        {t("assessment.subtitle")}
                       </Typography>
                     </Box>
 
@@ -770,17 +773,11 @@ function AssessmentContent() {
                             700
                           }
                         >
-                          Step{" "}
-                          {activeStep +
-                            1}{" "}
-                          of{" "}
-                          {
-                            steps.length
-                          }{" "}
-                          •{" "}
-                          {
-                            currentStepName
-                          }
+                          {t("assessment.stepProgress", {
+                            current: activeStep + 1,
+                            total: steps.length,
+                            stepName: currentStepName,
+                          })}
                         </Typography>
 
                         <Typography
@@ -790,10 +787,9 @@ function AssessmentContent() {
                           }
                           color="primary"
                         >
-                          {
-                            progressPercentage
-                          }
-                          % Complete
+                          {t("assessment.percentComplete", {
+                            percent: progressPercentage,
+                          })}
                         </Typography>
                       </Box>
 

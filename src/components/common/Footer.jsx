@@ -9,7 +9,11 @@ import {
 
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 
+import { useLanguage } from "../../context/LanguageContext";
+
 function Footer() {
+  const { t } = useLanguage();
+
   const scrollToSection = (id) => {
     document.getElementById(id)?.scrollIntoView({
       behavior: "smooth",
@@ -36,7 +40,7 @@ function Footer() {
             <Stack
               direction="row"
               spacing={1.5}
-              alignItems="center"
+              sx={{ alignItems: "center" }}
             >
               <Box
                 sx={{
@@ -68,9 +72,7 @@ function Footer() {
                 lineHeight: 1.8,
               }}
             >
-              An AI-powered preventive bone-health platform
-              designed to help users understand risk factors,
-              explore insights, and make informed health decisions.
+              {t("footer.description")}
             </Typography>
           </Grid>
 
@@ -80,7 +82,7 @@ function Footer() {
               fontWeight={700}
               sx={{ mb: 2 }}
             >
-              Explore
+              {t("footer.exploreTitle")}
             </Typography>
 
             <Stack spacing={1}>
@@ -99,7 +101,7 @@ function Footer() {
                   font: "inherit",
                 }}
               >
-                Home
+                {t("footer.linkHome")}
               </Typography>
 
               <Typography
@@ -115,7 +117,7 @@ function Footer() {
                   font: "inherit",
                 }}
               >
-                Features
+                {t("footer.linkFeatures")}
               </Typography>
 
               <Typography
@@ -133,7 +135,7 @@ function Footer() {
                   font: "inherit",
                 }}
               >
-                How It Works
+                {t("footer.linkHowItWorks")}
               </Typography>
 
               <Typography
@@ -149,7 +151,7 @@ function Footer() {
                   font: "inherit",
                 }}
               >
-                About
+                {t("footer.linkAbout")}
               </Typography>
             </Stack>
           </Grid>
@@ -160,7 +162,7 @@ function Footer() {
               fontWeight={700}
               sx={{ mb: 2 }}
             >
-              Project
+              {t("footer.projectTitle")}
             </Typography>
 
             <Stack spacing={1}>
@@ -168,28 +170,28 @@ function Footer() {
                 variant="body2"
                 color="rgba(255,255,255,0.68)"
               >
-                AI Risk Assessment
+                {t("footer.projectItem1")}
               </Typography>
 
               <Typography
                 variant="body2"
                 color="rgba(255,255,255,0.68)"
               >
-                Explainable AI
+                {t("footer.projectItem2")}
               </Typography>
 
               <Typography
                 variant="body2"
                 color="rgba(255,255,255,0.68)"
               >
-                Health Analytics
+                {t("footer.projectItem3")}
               </Typography>
 
               <Typography
                 variant="body2"
                 color="rgba(255,255,255,0.68)"
               >
-                Preventive Guidance
+                {t("footer.projectItem4")}
               </Typography>
             </Stack>
           </Grid>
@@ -200,7 +202,7 @@ function Footer() {
               fontWeight={700}
               sx={{ mb: 2 }}
             >
-              Important
+              {t("footer.importantTitle")}
             </Typography>
 
             <Typography
@@ -208,9 +210,7 @@ function Footer() {
               color="rgba(255,255,255,0.68)"
               sx={{ lineHeight: 1.7 }}
             >
-              OsteoAI is intended as an educational and
-              risk-assessment project and is not a replacement
-              for professional medical diagnosis or treatment.
+              {t("footer.disclaimer")}
             </Typography>
           </Grid>
         </Grid>
@@ -227,7 +227,7 @@ function Footer() {
           color="rgba(255,255,255,0.52)"
           align="center"
         >
-          © 2026 OsteoAI. Final Year Project.
+          {t("footer.copyright")}
         </Typography>
       </Container>
     </Box>

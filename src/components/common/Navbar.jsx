@@ -19,6 +19,8 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
+import { useLanguage } from "../../context/LanguageContext";
+
 /*
 |--------------------------------------------------------------------------
 | OsteoAI Brand Mark
@@ -114,8 +116,9 @@ const MenuSvg = ({ open = false }) => (
   </svg>
 );
 
-function Navbar() {
+function Navbar({ sidebarOpen = false }) {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const theme = useTheme();
   const isMobile = useMediaQuery(
     theme.breakpoints.down("md")
@@ -279,19 +282,19 @@ function Navbar() {
 
   const menuItems = [
     {
-      label: "Home",
+      label: t("nav.home"),
       path: "/",
     },
     {
-      label: "Features",
+      label: t("nav.features"),
       path: "/#features",
     },
     {
-      label: "How It Works",
+      label: t("nav.howItWorks"),
       path: "/#how-it-works",
     },
     {
-      label: "About",
+      label: t("nav.about"),
       path: "/#about",
     },
   ];
@@ -318,13 +321,45 @@ function Navbar() {
           bgcolor:
             "transparent",
 
-          transform:
-            navbarVisible
-              ? "translateY(0)"
-              : "translateY(-120%)",
+          // The landing page's left sidebar always runs the full height
+          // of the viewport now, starting flush at the top — collapsed
+          // (icon rail) or expanded — so the navbar shrinks and shifts
+          // clear of whichever width it currently is, at rest or open,
+          // instead of the two overlapping or leaving a gap.
+          ml: sidebarOpen
+            ? {
+                xs: "280px",
+                sm: "300px",
+                md: "310px",
+              }
+            : {
+                xs: "64px",
+                sm: "68px",
+                md: "72px",
+              },
+
+          width: sidebarOpen
+            ? {
+                xs: "calc(100% - 280px)",
+                sm: "calc(100% - 300px)",
+                md: "calc(100% - 310px)",
+              }
+            : {
+                xs: "calc(100% - 64px)",
+                sm: "calc(100% - 68px)",
+                md: "calc(100% - 72px)",
+              },
+
+          transformOrigin: "top right",
+
+          transform: !navbarVisible
+            ? "translateY(-120%)"
+            : sidebarOpen
+              ? "translateY(0) scale(0.97)"
+              : "translateY(0)",
 
           transition:
-            "transform 0.32s ease-in-out",
+            "transform 0.32s ease-in-out, margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1), width 0.28s cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
         <Toolbar
@@ -416,7 +451,7 @@ function Navbar() {
                     "#64748B",
                 }}
               >
-                Bone Health Intelligence
+                {t("brand.tagline")}
               </Typography>
             </Box>
           </Box>
@@ -521,7 +556,7 @@ function Navbar() {
                     "nowrap",
                 }}
               >
-                Login
+                {t("nav.login")}
               </Button>
 
               <Button
@@ -544,7 +579,7 @@ function Navbar() {
                     "none",
                 }}
               >
-                Sign Up
+                {t("nav.signUp")}
               </Button>
             </Box>
           )}
@@ -680,7 +715,7 @@ function Navbar() {
                 }}
               >
                 <ListItemText
-                  primary="Login"
+                  primary={t("nav.login")}
                 />
               </ListItemButton>
             </ListItem>
@@ -709,7 +744,7 @@ function Navbar() {
                 }}
               >
                 <ListItemText
-                  primary="Sign Up"
+                  primary={t("nav.signUp")}
                 />
               </ListItemButton>
             </ListItem>

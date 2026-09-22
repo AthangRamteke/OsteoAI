@@ -12,9 +12,11 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 import PrimaryButton from "../ui/PrimaryButton";
+import { useLanguage } from "../../context/LanguageContext";
 
 function Hero() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const scrollToFeatures = () => {
     const element = document.getElementById("features");
@@ -60,21 +62,18 @@ function Hero() {
   const assessmentSteps = [
     {
       number: 1,
-      title: "Personal Information",
-      description:
-        "Basic health indicators and personal details.",
+      title: t("hero.step1Title"),
+      description: t("hero.step1Desc"),
     },
     {
       number: 2,
-      title: "Lifestyle Factors",
-      description:
-        "Habits that may influence bone health.",
+      title: t("hero.step2Title"),
+      description: t("hero.step2Desc"),
     },
     {
       number: 3,
-      title: "Medical History",
-      description:
-        "Relevant medical background and risk factors.",
+      title: t("hero.step3Title"),
+      description: t("hero.step3Desc"),
     },
   ];
 
@@ -108,7 +107,7 @@ function Hero() {
         <Box>
           <Chip
             icon={<HealthAndSafetyIcon />}
-            label="AI-POWERED BONE HEALTH PLATFORM"
+            label={t("hero.badge")}
             color="primary"
             variant="outlined"
             sx={{
@@ -133,7 +132,7 @@ function Hero() {
               color: "#0F172A",
             }}
           >
-            Understand Your Bone Health
+            {t("hero.titleLine1")}
             <Box
               component="span"
               sx={{
@@ -141,7 +140,7 @@ function Hero() {
                 color: "primary.main",
               }}
             >
-              Before It Becomes a Problem.
+              {t("hero.titleLine2")}
             </Box>
           </Typography>
 
@@ -158,10 +157,7 @@ function Hero() {
               color: "#475569",
             }}
           >
-            OsteoAI combines personal, lifestyle, and medical
-            factors to build a personalized osteoporosis risk
-            assessment and help you understand the factors that may
-            influence your bone health.
+            {t("hero.subtitle")}
           </Typography>
 
           <Stack
@@ -173,7 +169,7 @@ function Hero() {
               onClick={() => navigate("/assessment")}
               endIcon={<ArrowForwardIcon />}
             >
-              Start Your Assessment
+              {t("hero.ctaStart")}
             </PrimaryButton>
 
             <PrimaryButton
@@ -184,7 +180,7 @@ function Hero() {
                 color: "primary.main",
               }}
             >
-              Learn More
+              {t("hero.ctaLearnMore")}
             </PrimaryButton>
           </Stack>
 
@@ -204,11 +200,11 @@ function Hero() {
                   color: "#0F172A",
                 }}
               >
-                Multi-factor assessment
+                {t("hero.statMultiFactorTitle")}
               </Typography>
 
               <Typography variant="body2">
-                Personal + lifestyle + medical
+                {t("hero.statMultiFactorDesc")}
               </Typography>
             </Box>
 
@@ -220,11 +216,11 @@ function Hero() {
                   color: "#0F172A",
                 }}
               >
-                AI-ready architecture
+                {t("hero.statAiTitle")}
               </Typography>
 
               <Typography variant="body2">
-                Explainable predictions planned
+                {t("hero.statAiDesc")}
               </Typography>
             </Box>
           </Stack>
@@ -327,7 +323,7 @@ function Hero() {
                     color: "#0F172A",
                   }}
                 >
-                  OsteoAI Assessment
+                  {t("hero.cardTitle")}
                 </Typography>
 
                 <Box
@@ -363,7 +359,7 @@ function Hero() {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    ~2-minute assessment • Free
+                    {t("hero.cardBadge")}
                   </Typography>
                 </Box>
 
@@ -375,7 +371,7 @@ function Hero() {
                     color: "#64748B",
                   }}
                 >
-                  A complete picture takes more than BMI.
+                  {t("hero.cardNote")}
                 </Typography>
               </Box>
             </Box>
@@ -514,7 +510,7 @@ function Hero() {
                   color: "#64748B",
                 }}
               >
-                Takes less than 2 minutes
+                {t("hero.bottomNote")}
               </Typography>
             </Box>
           </Box>

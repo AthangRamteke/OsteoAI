@@ -16,7 +16,11 @@ import {
   Paper,
   Stack,
   Grid,
+  Menu,
 } from "@mui/material";
+
+import { useLanguage } from "../../context/LanguageContext";
+import LanguageMenuItems from "../../components/common/LanguageMenuItems";
 
 /*
 |--------------------------------------------------------------------------
@@ -273,17 +277,26 @@ const KnowledgeSvg = () => (
   </IconBase>
 );
 
-const SettingsSvg = () => (
+// Globe/language icon — the sidebar's popover only ever offered the
+// language switcher, so the gear ("Settings") icon and label were
+// misleading; this is a plain globe to signal "change language" instead.
+const LanguageSvg = () => (
   <IconBase>
     <circle
       cx="12"
       cy="12"
-      r="3"
+      r="9"
       stroke="currentColor"
       strokeWidth="1.9"
     />
     <path
-      d="M19.4 15A1.65 1.65 0 0 0 19.73 16.82L19.77 16.86L17.86 18.77L17.82 18.73A1.65 1.65 0 0 0 16 19.4A1.65 1.65 0 0 0 15 20.73V20.8H9V20.73A1.65 1.65 0 0 0 8 19.4A1.65 1.65 0 0 0 6.18 19.73L6.14 19.77L4.23 17.86L4.27 17.82A1.65 1.65 0 0 0 4.6 16A1.65 1.65 0 0 0 3.27 15H3.2V9H3.27A1.65 1.65 0 0 0 4.6 8A1.65 1.65 0 0 0 4.27 6.18L4.23 6.14L6.14 4.23L6.18 4.27A1.65 1.65 0 0 0 8 4.6A1.65 1.65 0 0 0 9 3.27V3.2H15V3.27A1.65 1.65 0 0 0 16 4.6A1.65 1.65 0 0 0 17.82 4.27L17.86 4.23L19.77 6.14L19.73 6.18A1.65 1.65 0 0 0 19.4 8A1.65 1.65 0 0 0 20.73 9H20.8V15H20.73A1.65 1.65 0 0 0 19.4 15Z"
+      d="M3 12H21"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinecap="round"
+    />
+    <path
+      d="M12 3C14.5 5.5 15.8 8.6 15.8 12C15.8 15.4 14.5 18.5 12 21C9.5 18.5 8.2 15.4 8.2 12C8.2 8.6 9.5 5.5 12 3Z"
       stroke="currentColor"
       strokeWidth="1.9"
       strokeLinejoin="round"
@@ -368,9 +381,21 @@ const ChevronSvg = () => (
 
 function DashboardPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const [sidebarOpen, setSidebarOpen] =
     useState(true);
+
+  const [settingsAnchorEl, setSettingsAnchorEl] =
+    useState(null);
+
+  const openSettingsMenu = (event) => {
+    setSettingsAnchorEl(event.currentTarget);
+  };
+
+  const closeSettingsMenu = () => {
+    setSettingsAnchorEl(null);
+  };
 
   const [latestAssessment, setLatestAssessment] =
     useState(null);
@@ -454,29 +479,35 @@ function DashboardPage() {
 
   const menuItems = [
     {
-      label: "Dashboard",
+      label: t("sidebar.home"),
+      icon: <DashboardSvg />,
+      path: "/",
+      active: false,
+    },
+    {
+      label: t("sidebar.dashboard"),
       icon: <DashboardSvg />,
       path: "/dashboard",
       active: true,
     },
     {
-      label: "New Assessment",
+      label: t("sidebar.newAssessment"),
       icon: <AssessmentSvg />,
       path: "/assessment",
       active: false,
     },
     {
-      label: "Assessment History",
+      label: t("sidebar.assessmentHistory"),
       icon: <HistorySvg />,
       path: "/history",
     },
     {
-      label: "AI Assistant",
+      label: t("sidebar.aiAssistant"),
       icon: <AIIcon />,
       path: "/assistant",
     },
     {
-      label: "Knowledge & Support",
+      label: t("sidebar.knowledgeSupport"),
       icon: <KnowledgeSvg />,
       path: "/knowledge",
     },
@@ -551,6 +582,17 @@ function DashboardPage() {
             ? "Overweight"
             : "Obese";
 
+  const translateBMICategory = (category) => {
+    if (category === "Not available") {
+      return t("common.notAvailable");
+    }
+
+    return t(`common.bmiCategories.${category}`) || category;
+  };
+
+  const translateRiskLevel = (level) =>
+    t(`common.riskLevels.${level}`) || level;
+
   const formatDate = (value) => {
     if (!value) {
       return "—";
@@ -605,7 +647,7 @@ function DashboardPage() {
 
   const displayValue = (
     value,
-    fallback = "Not provided"
+    fallback = t("common.notProvided")
   ) => {
     if (
       value === null ||
@@ -620,12 +662,12 @@ function DashboardPage() {
       .toLowerCase();
 
     const simpleMap = {
-      yes: "Yes",
-      no: "No",
-      true: "Yes",
-      false: "No",
-      "1": "Yes",
-      "0": "No",
+      yes: t("common.yes"),
+      no: t("common.no"),
+      true: t("common.yes"),
+      false: t("common.no"),
+      "1": t("common.yes"),
+      "0": t("common.no"),
     };
 
     return simpleMap[normalized] || String(value);
@@ -634,7 +676,7 @@ function DashboardPage() {
   const displayChoice = (
     value,
     options,
-    fallback = "Not provided"
+    fallback = t("common.notProvided")
   ) => {
     if (
       value === null ||
@@ -656,43 +698,43 @@ function DashboardPage() {
   const genderLabel = displayChoice(
     personal.gender,
     {
-      "1": "Female",
-      "2": "Male",
-      female: "Female",
-      male: "Male",
+      "1": t("common.values.female"),
+      "2": t("common.values.male"),
+      female: t("common.values.female"),
+      male: t("common.values.male"),
     }
   );
 
   const raceLabel = displayChoice(
     personal.raceEthnicity,
     {
-      "1": "Mexican American",
-      "2": "Other Hispanic",
-      "3": "White",
-      "4": "Black",
-      "6": "Asian",
+      "1": t("common.race.Mexican American"),
+      "2": t("common.race.Other Hispanic"),
+      "3": t("common.race.White"),
+      "4": t("common.race.Black"),
+      "6": t("common.race.Asian"),
     }
   );
 
   const alcoholFrequencyLabel = displayChoice(
     lifestyle.alcoholFrequency,
     {
-      "0": "Never",
-      "1": "Less than once a week",
-      "2": "Once a week",
-      "3": "2–3 days a week",
-      "4": "4–6 days a week",
-      "5": "Daily or almost daily",
+      "0": t("dashboard.alcoholFreqNever"),
+      "1": t("dashboard.alcoholFreqLess1"),
+      "2": t("dashboard.alcoholFreqOnce1"),
+      "3": t("dashboard.alcoholFreq23"),
+      "4": t("dashboard.alcoholFreq46"),
+      "5": t("dashboard.alcoholFreqDaily"),
     }
   );
 
   const activityLabel = displayChoice(
     lifestyle.walkOrBicycle,
     {
-      yes: "Yes",
-      no: "No",
-      "1": "Yes",
-      "0": "No",
+      yes: t("common.yes"),
+      no: t("common.no"),
+      "1": t("common.yes"),
+      "0": t("common.no"),
     }
   );
 
@@ -702,10 +744,10 @@ function DashboardPage() {
 
   const sedentaryDisplay =
     Number.isFinite(sedentaryHours)
-      ? `${(
-          sedentaryHours / 60
-        ).toFixed(1)} hrs/day`
-      : "Not provided";
+      ? t("dashboard.hrsPerDay", {
+          value: (sedentaryHours / 60).toFixed(1),
+        })
+      : t("common.notProvided");
 
 
 
@@ -886,7 +928,7 @@ function DashboardPage() {
       return item?.value !== null &&
         item?.value !== undefined
         ? String(item.value)
-        : "Not provided";
+        : t("common.notProvided");
     }
 
     if (feature === "race_ethnicity") {
@@ -950,7 +992,7 @@ function DashboardPage() {
         feature:
           item?.label ||
           item?.feature ||
-          "Unknown factor",
+          t("dashboard.unknownFactor"),
         value: shapValue,
         inputValue:
           getFriendlyShapInput(item),
@@ -1071,7 +1113,7 @@ function DashboardPage() {
                     color: "#0F172A",
                   }}
                 >
-                  OsteoAI
+                  {t("brand.name")}
                 </Typography>
 
                 <Typography
@@ -1082,7 +1124,7 @@ function DashboardPage() {
                       "nowrap",
                   }}
                 >
-                  Bone Health
+                  {t("sidebar.boneHealth")}
                 </Typography>
               </Box>
             </Box>
@@ -1091,8 +1133,8 @@ function DashboardPage() {
           <Tooltip
             title={
               sidebarOpen
-                ? "Collapse menu"
-                : "Open menu"
+                ? t("sidebar.collapseMenu")
+                : t("sidebar.openMenu")
             }
             placement="right"
           >
@@ -1224,7 +1266,7 @@ function DashboardPage() {
                   color: "#0F172A",
                 }}
               >
-                User Profile
+                {t("sidebar.userProfile")}
               </Typography>
 
               <Typography
@@ -1233,7 +1275,7 @@ function DashboardPage() {
                   color: "#64748B",
                 }}
               >
-                Active account
+                {t("sidebar.activeAccount")}
               </Typography>
             </Box>
           )}
@@ -1368,17 +1410,19 @@ function DashboardPage() {
                       primary={
                         item.label
                       }
-                      primaryTypographyProps={{
-                        fontWeight:
-                          item.active
-                            ? 700
-                            : 600,
+                      slotProps={{
+                        primary: {
+                          fontWeight:
+                            item.active
+                              ? 700
+                              : 600,
 
-                        fontSize:
-                          "0.91rem",
+                          fontSize:
+                            "0.91rem",
 
-                        whiteSpace:
-                          "nowrap",
+                          whiteSpace:
+                            "nowrap",
+                        },
                       }}
                     />
                   )}
@@ -1399,7 +1443,7 @@ function DashboardPage() {
           <Divider sx={{ mb: 1 }} />
 
           <ListItemButton
-            disabled
+            onClick={openSettingsMenu}
             sx={{
               minHeight: 52,
 
@@ -1437,20 +1481,32 @@ function DashboardPage() {
                   "inherit",
               }}
             >
-              <SettingsSvg />
+              <LanguageSvg />
             </ListItemIcon>
 
             {sidebarOpen && (
               <ListItemText
-                primary="Settings"
-                primaryTypographyProps={{
-                  fontWeight: 600,
-                  fontSize:
-                    "0.91rem",
+                primary={t("sidebar.settings")}
+                slotProps={{
+                  primary: {
+                    fontWeight: 600,
+                    fontSize:
+                      "0.91rem",
+                  },
                 }}
               />
             )}
           </ListItemButton>
+
+          <Menu
+            anchorEl={settingsAnchorEl}
+            open={Boolean(settingsAnchorEl)}
+            onClose={closeSettingsMenu}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            transformOrigin={{ vertical: "bottom", horizontal: "left" }}
+          >
+            <LanguageMenuItems onSelected={closeSettingsMenu} />
+          </Menu>
 
           <ListItemButton
             disabled
@@ -1494,12 +1550,14 @@ function DashboardPage() {
 
             {sidebarOpen && (
               <ListItemText
-                primary="Logout"
-                primaryTypographyProps={{
-                  fontWeight: 600,
-                  fontSize:
-                    "0.91rem",
-                  color: "#EF4444",
+                primary={t("sidebar.logout")}
+                slotProps={{
+                  primary: {
+                    fontWeight: 600,
+                    fontSize:
+                      "0.91rem",
+                    color: "#EF4444",
+                  },
                 }}
               />
             )}
@@ -1554,7 +1612,7 @@ function DashboardPage() {
                   letterSpacing: "0.08em",
                 }}
               >
-                PERSONAL HEALTH DASHBOARD
+                {t("dashboard.badge")}
               </Typography>
 
               <Typography
@@ -1571,7 +1629,7 @@ function DashboardPage() {
                   },
                 }}
               >
-                Your bone-health overview
+                {t("dashboard.title")}
               </Typography>
 
               <Typography
@@ -1582,27 +1640,48 @@ function DashboardPage() {
                   lineHeight: 1.7,
                 }}
               >
-                Track your latest OsteoAI assessment, understand contributing
-                factors, and build a clearer picture of your health data over time.
+                {t("dashboard.subtitle")}
               </Typography>
             </Box>
 
-            <Button
-              variant="contained"
-              endIcon={<ArrowSvg />}
-              onClick={() => navigate("/assessment")}
-              sx={{
-                flexShrink: 0,
-                px: 2.5,
-                py: 1.25,
-                borderRadius: 3,
-                textTransform: "none",
-                fontWeight: 700,
-                boxShadow: "0 9px 22px rgba(37,99,235,0.18)",
-              }}
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={1.5}
+              sx={{ flexShrink: 0 }}
             >
-              New Assessment
-            </Button>
+              {hasAssessment && (
+                <Button
+                  variant="outlined"
+                  endIcon={<ArrowSvg />}
+                  onClick={() => navigate("/forecast")}
+                  sx={{
+                    px: 2.5,
+                    py: 1.25,
+                    borderRadius: 3,
+                    textTransform: "none",
+                    fontWeight: 700,
+                  }}
+                >
+                  {t("dashboard.viewForecast")}
+                </Button>
+              )}
+
+              <Button
+                variant="contained"
+                endIcon={<ArrowSvg />}
+                onClick={() => navigate("/assessment")}
+                sx={{
+                  px: 2.5,
+                  py: 1.25,
+                  borderRadius: 3,
+                  textTransform: "none",
+                  fontWeight: 700,
+                  boxShadow: "0 9px 22px rgba(37,99,235,0.18)",
+                }}
+              >
+                {t("dashboard.newAssessment")}
+              </Button>
+            </Stack>
           </Box>
 
           {/* =====================================================
@@ -1680,13 +1759,13 @@ function DashboardPage() {
                         color: "#0F172A",
                       }}
                     >
-                      Latest Assessment
+                      {t("dashboard.latestAssessmentTitle")}
                     </Typography>
                     <Typography
                       variant="body2"
                       sx={{ color: "#64748B", mt: 0.2 }}
                     >
-                      Your most recent model-based assessment
+                      {t("dashboard.latestAssessmentSubtitle")}
                     </Typography>
                   </Box>
                 </Stack>
@@ -1709,8 +1788,8 @@ function DashboardPage() {
                     }}
                   >
                     {hasAssessment
-                      ? `Estimated risk: ${riskPercent}`
-                      : "No completed assessment yet"}
+                      ? t("dashboard.estimatedRisk", { percent: riskPercent })
+                      : t("dashboard.noCompletedAssessment")}
                   </Typography>
 
                   <Typography
@@ -1723,8 +1802,10 @@ function DashboardPage() {
                     }}
                   >
                     {hasAssessment
-                      ? `Risk category: ${riskLevel}. Your detailed health metrics and model explanations are available as your dashboard workspace expands.`
-                      : "Complete an assessment to populate your risk score, health metrics, SHAP explanations, history, and trend visualizations on this dashboard."}
+                      ? t("dashboard.riskCategory", {
+                          level: translateRiskLevel(riskLevel),
+                        })
+                      : t("dashboard.completeAssessmentPrompt")}
                   </Typography>
 
                   {hasAssessment && (
@@ -1736,7 +1817,9 @@ function DashboardPage() {
                         color: "#94A3B8",
                       }}
                     >
-                      Assessment date: {formatDate(latestAssessment.savedAt)}
+                      {t("dashboard.assessmentDateLabel", {
+                        date: formatDate(latestAssessment.savedAt),
+                      })}
                     </Typography>
                   )}
                 </Box>
@@ -1763,7 +1846,7 @@ function DashboardPage() {
                     letterSpacing: "0.04em",
                   }}
                 >
-                  CURRENT RISK
+                  {t("dashboard.currentRisk")}
                 </Typography>
 
                 <Typography
@@ -1793,8 +1876,10 @@ function DashboardPage() {
                   }}
                 >
                   {hasAssessment
-                    ? `${riskLevel} risk`
-                    : "Awaiting assessment"}
+                    ? t("dashboard.riskSuffix", {
+                        level: translateRiskLevel(riskLevel),
+                      })
+                    : t("dashboard.awaitingAssessment")}
                 </Typography>
 
                 {hasAssessment && (
@@ -1806,7 +1891,9 @@ function DashboardPage() {
                       color: "#64748B",
                     }}
                   >
-                    Last assessed {formatDate(latestAssessment.savedAt)}
+                    {t("dashboard.lastAssessed", {
+                      date: formatDate(latestAssessment.savedAt),
+                    })}
                   </Typography>
                 )}
               </Box>
@@ -1824,39 +1911,39 @@ function DashboardPage() {
               color: "#0F172A",
             }}
           >
-            Health Snapshot
+            {t("dashboard.healthSnapshot")}
           </Typography>
 
           <Grid container spacing={2.2} sx={{ mb: 3.5 }}>
             {[
               {
-                title: "BMI",
+                title: t("dashboard.metricBmi"),
                 value: bmiValue,
-                note: bmiCategory,
+                note: translateBMICategory(bmiCategory),
                 icon: <ShieldSvg />,
               },
               {
-                title: "Age",
+                title: t("dashboard.metricAge"),
                 value: hasAssessment
                   ? `${displayValue(personal.age)} yrs`
                   : "—",
-                note: "Personal profile",
+                note: t("dashboard.personalProfile"),
                 icon: <DashboardSvg />,
               },
               {
-                title: "Height",
+                title: t("dashboard.metricHeight"),
                 value: hasAssessment
                   ? `${displayValue(personal.height)} cm`
                   : "—",
-                note: "Body measurement",
+                note: t("dashboard.bodyMeasurement"),
                 icon: <AssessmentSvg />,
               },
               {
-                title: "Weight",
+                title: t("dashboard.metricWeight"),
                 value: hasAssessment
                   ? `${displayValue(personal.weight)} kg`
                   : "—",
-                note: "Body measurement",
+                note: t("dashboard.bodyMeasurement"),
                 icon: <HistorySvg />,
               },
             ].map((metric) => (
@@ -1967,7 +2054,7 @@ function DashboardPage() {
                     color: "#0F172A",
                   }}
                 >
-                  Body & Personal Details
+                  {t("dashboard.bodyPersonalDetailsTitle")}
                 </Typography>
 
                 <Typography
@@ -1977,7 +2064,7 @@ function DashboardPage() {
                     color: "#64748B",
                   }}
                 >
-                  Values captured from your latest assessment.
+                  {t("dashboard.bodyPersonalDetailsSubtitle")}
                 </Typography>
 
                 <Grid
@@ -1986,19 +2073,19 @@ function DashboardPage() {
                   sx={{ mt: 1.2 }}
                 >
                   {[
-                    ["Gender", genderLabel],
-                    ["Race / Ethnicity", raceLabel],
+                    [t("dashboard.genderLabel"), genderLabel],
+                    [t("dashboard.raceLabel"), raceLabel],
                     [
-                      "Waist",
+                      t("dashboard.waistLabel"),
                       hasAssessment
                         ? `${displayValue(personal.waist)} cm`
-                        : "Not provided",
+                        : t("common.notProvided"),
                     ],
                     [
-                      "Hip",
+                      t("dashboard.hipLabel"),
                       hasAssessment
                         ? `${displayValue(personal.hip)} cm`
-                        : "Not provided",
+                        : t("common.notProvided"),
                     ],
                   ].map(([label, value]) => (
                     <Grid
@@ -2070,7 +2157,7 @@ function DashboardPage() {
                     color: "#0F172A",
                   }}
                 >
-                  Lifestyle Profile
+                  {t("dashboard.lifestyleProfileTitle")}
                 </Typography>
 
                 <Typography
@@ -2080,7 +2167,7 @@ function DashboardPage() {
                     color: "#64748B",
                   }}
                 >
-                  Lifestyle information used in the latest assessment.
+                  {t("dashboard.lifestyleProfileSubtitle")}
                 </Typography>
 
                 <Grid
@@ -2090,51 +2177,51 @@ function DashboardPage() {
                 >
                   {[
                     [
-                      "Smoking history",
+                      t("dashboard.smokingHistoryLabel"),
                       displayValue(
                         lifestyle.smoked100Cigarettes
                       ),
                     ],
                     [
-                      "Alcohol use",
+                      t("dashboard.alcoholUseLabel"),
                       displayValue(
                         lifestyle.alcoholEver
                       ),
                     ],
                     [
-                      "Alcohol frequency",
+                      t("dashboard.alcoholFrequencyLabel"),
                       alcoholFrequencyLabel,
                     ],
                     [
-                      "Walk / bicycle",
+                      t("dashboard.walkBicycleLabel"),
                       activityLabel,
                     ],
                     [
-                      "Vigorous work activity",
+                      t("dashboard.vigorousWorkLabel"),
                       displayValue(
                         lifestyle.vigorousWorkActivity
                       ),
                     ],
                     [
-                      "Moderate work activity",
+                      t("dashboard.moderateWorkLabel"),
                       displayValue(
                         lifestyle.moderateWorkActivity
                       ),
                     ],
                     [
-                      "Vigorous recreation",
+                      t("dashboard.vigorousRecreationLabel"),
                       displayValue(
                         lifestyle.vigorousRecreation
                       ),
                     ],
                     [
-                      "Moderate recreation",
+                      t("dashboard.moderateRecreationLabel"),
                       displayValue(
                         lifestyle.moderateRecreation
                       ),
                     ],
                     [
-                      "Sedentary time",
+                      t("dashboard.sedentaryTimeLabel"),
                       sedentaryDisplay,
                     ],
                   ].map(([label, value]) => (
@@ -2204,7 +2291,7 @@ function DashboardPage() {
                 color: "#0F172A",
               }}
             >
-              Medical & Family History
+              {t("dashboard.medicalFamilyHistoryTitle")}
             </Typography>
 
             <Typography
@@ -2214,7 +2301,7 @@ function DashboardPage() {
                 color: "#64748B",
               }}
             >
-              Risk-history information from your latest assessment.
+              {t("dashboard.medicalFamilyHistorySubtitle")}
             </Typography>
 
             <Grid
@@ -2224,31 +2311,31 @@ function DashboardPage() {
             >
               {[
                 [
-                  "Bone fracture after age 20",
+                  t("dashboard.fractureAfter20Label"),
                   displayValue(
                     medicalHistory.otherBoneFractureAfter20
                   ),
                 ],
                 [
-                  "Long-term steroid use",
+                  t("dashboard.steroidUseLabel"),
                   displayValue(
                     medicalHistory.longTermSteroidUse
                   ),
                 ],
                 [
-                  "Parent osteoporosis history",
+                  t("dashboard.parentOsteoporosisLabel"),
                   displayValue(
                     medicalHistory.parentOsteoporosisHistory
                   ),
                 ],
                 [
-                  "Mother hip fracture",
+                  t("dashboard.motherHipFractureLabel"),
                   displayValue(
                     medicalHistory.motherHipFracture
                   ),
                 ],
                 [
-                  "Father hip fracture",
+                  t("dashboard.fatherHipFractureLabel"),
                   displayValue(
                     medicalHistory.fatherHipFracture
                   ),
@@ -2324,7 +2411,7 @@ function DashboardPage() {
                   color: "#0F172A",
                 }}
               >
-                Risk Analytics
+                {t("dashboard.riskAnalyticsTitle")}
               </Typography>
               <Typography
                 variant="body2"
@@ -2333,7 +2420,7 @@ function DashboardPage() {
                   color: "#64748B",
                 }}
               >
-                Your deeper analytics workspace will grow as assessment data is collected.
+                {t("dashboard.riskAnalyticsSubtitle")}
               </Typography>
             </Box>
 
@@ -2344,7 +2431,7 @@ function DashboardPage() {
                 fontWeight: 700,
               }}
             >
-              PERSONAL DATA • MODEL EXPLANATION
+              {t("dashboard.personalDataTag")}
             </Typography>
           </Box>
 
@@ -2384,7 +2471,7 @@ function DashboardPage() {
                         color: "#0F172A",
                       }}
                     >
-                      Risk Trend
+                      {t("dashboard.riskTrendTitle")}
                     </Typography>
 
                     <Typography
@@ -2394,7 +2481,7 @@ function DashboardPage() {
                         color: "#64748B",
                       }}
                     >
-                      See how your estimated risk changes across saved assessments.
+                      {t("dashboard.riskTrendSubtitle")}
                     </Typography>
                   </Box>
 
@@ -2412,9 +2499,7 @@ function DashboardPage() {
                       }}
                     >
                       {assessmentHistory.length}{" "}
-                      {assessmentHistory.length === 1
-                        ? "saved"
-                        : "saved"}
+                      {t("dashboard.saved")}
                     </Box>
                   )}
                 </Stack>
@@ -2463,7 +2548,7 @@ function DashboardPage() {
                           viewBox="0 0 100 100"
                           preserveAspectRatio="none"
                           role="img"
-                          aria-label="Estimated osteoporosis risk trend across saved assessments"
+                          aria-label={t("dashboard.trendAriaLabel")}
                           sx={{
                             width: "100%",
                             height: 230,
@@ -2521,7 +2606,12 @@ function DashboardPage() {
                                 vectorEffect="non-scaling-stroke"
                               >
                                 <title>
-                                  {`Assessment ${point.assessmentNumber} • ${point.date} • ${point.probability.toFixed(1)}% • ${point.riskLevel}`}
+                                  {t("dashboard.trendPointTitle", {
+                                    number: point.assessmentNumber,
+                                    date: point.date,
+                                    percent: point.probability.toFixed(1),
+                                    level: translateRiskLevel(point.riskLevel),
+                                  })}
                                 </title>
                               </circle>
                             )
@@ -2595,13 +2685,11 @@ function DashboardPage() {
                           fontWeight: 800,
                         }}
                       >
-                        Latest:{" "}
-                        {
-                          chartHistory[
+                        {t("dashboard.latestPrefix", {
+                          percent: chartHistory[
                             chartHistory.length - 1
-                          ].probability
-                        .toFixed(1)}
-                        %
+                          ].probability.toFixed(1),
+                        })}
                       </Typography>
 
                       <Typography
@@ -2627,8 +2715,7 @@ function DashboardPage() {
                         lineHeight: 1.5,
                       }}
                     >
-                      Each point is one saved model estimate. Hover a point
-                      to see its assessment number, date, percentage, and risk level.
+                      {t("dashboard.trendHint")}
                     </Typography>
                   </Box>
                 ) : (
@@ -2653,7 +2740,7 @@ function DashboardPage() {
                           color: "#334155",
                         }}
                       >
-                        Your trend chart will appear here
+                        {t("dashboard.trendEmptyTitle")}
                       </Typography>
 
                       <Typography
@@ -2665,8 +2752,7 @@ function DashboardPage() {
                           maxWidth: 430,
                         }}
                       >
-                        Complete additional assessments to compare saved
-                        risk estimates over time.
+                        {t("dashboard.trendEmptyDesc")}
                       </Typography>
                     </Box>
                   </Box>
@@ -2721,7 +2807,7 @@ function DashboardPage() {
                         color: "#0F172A",
                       }}
                     >
-                      Explainable AI
+                      {t("dashboard.explainableAiTitle")}
                     </Typography>
 
                     <Typography
@@ -2731,7 +2817,7 @@ function DashboardPage() {
                         color: "#64748B",
                       }}
                     >
-                      Why the model moved toward this result
+                      {t("dashboard.explainableAiSubtitle")}
                     </Typography>
                   </Box>
                 </Stack>
@@ -2826,10 +2912,12 @@ function DashboardPage() {
                               }}
                             >
                               {item.increases
-                                ? "Increased model output"
-                                : "Decreased model output"}
+                                ? t("dashboard.increasedModelOutput")
+                                : t("dashboard.decreasedModelOutput")}
                               {" • "}
-                              Input: {item.inputValue}
+                              {t("dashboard.inputPrefix", {
+                                value: item.inputValue,
+                              })}
                             </Typography>
                           </Box>
                         );
@@ -2862,7 +2950,7 @@ function DashboardPage() {
                           variant="caption"
                           sx={{ color: "#64748B" }}
                         >
-                          Increases model output
+                          {t("dashboard.increasesModelOutput")}
                         </Typography>
                       </Stack>
 
@@ -2883,7 +2971,7 @@ function DashboardPage() {
                           variant="caption"
                           sx={{ color: "#64748B" }}
                         >
-                          Decreases model output
+                          {t("dashboard.decreasesModelOutput")}
                         </Typography>
                       </Stack>
                     </Stack>
@@ -2897,8 +2985,7 @@ function DashboardPage() {
                         lineHeight: 1.55,
                       }}
                     >
-                      SHAP explains this prediction; it does not
-                      change the model result.
+                      {t("dashboard.shapFooter")}
                     </Typography>
                   </Box>
                 ) : (
@@ -2924,8 +3011,7 @@ function DashboardPage() {
                         maxWidth: 360,
                       }}
                     >
-                      Complete an assessment to see the real SHAP
-                      factors returned by the model.
+                      {t("dashboard.shapEmpty")}
                     </Typography>
                   </Box>
                 )}
@@ -2971,7 +3057,7 @@ function DashboardPage() {
                         color: "#0F172A",
                       }}
                     >
-                      Power BI Analytics
+                      {t("dashboard.powerBiTitle")}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -2980,7 +3066,7 @@ function DashboardPage() {
                         color: "#64748B",
                       }}
                     >
-                      Population-level and research analytics workspace
+                      {t("dashboard.powerBiSubtitle")}
                     </Typography>
                   </Box>
 
@@ -2995,7 +3081,7 @@ function DashboardPage() {
                       fontWeight: 800,
                     }}
                   >
-                    CONNECT LATER
+                    {t("dashboard.connectLater")}
                   </Box>
                 </Stack>
 
@@ -3023,7 +3109,7 @@ function DashboardPage() {
                       color: "#334155",
                     }}
                   >
-                    Power BI report area
+                    {t("dashboard.powerBiAreaTitle")}
                   </Typography>
 
                   <Typography
@@ -3035,8 +3121,7 @@ function DashboardPage() {
                       lineHeight: 1.65,
                     }}
                   >
-                    The final report can be embedded here once the actual
-                    Power BI report, dataset, and embedding configuration are ready.
+                    {t("dashboard.powerBiAreaDesc")}
                   </Typography>
                 </Box>
               </Paper>
@@ -3067,7 +3152,7 @@ function DashboardPage() {
                     color: "#0F172A",
                   }}
                 >
-                  Reports & Documents
+                  {t("dashboard.reportsDocsTitle")}
                 </Typography>
 
                 <Typography
@@ -3078,8 +3163,7 @@ function DashboardPage() {
                     lineHeight: 1.6,
                   }}
                 >
-                  Your future document workspace for uploaded reports,
-                  AI-extracted information, and generated health summaries.
+                  {t("dashboard.reportsDocsSubtitle")}
                 </Typography>
 
                 <Box
@@ -3119,7 +3203,7 @@ function DashboardPage() {
                           color: "#334155",
                         }}
                       >
-                        Document intelligence
+                        {t("dashboard.documentIntelligenceTitle")}
                       </Typography>
 
                       <Typography
@@ -3130,7 +3214,7 @@ function DashboardPage() {
                           mt: 0.25,
                         }}
                       >
-                        Planned AI-assisted autofill workspace
+                        {t("dashboard.documentIntelligenceDesc")}
                       </Typography>
                     </Box>
                   </Stack>
@@ -3152,7 +3236,7 @@ function DashboardPage() {
                       color: "#475569",
                     }}
                   >
-                    Generated health summary
+                    {t("dashboard.generatedSummaryTitle")}
                   </Typography>
 
                   <Typography
@@ -3163,7 +3247,7 @@ function DashboardPage() {
                       color: "#94A3B8",
                     }}
                   >
-                    Available after the reporting workflow is connected.
+                    {t("dashboard.generatedSummaryDesc")}
                   </Typography>
                 </Box>
               </Paper>
@@ -3201,7 +3285,7 @@ function DashboardPage() {
                     color: "#0F172A",
                   }}
                 >
-                  Assessment History
+                  {t("dashboard.assessmentHistoryTitle")}
                 </Typography>
 
                 <Typography
@@ -3211,7 +3295,7 @@ function DashboardPage() {
                     color: "#64748B",
                   }}
                 >
-                  Your saved assessment results and estimated risk levels.
+                  {t("dashboard.assessmentHistorySubtitle")}
                 </Typography>
               </Box>
 
@@ -3312,8 +3396,10 @@ function DashboardPage() {
                               }}
                             >
                               {index === 0
-                                ? "Latest assessment"
-                                : `Assessment ${assessmentHistory.length - index}`}
+                                ? t("dashboard.latestAssessmentLabel")
+                                : t("dashboard.assessmentNumber", {
+                                    number: assessmentHistory.length - index,
+                                  })}
                             </Typography>
 
                             <Typography
@@ -3373,7 +3459,7 @@ function DashboardPage() {
                               fontWeight: 800,
                             }}
                           >
-                            {level}
+                            {translateRiskLevel(level)}
                           </Box>
                         </Stack>
                       </Box>
@@ -3398,7 +3484,7 @@ function DashboardPage() {
                     fontWeight: 700,
                   }}
                 >
-                  No saved assessments
+                  {t("dashboard.noSavedAssessments")}
                 </Typography>
 
                 <Typography
@@ -3409,7 +3495,7 @@ function DashboardPage() {
                     color: "#94A3B8",
                   }}
                 >
-                  Complete another assessment to start building your history.
+                  {t("dashboard.noSavedAssessmentsDesc")}
                 </Typography>
               </Box>
             )}
@@ -3426,29 +3512,26 @@ function DashboardPage() {
               color: "#0F172A",
             }}
           >
-            Explore OsteoAI
+            {t("dashboard.exploreTitle")}
           </Typography>
 
           <Grid container spacing={2.2}>
             {[
               {
-                title: "AI Assistant",
-                description:
-                  "Ask about your result, track progress, or prepare for a doctor visit.",
+                title: t("dashboard.exploreAiTitle"),
+                description: t("dashboard.exploreAiDesc"),
                 icon: <AIIcon />,
                 path: "/assistant",
               },
               {
-                title: "Knowledge & Support",
-                description:
-                  "Access understandable bone-health education and frequently asked questions.",
+                title: t("dashboard.exploreKnowledgeTitle"),
+                description: t("dashboard.exploreKnowledgeDesc"),
                 icon: <KnowledgeSvg />,
                 path: "/knowledge",
               },
               {
-                title: "Notifications",
-                description:
-                  "Future email, WhatsApp, and SMS updates can be managed from your account.",
+                title: t("dashboard.exploreNotificationsTitle"),
+                description: t("dashboard.exploreNotificationsDesc"),
                 icon: <HistorySvg />,
               },
             ].map((item) => (

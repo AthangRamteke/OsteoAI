@@ -16,42 +16,45 @@ import WcIcon from "@mui/icons-material/Person";
 
 import { useAssessment } from "../../context/AssessmentContext";
 import SelectableCard from "../ui/SelectableCard";
-
-const raceOptions = [
-  {
-    value: "1",
-    title: "Mexican American",
-    subtitle: "Mexican American",
-  },
-  {
-    value: "2",
-    title: "Other Hispanic",
-    subtitle: "Hispanic / Latino",
-  },
-  {
-    value: "3",
-    title: "White",
-    subtitle: "Non-Hispanic White",
-  },
-  {
-    value: "4",
-    title: "Black",
-    subtitle: "Non-Hispanic Black",
-  },
-  {
-    value: "6",
-    title: "Asian",
-    subtitle: "Non-Hispanic Asian",
-  },
-];
+import { useLanguage } from "../../context/LanguageContext";
 
 function PersonalInfoForm() {
+  const { t } = useLanguage();
+
   const {
     assessmentData,
     updatePersonal,
   } = useAssessment();
 
   const formData = assessmentData.personal;
+
+  const raceOptions = [
+    {
+      value: "1",
+      title: t("assessment.personal.raceMexicanAmerican"),
+      subtitle: t("assessment.personal.raceMexicanAmerican"),
+    },
+    {
+      value: "2",
+      title: t("assessment.personal.raceOtherHispanic"),
+      subtitle: t("assessment.personal.raceHispanicLatino"),
+    },
+    {
+      value: "3",
+      title: t("assessment.personal.raceWhite"),
+      subtitle: t("assessment.personal.raceWhiteSubtitle"),
+    },
+    {
+      value: "4",
+      title: t("assessment.personal.raceBlack"),
+      subtitle: t("assessment.personal.raceBlackSubtitle"),
+    },
+    {
+      value: "6",
+      title: t("assessment.personal.raceAsian"),
+      subtitle: t("assessment.personal.raceAsianSubtitle"),
+    },
+  ];
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -184,6 +187,21 @@ function PersonalInfoForm() {
     }
   };
 
+  const translateBMICategory = (category) => {
+    switch (category) {
+      case "Underweight":
+        return t("assessment.personal.bmiUnderweight");
+      case "Healthy Weight":
+        return t("assessment.personal.bmiHealthy");
+      case "Overweight":
+        return t("assessment.personal.bmiOverweight");
+      case "Obese":
+        return t("assessment.personal.bmiObese");
+      default:
+        return "";
+    }
+  };
+
   const numericInput = (
     name,
     value,
@@ -225,7 +243,7 @@ function PersonalInfoForm() {
           variant="h5"
           fontWeight={800}
         >
-          Personal Information
+          {t("assessment.personal.title")}
         </Typography>
 
         <Typography
@@ -235,8 +253,7 @@ function PersonalInfoForm() {
             lineHeight: 1.7,
           }}
         >
-          Tell us a little about yourself before we assess
-          your bone health.
+          {t("assessment.personal.subtitle")}
         </Typography>
       </Box>
 
@@ -247,7 +264,7 @@ function PersonalInfoForm() {
       >
         <Grid size={{ xs: 12, sm: 8 }}>
           <TextField
-            label="Full Name"
+            label={t("assessment.personal.fullName")}
             name="name"
             value={formData.name}
             onChange={handleChange}
@@ -264,7 +281,7 @@ function PersonalInfoForm() {
             formData.age,
             18,
             120,
-            "Age"
+            t("assessment.personal.age")
           )}
         </Grid>
       </Grid>
@@ -276,7 +293,7 @@ function PersonalInfoForm() {
           fontWeight={700}
           sx={{ mb: 1 }}
         >
-          Gender
+          {t("assessment.personal.genderTitle")}
         </Typography>
 
         <Typography
@@ -284,7 +301,7 @@ function PersonalInfoForm() {
           color="text.secondary"
           sx={{ mb: 2 }}
         >
-          Select the option that best describes you.
+          {t("assessment.personal.genderSubtitle")}
         </Typography>
 
         <Grid
@@ -300,8 +317,8 @@ function PersonalInfoForm() {
                 handleGenderChange("Male")
               }
               icon={<PersonIcon />}
-              title="Male"
-              subtitle="Male"
+              title={t("assessment.personal.male")}
+              subtitle={t("assessment.personal.male")}
             />
           </Grid>
 
@@ -314,8 +331,8 @@ function PersonalInfoForm() {
                 handleGenderChange("Female")
               }
               icon={<PersonIcon />}
-              title="Female"
-              subtitle="Female"
+              title={t("assessment.personal.female")}
+              subtitle={t("assessment.personal.female")}
             />
           </Grid>
 
@@ -328,8 +345,8 @@ function PersonalInfoForm() {
                 handleGenderChange("Other")
               }
               icon={<WcIcon />}
-              title="Other"
-              subtitle="Prefer to identify differently"
+              title={t("assessment.personal.other")}
+              subtitle={t("assessment.personal.otherSubtitle")}
             />
           </Grid>
         </Grid>
@@ -342,7 +359,7 @@ function PersonalInfoForm() {
           fontWeight={700}
           sx={{ mb: 1 }}
         >
-          Race / Ethnicity
+          {t("assessment.personal.raceTitle")}
         </Typography>
 
         <Typography
@@ -350,7 +367,7 @@ function PersonalInfoForm() {
           color="text.secondary"
           sx={{ mb: 2 }}
         >
-          Choose the option that best matches your background.
+          {t("assessment.personal.raceSubtitle")}
         </Typography>
 
         <Grid
@@ -392,7 +409,7 @@ function PersonalInfoForm() {
             formData.height,
             50,
             250,
-            "Height (cm)"
+            t("assessment.personal.height")
           )}
         </Grid>
 
@@ -402,7 +419,7 @@ function PersonalInfoForm() {
             formData.weight,
             20,
             300,
-            "Weight (kg)"
+            t("assessment.personal.weight")
           )}
         </Grid>
       </Grid>
@@ -418,7 +435,7 @@ function PersonalInfoForm() {
             formData.waist,
             40,
             200,
-            "Waist Circumference (cm)"
+            t("assessment.personal.waist")
           )}
         </Grid>
 
@@ -428,7 +445,7 @@ function PersonalInfoForm() {
             formData.hip,
             40,
             200,
-            "Hip Circumference (cm)"
+            t("assessment.personal.hip")
           )}
         </Grid>
       </Grid>
@@ -464,7 +481,7 @@ function PersonalInfoForm() {
               variant="h6"
               fontWeight={800}
             >
-              Your BMI
+              {t("assessment.personal.bmiTitle")}
             </Typography>
           </Box>
 
@@ -499,8 +516,8 @@ function PersonalInfoForm() {
                 color: getBMIColor(),
               }}
             >
-              {getBMICategory() ||
-                "Waiting for your details"}
+              {translateBMICategory(getBMICategory()) ||
+                t("assessment.personal.bmiWaiting")}
             </Typography>
           </Box>
 
@@ -514,8 +531,7 @@ function PersonalInfoForm() {
               lineHeight: 1.7,
             }}
           >
-            BMI is one of several factors considered in
-            your overall assessment.
+            {t("assessment.personal.bmiNote")}
           </Typography>
 
           <Box
@@ -533,7 +549,7 @@ function PersonalInfoForm() {
               fontWeight={700}
               color="text.primary"
             >
-              Complete Lifestyle + Medical History
+              {t("assessment.personal.completeNoteTitle")}
             </Typography>
 
             <Typography
@@ -544,8 +560,7 @@ function PersonalInfoForm() {
                 lineHeight: 1.6,
               }}
             >
-              to generate your personalized bone-health
-              assessment.
+              {t("assessment.personal.completeNoteDesc")}
             </Typography>
           </Box>
         </CardContent>
