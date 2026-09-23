@@ -45,14 +45,14 @@ import { historyForAgent } from "../../services/historyStore";
 
 function ResultAssistant({ predictionResult }) {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const [message, setMessage] = useState("");
 
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content:
-        "Hi! I'm your OsteoAI Assistant. I can explain your assessment result, including the model probability and the factors that influenced it.",
+      content: t("resultAssistant.greeting"),
     },
   ]);
 
@@ -170,7 +170,7 @@ function ResultAssistant({ predictionResult }) {
       ) {
         showAssistantText(
           finalMessage ||
-          "Opening the requested page.",
+          t("resultAssistant.openingPage"),
           false
         );
 
@@ -200,7 +200,7 @@ function ResultAssistant({ predictionResult }) {
       showAssistantText(
         finalMessage ||
         streamedText ||
-        "I was unable to generate a response.",
+        t("resultAssistant.noResponse"),
         false
       );
     } catch (agentError) {
@@ -211,7 +211,7 @@ function ResultAssistant({ predictionResult }) {
 
       setError(
         agentError?.message ||
-        "Unable to connect to the OsteoAI Assistant."
+        t("resultAssistant.connectionError")
       );
     } finally {
       setLoading(false);
@@ -231,9 +231,9 @@ function ResultAssistant({ predictionResult }) {
 
 
   const quickQuestions = [
-    "Explain my result",
-    "Why did I get this result?",
-    "What does my risk level mean?",
+    t("resultAssistant.quickQuestion1"),
+    t("resultAssistant.quickQuestion2"),
+    t("resultAssistant.quickQuestion3"),
   ];
 
 
@@ -286,7 +286,7 @@ function ResultAssistant({ predictionResult }) {
                 color: "#0F172A",
               }}
             >
-              Ask OsteoAI
+              {t("resultAssistant.title")}
             </Typography>
 
             <Typography
@@ -296,7 +296,7 @@ function ResultAssistant({ predictionResult }) {
                 color: "#64748B",
               }}
             >
-              Ask questions about this assessment result.
+              {t("resultAssistant.subtitle")}
             </Typography>
           </Box>
         </Stack>
@@ -480,7 +480,7 @@ function ResultAssistant({ predictionResult }) {
               setMessage(event.target.value)
             }
             onKeyDown={handleKeyDown}
-            placeholder="Ask about your result..."
+            placeholder={t("resultAssistant.inputPlaceholder")}
             size="small"
           />
 
@@ -510,8 +510,7 @@ function ResultAssistant({ predictionResult }) {
             color: "#94A3B8",
           }}
         >
-          OsteoAI provides a prototype risk assessment
-          explanation, not a medical diagnosis.
+          {t("resultAssistant.disclaimer")}
         </Typography>
 
       </CardContent>

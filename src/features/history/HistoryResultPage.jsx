@@ -8,6 +8,7 @@ import HistoryIcon from "@mui/icons-material/History";
 import PageShell from "../../components/common/PageShell";
 import AssessmentResult from "../../components/assessment/AssessmentResult";
 import { AssessmentProvider } from "../../context/AssessmentContext";
+import { useLanguage } from "../../context/LanguageContext";
 import { formatDate, getHistoryRecord } from "../../services/historyStore";
 
 /*
@@ -17,14 +18,15 @@ import { formatDate, getHistoryRecord } from "../../services/historyStore";
 function HistoryResultPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const record = getHistoryRecord(id);
 
   if (!record) {
     return (
       <PageShell
         icon={<HistoryIcon />}
-        title="Assessment not found"
-        subtitle="It may have been deleted or saved on another device."
+        title={t("history.notFoundTitle")}
+        subtitle={t("history.notFoundSubtitle")}
       >
         <Card sx={{ p: 4, borderRadius: 4, textAlign: "center" }}>
           <Button
@@ -32,7 +34,7 @@ function HistoryResultPage() {
             onClick={() => navigate("/history")}
             sx={{ textTransform: "none", fontWeight: 700, boxShadow: "none" }}
           >
-            Back to history
+            {t("history.backToHistoryButton")}
           </Button>
         </Card>
       </PageShell>
@@ -42,25 +44,24 @@ function HistoryResultPage() {
   return (
     <PageShell
       icon={<AssessmentIcon />}
-      title="Past assessment"
-      subtitle={`Saved ${formatDate(record.savedAt, true)}`}
+      title={t("history.pastAssessmentTitle")}
+      subtitle={t("history.savedOnSubtitle", { date: formatDate(record.savedAt, true) })}
       actions={
         <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-          <Chip label="Read-only" size="small" />
+          <Chip label={t("history.readOnlyChip")} size="small" />
           <Button
             variant="outlined"
             startIcon={<HistoryIcon />}
             onClick={() => navigate("/history")}
             sx={{ textTransform: "none", fontWeight: 700, borderRadius: 3 }}
           >
-            All assessments
+            {t("history.allAssessmentsButton")}
           </Button>
         </Stack>
       }
     >
       <Typography variant="body2" sx={{ color: "#64748B", mb: 2 }}>
-        This is the result exactly as it was saved. Start a new assessment to get an
-        updated estimate.
+        {t("history.viewingSavedNote")}
       </Typography>
 
       <AssessmentProvider initialData={record.assessmentData}>

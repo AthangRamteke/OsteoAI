@@ -41,6 +41,7 @@ import {
 } from "recharts";
 
 import PageShell from "../../components/common/PageShell";
+import { useLanguage } from "../../context/LanguageContext";
 import {
   HISTORY_UPDATED_EVENT,
   computeBmi,
@@ -59,6 +60,10 @@ const cardSx = {
   boxShadow: "0 8px 24px rgba(15,23,42,0.04)",
 };
 
+// Model risk levels ("High"/"Moderate"/"Low") come back in English;
+// translate for display while keeping the raw value for color/logic.
+const translateRiskLevel = (t, level) => t(`common.riskLevels.${level}`) || level;
+
 function askAssistant(navigate, question, recordId) {
   const params = new URLSearchParams({ q: question });
 
@@ -74,22 +79,25 @@ function askAssistant(navigate, question, recordId) {
    --------------------------------------------------------- */
 
 function RiskChip({ level }) {
+  const { t } = useLanguage();
   const color = riskColor(level);
 
   return (
     <Chip
       size="small"
-      label={`${level} risk`}
+      label={t("history.statRiskSuffix", { level: translateRiskLevel(t, level) })}
       sx={{ fontWeight: 700, color: color.main, bgcolor: color.soft }}
     />
   );
 }
 
 function DeltaBadge({ delta }) {
+  const { t } = useLanguage();
+
   if (delta === null) {
     return (
       <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 600 }}>
-        First assessment
+        {t("history.firstAssessment")}
       </Typography>
     );
   }
@@ -103,7 +111,11 @@ function DeltaBadge({ delta }) {
     <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color }}>
       <Icon fontSize="small" />
       <Typography variant="caption" sx={{ fontWeight: 700 }}>
-        {flat ? "No change" : `${down ? "" : "+"}${delta.toFixed(1)} pts vs previous`}
+        {flat
+          ? t("history.noChange")
+          : t("history.deltaVsPrevious", {
+              value: `${down ? "" : "+"}${delta.toFixed(1)}`,
+            })}
       </Typography>
     </Stack>
   );
@@ -132,6 +144,8 @@ function StatCard({ label, value, hint, color = "#0F172A" }) {
    --------------------------------------------------------- */
 
 function TrendChart({ history }) {
+  const { t } = useLanguage();
+
   const data = [...history].reverse().map((record, index) => ({
     name: `#${index + 1}`,
     date: formatDate(record.savedAt),
@@ -142,10 +156,10 @@ function TrendChart({ history }) {
   return (
     <Card sx={{ ...cardSx, p: { xs: 2, md: 3 } }}>
       <Typography sx={{ fontWeight: 800, color: "#0F172A" }}>
-        Bone-risk trend
+        {t("history.trendTitle")}
       </Typography>
       <Typography variant="body2" sx={{ color: "#64748B", mb: 2 }}>
-        Model probability for each assessment, oldest to newest.
+        {t("history.trendDesc")}
       </Typography>
 
       <Box sx={{ height: 240 }}>
@@ -165,10 +179,12 @@ function TrendChart({ history }) {
               tick={{ fontSize: 12, fill: "#64748B" }}
             />
             <ChartTooltip
-              formatter={(value) => [`${value}%`, "Probability"]}
+              formatter={(value) => [`${value}%`, t("history.chartProbabilityLabel")]}
               labelFormatter={(_, payload) =>
                 payload?.[0]
-                  ? `${payload[0].payload.date} · ${payload[0].payload.risk} risk`
+                  ? `${payload[0].payload.date} · ${t("history.statRiskSuffix", {
+                      level: translateRiskLevel(t, payload[0].payload.risk),
+                    })}`
                   : ""
               }
             />
@@ -204,6 +220,7 @@ function TrendChart({ history }) {
 
 function ComparePanel({ records, onClose }) {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   // Oldest first so "before → after" reads naturally.
   const [before, after] = [...records].sort(
@@ -212,25 +229,28 @@ function ComparePanel({ records, onClose }) {
 
   const rows = [
     {
-      label: "Probability",
+      label: t("history.tableRowProbability"),
       get: (record) => `${probabilityPercent(record)?.toFixed(1) ?? "-"}%`,
     },
-    { label: "Risk level", get: (record) => riskLevel(record) },
-    { label: "Age", get: (record) => record.assessmentData?.personal?.age || "-" },
     {
-      label: "BMI",
+      label: t("history.tableRowRiskLevel"),
+      get: (record) => translateRiskLevel(t, riskLevel(record)),
+    },
+    { label: t("history.tableRowAge"), get: (record) => record.assessmentData?.personal?.age || "-" },
+    {
+      label: t("history.tableRowBmi"),
       get: (record) => computeBmi(record.assessmentData?.personal)?.toFixed(1) ?? "-",
     },
     {
-      label: "Weight (kg)",
+      label: t("history.tableRowWeight"),
       get: (record) => record.assessmentData?.personal?.weight || "-",
     },
     {
-      label: "Sedentary (min/day)",
+      label: t("history.tableRowSedentary"),
       get: (record) => record.assessmentData?.lifestyle?.sedentaryMinutes || "-",
     },
     {
-      label: "Top factors raising",
+      label: t("history.tableRowTopFactorsRaising"),
       get: (record) =>
         topFactors(record, 2)
           .raising.map((item) => item.label)
@@ -249,13 +269,13 @@ function ComparePanel({ records, onClose }) {
       >
         <Box>
           <Typography sx={{ fontWeight: 800, color: "#0F172A" }}>
-            Comparison
+            {t("history.comparisonTitle")}
           </Typography>
           <Typography variant="body2" sx={{ color: "#64748B" }}>
             {formatDate(before.savedAt)} → {formatDate(after.savedAt)} ·{" "}
             <b style={{ color: delta <= 0 ? "#16A34A" : "#DC2626" }}>
               {delta > 0 ? "+" : ""}
-              {delta.toFixed(1)} percentage points
+              {delta.toFixed(1)} {t("history.percentagePoints")}
             </b>
           </Typography>
         </Box>
@@ -273,10 +293,10 @@ function ComparePanel({ records, onClose }) {
             }
             sx={{ textTransform: "none", fontWeight: 700, boxShadow: "none", borderRadius: 2.5 }}
           >
-            Ask AI to explain
+            {t("history.askAiExplain")}
           </Button>
           <Button onClick={onClose} sx={{ textTransform: "none", fontWeight: 700 }}>
-            Clear
+            {t("history.clear")}
           </Button>
         </Stack>
       </Stack>
@@ -300,8 +320,8 @@ function ComparePanel({ records, onClose }) {
           <thead>
             <tr>
               <th />
-              <th>Before · {formatDate(before.savedAt)}</th>
-              <th>After · {formatDate(after.savedAt)}</th>
+              <th>{t("history.tableBefore")} · {formatDate(before.savedAt)}</th>
+              <th>{t("history.tableAfter")} · {formatDate(after.savedAt)}</th>
             </tr>
           </thead>
           <tbody>
@@ -329,8 +349,7 @@ function ComparePanel({ records, onClose }) {
       </Box>
 
       <Typography variant="caption" sx={{ display: "block", color: "#94A3B8", mt: 1.5 }}>
-        Changed values are highlighted. A different model estimate is a hypothetical
-        comparison, not proof of a change in bone health.
+        {t("history.comparisonCaption")}
       </Typography>
     </Card>
   );
@@ -342,6 +361,7 @@ function ComparePanel({ records, onClose }) {
 
 function HistoryPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const [history, setHistory] = useState(getHistory);
   const [selected, setSelected] = useState([]);
@@ -398,8 +418,8 @@ function HistoryPage() {
   return (
     <PageShell
       icon={<HistoryIcon />}
-      title="Assessment History"
-      subtitle="Your bone-health timeline: every assessment, how it changed, and why."
+      title={t("history.pageTitle")}
+      subtitle={t("history.pageSubtitle")}
       actions={
         <Button
           variant="contained"
@@ -407,7 +427,7 @@ function HistoryPage() {
           onClick={() => navigate("/assessment")}
           sx={{ textTransform: "none", fontWeight: 700, borderRadius: 3, boxShadow: "none" }}
         >
-          New assessment
+          {t("history.newAssessmentButton")}
         </Button>
       }
     >
@@ -415,42 +435,46 @@ function HistoryPage() {
         <Card sx={{ ...cardSx, p: { xs: 4, md: 6 }, textAlign: "center" }}>
           <HistoryIcon sx={{ fontSize: 48, color: "#93C5FD" }} />
           <Typography variant="h6" sx={{ fontWeight: 800, mt: 1 }}>
-            No assessments yet
+            {t("history.emptyTitle")}
           </Typography>
           <Typography sx={{ color: "#64748B", mt: 0.5, mb: 3 }}>
-            Complete your first assessment to start your bone-health timeline.
+            {t("history.emptyDesc")}
           </Typography>
           <Button
             variant="contained"
             onClick={() => navigate("/assessment")}
             sx={{ textTransform: "none", fontWeight: 700, borderRadius: 3, boxShadow: "none" }}
           >
-            Start assessment
+            {t("history.startAssessmentButton")}
           </Button>
         </Card>
       ) : (
         <Stack spacing={3}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 6, md: 3 }}>
-              <StatCard label="Assessments" value={history.length} hint="Saved on this device" />
+              <StatCard
+                label={t("history.statAssessments")}
+                value={history.length}
+                hint={t("history.statAssessmentsHint")}
+              />
             </Grid>
             <Grid size={{ xs: 6, md: 3 }}>
               <StatCard
-                label="Latest estimate"
+                label={t("history.statLatestEstimate")}
                 value={`${stats.latest.toFixed(1)}%`}
-                hint={`${stats.latestRisk} risk`}
+                hint={t("history.statRiskSuffix", { level: translateRiskLevel(t, stats.latestRisk) })}
                 color={riskColor(stats.latestRisk).main}
               />
             </Grid>
             <Grid size={{ xs: 6, md: 3 }}>
               <StatCard
-                label="Change since first"
+                label={t("history.statChangeSinceFirst")}
                 value={
                   stats.change === null
                     ? "-"
                     : `${stats.change > 0 ? "+" : ""}${stats.change.toFixed(1)}`
                 }
-                hint="Percentage points"
+                hint={t("history.statChangeHint")}
                 color={
                   stats.change === null
                     ? "#0F172A"
@@ -461,7 +485,11 @@ function HistoryPage() {
               />
             </Grid>
             <Grid size={{ xs: 6, md: 3 }}>
-              <StatCard label="Lowest estimate" value={`${stats.lowest.toFixed(1)}%`} hint="Across all assessments" />
+              <StatCard
+                label={t("history.statLowestEstimate")}
+                value={`${stats.lowest.toFixed(1)}%`}
+                hint={t("history.statLowestHint")}
+              />
             </Grid>
           </Grid>
 
@@ -476,7 +504,7 @@ function HistoryPage() {
                 severity="info"
                 sx={{ borderRadius: 3 }}
               >
-                Tick any two assessments below to compare them side by side.
+                {t("history.compareInfoAlert")}
               </Alert>
             )
           )}
@@ -574,7 +602,7 @@ function HistoryPage() {
                               </Typography>
                               <RiskChip level={level} />
                               {index === 0 && (
-                                <Chip size="small" label="Latest" color="primary" variant="outlined" />
+                                <Chip size="small" label={t("history.latestChip")} color="primary" variant="outlined" />
                               )}
                             </Stack>
 
@@ -609,7 +637,7 @@ function HistoryPage() {
                           sx={{ alignItems: "center", alignSelf: { xs: "flex-end", md: "center" } }}
                         >
                           {history.length > 1 && (
-                            <Tooltip title="Select to compare">
+                            <Tooltip title={t("history.selectToCompareTooltip")}>
                               <Checkbox
                                 checked={isSelected}
                                 onChange={() => toggleSelected(record.id)}
@@ -625,7 +653,7 @@ function HistoryPage() {
                               />
                             </Tooltip>
                           )}
-                          <Tooltip title="Ask AI about this assessment">
+                          <Tooltip title={t("history.askAiTooltip")}>
                             <IconButton
                               color="primary"
                               onClick={() =>
@@ -639,7 +667,7 @@ function HistoryPage() {
                               <AutoAwesomeIcon />
                             </IconButton>
                           </Tooltip>
-                          <Tooltip title="Delete">
+                          <Tooltip title={t("history.deleteTooltip")}>
                             <IconButton onClick={() => setPendingDelete(record)}>
                               <DeleteOutlineIcon />
                             </IconButton>
@@ -650,7 +678,7 @@ function HistoryPage() {
                             onClick={() => navigate(`/history/${record.id}`)}
                             sx={{ textTransform: "none", fontWeight: 700, borderRadius: 2.5, ml: 0.5 }}
                           >
-                            View result
+                            {t("history.viewResultButton")}
                           </Button>
                         </Stack>
                       </Stack>
@@ -664,16 +692,17 @@ function HistoryPage() {
       )}
 
       <Dialog open={Boolean(pendingDelete)} onClose={() => setPendingDelete(null)}>
-        <DialogTitle sx={{ fontWeight: 800 }}>Delete this assessment?</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 800 }}>{t("history.deleteDialogTitle")}</DialogTitle>
         <DialogContent>
           <Typography sx={{ color: "#475569" }}>
-            The assessment from {pendingDelete && formatDate(pendingDelete.savedAt, true)} will
-            be removed from this device. This cannot be undone.
+            {t("history.deleteDialogBody", {
+              date: pendingDelete ? formatDate(pendingDelete.savedAt, true) : "",
+            })}
           </Typography>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={() => setPendingDelete(null)} sx={{ textTransform: "none" }}>
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button
             color="error"
@@ -681,7 +710,7 @@ function HistoryPage() {
             onClick={confirmDelete}
             sx={{ textTransform: "none", fontWeight: 700, boxShadow: "none" }}
           >
-            Delete
+            {t("history.deleteButton")}
           </Button>
         </DialogActions>
       </Dialog>

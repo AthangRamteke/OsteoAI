@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { streamAgentMessage } from "../../services/agentService";
+import { useLanguage } from "../../context/LanguageContext";
 
 // Pages the Agent is allowed to open.
 export const ALLOWED_PATHS = [
@@ -21,6 +22,7 @@ export const ALLOWED_PATHS = [
  */
 export default function useAgentChat(getContext) {
   const navigate = useNavigate();
+  const { t, language } = useLanguage();
 
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -65,7 +67,7 @@ export default function useAgentChat(getContext) {
           predictionResult,
           assessmentHistory,
           conversationId: conversationIdRef.current,
-          language: localStorage.getItem("osteoai-language") || "en",
+          language,
           onEvent: (event) => {
             if (event.type === "meta") {
               conversationIdRef.current = event.conversation_id;
@@ -84,7 +86,7 @@ export default function useAgentChat(getContext) {
         });
 
         showAssistantText(
-          finalMessage || streamedText || "I was unable to generate a response.",
+          finalMessage || streamedText || t("assistant.noResponse"),
           false
         );
 
@@ -101,13 +103,13 @@ export default function useAgentChat(getContext) {
         }
       } catch (agentError) {
         console.error("OsteoAI Agent request failed:", agentError);
-        setError(agentError?.message || "Unable to connect to the OsteoAI Assistant.");
+        setError(agentError?.message || t("assistant.connectionError"));
       } finally {
         loadingRef.current = false;
         setLoading(false);
       }
     },
-    [getContext, navigate]
+    [getContext, navigate, t, language]
   );
 
   const reset = () => {

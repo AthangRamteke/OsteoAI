@@ -31,6 +31,7 @@ import LockIcon from "@mui/icons-material/Lock";
 
 import PageShell from "../../components/common/PageShell";
 import useAgentChat from "./useAgentChat";
+import { useLanguage } from "../../context/LanguageContext";
 import {
   formatDate,
   getHistory,
@@ -44,30 +45,32 @@ const NO_CONTEXT = "none";
 
 /*
  * Assistant "skills": one-tap tasks that turn into a well-formed
- * prompt. `needs` marks what context a skill requires.
+ * prompt. `needs` marks what context a skill requires. Titles and
+ * descriptions are translated; `prompt` is sent to the agent and is
+ * kept in English.
  */
-const SKILLS = [
+const getSkills = (t) => [
   {
     id: "explain",
     icon: <InsightsIcon />,
-    title: "Explain my result",
-    description: "Probability, risk level and SHAP factors in plain words.",
+    title: t("assistant.skillExplainTitle"),
+    description: t("assistant.skillExplainDesc"),
     prompt: "Explain my result.",
     needs: "result",
   },
   {
     id: "progress",
     icon: <TimelineIcon />,
-    title: "Track my progress",
-    description: "How your estimate changed across assessments.",
+    title: t("assistant.skillProgressTitle"),
+    description: t("assistant.skillProgressDesc"),
     prompt: "How has my risk estimate changed across my assessments?",
     needs: "history",
   },
   {
     id: "doctor",
     icon: <LocalHospitalIcon />,
-    title: "Doctor visit prep",
-    description: "Questions to take to your next appointment.",
+    title: t("assistant.skillDoctorTitle"),
+    description: t("assistant.skillDoctorDesc"),
     prompt:
       "Based on my result, list 4 short questions I could ask my doctor about my bone health. Write only the questions, one per line, each starting with \"- \" and ending with \"?\".",
     needs: "result",
@@ -75,8 +78,8 @@ const SKILLS = [
   {
     id: "habits",
     icon: <DirectionsWalkIcon />,
-    title: "Bone-healthy habits",
-    description: "General habits relevant to your factors.",
+    title: t("assistant.skillHabitsTitle"),
+    description: t("assistant.skillHabitsDesc"),
     prompt:
       "Suggest 3 simple, general bone-healthy habits that relate to the factors in my result.",
     needs: "result",
@@ -84,24 +87,24 @@ const SKILLS = [
   {
     id: "fields",
     icon: <HelpOutlineIcon />,
-    title: "Assessment help",
-    description: "What a question means and why it is asked.",
+    title: t("assistant.skillFieldsTitle"),
+    description: t("assistant.skillFieldsDesc"),
     prompt: "What does sedentary time mean in the assessment, and why is it asked?",
   },
   {
     id: "learn",
     icon: <MenuBookIcon />,
-    title: "Learn the basics",
-    description: "Osteoporosis, DEXA scans, T-scores and more.",
+    title: t("assistant.skillLearnTitle"),
+    description: t("assistant.skillLearnDesc"),
     prompt: "What is a DEXA scan and when is it recommended?",
   },
 ];
 
-const STARTERS = [
-  "Why is my risk level what it is?",
-  "What is osteoporosis?",
-  "Does calcium alone protect bones?",
-  "Open my assessment history",
+const getStarters = (t) => [
+  t("assistant.starter1"),
+  t("assistant.starter2"),
+  t("assistant.starter3"),
+  t("assistant.starter4"),
 ];
 
 function MessageBubble({ message }) {
@@ -171,6 +174,10 @@ function MessageBubble({ message }) {
 function AssistantPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { t } = useLanguage();
+
+  const SKILLS = useMemo(() => getSkills(t), [t]);
+  const STARTERS = useMemo(() => getStarters(t), [t]);
 
   const history = useMemo(() => getHistory(), []);
 
@@ -225,12 +232,12 @@ function AssistantPage() {
   return (
     <PageShell
       icon={<AutoAwesomeIcon />}
-      title="AI Assistant"
-      subtitle="Your private bone-health companion, running on a local AI model."
+      title={t("assistant.pageTitle")}
+      subtitle={t("assistant.pageSubtitle")}
       actions={
         <Chip
           icon={<LockIcon sx={{ fontSize: 16 }} />}
-          label="Local AI · Qwen3.5"
+          label={t("assistant.localAiChip")}
           sx={{ fontWeight: 700, bgcolor: "#ECFDF5", color: "#047857" }}
         />
       }
@@ -241,10 +248,10 @@ function AssistantPage() {
           <Stack spacing={2.5}>
             <Card sx={{ p: 2.5, borderRadius: 4, border: "1px solid #E2E8F0", boxShadow: "none" }}>
               <Typography sx={{ fontWeight: 800, color: "#0F172A" }}>
-                Assistant is looking at
+                {t("assistant.contextCardTitle")}
               </Typography>
               <Typography variant="body2" sx={{ color: "#64748B", mb: 1.5 }}>
-                The assessment it uses to answer personal questions.
+                {t("assistant.contextCardDesc")}
               </Typography>
 
               <TextField
@@ -257,10 +264,10 @@ function AssistantPage() {
                 {history.map((record, index) => (
                   <MenuItem key={record.id} value={record.id}>
                     {formatDate(record.savedAt)} · {probabilityPercent(record)?.toFixed(1)}%
-                    {index === 0 ? " (latest)" : ""}
+                    {index === 0 ? t("assistant.latestSuffix") : ""}
                   </MenuItem>
                 ))}
-                <MenuItem value={NO_CONTEXT}>No assessment (general questions)</MenuItem>
+                <MenuItem value={NO_CONTEXT}>{t("assistant.noContextOption")}</MenuItem>
               </TextField>
 
               {selectedRecord ? (
@@ -273,10 +280,10 @@ function AssistantPage() {
                   }}
                 >
                   <Typography sx={{ fontWeight: 800, color: riskColor(level).main, fontSize: 22 }}>
-                    {probabilityPercent(selectedRecord)?.toFixed(1)}% · {level} risk
+                    {probabilityPercent(selectedRecord)?.toFixed(1)}% · {t("assistant.riskSuffix", { level })}
                   </Typography>
                   <Typography variant="caption" sx={{ color: "#475569" }}>
-                    Model estimate, not a diagnosis
+                    {t("assistant.modelEstimateCaption")}
                   </Typography>
                 </Box>
               ) : (
@@ -287,7 +294,7 @@ function AssistantPage() {
                     onClick={() => navigate("/assessment")}
                     sx={{ mt: 2, textTransform: "none", fontWeight: 700, borderRadius: 3 }}
                   >
-                    Take an assessment for personal answers
+                    {t("assistant.takeAssessmentButton")}
                   </Button>
                 )
               )}
@@ -295,7 +302,7 @@ function AssistantPage() {
 
             <Box>
               <Typography sx={{ fontWeight: 800, color: "#0F172A", mb: 1.25 }}>
-                Skills
+                {t("assistant.skillsTitle")}
               </Typography>
 
               <Grid container spacing={1.25}>
@@ -309,8 +316,8 @@ function AssistantPage() {
                           available
                             ? ""
                             : skill.needs === "history"
-                              ? "Needs at least two saved assessments"
-                              : "Select an assessment first"
+                              ? t("assistant.needsHistoryTooltip")
+                              : t("assistant.needsResultTooltip")
                         }
                       >
                         <Card
@@ -378,14 +385,14 @@ function AssistantPage() {
                   }}
                 />
                 <Typography sx={{ fontWeight: 700, color: "#0F172A" }}>
-                  OsteoAI Assistant
+                  {t("assistant.chatHeaderTitle")}
                 </Typography>
                 <Typography variant="caption" sx={{ color: "#94A3B8" }}>
-                  {loading ? "thinking…" : "ready"}
+                  {loading ? t("assistant.statusThinking") : t("assistant.statusReady")}
                 </Typography>
               </Stack>
 
-              <Tooltip title="New conversation">
+              <Tooltip title={t("assistant.newConversationTooltip")}>
                 <span>
                   <IconButton onClick={reset} disabled={loading || !messages.length}>
                     <RestartAltIcon />
@@ -416,11 +423,10 @@ function AssistantPage() {
                     <AutoAwesomeIcon fontSize="large" />
                   </Box>
                   <Typography variant="h6" sx={{ fontWeight: 800, color: "#0F172A" }}>
-                    How can I help with your bone health?
+                    {t("assistant.emptyStateTitle")}
                   </Typography>
                   <Typography variant="body2" sx={{ color: "#64748B", maxWidth: 420, mt: 0.5, mb: 2.5 }}>
-                    Ask about your result, osteoporosis, the assessment, or where to find
-                    something in OsteoAI. Pick a skill on the left for a quick start.
+                    {t("assistant.emptyStateDesc")}
                   </Typography>
                   <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1, justifyContent: "center" }}>
                     {STARTERS.map((starter) => (
@@ -444,7 +450,7 @@ function AssistantPage() {
                     <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
                       <CircularProgress size={18} />
                       <Typography variant="caption" sx={{ color: "#94A3B8" }}>
-                        Thinking…
+                        {t("assistant.thinkingLabel")}
                       </Typography>
                     </Stack>
                   )}
@@ -465,7 +471,7 @@ function AssistantPage() {
                   multiline
                   maxRows={4}
                   size="small"
-                  placeholder="Ask anything about bone health or your result…"
+                  placeholder={t("assistant.inputPlaceholder")}
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
                   onKeyDown={(event) => {
@@ -491,8 +497,7 @@ function AssistantPage() {
                 </IconButton>
               </Stack>
               <Typography variant="caption" sx={{ display: "block", color: "#94A3B8", mt: 1 }}>
-                Educational information and a prototype risk estimate, not a medical
-                diagnosis. In an emergency call 112.
+                {t("assistant.footerDisclaimer")}
               </Typography>
             </Box>
           </Card>

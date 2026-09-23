@@ -21,10 +21,26 @@ _STOPWORDS = {
     "that", "can", "with", "about", "be", "should", "will", "you", "your",
 }
 
+SUPPORTED_LANGUAGES = ("en", "hi", "mr")
+DEFAULT_LANGUAGE = "en"
+
 
 @lru_cache(maxsize=1)
-def load_content() -> dict[str, Any]:
+def _load_all_content() -> dict[str, Any]:
+    """The content file has one top-level key per supported language."""
     return json.loads(_CONTENT_PATH.read_text(encoding="utf-8"))
+
+
+def load_content(lang: str | None = None) -> dict[str, Any]:
+    """Content for one language, falling back to English for anything
+    unsupported or missing."""
+    all_content = _load_all_content()
+    normalized = (lang or DEFAULT_LANGUAGE).strip().lower()
+
+    if normalized not in SUPPORTED_LANGUAGES:
+        normalized = DEFAULT_LANGUAGE
+
+    return all_content.get(normalized) or all_content[DEFAULT_LANGUAGE]
 
 
 def _words(text: str) -> set[str]:

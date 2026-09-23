@@ -1,315 +1,1490 @@
 {
-  "categories": [
-    { "id": "basics", "label": "Osteoporosis basics" },
-    { "id": "risk", "label": "Risk factors" },
-    { "id": "testing", "label": "Testing & diagnosis" },
-    { "id": "lifestyle", "label": "Nutrition & exercise" },
-    { "id": "result", "label": "Understanding your result" },
-    { "id": "app", "label": "Using OsteoAI" }
-  ],
-
-  "articles": [
-    {
-      "id": "what-is-osteoporosis",
-      "category": "basics",
-      "title": "What is osteoporosis?",
-      "summary": "A condition where bones lose density and become fragile, raising the chance of fractures.",
-      "readMinutes": 2,
-      "tags": ["osteoporosis", "bone density", "fragile", "definition", "silent disease"],
-      "body": [
-        "Osteoporosis is a condition in which bones become less dense and their inner structure weakens. Bones become more fragile and can break from a minor fall or even everyday strain.",
-        "It is often called a silent disease because bone loss usually causes no symptoms until a fracture happens. Common fracture sites are the hip, spine and wrist.",
-        "Bone is living tissue that is constantly broken down and rebuilt. Osteoporosis develops when bone is lost faster than it is replaced, which becomes more common with age."
-      ]
-    },
-    {
-      "id": "osteopenia",
-      "category": "basics",
-      "title": "Osteopenia vs osteoporosis",
-      "summary": "Osteopenia means bone density is lower than normal but not yet in the osteoporosis range.",
-      "readMinutes": 1,
-      "tags": ["osteopenia", "low bone mass", "t-score", "difference"],
-      "body": [
-        "Osteopenia describes bone density that is lower than typical for a young healthy adult but not low enough to be classed as osteoporosis.",
-        "It is not a disease on its own, but it can be an early warning sign. A doctor may suggest lifestyle measures and periodic monitoring."
-      ]
-    },
-    {
-      "id": "fractures",
-      "category": "basics",
-      "title": "Fractures and fracture risk",
-      "summary": "Why weaker bones break more easily, and why hip and spine fractures matter.",
-      "readMinutes": 2,
-      "tags": ["fracture", "hip fracture", "spine", "vertebral", "fall", "fracture risk"],
-      "body": [
-        "A fracture is a break or crack in a bone. With osteoporosis, fractures can happen after a fall from standing height or even without a noticeable injury, especially in the spine.",
-        "Hip and spine fractures can affect mobility and independence, which is why preventing falls and protecting bone strength are both important.",
-        "Sudden severe back pain, loss of height or a stooped posture can sometimes be signs of spinal fractures and should be discussed with a doctor."
-      ]
-    },
-    {
-      "id": "age-and-sex",
-      "category": "risk",
-      "title": "Age, sex and bone health",
-      "summary": "Bone mass peaks in early adulthood and declines with age, faster in women after menopause.",
-      "readMinutes": 2,
-      "tags": ["age", "gender", "sex", "women", "menopause", "estrogen", "ageing", "older"],
-      "body": [
-        "Most people reach their peak bone mass in their late 20s to early 30s. After that, bone density slowly declines.",
-        "Women are at higher risk, partly because bone loss speeds up after menopause when estrogen levels fall. Men also lose bone with age, usually later in life.",
-        "Age and sex cannot be changed, which is why the modifiable factors such as activity, nutrition, smoking and alcohol matter."
-      ]
-    },
-    {
-      "id": "family-history",
-      "category": "risk",
-      "title": "Family history",
-      "summary": "A parent with osteoporosis or a hip fracture can indicate higher inherited risk.",
-      "readMinutes": 1,
-      "tags": ["family history", "parent", "mother", "father", "hip fracture", "genetics", "inherited"],
-      "body": [
-        "Genetics influence peak bone mass and bone structure. If a parent had osteoporosis or a hip fracture, your own risk may be higher.",
-        "That is why OsteoAI asks about parental osteoporosis and parental hip fractures. Family history does not mean you will develop osteoporosis, but it is useful to mention to a doctor."
-      ]
-    },
-    {
-      "id": "body-weight",
-      "category": "risk",
-      "title": "Body weight and BMI",
-      "summary": "Low body weight and low BMI are linked with lower bone density.",
-      "readMinutes": 1,
-      "tags": ["bmi", "weight", "underweight", "body mass index", "height", "waist", "hip"],
-      "body": [
-        "BMI (body mass index) is calculated from weight and height. A low BMI is associated with lower bone density and higher fracture risk.",
-        "Body weight puts healthy load on the skeleton, which helps maintain bone. Very low weight or rapid weight loss can be a concern for bone health.",
-        "OsteoAI also asks for waist and hip measurements because body composition is used as a model input."
-      ]
-    },
-    {
-      "id": "smoking-alcohol",
-      "category": "risk",
-      "title": "Smoking and alcohol",
-      "summary": "Smoking and heavy drinking are both linked with bone loss and higher fracture risk.",
-      "readMinutes": 2,
-      "tags": ["smoking", "cigarettes", "tobacco", "alcohol", "drinks", "drinking"],
-      "body": [
-        "Smoking is associated with lower bone density and slower healing. Stopping smoking at any age is beneficial for overall and bone health.",
-        "Heavy alcohol use can interfere with bone formation and increase the chance of falls. Keeping alcohol within recommended limits supports bone health.",
-        "OsteoAI asks whether you have smoked at least 100 cigarettes in your life and about your alcohol frequency because these are model inputs."
-      ]
-    },
-    {
-      "id": "steroids-medical",
-      "category": "risk",
-      "title": "Medications and medical history",
-      "summary": "Long-term steroid use and previous fractures are important risk indicators.",
-      "readMinutes": 2,
-      "tags": ["steroid", "glucocorticoid", "prednisone", "medication", "previous fracture", "medical history"],
-      "body": [
-        "Long-term use of glucocorticoid steroids (for example prednisolone) can reduce bone density. Never stop a prescribed medicine on your own; discuss concerns with your doctor.",
-        "A fracture after age 20 from a minor fall can be a sign of weaker bones, which is why OsteoAI asks about previous fractures.",
-        "Some other conditions and treatments can also affect bone health, so your full medical history is best reviewed by a clinician."
-      ]
-    },
-    {
-      "id": "dexa",
-      "category": "testing",
-      "title": "What is a DEXA scan?",
-      "summary": "A quick, low-radiation scan that measures bone mineral density, usually at the hip and spine.",
-      "readMinutes": 2,
-      "tags": ["dexa", "dxa", "scan", "bone density test", "bmd", "bone mineral density", "diagnosis"],
-      "body": [
-        "DEXA (dual-energy X-ray absorptiometry) measures bone mineral density, usually at the hip and lower spine. It is quick, painless and uses a very low dose of radiation.",
-        "It is the standard test doctors use to diagnose osteoporosis and monitor bone density over time.",
-        "OsteoAI does not replace a DEXA scan. It estimates risk from questionnaire information, which can help you decide whether to talk to a doctor about testing."
-      ]
-    },
-    {
-      "id": "t-score",
-      "category": "testing",
-      "title": "T-scores and Z-scores",
-      "summary": "How DEXA results compare your bone density with reference values.",
-      "readMinutes": 2,
-      "tags": ["t-score", "z-score", "dexa result", "bone density score", "-2.5"],
-      "body": [
-        "A T-score compares your bone density with that of a healthy young adult. A T-score of -1.0 or above is generally considered normal, between -1.0 and -2.5 indicates osteopenia, and -2.5 or below is in the osteoporosis range.",
-        "A Z-score compares your bone density with people of the same age and sex, and is often used for younger adults.",
-        "Your doctor interprets these scores together with your age, history and other risk factors."
-      ]
-    },
-    {
-      "id": "calcium-vitamin-d",
-      "category": "lifestyle",
-      "title": "Calcium and vitamin D",
-      "summary": "Calcium builds bone, and vitamin D helps your body absorb it.",
-      "readMinutes": 2,
-      "tags": ["calcium", "vitamin d", "diet", "nutrition", "milk", "dairy", "sunlight", "supplements", "food"],
-      "body": [
-        "Calcium is a key building block of bone. Good food sources include milk, curd, paneer, cheese, ragi, sesame seeds, leafy greens and calcium-fortified foods.",
-        "Vitamin D helps the body absorb calcium. It is made in the skin with sunlight exposure and is found in a few foods such as eggs and fatty fish.",
-        "Whether you need supplements, and in what dose, depends on your diet and blood levels, so this should be decided with a doctor."
-      ]
-    },
-    {
-      "id": "exercise",
-      "category": "lifestyle",
-      "title": "Exercise for stronger bones",
-      "summary": "Weight-bearing and muscle-strengthening activities help maintain bone and prevent falls.",
-      "readMinutes": 2,
-      "tags": ["exercise", "physical activity", "walking", "weight-bearing", "strength", "resistance", "balance", "yoga", "cycling", "sedentary"],
-      "body": [
-        "Weight-bearing activities such as brisk walking, stair climbing and dancing load the bones and help maintain density.",
-        "Muscle-strengthening exercise (bands, weights, bodyweight exercises) supports bone and improves stability. Balance exercises such as tai chi or yoga help reduce falls.",
-        "Long periods of sitting are linked with poorer health. If you have osteoporosis or a past fracture, ask a doctor or physiotherapist which exercises are safe for you."
-      ]
-    },
-    {
-      "id": "fall-prevention",
-      "category": "lifestyle",
-      "title": "Preventing falls at home",
-      "summary": "Simple home changes that reduce the chance of a fall and a fracture.",
-      "readMinutes": 1,
-      "tags": ["falls", "fall prevention", "home safety", "balance", "lighting"],
-      "body": [
-        "Most fractures in older adults happen after a fall. Good lighting, removing loose rugs, using grab bars in bathrooms and wearing well-fitting footwear all help.",
-        "Regular eye checks and reviewing medicines that cause dizziness with a doctor can also lower fall risk."
-      ]
-    },
-    {
-      "id": "how-osteoai-works",
-      "category": "result",
-      "title": "How OsteoAI estimates your risk",
-      "summary": "A machine-learning model estimates a probability from your assessment answers.",
-      "readMinutes": 2,
-      "tags": ["model", "machine learning", "probability", "prediction", "how it works", "osteoai"],
-      "body": [
-        "OsteoAI uses a supervised machine-learning model trained on health-survey data. It takes your personal, lifestyle and medical-history answers and estimates a probability for osteoporosis.",
-        "The app then shows this as Low, Moderate or High risk. These labels are an application interpretation, not a clinical threshold.",
-        "OsteoAI is an academic research prototype. Its output is a risk estimate, not a diagnosis, and it has not been clinically validated."
-      ]
-    },
-    {
-      "id": "understanding-shap",
-      "category": "result",
-      "title": "What are SHAP factors?",
-      "summary": "SHAP shows which of your answers pushed the model's estimate up or down.",
-      "readMinutes": 2,
-      "tags": ["shap", "explainable ai", "factors", "why", "contribution", "explanation"],
-      "body": [
-        "SHAP (SHapley Additive exPlanations) is an explainable-AI method. For your assessment it shows how much each answer pushed the model's estimate up or down.",
-        "SHAP explains the prediction; it does not change it. A factor that increased the estimate is not necessarily a medical cause, only an influence within this model.",
-        "The model predicts, SHAP explains, and the OsteoAI Assistant helps you understand both in plain language."
-      ]
-    },
-    {
-      "id": "risk-levels",
-      "category": "result",
-      "title": "What do Low, Moderate and High mean?",
-      "summary": "How to read your risk level, and what to do next.",
-      "readMinutes": 1,
-      "tags": ["risk level", "low risk", "moderate risk", "high risk", "what next", "meaning"],
-      "body": [
-        "Low, Moderate and High are ranges of the model's estimated probability. They help you understand the estimate at a glance but are not a medical diagnosis.",
-        "Whatever your result, bone-healthy habits are worthwhile. If your result is Moderate or High, or you have concerns such as past fractures, consider discussing bone density testing with a doctor."
-      ]
-    },
-    {
-      "id": "using-osteoai",
-      "category": "app",
-      "title": "Getting around OsteoAI",
-      "summary": "Assessment, Dashboard, History, AI Assistant and Knowledge & Support explained.",
-      "readMinutes": 1,
-      "tags": ["navigation", "dashboard", "history", "assistant", "how to use", "app", "features"],
-      "body": [
-        "New Assessment walks you through personal, lifestyle and medical questions, or lets you upload a document to autofill answers for review.",
-        "Dashboard shows your latest result and trends. Assessment History lists every past assessment, lets you compare two and reopen any result.",
-        "The AI Assistant answers questions in natural language, and Knowledge & Support collects reference articles, FAQs and a glossary."
-      ]
-    },
-    {
-      "id": "document-autofill",
-      "category": "app",
-      "title": "Autofill from a document",
-      "summary": "Upload a report and review the extracted answers before they are used.",
-      "readMinutes": 1,
-      "tags": ["document", "upload", "autofill", "report", "pdf", "extraction", "review"],
-      "body": [
-        "OsteoAI can read a PDF, Word file or image of a health report and suggest answers for the assessment.",
-        "Extraction is conservative: uncertain values are left for you to review and confirm. Nothing is used until you check it."
-      ]
+  "en": {
+    "categories": [
+      {
+        "id": "basics",
+        "label": "Osteoporosis basics"
+      },
+      {
+        "id": "risk",
+        "label": "Risk factors"
+      },
+      {
+        "id": "testing",
+        "label": "Testing & diagnosis"
+      },
+      {
+        "id": "lifestyle",
+        "label": "Nutrition & exercise"
+      },
+      {
+        "id": "result",
+        "label": "Understanding your result"
+      },
+      {
+        "id": "app",
+        "label": "Using OsteoAI"
+      }
+    ],
+    "articles": [
+      {
+        "id": "what-is-osteoporosis",
+        "category": "basics",
+        "title": "What is osteoporosis?",
+        "summary": "A condition where bones lose density and become fragile, raising the chance of fractures.",
+        "readMinutes": 2,
+        "tags": [
+          "osteoporosis",
+          "bone density",
+          "fragile",
+          "definition",
+          "silent disease"
+        ],
+        "body": [
+          "Osteoporosis is a condition in which bones become less dense and their inner structure weakens. Bones become more fragile and can break from a minor fall or even everyday strain.",
+          "It is often called a silent disease because bone loss usually causes no symptoms until a fracture happens. Common fracture sites are the hip, spine and wrist.",
+          "Bone is living tissue that is constantly broken down and rebuilt. Osteoporosis develops when bone is lost faster than it is replaced, which becomes more common with age."
+        ]
+      },
+      {
+        "id": "osteopenia",
+        "category": "basics",
+        "title": "Osteopenia vs osteoporosis",
+        "summary": "Osteopenia means bone density is lower than normal but not yet in the osteoporosis range.",
+        "readMinutes": 1,
+        "tags": [
+          "osteopenia",
+          "low bone mass",
+          "t-score",
+          "difference"
+        ],
+        "body": [
+          "Osteopenia describes bone density that is lower than typical for a young healthy adult but not low enough to be classed as osteoporosis.",
+          "It is not a disease on its own, but it can be an early warning sign. A doctor may suggest lifestyle measures and periodic monitoring."
+        ]
+      },
+      {
+        "id": "fractures",
+        "category": "basics",
+        "title": "Fractures and fracture risk",
+        "summary": "Why weaker bones break more easily, and why hip and spine fractures matter.",
+        "readMinutes": 2,
+        "tags": [
+          "fracture",
+          "hip fracture",
+          "spine",
+          "vertebral",
+          "fall",
+          "fracture risk"
+        ],
+        "body": [
+          "A fracture is a break or crack in a bone. With osteoporosis, fractures can happen after a fall from standing height or even without a noticeable injury, especially in the spine.",
+          "Hip and spine fractures can affect mobility and independence, which is why preventing falls and protecting bone strength are both important.",
+          "Sudden severe back pain, loss of height or a stooped posture can sometimes be signs of spinal fractures and should be discussed with a doctor."
+        ]
+      },
+      {
+        "id": "age-and-sex",
+        "category": "risk",
+        "title": "Age, sex and bone health",
+        "summary": "Bone mass peaks in early adulthood and declines with age, faster in women after menopause.",
+        "readMinutes": 2,
+        "tags": [
+          "age",
+          "gender",
+          "sex",
+          "women",
+          "menopause",
+          "estrogen",
+          "ageing",
+          "older"
+        ],
+        "body": [
+          "Most people reach their peak bone mass in their late 20s to early 30s. After that, bone density slowly declines.",
+          "Women are at higher risk, partly because bone loss speeds up after menopause when estrogen levels fall. Men also lose bone with age, usually later in life.",
+          "Age and sex cannot be changed, which is why the modifiable factors such as activity, nutrition, smoking and alcohol matter."
+        ]
+      },
+      {
+        "id": "family-history",
+        "category": "risk",
+        "title": "Family history",
+        "summary": "A parent with osteoporosis or a hip fracture can indicate higher inherited risk.",
+        "readMinutes": 1,
+        "tags": [
+          "family history",
+          "parent",
+          "mother",
+          "father",
+          "hip fracture",
+          "genetics",
+          "inherited"
+        ],
+        "body": [
+          "Genetics influence peak bone mass and bone structure. If a parent had osteoporosis or a hip fracture, your own risk may be higher.",
+          "That is why OsteoAI asks about parental osteoporosis and parental hip fractures. Family history does not mean you will develop osteoporosis, but it is useful to mention to a doctor."
+        ]
+      },
+      {
+        "id": "body-weight",
+        "category": "risk",
+        "title": "Body weight and BMI",
+        "summary": "Low body weight and low BMI are linked with lower bone density.",
+        "readMinutes": 1,
+        "tags": [
+          "bmi",
+          "weight",
+          "underweight",
+          "body mass index",
+          "height",
+          "waist",
+          "hip"
+        ],
+        "body": [
+          "BMI (body mass index) is calculated from weight and height. A low BMI is associated with lower bone density and higher fracture risk.",
+          "Body weight puts healthy load on the skeleton, which helps maintain bone. Very low weight or rapid weight loss can be a concern for bone health.",
+          "OsteoAI also asks for waist and hip measurements because body composition is used as a model input."
+        ]
+      },
+      {
+        "id": "smoking-alcohol",
+        "category": "risk",
+        "title": "Smoking and alcohol",
+        "summary": "Smoking and heavy drinking are both linked with bone loss and higher fracture risk.",
+        "readMinutes": 2,
+        "tags": [
+          "smoking",
+          "cigarettes",
+          "tobacco",
+          "alcohol",
+          "drinks",
+          "drinking"
+        ],
+        "body": [
+          "Smoking is associated with lower bone density and slower healing. Stopping smoking at any age is beneficial for overall and bone health.",
+          "Heavy alcohol use can interfere with bone formation and increase the chance of falls. Keeping alcohol within recommended limits supports bone health.",
+          "OsteoAI asks whether you have smoked at least 100 cigarettes in your life and about your alcohol frequency because these are model inputs."
+        ]
+      },
+      {
+        "id": "steroids-medical",
+        "category": "risk",
+        "title": "Medications and medical history",
+        "summary": "Long-term steroid use and previous fractures are important risk indicators.",
+        "readMinutes": 2,
+        "tags": [
+          "steroid",
+          "glucocorticoid",
+          "prednisone",
+          "medication",
+          "previous fracture",
+          "medical history"
+        ],
+        "body": [
+          "Long-term use of glucocorticoid steroids (for example prednisolone) can reduce bone density. Never stop a prescribed medicine on your own; discuss concerns with your doctor.",
+          "A fracture after age 20 from a minor fall can be a sign of weaker bones, which is why OsteoAI asks about previous fractures.",
+          "Some other conditions and treatments can also affect bone health, so your full medical history is best reviewed by a clinician."
+        ]
+      },
+      {
+        "id": "dexa",
+        "category": "testing",
+        "title": "What is a DEXA scan?",
+        "summary": "A quick, low-radiation scan that measures bone mineral density, usually at the hip and spine.",
+        "readMinutes": 2,
+        "tags": [
+          "dexa",
+          "dxa",
+          "scan",
+          "bone density test",
+          "bmd",
+          "bone mineral density",
+          "diagnosis"
+        ],
+        "body": [
+          "DEXA (dual-energy X-ray absorptiometry) measures bone mineral density, usually at the hip and lower spine. It is quick, painless and uses a very low dose of radiation.",
+          "It is the standard test doctors use to diagnose osteoporosis and monitor bone density over time.",
+          "OsteoAI does not replace a DEXA scan. It estimates risk from questionnaire information, which can help you decide whether to talk to a doctor about testing."
+        ]
+      },
+      {
+        "id": "t-score",
+        "category": "testing",
+        "title": "T-scores and Z-scores",
+        "summary": "How DEXA results compare your bone density with reference values.",
+        "readMinutes": 2,
+        "tags": [
+          "t-score",
+          "z-score",
+          "dexa result",
+          "bone density score",
+          "-2.5"
+        ],
+        "body": [
+          "A T-score compares your bone density with that of a healthy young adult. A T-score of -1.0 or above is generally considered normal, between -1.0 and -2.5 indicates osteopenia, and -2.5 or below is in the osteoporosis range.",
+          "A Z-score compares your bone density with people of the same age and sex, and is often used for younger adults.",
+          "Your doctor interprets these scores together with your age, history and other risk factors."
+        ]
+      },
+      {
+        "id": "calcium-vitamin-d",
+        "category": "lifestyle",
+        "title": "Calcium and vitamin D",
+        "summary": "Calcium builds bone, and vitamin D helps your body absorb it.",
+        "readMinutes": 2,
+        "tags": [
+          "calcium",
+          "vitamin d",
+          "diet",
+          "nutrition",
+          "milk",
+          "dairy",
+          "sunlight",
+          "supplements",
+          "food"
+        ],
+        "body": [
+          "Calcium is a key building block of bone. Good food sources include milk, curd, paneer, cheese, ragi, sesame seeds, leafy greens and calcium-fortified foods.",
+          "Vitamin D helps the body absorb calcium. It is made in the skin with sunlight exposure and is found in a few foods such as eggs and fatty fish.",
+          "Whether you need supplements, and in what dose, depends on your diet and blood levels, so this should be decided with a doctor."
+        ]
+      },
+      {
+        "id": "exercise",
+        "category": "lifestyle",
+        "title": "Exercise for stronger bones",
+        "summary": "Weight-bearing and muscle-strengthening activities help maintain bone and prevent falls.",
+        "readMinutes": 2,
+        "tags": [
+          "exercise",
+          "physical activity",
+          "walking",
+          "weight-bearing",
+          "strength",
+          "resistance",
+          "balance",
+          "yoga",
+          "cycling",
+          "sedentary"
+        ],
+        "body": [
+          "Weight-bearing activities such as brisk walking, stair climbing and dancing load the bones and help maintain density.",
+          "Muscle-strengthening exercise (bands, weights, bodyweight exercises) supports bone and improves stability. Balance exercises such as tai chi or yoga help reduce falls.",
+          "Long periods of sitting are linked with poorer health. If you have osteoporosis or a past fracture, ask a doctor or physiotherapist which exercises are safe for you."
+        ]
+      },
+      {
+        "id": "fall-prevention",
+        "category": "lifestyle",
+        "title": "Preventing falls at home",
+        "summary": "Simple home changes that reduce the chance of a fall and a fracture.",
+        "readMinutes": 1,
+        "tags": [
+          "falls",
+          "fall prevention",
+          "home safety",
+          "balance",
+          "lighting"
+        ],
+        "body": [
+          "Most fractures in older adults happen after a fall. Good lighting, removing loose rugs, using grab bars in bathrooms and wearing well-fitting footwear all help.",
+          "Regular eye checks and reviewing medicines that cause dizziness with a doctor can also lower fall risk."
+        ]
+      },
+      {
+        "id": "how-osteoai-works",
+        "category": "result",
+        "title": "How OsteoAI estimates your risk",
+        "summary": "A machine-learning model estimates a probability from your assessment answers.",
+        "readMinutes": 2,
+        "tags": [
+          "model",
+          "machine learning",
+          "probability",
+          "prediction",
+          "how it works",
+          "osteoai"
+        ],
+        "body": [
+          "OsteoAI uses a supervised machine-learning model trained on health-survey data. It takes your personal, lifestyle and medical-history answers and estimates a probability for osteoporosis.",
+          "The app then shows this as Low, Moderate or High risk. These labels are an application interpretation, not a clinical threshold.",
+          "OsteoAI is an academic research prototype. Its output is a risk estimate, not a diagnosis, and it has not been clinically validated."
+        ]
+      },
+      {
+        "id": "understanding-shap",
+        "category": "result",
+        "title": "What are SHAP factors?",
+        "summary": "SHAP shows which of your answers pushed the model's estimate up or down.",
+        "readMinutes": 2,
+        "tags": [
+          "shap",
+          "explainable ai",
+          "factors",
+          "why",
+          "contribution",
+          "explanation"
+        ],
+        "body": [
+          "SHAP (SHapley Additive exPlanations) is an explainable-AI method. For your assessment it shows how much each answer pushed the model's estimate up or down.",
+          "SHAP explains the prediction; it does not change it. A factor that increased the estimate is not necessarily a medical cause, only an influence within this model.",
+          "The model predicts, SHAP explains, and the OsteoAI Assistant helps you understand both in plain language."
+        ]
+      },
+      {
+        "id": "risk-levels",
+        "category": "result",
+        "title": "What do Low, Moderate and High mean?",
+        "summary": "How to read your risk level, and what to do next.",
+        "readMinutes": 1,
+        "tags": [
+          "risk level",
+          "low risk",
+          "moderate risk",
+          "high risk",
+          "what next",
+          "meaning"
+        ],
+        "body": [
+          "Low, Moderate and High are ranges of the model's estimated probability. They help you understand the estimate at a glance but are not a medical diagnosis.",
+          "Whatever your result, bone-healthy habits are worthwhile. If your result is Moderate or High, or you have concerns such as past fractures, consider discussing bone density testing with a doctor."
+        ]
+      },
+      {
+        "id": "using-osteoai",
+        "category": "app",
+        "title": "Getting around OsteoAI",
+        "summary": "Assessment, Dashboard, History, AI Assistant and Knowledge & Support explained.",
+        "readMinutes": 1,
+        "tags": [
+          "navigation",
+          "dashboard",
+          "history",
+          "assistant",
+          "how to use",
+          "app",
+          "features"
+        ],
+        "body": [
+          "New Assessment walks you through personal, lifestyle and medical questions, or lets you upload a document to autofill answers for review.",
+          "Dashboard shows your latest result and trends. Assessment History lists every past assessment, lets you compare two and reopen any result.",
+          "The AI Assistant answers questions in natural language, and Knowledge & Support collects reference articles, FAQs and a glossary."
+        ]
+      },
+      {
+        "id": "document-autofill",
+        "category": "app",
+        "title": "Autofill from a document",
+        "summary": "Upload a report and review the extracted answers before they are used.",
+        "readMinutes": 1,
+        "tags": [
+          "document",
+          "upload",
+          "autofill",
+          "report",
+          "pdf",
+          "extraction",
+          "review"
+        ],
+        "body": [
+          "OsteoAI can read a PDF, Word file or image of a health report and suggest answers for the assessment.",
+          "Extraction is conservative: uncertain values are left for you to review and confirm. Nothing is used until you check it."
+        ]
+      }
+    ],
+    "myths": [
+      {
+        "myth": "Osteoporosis only affects women.",
+        "fact": "Women are at higher risk, but men develop osteoporosis too, usually later in life."
+      },
+      {
+        "myth": "If I had weak bones, I would feel it.",
+        "fact": "Bone loss is usually painless. Many people only find out after a fracture, which is why risk assessment and testing matter."
+      },
+      {
+        "myth": "Drinking milk is enough to prevent osteoporosis.",
+        "fact": "Calcium helps, but bone health also depends on vitamin D, physical activity, not smoking, limited alcohol and genetics."
+      },
+      {
+        "myth": "Exercise is dangerous once bones are weak.",
+        "fact": "The right exercise, chosen with a doctor or physiotherapist, helps maintain bone and reduces falls."
+      },
+      {
+        "myth": "Osteoporosis is just a normal part of ageing.",
+        "fact": "Bone loss is common with age, but osteoporosis can often be prevented, detected and managed."
+      },
+      {
+        "myth": "A Low risk result from OsteoAI means I can never get osteoporosis.",
+        "fact": "OsteoAI gives a prototype risk estimate, not a guarantee. Risk changes over time, so healthy habits and regular check-ups still matter."
+      }
+    ],
+    "glossary": [
+      {
+        "term": "BMI",
+        "definition": "Body mass index: weight in kilograms divided by height in metres squared."
+      },
+      {
+        "term": "Bone mineral density (BMD)",
+        "definition": "The amount of mineral in a given area of bone, measured by a DEXA scan."
+      },
+      {
+        "term": "DEXA",
+        "definition": "Dual-energy X-ray absorptiometry, the standard scan for measuring bone density."
+      },
+      {
+        "term": "T-score",
+        "definition": "Bone density compared with a healthy young adult; -2.5 or below is in the osteoporosis range."
+      },
+      {
+        "term": "Osteopenia",
+        "definition": "Lower-than-normal bone density that is not yet in the osteoporosis range."
+      },
+      {
+        "term": "Fragility fracture",
+        "definition": "A fracture from a fall at standing height or less, which a healthy bone would usually withstand."
+      },
+      {
+        "term": "SHAP",
+        "definition": "An explainable-AI method showing how each input pushed the model's estimate up or down."
+      },
+      {
+        "term": "Probability",
+        "definition": "The model's estimated likelihood (0-100%) for the osteoporosis class; not a diagnosis."
+      },
+      {
+        "term": "Risk level",
+        "definition": "OsteoAI's Low / Moderate / High label for the probability; an app interpretation, not a clinical threshold."
+      },
+      {
+        "term": "Sedentary time",
+        "definition": "Time spent sitting or lying down while awake, such as desk work or watching TV."
+      },
+      {
+        "term": "Glucocorticoids",
+        "definition": "Steroid medicines such as prednisolone; long-term use can reduce bone density."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Is OsteoAI a medical diagnosis?",
+        "answer": "No. OsteoAI is an academic research prototype that estimates risk. Only a doctor can diagnose osteoporosis, usually with a DEXA scan."
+      },
+      {
+        "question": "Where is my assessment data stored?",
+        "answer": "In this prototype your assessment history is stored in your browser on this device. Clearing browser data removes it."
+      },
+      {
+        "question": "Does the AI Assistant send my data to the internet?",
+        "answer": "The assistant runs on a local AI model (Qwen via Ollama) on the OsteoAI server, so your questions and result are processed locally when the local model is used."
+      },
+      {
+        "question": "Why does my result change between assessments?",
+        "answer": "The model uses your current answers. If inputs such as weight, activity or medical history change, the estimate can change too. Assessment History lets you compare two assessments."
+      },
+      {
+        "question": "Can the assistant change my answers or create reminders on its own?",
+        "answer": "No. Reading, explaining and navigating happen immediately, but any change to your data or any reminder always needs your explicit confirmation."
+      },
+      {
+        "question": "What should I do if my risk is High?",
+        "answer": "Treat it as a prompt to talk to a doctor, who can decide whether a DEXA scan or other checks are appropriate. Do not start or stop medicines based on OsteoAI."
+      }
+    ],
+    "support": {
+      "disclaimer": "OsteoAI is an academic research prototype. It provides educational information and a model-based risk estimate, not a medical diagnosis. In an emergency, call 112 (India) or your local emergency number.",
+      "contact": ""
     }
-  ],
-
-  "myths": [
-    {
-      "myth": "Osteoporosis only affects women.",
-      "fact": "Women are at higher risk, but men develop osteoporosis too, usually later in life."
-    },
-    {
-      "myth": "If I had weak bones, I would feel it.",
-      "fact": "Bone loss is usually painless. Many people only find out after a fracture, which is why risk assessment and testing matter."
-    },
-    {
-      "myth": "Drinking milk is enough to prevent osteoporosis.",
-      "fact": "Calcium helps, but bone health also depends on vitamin D, physical activity, not smoking, limited alcohol and genetics."
-    },
-    {
-      "myth": "Exercise is dangerous once bones are weak.",
-      "fact": "The right exercise, chosen with a doctor or physiotherapist, helps maintain bone and reduces falls."
-    },
-    {
-      "myth": "Osteoporosis is just a normal part of ageing.",
-      "fact": "Bone loss is common with age, but osteoporosis can often be prevented, detected and managed."
-    },
-    {
-      "myth": "A Low risk result from OsteoAI means I can never get osteoporosis.",
-      "fact": "OsteoAI gives a prototype risk estimate, not a guarantee. Risk changes over time, so healthy habits and regular check-ups still matter."
+  },
+  "hi": {
+    "categories": [
+      {
+        "id": "basics",
+        "label": "ऑस्टियोपोरोसिस की बुनियादी बातें"
+      },
+      {
+        "id": "risk",
+        "label": "जोखिम कारक"
+      },
+      {
+        "id": "testing",
+        "label": "जांच और निदान"
+      },
+      {
+        "id": "lifestyle",
+        "label": "पोषण और व्यायाम"
+      },
+      {
+        "id": "result",
+        "label": "अपना परिणाम समझना"
+      },
+      {
+        "id": "app",
+        "label": "OsteoAI का उपयोग"
+      }
+    ],
+    "articles": [
+      {
+        "id": "what-is-osteoporosis",
+        "category": "basics",
+        "title": "ऑस्टियोपोरोसिस क्या है?",
+        "summary": "एक स्थिति जिसमें हड्डियों का घनत्व कम होकर वे कमज़ोर हो जाती हैं, जिससे फ्रैक्चर की संभावना बढ़ जाती है।",
+        "readMinutes": 2,
+        "tags": [
+          "osteoporosis",
+          "bone density",
+          "fragile",
+          "definition",
+          "silent disease"
+        ],
+        "body": [
+          "ऑस्टियोपोरोसिस एक ऐसी स्थिति है जिसमें हड्डियों का घनत्व कम हो जाता है और उनकी आंतरिक संरचना कमज़ोर हो जाती है। हड्डियां अधिक भंगुर हो जाती हैं और मामूली गिरावट या रोज़मर्रा के दबाव से भी टूट सकती हैं।",
+          "इसे अक्सर 'साइलेंट डिज़ीज़' कहा जाता है क्योंकि हड्डियों की कमी आमतौर पर फ्रैक्चर होने तक कोई लक्षण नहीं दिखाती। आम फ्रैक्चर स्थान हैं हिप, स्पाइन और कलाई।",
+          "हड्डी एक जीवित ऊतक है जो लगातार टूटती और फिर से बनती रहती है। ऑस्टियोपोरोसिस तब विकसित होता है जब हड्डी उसके बनने की गति से ज़्यादा तेज़ी से नष्ट होती है, जो उम्र बढ़ने के साथ अधिक आम हो जाता है।"
+        ]
+      },
+      {
+        "id": "osteopenia",
+        "category": "basics",
+        "title": "ऑस्टियोपीनिया बनाम ऑस्टियोपोरोसिस",
+        "summary": "ऑस्टियोपीनिया का मतलब है हड्डियों का घनत्व सामान्य से कम है, लेकिन अभी ऑस्टियोपोरोसिस की सीमा में नहीं पहुंचा है।",
+        "readMinutes": 1,
+        "tags": [
+          "osteopenia",
+          "low bone mass",
+          "t-score",
+          "difference"
+        ],
+        "body": [
+          "ऑस्टियोपीनिया उस हड्डी घनत्व को बताता है जो एक स्वस्थ युवा वयस्क के सामान्य स्तर से कम है, लेकिन इतना कम नहीं कि उसे ऑस्टियोपोरोसिस माना जाए।",
+          "यह अपने आप में कोई बीमारी नहीं है, लेकिन यह एक शुरुआती चेतावनी संकेत हो सकता है। डॉक्टर जीवनशैली संबंधी उपाय और समय-समय पर निगरानी की सलाह दे सकते हैं।"
+        ]
+      },
+      {
+        "id": "fractures",
+        "category": "basics",
+        "title": "फ्रैक्चर और फ्रैक्चर का जोखिम",
+        "summary": "कमज़ोर हड्डियां आसानी से क्यों टूटती हैं, और हिप व स्पाइन फ्रैक्चर क्यों महत्वपूर्ण हैं।",
+        "readMinutes": 2,
+        "tags": [
+          "fracture",
+          "hip fracture",
+          "spine",
+          "vertebral",
+          "fall",
+          "fracture risk"
+        ],
+        "body": [
+          "फ्रैक्चर हड्डी में टूट या दरार को कहते हैं। ऑस्टियोपोरोसिस में, खड़े होने की ऊंचाई से गिरने पर या कभी-कभी बिना किसी स्पष्ट चोट के भी फ्रैक्चर हो सकता है, खासकर स्पाइन में।",
+          "हिप और स्पाइन फ्रैक्चर गतिशीलता और आत्मनिर्भरता को प्रभावित कर सकते हैं, इसलिए गिरने से बचाव और हड्डियों की मज़बूती बनाए रखना दोनों ज़रूरी हैं।",
+          "अचानक गंभीर पीठ दर्द, ऊंचाई कम होना या झुकी हुई मुद्रा कभी-कभी स्पाइनल फ्रैक्चर के संकेत हो सकते हैं और इस पर डॉक्टर से चर्चा करनी चाहिए।"
+        ]
+      },
+      {
+        "id": "age-and-sex",
+        "category": "risk",
+        "title": "उम्र, लिंग और हड्डियों का स्वास्थ्य",
+        "summary": "हड्डियों का द्रव्यमान युवावस्था की शुरुआत में सबसे अधिक होता है और उम्र के साथ घटता है, महिलाओं में मेनोपॉज़ के बाद यह तेज़ी से होता है।",
+        "readMinutes": 2,
+        "tags": [
+          "age",
+          "gender",
+          "sex",
+          "women",
+          "menopause",
+          "estrogen",
+          "ageing",
+          "older"
+        ],
+        "body": [
+          "अधिकांश लोग अपने 20 के दशक के अंत से 30 के दशक की शुरुआत में अपने हड्डी द्रव्यमान के सबसे उच्च स्तर पर पहुंचते हैं। उसके बाद, हड्डियों का घनत्व धीरे-धीरे घटता है।",
+          "महिलाओं में जोखिम अधिक होता है, आंशिक रूप से इसलिए क्योंकि मेनोपॉज़ के बाद एस्ट्रोजन का स्तर गिरने से हड्डियों की कमी तेज़ हो जाती है। पुरुष भी उम्र के साथ हड्डी खोते हैं, आमतौर पर जीवन में बाद में।",
+          "उम्र और लिंग को बदला नहीं जा सकता, इसीलिए गतिविधि, पोषण, धूम्रपान और शराब जैसे बदले जा सकने वाले कारक महत्वपूर्ण हैं।"
+        ]
+      },
+      {
+        "id": "family-history",
+        "category": "risk",
+        "title": "पारिवारिक इतिहास",
+        "summary": "यदि माता-पिता में से किसी को ऑस्टियोपोरोसिस या हिप फ्रैक्चर रहा हो, तो यह अधिक वंशानुगत जोखिम दर्शा सकता है।",
+        "readMinutes": 1,
+        "tags": [
+          "family history",
+          "parent",
+          "mother",
+          "father",
+          "hip fracture",
+          "genetics",
+          "inherited"
+        ],
+        "body": [
+          "आनुवंशिकता हड्डी के अधिकतम द्रव्यमान और संरचना को प्रभावित करती है। यदि माता-पिता में से किसी को ऑस्टियोपोरोसिस या हिप फ्रैक्चर रहा हो, तो आपका अपना जोखिम अधिक हो सकता है।",
+          "इसीलिए OsteoAI माता-पिता के ऑस्टियोपोरोसिस और हिप फ्रैक्चर के बारे में पूछता है। पारिवारिक इतिहास का मतलब यह नहीं कि आपको ऑस्टियोपोरोसिस होगा ही, लेकिन डॉक्टर को इसकी जानकारी देना उपयोगी है।"
+        ]
+      },
+      {
+        "id": "body-weight",
+        "category": "risk",
+        "title": "शरीर का वज़न और BMI",
+        "summary": "कम शरीर वज़न और कम BMI का संबंध हड्डियों के कम घनत्व से होता है।",
+        "readMinutes": 1,
+        "tags": [
+          "bmi",
+          "weight",
+          "underweight",
+          "body mass index",
+          "height",
+          "waist",
+          "hip"
+        ],
+        "body": [
+          "BMI (बॉडी मास इंडेक्स) वज़न और ऊंचाई से निकाला जाता है। कम BMI का संबंध हड्डियों के कम घनत्व और अधिक फ्रैक्चर जोखिम से होता है।",
+          "शरीर का वज़न कंकाल पर स्वस्थ भार डालता है, जो हड्डी बनाए रखने में मदद करता है। बहुत कम वज़न या तेज़ी से वज़न घटना हड्डियों के स्वास्थ्य के लिए चिंता का विषय हो सकता है।",
+          "OsteoAI कमर और हिप की माप भी पूछता है क्योंकि शरीर की संरचना को मॉडल इनपुट के रूप में उपयोग किया जाता है।"
+        ]
+      },
+      {
+        "id": "smoking-alcohol",
+        "category": "risk",
+        "title": "धूम्रपान और शराब",
+        "summary": "धूम्रपान और अधिक शराब पीना दोनों ही हड्डियों की कमी और अधिक फ्रैक्चर जोखिम से जुड़े हैं।",
+        "readMinutes": 2,
+        "tags": [
+          "smoking",
+          "cigarettes",
+          "tobacco",
+          "alcohol",
+          "drinks",
+          "drinking"
+        ],
+        "body": [
+          "धूम्रपान का संबंध हड्डियों के कम घनत्व और धीमी उपचार प्रक्रिया से होता है। किसी भी उम्र में धूम्रपान छोड़ना समग्र स्वास्थ्य और हड्डियों दोनों के लिए फ़ायदेमंद है।",
+          "अधिक शराब पीना हड्डी बनने की प्रक्रिया में बाधा डाल सकता है और गिरने की संभावना बढ़ा सकता है। शराब को अनुशंसित सीमा में रखना हड्डियों के स्वास्थ्य में मदद करता है।",
+          "OsteoAI पूछता है कि क्या आपने अपने जीवन में कम से कम 100 सिगरेट पी हैं और आपकी शराब पीने की आवृत्ति क्या है, क्योंकि ये मॉडल इनपुट हैं।"
+        ]
+      },
+      {
+        "id": "steroids-medical",
+        "category": "risk",
+        "title": "दवाएं और चिकित्सा इतिहास",
+        "summary": "लंबे समय तक स्टेरॉयड का उपयोग और पहले हुए फ्रैक्चर महत्वपूर्ण जोखिम संकेतक हैं।",
+        "readMinutes": 2,
+        "tags": [
+          "steroid",
+          "glucocorticoid",
+          "prednisone",
+          "medication",
+          "previous fracture",
+          "medical history"
+        ],
+        "body": [
+          "ग्लूकोकॉर्टिकॉइड स्टेरॉयड (जैसे प्रेडनिसोलोन) का लंबे समय तक उपयोग हड्डियों का घनत्व कम कर सकता है। कभी भी अपने आप निर्धारित दवा बंद न करें; अपनी चिंताओं पर डॉक्टर से चर्चा करें।",
+          "20 साल की उम्र के बाद मामूली गिरावट से फ्रैक्चर होना कमज़ोर हड्डियों का संकेत हो सकता है, इसीलिए OsteoAI पहले हुए फ्रैक्चर के बारे में पूछता है।",
+          "कुछ अन्य स्थितियां और उपचार भी हड्डियों के स्वास्थ्य को प्रभावित कर सकते हैं, इसलिए आपके पूरे चिकित्सा इतिहास की समीक्षा किसी चिकित्सक से करवाना सबसे अच्छा है।"
+        ]
+      },
+      {
+        "id": "dexa",
+        "category": "testing",
+        "title": "DEXA स्कैन क्या है?",
+        "summary": "एक तेज़, कम विकिरण वाला स्कैन जो हड्डी के खनिज घनत्व को मापता है, आमतौर पर हिप और स्पाइन में।",
+        "readMinutes": 2,
+        "tags": [
+          "dexa",
+          "dxa",
+          "scan",
+          "bone density test",
+          "bmd",
+          "bone mineral density",
+          "diagnosis"
+        ],
+        "body": [
+          "DEXA (ड्यूल-एनर्जी एक्स-रे एब्सॉर्प्टियोमेट्री) आमतौर पर हिप और निचली स्पाइन में हड्डी के खनिज घनत्व को मापता है। यह तेज़, दर्द रहित है और बहुत कम मात्रा में विकिरण का उपयोग करता है।",
+          "यह वह मानक जांच है जिसका उपयोग डॉक्टर ऑस्टियोपोरोसिस का निदान करने और समय के साथ हड्डी घनत्व की निगरानी करने के लिए करते हैं।",
+          "OsteoAI DEXA स्कैन का विकल्प नहीं है। यह प्रश्नावली की जानकारी से जोखिम का अनुमान लगाता है, जो आपको यह तय करने में मदद कर सकता है कि जांच के बारे में डॉक्टर से बात करनी चाहिए या नहीं।"
+        ]
+      },
+      {
+        "id": "t-score",
+        "category": "testing",
+        "title": "T-स्कोर और Z-स्कोर",
+        "summary": "DEXA परिणाम आपके हड्डी घनत्व की तुलना संदर्भ मूल्यों से कैसे करते हैं।",
+        "readMinutes": 2,
+        "tags": [
+          "t-score",
+          "z-score",
+          "dexa result",
+          "bone density score",
+          "-2.5"
+        ],
+        "body": [
+          "T-स्कोर आपके हड्डी घनत्व की तुलना एक स्वस्थ युवा वयस्क से करता है। -1.0 या उससे अधिक का T-स्कोर आमतौर पर सामान्य माना जाता है, -1.0 और -2.5 के बीच ऑस्टियोपीनिया दर्शाता है, और -2.5 या उससे कम ऑस्टियोपोरोसिस की सीमा में आता है।",
+          "Z-स्कोर आपके हड्डी घनत्व की तुलना समान उम्र और लिंग के लोगों से करता है, और अक्सर युवा वयस्कों के लिए उपयोग किया जाता है।",
+          "आपका डॉक्टर इन स्कोर की व्याख्या आपकी उम्र, इतिहास और अन्य जोखिम कारकों के साथ मिलाकर करता है।"
+        ]
+      },
+      {
+        "id": "calcium-vitamin-d",
+        "category": "lifestyle",
+        "title": "कैल्शियम और विटामिन D",
+        "summary": "कैल्शियम हड्डी बनाता है, और विटामिन D आपके शरीर को इसे अवशोषित करने में मदद करता है।",
+        "readMinutes": 2,
+        "tags": [
+          "calcium",
+          "vitamin d",
+          "diet",
+          "nutrition",
+          "milk",
+          "dairy",
+          "sunlight",
+          "supplements",
+          "food"
+        ],
+        "body": [
+          "कैल्शियम हड्डी का एक प्रमुख निर्माण तत्व है। अच्छे खाद्य स्रोतों में दूध, दही, पनीर, चीज़, रागी, तिल के बीज, हरी पत्तेदार सब्ज़ियां और कैल्शियम-फोर्टिफाइड खाद्य पदार्थ शामिल हैं।",
+          "विटामिन D शरीर को कैल्शियम अवशोषित करने में मदद करता है। यह धूप के संपर्क से त्वचा में बनता है और कुछ खाद्य पदार्थों जैसे अंडे और वसायुक्त मछली में पाया जाता है।",
+          "आपको सप्लीमेंट्स की ज़रूरत है या नहीं, और किस मात्रा में, यह आपके आहार और रक्त स्तर पर निर्भर करता है, इसलिए यह निर्णय डॉक्टर के साथ मिलकर लेना चाहिए।"
+        ]
+      },
+      {
+        "id": "exercise",
+        "category": "lifestyle",
+        "title": "मज़बूत हड्डियों के लिए व्यायाम",
+        "summary": "वज़न सहने वाली और मांसपेशियों को मज़बूत करने वाली गतिविधियां हड्डी बनाए रखने और गिरने से बचाव में मदद करती हैं।",
+        "readMinutes": 2,
+        "tags": [
+          "exercise",
+          "physical activity",
+          "walking",
+          "weight-bearing",
+          "strength",
+          "resistance",
+          "balance",
+          "yoga",
+          "cycling",
+          "sedentary"
+        ],
+        "body": [
+          "तेज़ चलना, सीढ़ियां चढ़ना और नृत्य जैसी वज़न सहने वाली गतिविधियां हड्डियों पर भार डालती हैं और घनत्व बनाए रखने में मदद करती हैं।",
+          "मांसपेशियों को मज़बूत करने वाला व्यायाम (बैंड, वज़न, बॉडीवेट व्यायाम) हड्डी को सहारा देता है और स्थिरता सुधारता है। ताई ची या योग जैसे संतुलन व्यायाम गिरने की संभावना कम करने में मदद करते हैं।",
+          "लंबे समय तक बैठे रहना खराब स्वास्थ्य से जुड़ा है। यदि आपको ऑस्टियोपोरोसिस है या पहले फ्रैक्चर हुआ है, तो डॉक्टर या फिजियोथेरेपिस्ट से पूछें कि आपके लिए कौन से व्यायाम सुरक्षित हैं।"
+        ]
+      },
+      {
+        "id": "fall-prevention",
+        "category": "lifestyle",
+        "title": "घर पर गिरने से बचाव",
+        "summary": "सरल घरेलू बदलाव जो गिरने और फ्रैक्चर की संभावना को कम करते हैं।",
+        "readMinutes": 1,
+        "tags": [
+          "falls",
+          "fall prevention",
+          "home safety",
+          "balance",
+          "lighting"
+        ],
+        "body": [
+          "वृद्ध वयस्कों में अधिकांश फ्रैक्चर गिरने के बाद होते हैं। अच्छी रोशनी, ढीले गलीचे हटाना, बाथरूम में ग्रैब बार लगाना और सही फिटिंग वाले जूते पहनना, ये सभी मदद करते हैं।",
+          "नियमित आंखों की जांच और चक्कर आने वाली दवाओं की डॉक्टर से समीक्षा भी गिरने के जोखिम को कम कर सकती है।"
+        ]
+      },
+      {
+        "id": "how-osteoai-works",
+        "category": "result",
+        "title": "OsteoAI आपके जोखिम का अनुमान कैसे लगाता है",
+        "summary": "एक मशीन-लर्निंग मॉडल आपके असेसमेंट के उत्तरों से एक प्रायिकता का अनुमान लगाता है।",
+        "readMinutes": 2,
+        "tags": [
+          "model",
+          "machine learning",
+          "probability",
+          "prediction",
+          "how it works",
+          "osteoai"
+        ],
+        "body": [
+          "OsteoAI स्वास्थ्य सर्वेक्षण डेटा पर प्रशिक्षित एक सुपरवाइज़्ड मशीन-लर्निंग मॉडल का उपयोग करता है। यह आपके व्यक्तिगत, जीवनशैली और चिकित्सा-इतिहास के उत्तर लेकर ऑस्टियोपोरोसिस की प्रायिकता का अनुमान लगाता है।",
+          "फिर ऐप इसे Low, Moderate या High जोखिम के रूप में दिखाता है। ये लेबल एप्लिकेशन की व्याख्या हैं, कोई नैदानिक सीमा नहीं।",
+          "OsteoAI एक शैक्षणिक शोध प्रोटोटाइप है। इसका परिणाम एक जोखिम अनुमान है, निदान नहीं, और इसे नैदानिक रूप से सत्यापित नहीं किया गया है।"
+        ]
+      },
+      {
+        "id": "understanding-shap",
+        "category": "result",
+        "title": "SHAP फैक्टर क्या हैं?",
+        "summary": "SHAP दिखाता है कि आपके किन उत्तरों ने मॉडल के अनुमान को ऊपर या नीचे किया।",
+        "readMinutes": 2,
+        "tags": [
+          "shap",
+          "explainable ai",
+          "factors",
+          "why",
+          "contribution",
+          "explanation"
+        ],
+        "body": [
+          "SHAP (SHapley Additive exPlanations) एक एक्सप्लेनेबल-AI पद्धति है। आपके असेसमेंट के लिए यह दिखाता है कि प्रत्येक उत्तर ने मॉडल के अनुमान को कितना ऊपर या नीचे किया।",
+          "SHAP भविष्यवाणी को समझाता है; इसे बदलता नहीं। जिस फैक्टर ने अनुमान बढ़ाया वह ज़रूरी नहीं कि कोई चिकित्सीय कारण हो, यह केवल इस मॉडल के भीतर एक प्रभाव है।",
+          "मॉडल भविष्यवाणी करता है, SHAP समझाता है, और OsteoAI असिस्टेंट आपको दोनों को सरल भाषा में समझने में मदद करता है।"
+        ]
+      },
+      {
+        "id": "risk-levels",
+        "category": "result",
+        "title": "Low, Moderate और High का क्या मतलब है?",
+        "summary": "अपना जोखिम स्तर कैसे समझें, और आगे क्या करें।",
+        "readMinutes": 1,
+        "tags": [
+          "risk level",
+          "low risk",
+          "moderate risk",
+          "high risk",
+          "what next",
+          "meaning"
+        ],
+        "body": [
+          "Low, Moderate और High मॉडल की अनुमानित प्रायिकता की श्रेणियां हैं। ये आपको एक नज़र में अनुमान समझने में मदद करती हैं, लेकिन यह कोई चिकित्सीय निदान नहीं है।",
+          "आपका परिणाम जो भी हो, हड्डियों के लिए स्वस्थ आदतें अपनाना फ़ायदेमंद है। यदि आपका परिणाम Moderate या High है, या आपको पहले हुए फ्रैक्चर जैसी चिंताएं हैं, तो हड्डी घनत्व जांच के बारे में डॉक्टर से चर्चा करने पर विचार करें।"
+        ]
+      },
+      {
+        "id": "using-osteoai",
+        "category": "app",
+        "title": "OsteoAI में नेविगेट करना",
+        "summary": "असेसमेंट, डैशबोर्ड, हिस्ट्री, AI असिस्टेंट और नॉलेज एंड सपोर्ट के बारे में बताया गया है।",
+        "readMinutes": 1,
+        "tags": [
+          "navigation",
+          "dashboard",
+          "history",
+          "assistant",
+          "how to use",
+          "app",
+          "features"
+        ],
+        "body": [
+          "New Assessment आपको व्यक्तिगत, जीवनशैली और चिकित्सा संबंधी सवालों से गुज़ारता है, या आपको समीक्षा के लिए उत्तर ऑटोफिल करने हेतु एक दस्तावेज़ अपलोड करने देता है।",
+          "Dashboard आपका नवीनतम परिणाम और रुझान दिखाता है। Assessment History हर पिछले असेसमेंट को सूचीबद्ध करता है, आपको दो की तुलना करने और किसी भी परिणाम को फिर से खोलने देता है।",
+          "AI Assistant सामान्य भाषा में सवालों के जवाब देता है, और Knowledge & Support संदर्भ लेख, FAQ और एक शब्दावली इकट्ठा करता है।"
+        ]
+      },
+      {
+        "id": "document-autofill",
+        "category": "app",
+        "title": "दस्तावेज़ से ऑटोफिल",
+        "summary": "एक रिपोर्ट अपलोड करें और उपयोग होने से पहले निकाले गए उत्तरों की समीक्षा करें।",
+        "readMinutes": 1,
+        "tags": [
+          "document",
+          "upload",
+          "autofill",
+          "report",
+          "pdf",
+          "extraction",
+          "review"
+        ],
+        "body": [
+          "OsteoAI किसी स्वास्थ्य रिपोर्ट का PDF, Word फ़ाइल या इमेज पढ़ सकता है और असेसमेंट के लिए उत्तर सुझा सकता है।",
+          "निष्कर्षण सतर्क तरीके से किया जाता है: अनिश्चित मान आपकी समीक्षा और पुष्टि के लिए छोड़ दिए जाते हैं। जब तक आप जांच नहीं लेते, कुछ भी उपयोग नहीं किया जाता।"
+        ]
+      }
+    ],
+    "myths": [
+      {
+        "myth": "ऑस्टियोपोरोसिस केवल महिलाओं को प्रभावित करता है।",
+        "fact": "महिलाओं में जोखिम अधिक होता है, लेकिन पुरुषों को भी ऑस्टियोपोरोसिस होता है, आमतौर पर जीवन में बाद में।"
+      },
+      {
+        "myth": "अगर मेरी हड्डियां कमज़ोर होतीं, तो मुझे महसूस होता।",
+        "fact": "हड्डियों की कमी आमतौर पर दर्द रहित होती है। कई लोगों को इसका पता फ्रैक्चर होने के बाद ही चलता है, इसीलिए जोखिम आकलन और जांच महत्वपूर्ण हैं।"
+      },
+      {
+        "myth": "दूध पीना ऑस्टियोपोरोसिस रोकने के लिए काफी है।",
+        "fact": "कैल्शियम मदद करता है, लेकिन हड्डियों का स्वास्थ्य विटामिन D, शारीरिक गतिविधि, धूम्रपान न करने, सीमित शराब और आनुवंशिकता पर भी निर्भर करता है।"
+      },
+      {
+        "myth": "हड्डियां कमज़ोर होने पर व्यायाम खतरनाक है।",
+        "fact": "डॉक्टर या फिजियोथेरेपिस्ट के साथ चुना गया सही व्यायाम हड्डी बनाए रखने और गिरने की संभावना कम करने में मदद करता है।"
+      },
+      {
+        "myth": "ऑस्टियोपोरोसिस उम्र बढ़ने का एक सामान्य हिस्सा है।",
+        "fact": "उम्र के साथ हड्डियों की कमी आम है, लेकिन ऑस्टियोपोरोसिस को अक्सर रोका, पहचाना और प्रबंधित किया जा सकता है।"
+      },
+      {
+        "myth": "OsteoAI से Low risk परिणाम का मतलब है कि मुझे कभी ऑस्टियोपोरोसिस नहीं होगा।",
+        "fact": "OsteoAI एक प्रोटोटाइप जोखिम अनुमान देता है, कोई गारंटी नहीं। जोखिम समय के साथ बदलता है, इसलिए स्वस्थ आदतें और नियमित जांच अब भी ज़रूरी हैं।"
+      }
+    ],
+    "glossary": [
+      {
+        "term": "BMI",
+        "definition": "बॉडी मास इंडेक्स: किलोग्राम में वज़न को मीटर में ऊंचाई के वर्ग से भाग देकर निकाला जाता है।"
+      },
+      {
+        "term": "Bone mineral density (BMD)",
+        "definition": "हड्डी के किसी क्षेत्र में मौजूद खनिज की मात्रा, जिसे DEXA स्कैन से मापा जाता है।"
+      },
+      {
+        "term": "DEXA",
+        "definition": "ड्यूल-एनर्जी एक्स-रे एब्सॉर्प्टियोमेट्री, हड्डी घनत्व मापने की मानक स्कैन।"
+      },
+      {
+        "term": "T-score",
+        "definition": "एक स्वस्थ युवा वयस्क से हड्डी घनत्व की तुलना; -2.5 या उससे कम ऑस्टियोपोरोसिस की सीमा में आता है।"
+      },
+      {
+        "term": "Osteopenia",
+        "definition": "सामान्य से कम हड्डी घनत्व जो अभी ऑस्टियोपोरोसिस की सीमा में नहीं है।"
+      },
+      {
+        "term": "Fragility fracture",
+        "definition": "खड़े होने की ऊंचाई या उससे कम से गिरने पर होने वाला फ्रैक्चर, जिसे एक स्वस्थ हड्डी आमतौर पर सह लेती है।"
+      },
+      {
+        "term": "SHAP",
+        "definition": "एक एक्सप्लेनेबल-AI पद्धति जो दिखाती है कि प्रत्येक इनपुट ने मॉडल के अनुमान को कितना ऊपर या नीचे किया।"
+      },
+      {
+        "term": "Probability",
+        "definition": "ऑस्टियोपोरोसिस श्रेणी के लिए मॉडल की अनुमानित संभावना (0-100%); यह कोई निदान नहीं है।"
+      },
+      {
+        "term": "Risk level",
+        "definition": "प्रायिकता के लिए OsteoAI का Low / Moderate / High लेबल; यह एप्लिकेशन की व्याख्या है, कोई नैदानिक सीमा नहीं।"
+      },
+      {
+        "term": "Sedentary time",
+        "definition": "जागते समय बैठे या लेटे रहने में बिताया गया समय, जैसे डेस्क वर्क या टीवी देखना।"
+      },
+      {
+        "term": "Glucocorticoids",
+        "definition": "प्रेडनिसोलोन जैसी स्टेरॉयड दवाएं; लंबे समय तक उपयोग हड्डियों का घनत्व कम कर सकता है।"
+      }
+    ],
+    "faqs": [
+      {
+        "question": "क्या OsteoAI एक चिकित्सीय निदान है?",
+        "answer": "नहीं। OsteoAI एक शैक्षणिक शोध प्रोटोटाइप है जो जोखिम का अनुमान लगाता है। केवल एक डॉक्टर ही ऑस्टियोपोरोसिस का निदान कर सकता है, आमतौर पर DEXA स्कैन के साथ।"
+      },
+      {
+        "question": "मेरा असेसमेंट डेटा कहां संग्रहीत होता है?",
+        "answer": "इस प्रोटोटाइप में आपका असेसमेंट इतिहास इस डिवाइस पर आपके ब्राउज़र में संग्रहीत होता है। ब्राउज़र डेटा साफ़ करने से यह हट जाता है।"
+      },
+      {
+        "question": "क्या AI असिस्टेंट मेरा डेटा इंटरनेट पर भेजता है?",
+        "answer": "असिस्टेंट OsteoAI सर्वर पर एक लोकल AI मॉडल (Ollama के ज़रिए Qwen) पर चलता है, इसलिए जब लोकल मॉडल उपयोग किया जाता है तो आपके सवाल और परिणाम स्थानीय रूप से प्रोसेस होते हैं।"
+      },
+      {
+        "question": "मेरा परिणाम असेसमेंट के बीच क्यों बदलता है?",
+        "answer": "मॉडल आपके वर्तमान उत्तरों का उपयोग करता है। यदि वज़न, गतिविधि या चिकित्सा इतिहास जैसे इनपुट बदलते हैं, तो अनुमान भी बदल सकता है। Assessment History आपको दो असेसमेंट की तुलना करने देता है।"
+      },
+      {
+        "question": "क्या असिस्टेंट अपने आप मेरे उत्तर बदल सकता है या रिमाइंडर बना सकता है?",
+        "answer": "नहीं। पढ़ना, समझाना और नेविगेट करना तुरंत होता है, लेकिन आपके डेटा में किसी भी बदलाव या किसी भी रिमाइंडर के लिए हमेशा आपकी स्पष्ट पुष्टि ज़रूरी है।"
+      },
+      {
+        "question": "अगर मेरा जोखिम High है तो मुझे क्या करना चाहिए?",
+        "answer": "इसे डॉक्टर से बात करने के संकेत के रूप में लें, जो तय कर सकते हैं कि DEXA स्कैन या अन्य जांच उचित है या नहीं। OsteoAI के आधार पर दवाएं शुरू या बंद न करें।"
+      }
+    ],
+    "support": {
+      "disclaimer": "OsteoAI एक शैक्षणिक शोध प्रोटोटाइप है। यह शैक्षिक जानकारी और मॉडल-आधारित जोखिम अनुमान प्रदान करता है, कोई चिकित्सीय निदान नहीं। आपातकाल में 112 (भारत) या अपने स्थानीय आपातकालीन नंबर पर कॉल करें।",
+      "contact": ""
     }
-  ],
-
-  "glossary": [
-    { "term": "BMI", "definition": "Body mass index: weight in kilograms divided by height in metres squared." },
-    { "term": "Bone mineral density (BMD)", "definition": "The amount of mineral in a given area of bone, measured by a DEXA scan." },
-    { "term": "DEXA", "definition": "Dual-energy X-ray absorptiometry, the standard scan for measuring bone density." },
-    { "term": "T-score", "definition": "Bone density compared with a healthy young adult; -2.5 or below is in the osteoporosis range." },
-    { "term": "Osteopenia", "definition": "Lower-than-normal bone density that is not yet in the osteoporosis range." },
-    { "term": "Fragility fracture", "definition": "A fracture from a fall at standing height or less, which a healthy bone would usually withstand." },
-    { "term": "SHAP", "definition": "An explainable-AI method showing how each input pushed the model's estimate up or down." },
-    { "term": "Probability", "definition": "The model's estimated likelihood (0-100%) for the osteoporosis class; not a diagnosis." },
-    { "term": "Risk level", "definition": "OsteoAI's Low / Moderate / High label for the probability; an app interpretation, not a clinical threshold." },
-    { "term": "Sedentary time", "definition": "Time spent sitting or lying down while awake, such as desk work or watching TV." },
-    { "term": "Glucocorticoids", "definition": "Steroid medicines such as prednisolone; long-term use can reduce bone density." }
-  ],
-
-  "faqs": [
-    {
-      "question": "Is OsteoAI a medical diagnosis?",
-      "answer": "No. OsteoAI is an academic research prototype that estimates risk. Only a doctor can diagnose osteoporosis, usually with a DEXA scan."
-    },
-    {
-      "question": "Where is my assessment data stored?",
-      "answer": "In this prototype your assessment history is stored in your browser on this device. Clearing browser data removes it."
-    },
-    {
-      "question": "Does the AI Assistant send my data to the internet?",
-      "answer": "The assistant runs on a local AI model (Qwen via Ollama) on the OsteoAI server, so your questions and result are processed locally when the local model is used."
-    },
-    {
-      "question": "Why does my result change between assessments?",
-      "answer": "The model uses your current answers. If inputs such as weight, activity or medical history change, the estimate can change too. Assessment History lets you compare two assessments."
-    },
-    {
-      "question": "Can the assistant change my answers or create reminders on its own?",
-      "answer": "No. Reading, explaining and navigating happen immediately, but any change to your data or any reminder always needs your explicit confirmation."
-    },
-    {
-      "question": "What should I do if my risk is High?",
-      "answer": "Treat it as a prompt to talk to a doctor, who can decide whether a DEXA scan or other checks are appropriate. Do not start or stop medicines based on OsteoAI."
+  },
+  "mr": {
+    "categories": [
+      {
+        "id": "basics",
+        "label": "ऑस्टिओपोरोसिसच्या मूलभूत गोष्टी"
+      },
+      {
+        "id": "risk",
+        "label": "जोखीम घटक"
+      },
+      {
+        "id": "testing",
+        "label": "तपासणी आणि निदान"
+      },
+      {
+        "id": "lifestyle",
+        "label": "पोषण आणि व्यायाम"
+      },
+      {
+        "id": "result",
+        "label": "तुमचा निकाल समजून घेणे"
+      },
+      {
+        "id": "app",
+        "label": "OsteoAI चा वापर"
+      }
+    ],
+    "articles": [
+      {
+        "id": "what-is-osteoporosis",
+        "category": "basics",
+        "title": "ऑस्टिओपोरोसिस म्हणजे काय?",
+        "summary": "अशी स्थिती ज्यामध्ये हाडांची घनता कमी होऊन ती ठिसूळ होतात, त्यामुळे फ्रॅक्चरची शक्यता वाढते.",
+        "readMinutes": 2,
+        "tags": [
+          "osteoporosis",
+          "bone density",
+          "fragile",
+          "definition",
+          "silent disease"
+        ],
+        "body": [
+          "ऑस्टिओपोरोसिस ही अशी स्थिती आहे ज्यामध्ये हाडांची घनता कमी होते आणि त्यांची अंतर्गत रचना कमकुवत होते. हाडे अधिक ठिसूळ होतात आणि किरकोळ पडझड किंवा रोजच्या ताणानेही तुटू शकतात.",
+          "याला अनेकदा 'सायलेंट डिसीज' म्हटले जाते कारण हाडांची झीज सहसा फ्रॅक्चर होईपर्यंत कोणतीही लक्षणे दाखवत नाही. सामान्य फ्रॅक्चर ठिकाणे म्हणजे हिप, स्पाइन आणि मनगट.",
+          "हाड हा जिवंत उती आहे जो सतत तुटतो आणि पुन्हा तयार होतो. ऑस्टिओपोरोसिस तेव्हा विकसित होतो जेव्हा हाड तयार होण्यापेक्षा जास्त वेगाने नष्ट होते, जे वय वाढल्यावर अधिक सामान्य होते."
+        ]
+      },
+      {
+        "id": "osteopenia",
+        "category": "basics",
+        "title": "ऑस्टिओपेनिया विरुद्ध ऑस्टिओपोरोसिस",
+        "summary": "ऑस्टिओपेनिया म्हणजे हाडांची घनता सामान्यपेक्षा कमी आहे, पण अजून ऑस्टिओपोरोसिसच्या पातळीपर्यंत पोहोचलेली नाही.",
+        "readMinutes": 1,
+        "tags": [
+          "osteopenia",
+          "low bone mass",
+          "t-score",
+          "difference"
+        ],
+        "body": [
+          "ऑस्टिओपेनिया म्हणजे निरोगी तरुण प्रौढ व्यक्तीपेक्षा कमी हाडांची घनता, पण ऑस्टिओपोरोसिस म्हणण्याइतकी कमी नाही.",
+          "हा स्वतः एक आजार नाही, पण तो एक सुरुवातीचा इशारा असू शकतो. डॉक्टर जीवनशैलीतील उपाय आणि वेळोवेळी तपासणीचा सल्ला देऊ शकतात."
+        ]
+      },
+      {
+        "id": "fractures",
+        "category": "basics",
+        "title": "फ्रॅक्चर आणि फ्रॅक्चरचा धोका",
+        "summary": "कमकुवत हाडे सहज का तुटतात आणि हिप व स्पाइन फ्रॅक्चर का महत्त्वाचे आहेत.",
+        "readMinutes": 2,
+        "tags": [
+          "fracture",
+          "hip fracture",
+          "spine",
+          "vertebral",
+          "fall",
+          "fracture risk"
+        ],
+        "body": [
+          "फ्रॅक्चर म्हणजे हाडातील तुटणे किंवा तडा. ऑस्टिओपोरोसिसमध्ये, उभे असतानाच्या उंचीवरून पडल्यावर किंवा कधी कधी स्पष्ट दुखापतीशिवायही, विशेषतः स्पाइनमध्ये, फ्रॅक्चर होऊ शकते.",
+          "हिप आणि स्पाइन फ्रॅक्चर हालचाल आणि स्वावलंबनावर परिणाम करू शकतात, म्हणूनच पडणे टाळणे आणि हाडांची मजबुती जपणे दोन्ही महत्त्वाचे आहे.",
+          "अचानक तीव्र पाठदुखी, उंची कमी होणे किंवा वाकलेली मुद्रा कधी कधी स्पाइनल फ्रॅक्चरची लक्षणे असू शकतात आणि याबाबत डॉक्टरांशी चर्चा करावी."
+        ]
+      },
+      {
+        "id": "age-and-sex",
+        "category": "risk",
+        "title": "वय, लिंग आणि हाडांचे आरोग्य",
+        "summary": "हाडांचे वस्तुमान तरुण वयात सर्वाधिक असते आणि वयानुसार कमी होते, स्त्रियांमध्ये मेनोपॉजनंतर ते वेगाने कमी होते.",
+        "readMinutes": 2,
+        "tags": [
+          "age",
+          "gender",
+          "sex",
+          "women",
+          "menopause",
+          "estrogen",
+          "ageing",
+          "older"
+        ],
+        "body": [
+          "बहुतेक लोक त्यांच्या 20 च्या उत्तरार्धात ते 30 च्या सुरुवातीस त्यांच्या सर्वोच्च हाडांच्या वस्तुमानापर्यंत पोहोचतात. त्यानंतर, हाडांची घनता हळूहळू कमी होते.",
+          "स्त्रियांना जास्त धोका असतो, काही प्रमाणात कारण मेनोपॉजनंतर इस्ट्रोजेनची पातळी कमी झाल्याने हाडांची झीज वेगाने होते. पुरुषांचीही वयानुसार हाडे झिजतात, सहसा आयुष्याच्या नंतरच्या टप्प्यात.",
+          "वय आणि लिंग बदलता येत नाहीत, म्हणूनच क्रियाशीलता, पोषण, धूम्रपान आणि मद्यपान यांसारखे बदलता येण्याजोगे घटक महत्त्वाचे ठरतात."
+        ]
+      },
+      {
+        "id": "family-history",
+        "category": "risk",
+        "title": "कौटुंबिक इतिहास",
+        "summary": "पालकांपैकी एकाला ऑस्टिओपोरोसिस किंवा हिप फ्रॅक्चर असल्यास तुमचा वंशानुगत धोका जास्त असू शकतो.",
+        "readMinutes": 1,
+        "tags": [
+          "family history",
+          "parent",
+          "mother",
+          "father",
+          "hip fracture",
+          "genetics",
+          "inherited"
+        ],
+        "body": [
+          "आनुवंशिकता हाडांच्या सर्वोच्च वस्तुमानावर आणि रचनेवर परिणाम करते. जर पालकांपैकी एकाला ऑस्टिओपोरोसिस किंवा हिप फ्रॅक्चर झाले असेल, तर तुमचा स्वतःचा धोका जास्त असू शकतो.",
+          "म्हणूनच OsteoAI पालकांच्या ऑस्टिओपोरोसिस आणि हिप फ्रॅक्चरबद्दल विचारते. कौटुंबिक इतिहास म्हणजे तुम्हाला ऑस्टिओपोरोसिस होईलच असे नाही, पण डॉक्टरांना याबद्दल सांगणे उपयुक्त आहे."
+        ]
+      },
+      {
+        "id": "body-weight",
+        "category": "risk",
+        "title": "शरीराचे वजन आणि BMI",
+        "summary": "कमी शरीराचे वजन आणि कमी BMI यांचा संबंध हाडांच्या कमी घनतेशी असतो.",
+        "readMinutes": 1,
+        "tags": [
+          "bmi",
+          "weight",
+          "underweight",
+          "body mass index",
+          "height",
+          "waist",
+          "hip"
+        ],
+        "body": [
+          "BMI (बॉडी मास इंडेक्स) वजन आणि उंचीवरून काढला जातो. कमी BMI चा संबंध हाडांच्या कमी घनतेशी आणि जास्त फ्रॅक्चर धोक्याशी असतो.",
+          "शरीराचे वजन सांगाड्यावर निरोगी भार टाकते, जे हाडे टिकवून ठेवण्यास मदत करते. खूप कमी वजन किंवा वेगाने वजन कमी होणे हाडांच्या आरोग्यासाठी चिंतेचे कारण असू शकते.",
+          "OsteoAI कंबर आणि हिपचे मोजमापही विचारते कारण शरीराची रचना मॉडेल इनपुट म्हणून वापरली जाते."
+        ]
+      },
+      {
+        "id": "smoking-alcohol",
+        "category": "risk",
+        "title": "धूम्रपान आणि मद्यपान",
+        "summary": "धूम्रपान आणि जास्त मद्यपान दोन्ही हाडांची झीज आणि जास्त फ्रॅक्चर धोक्याशी संबंधित आहेत.",
+        "readMinutes": 2,
+        "tags": [
+          "smoking",
+          "cigarettes",
+          "tobacco",
+          "alcohol",
+          "drinks",
+          "drinking"
+        ],
+        "body": [
+          "धूम्रपानाचा संबंध हाडांच्या कमी घनतेशी आणि हळू बरे होण्याशी असतो. कोणत्याही वयात धूम्रपान सोडणे एकूण आरोग्यासाठी आणि हाडांसाठी फायदेशीर आहे.",
+          "जास्त मद्यपान हाडे तयार होण्याच्या प्रक्रियेत अडथळा आणू शकते आणि पडण्याची शक्यता वाढवू शकते. मद्यपान शिफारस केलेल्या मर्यादेत ठेवल्यास हाडांच्या आरोग्यास मदत होते.",
+          "OsteoAI विचारते की तुम्ही आयुष्यात किमान 100 सिगारेट ओढल्या आहेत का आणि तुमच्या मद्यपानाची वारंवारता, कारण हे मॉडेल इनपुट आहेत."
+        ]
+      },
+      {
+        "id": "steroids-medical",
+        "category": "risk",
+        "title": "औषधे आणि वैद्यकीय इतिहास",
+        "summary": "दीर्घकालीन स्टिरॉइड वापर आणि आधीचे फ्रॅक्चर हे महत्त्वाचे जोखीम निर्देशक आहेत.",
+        "readMinutes": 2,
+        "tags": [
+          "steroid",
+          "glucocorticoid",
+          "prednisone",
+          "medication",
+          "previous fracture",
+          "medical history"
+        ],
+        "body": [
+          "ग्लुकोकॉर्टिकॉइड स्टिरॉइड्सचा (उदा. प्रेडनिसोलोन) दीर्घकाळ वापर हाडांची घनता कमी करू शकतो. कधीही स्वतःहून लिहून दिलेले औषध बंद करू नका; तुमच्या चिंता डॉक्टरांशी बोला.",
+          "वयाच्या 20 वर्षांनंतर किरकोळ पडझडीमुळे फ्रॅक्चर होणे कमकुवत हाडांचे लक्षण असू शकते, म्हणूनच OsteoAI आधीच्या फ्रॅक्चरबद्दल विचारते.",
+          "काही इतर स्थिती आणि उपचारही हाडांच्या आरोग्यावर परिणाम करू शकतात, म्हणून तुमचा संपूर्ण वैद्यकीय इतिहास डॉक्टरांकडून तपासून घेणे उत्तम."
+        ]
+      },
+      {
+        "id": "dexa",
+        "category": "testing",
+        "title": "DEXA स्कॅन म्हणजे काय?",
+        "summary": "जलद, कमी किरणोत्सर्ग असलेला स्कॅन जो हाडांच्या खनिज घनतेचे मोजमाप करतो, सहसा हिप आणि स्पाइनमध्ये.",
+        "readMinutes": 2,
+        "tags": [
+          "dexa",
+          "dxa",
+          "scan",
+          "bone density test",
+          "bmd",
+          "bone mineral density",
+          "diagnosis"
+        ],
+        "body": [
+          "DEXA (ड्युअल-एनर्जी एक्स-रे अ‍ॅब्सॉर्प्शियोमेट्री) सहसा हिप आणि खालच्या स्पाइनमध्ये हाडांच्या खनिज घनतेचे मोजमाप करते. हे जलद, वेदनारहित असते आणि खूप कमी प्रमाणात किरणोत्सर्ग वापरते.",
+          "ऑस्टिओपोरोसिसचे निदान करण्यासाठी आणि कालांतराने हाडांच्या घनतेवर लक्ष ठेवण्यासाठी डॉक्टर वापरत असलेली ही प्रमाणित तपासणी आहे.",
+          "OsteoAI DEXA स्कॅनची जागा घेत नाही. ते प्रश्नावलीच्या माहितीवरून धोक्याचा अंदाज लावते, जे तुम्हाला तपासणीबद्दल डॉक्टरांशी बोलायचे की नाही हे ठरवण्यास मदत करू शकते."
+        ]
+      },
+      {
+        "id": "t-score",
+        "category": "testing",
+        "title": "T-स्कोअर आणि Z-स्कोअर",
+        "summary": "DEXA निकाल तुमच्या हाडांच्या घनतेची तुलना संदर्भ मूल्यांशी कशी करतात.",
+        "readMinutes": 2,
+        "tags": [
+          "t-score",
+          "z-score",
+          "dexa result",
+          "bone density score",
+          "-2.5"
+        ],
+        "body": [
+          "T-स्कोअर तुमच्या हाडांच्या घनतेची तुलना निरोगी तरुण प्रौढ व्यक्तीशी करतो. -1.0 किंवा त्याहून अधिक T-स्कोअर सामान्यतः सामान्य मानला जातो, -1.0 ते -2.5 दरम्यान ऑस्टिओपेनिया दर्शवतो, आणि -2.5 किंवा त्याहून कमी ऑस्टिओपोरोसिसच्या पातळीत येतो.",
+          "Z-स्कोअर तुमच्या हाडांच्या घनतेची तुलना समान वय आणि लिंगाच्या लोकांशी करतो, आणि सहसा तरुण प्रौढांसाठी वापरला जातो.",
+          "तुमचे डॉक्टर हे स्कोअर तुमचे वय, इतिहास आणि इतर जोखीम घटकांसह एकत्रितपणे तपासतात."
+        ]
+      },
+      {
+        "id": "calcium-vitamin-d",
+        "category": "lifestyle",
+        "title": "कॅल्शियम आणि व्हिटॅमिन D",
+        "summary": "कॅल्शियम हाडे तयार करते, आणि व्हिटॅमिन D तुमच्या शरीराला ते शोषून घेण्यास मदत करते.",
+        "readMinutes": 2,
+        "tags": [
+          "calcium",
+          "vitamin d",
+          "diet",
+          "nutrition",
+          "milk",
+          "dairy",
+          "sunlight",
+          "supplements",
+          "food"
+        ],
+        "body": [
+          "कॅल्शियम हाडांचा एक महत्त्वाचा घटक आहे. चांगल्या अन्न स्रोतांमध्ये दूध, दही, पनीर, चीज, नाचणी, तीळ, हिरव्या पालेभाज्या आणि कॅल्शियम-समृद्ध अन्नपदार्थांचा समावेश होतो.",
+          "व्हिटॅमिन D शरीराला कॅल्शियम शोषून घेण्यास मदत करते. ते सूर्यप्रकाशाच्या संपर्कातून त्वचेत तयार होते आणि अंडी व स्निग्ध माशांसारख्या काही पदार्थांत आढळते.",
+          "तुम्हाला सप्लिमेंट्सची गरज आहे का आणि किती प्रमाणात, हे तुमचा आहार आणि रक्तातील पातळीवर अवलंबून असते, त्यामुळे हा निर्णय डॉक्टरांसोबत घ्यावा."
+        ]
+      },
+      {
+        "id": "exercise",
+        "category": "lifestyle",
+        "title": "मजबूत हाडांसाठी व्यायाम",
+        "summary": "वजन पेलणाऱ्या आणि स्नायू बळकट करणाऱ्या हालचाली हाडे टिकवून ठेवण्यास आणि पडणे टाळण्यास मदत करतात.",
+        "readMinutes": 2,
+        "tags": [
+          "exercise",
+          "physical activity",
+          "walking",
+          "weight-bearing",
+          "strength",
+          "resistance",
+          "balance",
+          "yoga",
+          "cycling",
+          "sedentary"
+        ],
+        "body": [
+          "जलद चालणे, जिने चढणे आणि नृत्य यांसारख्या वजन पेलणाऱ्या हालचाली हाडांवर भार टाकतात आणि घनता टिकवून ठेवण्यास मदत करतात.",
+          "स्नायू बळकट करणारा व्यायाम (बँड, वजन, बॉडीवेट व्यायाम) हाडांना आधार देतो आणि स्थिरता सुधारतो. ताई ची किंवा योगासारखे संतुलन व्यायाम पडणे कमी करण्यास मदत करतात.",
+          "बराच वेळ बसून राहणे खराब आरोग्याशी संबंधित आहे. तुम्हाला ऑस्टिओपोरोसिस असेल किंवा आधी फ्रॅक्चर झाले असेल, तर तुमच्यासाठी कोणते व्यायाम सुरक्षित आहेत हे डॉक्टर किंवा फिजिओथेरपिस्टला विचारा."
+        ]
+      },
+      {
+        "id": "fall-prevention",
+        "category": "lifestyle",
+        "title": "घरी पडणे टाळणे",
+        "summary": "पडणे आणि फ्रॅक्चरची शक्यता कमी करणारे साधे घरगुती बदल.",
+        "readMinutes": 1,
+        "tags": [
+          "falls",
+          "fall prevention",
+          "home safety",
+          "balance",
+          "lighting"
+        ],
+        "body": [
+          "वृद्धांमध्ये बहुतेक फ्रॅक्चर पडल्यानंतर होतात. चांगला प्रकाश, सैल सतरंज्या काढून टाकणे, बाथरूममध्ये ग्रॅब बार बसवणे आणि व्यवस्थित बसणारे पादत्राणे घालणे या सर्व गोष्टी मदत करतात.",
+          "नियमित डोळ्यांची तपासणी आणि चक्कर येणाऱ्या औषधांचा डॉक्टरांसोबत आढावा घेणेही पडण्याचा धोका कमी करू शकते."
+        ]
+      },
+      {
+        "id": "how-osteoai-works",
+        "category": "result",
+        "title": "OsteoAI तुमच्या जोखमीचा अंदाज कसा लावते",
+        "summary": "एक मशीन-लर्निंग मॉडेल तुमच्या असेसमेंटच्या उत्तरांवरून प्रायिकतेचा अंदाज लावते.",
+        "readMinutes": 2,
+        "tags": [
+          "model",
+          "machine learning",
+          "probability",
+          "prediction",
+          "how it works",
+          "osteoai"
+        ],
+        "body": [
+          "OsteoAI आरोग्य सर्वेक्षण डेटावर प्रशिक्षित सुपरवाइज्ड मशीन-लर्निंग मॉडेल वापरते. ते तुमची वैयक्तिक, जीवनशैली आणि वैद्यकीय-इतिहासाची उत्तरे घेऊन ऑस्टिओपोरोसिसच्या प्रायिकतेचा अंदाज लावते.",
+          "मग अ‍ॅप हे Low, Moderate किंवा High जोखीम म्हणून दाखवते. ही लेबल्स अ‍ॅपची व्याख्या आहेत, वैद्यकीय मर्यादा नाहीत.",
+          "OsteoAI हा एक शैक्षणिक संशोधन प्रोटोटाइप आहे. याचा निकाल जोखमीचा अंदाज आहे, निदान नाही, आणि तो वैद्यकीयदृष्ट्या सत्यापित केलेला नाही."
+        ]
+      },
+      {
+        "id": "understanding-shap",
+        "category": "result",
+        "title": "SHAP घटक म्हणजे काय?",
+        "summary": "SHAP दाखवते की तुमच्या कोणत्या उत्तरांनी मॉडेलचा अंदाज वर किंवा खाली नेला.",
+        "readMinutes": 2,
+        "tags": [
+          "shap",
+          "explainable ai",
+          "factors",
+          "why",
+          "contribution",
+          "explanation"
+        ],
+        "body": [
+          "SHAP (SHapley Additive exPlanations) ही एक्सप्लेनेबल-AI पद्धत आहे. तुमच्या असेसमेंटसाठी ती प्रत्येक उत्तराने मॉडेलचा अंदाज किती वर किंवा खाली नेला हे दाखवते.",
+          "SHAP भाकीत स्पष्ट करते; ते बदलत नाही. ज्या घटकाने अंदाज वाढवला तो वैद्यकीय कारण असेलच असे नाही, हा फक्त या मॉडेलमधील एक प्रभाव आहे.",
+          "मॉडेल भाकीत करते, SHAP स्पष्ट करते, आणि OsteoAI असिस्टंट तुम्हाला दोन्ही सोप्या भाषेत समजून घेण्यास मदत करतो."
+        ]
+      },
+      {
+        "id": "risk-levels",
+        "category": "result",
+        "title": "Low, Moderate आणि High म्हणजे काय?",
+        "summary": "तुमची जोखीम पातळी कशी वाचावी आणि पुढे काय करावे.",
+        "readMinutes": 1,
+        "tags": [
+          "risk level",
+          "low risk",
+          "moderate risk",
+          "high risk",
+          "what next",
+          "meaning"
+        ],
+        "body": [
+          "Low, Moderate आणि High या मॉडेलच्या अंदाजित प्रायिकतेच्या श्रेणी आहेत. त्या तुम्हाला एका दृष्टीक्षेपात अंदाज समजण्यास मदत करतात, पण हे वैद्यकीय निदान नाही.",
+          "तुमचा निकाल काहीही असो, हाडांसाठी निरोगी सवयी फायदेशीर आहेत. तुमचा निकाल Moderate किंवा High असल्यास, किंवा आधीचे फ्रॅक्चर यांसारख्या चिंता असल्यास, हाडांच्या घनतेच्या तपासणीबद्दल डॉक्टरांशी चर्चा करण्याचा विचार करा."
+        ]
+      },
+      {
+        "id": "using-osteoai",
+        "category": "app",
+        "title": "OsteoAI मध्ये फिरणे",
+        "summary": "असेसमेंट, डॅशबोर्ड, हिस्ट्री, AI असिस्टंट आणि नॉलेज अँड सपोर्ट स्पष्ट केले आहे.",
+        "readMinutes": 1,
+        "tags": [
+          "navigation",
+          "dashboard",
+          "history",
+          "assistant",
+          "how to use",
+          "app",
+          "features"
+        ],
+        "body": [
+          "New Assessment तुम्हाला वैयक्तिक, जीवनशैली आणि वैद्यकीय प्रश्नांमधून घेऊन जाते, किंवा पुनरावलोकनासाठी उत्तरे ऑटोफिल करण्यासाठी दस्तऐवज अपलोड करण्याची सुविधा देते.",
+          "Dashboard तुमचा नवीनतम निकाल आणि कल दाखवते. Assessment History प्रत्येक मागील असेसमेंट सूचीबद्ध करते, दोन ची तुलना करू देते आणि कोणताही निकाल पुन्हा उघडू देते.",
+          "AI Assistant सामान्य भाषेत प्रश्नांची उत्तरे देतो, आणि Knowledge & Support संदर्भ लेख, FAQ आणि एक शब्दकोश गोळा करते."
+        ]
+      },
+      {
+        "id": "document-autofill",
+        "category": "app",
+        "title": "दस्तऐवजावरून ऑटोफिल",
+        "summary": "एक अहवाल अपलोड करा आणि वापरण्यापूर्वी काढलेल्या उत्तरांचे पुनरावलोकन करा.",
+        "readMinutes": 1,
+        "tags": [
+          "document",
+          "upload",
+          "autofill",
+          "report",
+          "pdf",
+          "extraction",
+          "review"
+        ],
+        "body": [
+          "OsteoAI आरोग्य अहवालाचा PDF, Word फाइल किंवा प्रतिमा वाचू शकते आणि असेसमेंटसाठी उत्तरे सुचवू शकते.",
+          "निष्कर्षण सावधगिरीने केले जाते: अनिश्चित मूल्ये तुमच्या पुनरावलोकनासाठी आणि पुष्टीसाठी सोडली जातात. तुम्ही तपासल्याशिवाय काहीही वापरले जात नाही."
+        ]
+      }
+    ],
+    "myths": [
+      {
+        "myth": "ऑस्टिओपोरोसिस फक्त स्त्रियांना होतो.",
+        "fact": "स्त्रियांना जास्त धोका असतो, पण पुरुषांनाही ऑस्टिओपोरोसिस होतो, सहसा आयुष्याच्या नंतरच्या टप्प्यात."
+      },
+      {
+        "myth": "माझी हाडे कमकुवत असती, तर मला जाणवले असते.",
+        "fact": "हाडांची झीज सहसा वेदनारहित असते. अनेकांना फ्रॅक्चर झाल्यावरच याची जाणीव होते, म्हणूनच जोखीम मूल्यांकन आणि तपासणी महत्त्वाची आहे."
+      },
+      {
+        "myth": "दूध पिणे ऑस्टिओपोरोसिस टाळण्यासाठी पुरेसे आहे.",
+        "fact": "कॅल्शियम मदत करते, पण हाडांचे आरोग्य व्हिटॅमिन D, शारीरिक हालचाल, धूम्रपान न करणे, मर्यादित मद्यपान आणि आनुवंशिकतेवरही अवलंबून असते."
+      },
+      {
+        "myth": "हाडे कमकुवत झाल्यावर व्यायाम धोकादायक असतो.",
+        "fact": "डॉक्टर किंवा फिजिओथेरपिस्टसोबत निवडलेला योग्य व्यायाम हाडे टिकवण्यास आणि पडणे कमी करण्यास मदत करतो."
+      },
+      {
+        "myth": "ऑस्टिओपोरोसिस हा वृद्धत्वाचा एक सामान्य भाग आहे.",
+        "fact": "वयानुसार हाडांची झीज सामान्य आहे, पण ऑस्टिओपोरोसिस अनेकदा टाळता, ओळखता आणि व्यवस्थापित करता येतो."
+      },
+      {
+        "myth": "OsteoAI कडून Low risk निकाल म्हणजे मला कधीही ऑस्टिओपोरोसिस होणार नाही.",
+        "fact": "OsteoAI एक प्रोटोटाइप जोखीम अंदाज देते, हमी नाही. जोखीम कालांतराने बदलते, म्हणून निरोगी सवयी आणि नियमित तपासणी अजूनही महत्त्वाची आहे."
+      }
+    ],
+    "glossary": [
+      {
+        "term": "BMI",
+        "definition": "बॉडी मास इंडेक्स: किलोग्रॅममधील वजनाला मीटरमधील उंचीच्या वर्गाने भागून काढला जातो."
+      },
+      {
+        "term": "Bone mineral density (BMD)",
+        "definition": "हाडाच्या एका विशिष्ट भागातील खनिजाचे प्रमाण, जे DEXA स्कॅनने मोजले जाते."
+      },
+      {
+        "term": "DEXA",
+        "definition": "ड्युअल-एनर्जी एक्स-रे अ‍ॅब्सॉर्प्शियोमेट्री, हाडांची घनता मोजण्याची प्रमाणित स्कॅन."
+      },
+      {
+        "term": "T-score",
+        "definition": "निरोगी तरुण प्रौढ व्यक्तीशी हाडांच्या घनतेची तुलना; -2.5 किंवा त्याहून कमी ऑस्टिओपोरोसिसच्या पातळीत येते."
+      },
+      {
+        "term": "Osteopenia",
+        "definition": "सामान्यपेक्षा कमी हाडांची घनता जी अजून ऑस्टिओपोरोसिसच्या पातळीत नाही."
+      },
+      {
+        "term": "Fragility fracture",
+        "definition": "उभे असतानाच्या उंचीवरून किंवा त्याहून कमी उंचीवरून पडल्याने होणारे फ्रॅक्चर, जे निरोगी हाड सहसा सहन करू शकते."
+      },
+      {
+        "term": "SHAP",
+        "definition": "एक एक्सप्लेनेबल-AI पद्धत जी प्रत्येक इनपुटने मॉडेलचा अंदाज किती वर किंवा खाली नेला हे दाखवते."
+      },
+      {
+        "term": "Probability",
+        "definition": "ऑस्टिओपोरोसिस वर्गासाठी मॉडेलची अंदाजित शक्यता (0-100%); हे निदान नाही."
+      },
+      {
+        "term": "Risk level",
+        "definition": "प्रायिकतेसाठी OsteoAI चे Low / Moderate / High लेबल; ही अ‍ॅपची व्याख्या आहे, वैद्यकीय मर्यादा नाही."
+      },
+      {
+        "term": "Sedentary time",
+        "definition": "जागे असताना बसून किंवा झोपून घालवलेला वेळ, जसे की डेस्क वर्क किंवा टीव्ही पाहणे."
+      },
+      {
+        "term": "Glucocorticoids",
+        "definition": "प्रेडनिसोलोनसारखी स्टिरॉइड औषधे; दीर्घकाळ वापराने हाडांची घनता कमी होऊ शकते."
+      }
+    ],
+    "faqs": [
+      {
+        "question": "OsteoAI हे वैद्यकीय निदान आहे का?",
+        "answer": "नाही. OsteoAI हा एक शैक्षणिक संशोधन प्रोटोटाइप आहे जो जोखमीचा अंदाज लावतो. फक्त डॉक्टरच ऑस्टिओपोरोसिसचे निदान करू शकतात, सहसा DEXA स्कॅनद्वारे."
+      },
+      {
+        "question": "माझा असेसमेंट डेटा कुठे साठवला जातो?",
+        "answer": "या प्रोटोटाइपमध्ये तुमचा असेसमेंट इतिहास या डिव्हाइसवरील तुमच्या ब्राउझरमध्ये साठवला जातो. ब्राउझर डेटा साफ केल्यास तो निघून जातो."
+      },
+      {
+        "question": "AI असिस्टंट माझा डेटा इंटरनेटवर पाठवतो का?",
+        "answer": "असिस्टंट OsteoAI सर्व्हरवर एक स्थानिक AI मॉडेल (Ollama मार्फत Qwen) वर चालतो, त्यामुळे स्थानिक मॉडेल वापरले जाते तेव्हा तुमचे प्रश्न आणि निकाल स्थानिकरित्या प्रक्रिया केले जातात."
+      },
+      {
+        "question": "माझा निकाल असेसमेंटमध्ये का बदलतो?",
+        "answer": "मॉडेल तुमची सध्याची उत्तरे वापरते. वजन, हालचाल किंवा वैद्यकीय इतिहास यांसारखे इनपुट बदलल्यास अंदाजही बदलू शकतो. Assessment History तुम्हाला दोन असेसमेंटची तुलना करू देते."
+      },
+      {
+        "question": "असिस्टंट स्वतःहून माझी उत्तरे बदलू शकतो किंवा रिमाइंडर तयार करू शकतो का?",
+        "answer": "नाही. वाचणे, स्पष्ट करणे आणि नेव्हिगेट करणे लगेच होते, पण तुमच्या डेटामधील कोणताही बदल किंवा कोणताही रिमाइंडर नेहमी तुमच्या स्पष्ट पुष्टीची गरज असते."
+      },
+      {
+        "question": "माझी जोखीम High असल्यास मी काय करावे?",
+        "answer": "हे डॉक्टरांशी बोलण्याचा संकेत समजा, जे DEXA स्कॅन किंवा इतर तपासण्या योग्य आहेत का हे ठरवू शकतात. OsteoAI च्या आधारावर औषधे सुरू किंवा बंद करू नका."
+      }
+    ],
+    "support": {
+      "disclaimer": "OsteoAI हा एक शैक्षणिक संशोधन प्रोटोटाइप आहे. तो शैक्षणिक माहिती आणि मॉडेल-आधारित जोखीम अंदाज देतो, वैद्यकीय निदान नाही. आणीबाणीच्या वेळी 112 (भारत) किंवा तुमच्या स्थानिक आणीबाणी क्रमांकावर कॉल करा.",
+      "contact": ""
     }
-  ],
-
-  "support": {
-    "disclaimer": "OsteoAI is an academic research prototype. It provides educational information and a model-based risk estimate, not a medical diagnosis. In an emergency, call 112 (India) or your local emergency number.",
-    "contact": ""
   }
 }

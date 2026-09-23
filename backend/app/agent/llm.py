@@ -133,7 +133,14 @@ def _qwen_payload(messages: list[Message]) -> dict[str, Any]:
         "think": False,
         # Lower temperature keeps health answers factual and consistent;
         # num_predict is a hard cap backing up the prompt's brevity rule.
-        "options": {"temperature": 0.4, "num_ctx": 8192, "num_predict": 220},
+        # num_gpu=999 asks Ollama to offload as many layers as VRAM allows,
+        # instead of its conservative default CPU/GPU split.
+        "options": {
+            "temperature": 0.4,
+            "num_ctx": 8192,
+            "num_predict": 220,
+            "num_gpu": 999,
+        },
         "keep_alive": "30m",
     }
 

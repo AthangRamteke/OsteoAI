@@ -34,6 +34,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import SpellcheckIcon from "@mui/icons-material/Spellcheck";
 
 import PageShell from "../../components/common/PageShell";
+import { useLanguage } from "../../context/LanguageContext";
 import { fetchKnowledge } from "../../services/knowledgeService";
 
 const CATEGORY_COLORS = {
@@ -71,6 +72,7 @@ function SectionTitle({ icon, title, subtitle }) {
 
 /* Click to reveal: guess first, then see the fact. */
 function MythCard({ item }) {
+  const { t } = useLanguage();
   const [revealed, setRevealed] = useState(false);
 
   return (
@@ -94,7 +96,7 @@ function MythCard({ item }) {
           <CancelIcon sx={{ color: "#DC2626" }} fontSize="small" />
         )}
         <Typography variant="caption" sx={{ fontWeight: 800, letterSpacing: 0.6, color: revealed ? "#15803D" : "#B91C1C" }}>
-          {revealed ? "FACT" : "MYTH"}
+          {revealed ? t("knowledge.factLabel") : t("knowledge.mythLabel")}
         </Typography>
       </Stack>
 
@@ -103,7 +105,7 @@ function MythCard({ item }) {
       </Typography>
 
       <Typography variant="caption" sx={{ display: "block", color: "#94A3B8", mt: 1.5 }}>
-        {revealed ? "Tap to see the myth again" : "Tap to reveal the fact"}
+        {revealed ? t("knowledge.tapToSeeMythAgain") : t("knowledge.tapToRevealFact")}
       </Typography>
     </Card>
   );
@@ -111,6 +113,7 @@ function MythCard({ item }) {
 
 function KnowledgePage() {
   const navigate = useNavigate();
+  const { t, language } = useLanguage();
 
   const [content, setContent] = useState(null);
   const [loadError, setLoadError] = useState("");
@@ -119,10 +122,11 @@ function KnowledgePage() {
   const [openArticle, setOpenArticle] = useState(null);
 
   useEffect(() => {
-    fetchKnowledge()
+    setLoadError("");
+    fetchKnowledge(language)
       .then(setContent)
       .catch((error) => setLoadError(error.message));
-  }, []);
+  }, [language]);
 
   const askAI = (question) =>
     navigate(`/assistant?q=${encodeURIComponent(question)}`);
@@ -158,9 +162,9 @@ function KnowledgePage() {
 
   if (loadError) {
     return (
-      <PageShell icon={<MenuBookIcon />} title="Knowledge & Support" subtitle="Osteoporosis education, help and support.">
+      <PageShell icon={<MenuBookIcon />} title={t("knowledge.pageTitle")} subtitle={t("knowledge.pageSubtitle")}>
         <Alert severity="error" sx={{ borderRadius: 3 }}>
-          {loadError} Make sure the OsteoAI backend is running.
+          {t("knowledge.loadError")}
         </Alert>
       </PageShell>
     );
@@ -169,8 +173,8 @@ function KnowledgePage() {
   return (
     <PageShell
       icon={<MenuBookIcon />}
-      title="Knowledge & Support"
-      subtitle="Trusted bone-health basics, help with OsteoAI, and answers on demand."
+      title={t("knowledge.pageTitle")}
+      subtitle={t("knowledge.pageSubtitle")}
     >
       {!content ? (
         <Stack sx={{ alignItems: "center", py: 8 }}>
@@ -182,7 +186,7 @@ function KnowledgePage() {
           <Box>
             <TextField
               fullWidth
-              placeholder="Search topics: DEXA, calcium, SHAP, family history…"
+              placeholder={t("knowledge.searchPlaceholder")}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               slotProps={{
@@ -200,7 +204,7 @@ function KnowledgePage() {
             />
 
             <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1, mt: 2 }}>
-              {[{ id: "all", label: "All topics" }, ...content.categories].map((item) => {
+              {[{ id: "all", label: t("knowledge.allTopicsLabel") }, ...content.categories].map((item) => {
                 const active = category === item.id;
                 const color = CATEGORY_COLORS[item.id] || "#2563EB";
 
@@ -249,7 +253,9 @@ function KnowledgePage() {
                       </Typography>
                       <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color: "#94A3B8", mt: 1.5 }}>
                         <AccessTimeIcon sx={{ fontSize: 15 }} />
-                        <Typography variant="caption">{article.readMinutes} min read</Typography>
+                        <Typography variant="caption">
+                          {t("knowledge.readMinutes", { count: article.readMinutes })}
+                        </Typography>
                       </Stack>
                     </Card>
                   </Grid>
@@ -260,10 +266,10 @@ function KnowledgePage() {
             {!articles.length && (
               <Card sx={{ ...cardSx, p: 3, mt: 2, textAlign: "center", bgcolor: "#EFF6FF", borderColor: "#BFDBFE" }}>
                 <Typography sx={{ fontWeight: 700, color: "#0F172A" }}>
-                  No articles match “{query}”.
+                  {t("knowledge.noArticlesMatch", { query })}
                 </Typography>
                 <Typography variant="body2" sx={{ color: "#475569", mt: 0.5, mb: 2 }}>
-                  The AI Assistant can still answer it.
+                  {t("knowledge.aiCanAnswer")}
                 </Typography>
                 <Button
                   variant="contained"
@@ -271,7 +277,7 @@ function KnowledgePage() {
                   onClick={() => askAI(query)}
                   sx={{ textTransform: "none", fontWeight: 700, boxShadow: "none", borderRadius: 3 }}
                 >
-                  Ask the AI Assistant
+                  {t("knowledge.askAiAssistantButton")}
                 </Button>
               </Card>
             )}
@@ -281,8 +287,8 @@ function KnowledgePage() {
           <Box>
             <SectionTitle
               icon={<QuizIcon />}
-              title="Myth or fact?"
-              subtitle="Common beliefs about bones. Tap a card to check."
+              title={t("knowledge.mythOrFactTitle")}
+              subtitle={t("knowledge.mythOrFactSubtitle")}
             />
             <Grid container spacing={2}>
               {content.myths.map((item) => (
@@ -296,7 +302,7 @@ function KnowledgePage() {
           <Grid container spacing={3}>
             {/* ---------------- FAQ ---------------- */}
             <Grid size={{ xs: 12, md: 7 }}>
-              <SectionTitle icon={<SupportAgentIcon />} title="Frequently asked questions" />
+              <SectionTitle icon={<SupportAgentIcon />} title={t("knowledge.faqTitle")} />
               {content.faqs.map((faq) => (
                 <Accordion
                   key={faq.question}
@@ -323,7 +329,7 @@ function KnowledgePage() {
 
             {/* ---------------- Glossary ---------------- */}
             <Grid size={{ xs: 12, md: 5 }}>
-              <SectionTitle icon={<SpellcheckIcon />} title="Glossary" />
+              <SectionTitle icon={<SpellcheckIcon />} title={t("knowledge.glossaryTitle")} />
               <Card sx={{ ...cardSx, p: 1 }}>
                 {content.glossary.map((entry, index) => (
                   <Box
@@ -361,11 +367,10 @@ function KnowledgePage() {
                 }}
               >
                 <Typography variant="h6" sx={{ fontWeight: 800 }}>
-                  Still have a question?
+                  {t("knowledge.stillHaveQuestionTitle")}
                 </Typography>
                 <Typography sx={{ opacity: 0.9, mt: 0.5, mb: 2 }}>
-                  Ask the OsteoAI Assistant in plain language. It uses this library and your
-                  latest result to answer.
+                  {t("knowledge.stillHaveQuestionDesc")}
                 </Typography>
                 <Stack direction="row" spacing={1.5} sx={{ flexWrap: "wrap", gap: 1 }}>
                   <Button
@@ -381,14 +386,14 @@ function KnowledgePage() {
                       "&:hover": { bgcolor: "#EFF6FF" },
                     }}
                   >
-                    Open AI Assistant
+                    {t("knowledge.openAiAssistantButton")}
                   </Button>
                   <Button
                     variant="outlined"
                     onClick={() => navigate("/assessment")}
                     sx={{ textTransform: "none", fontWeight: 700, color: "#FFFFFF", borderColor: "rgba(255,255,255,0.6)" }}
                   >
-                    Take an assessment
+                    {t("knowledge.takeAssessmentButton")}
                   </Button>
                 </Stack>
               </Card>
@@ -397,14 +402,14 @@ function KnowledgePage() {
               <Card sx={{ ...cardSx, p: 3, height: "100%", bgcolor: "#FEF2F2", borderColor: "#FECACA" }}>
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center", color: "#B91C1C" }}>
                   <EmergencyIcon />
-                  <Typography sx={{ fontWeight: 800 }}>Important</Typography>
+                  <Typography sx={{ fontWeight: 800 }}>{t("knowledge.importantLabel")}</Typography>
                 </Stack>
                 <Typography variant="body2" sx={{ color: "#7F1D1D", mt: 1, lineHeight: 1.7 }}>
                   {content.support.disclaimer}
                 </Typography>
                 {content.support.contact && (
                   <Typography variant="body2" sx={{ color: "#7F1D1D", mt: 1, fontWeight: 700 }}>
-                    Contact: {content.support.contact}
+                    {t("knowledge.contactLabel", { value: content.support.contact })}
                   </Typography>
                 )}
               </Card>
@@ -429,7 +434,7 @@ function KnowledgePage() {
                 variant="caption"
                 sx={{ fontWeight: 800, color: CATEGORY_COLORS[openArticle.category], letterSpacing: 0.4 }}
               >
-                {categoryLabel(openArticle.category).toUpperCase()} · {openArticle.readMinutes} MIN READ
+                {categoryLabel(openArticle.category).toUpperCase()} · {openArticle.readMinutes} {t("knowledge.minReadUpper")}
               </Typography>
               <Typography variant="h5" sx={{ fontWeight: 800, color: "#0F172A", mt: 0.5 }}>
                 {openArticle.title}
@@ -445,7 +450,7 @@ function KnowledgePage() {
               {relatedArticles.length > 0 && (
                 <Box sx={{ mt: 2 }}>
                   <Typography variant="body2" sx={{ fontWeight: 800, color: "#0F172A", mb: 1 }}>
-                    Related
+                    {t("knowledge.relatedLabel")}
                   </Typography>
                   <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1 }}>
                     {relatedArticles.map((item) => (
@@ -457,7 +462,7 @@ function KnowledgePage() {
             </DialogContent>
             <DialogActions sx={{ px: 3, pb: 2.5, justifyContent: "space-between" }}>
               <Button onClick={() => setOpenArticle(null)} sx={{ textTransform: "none" }}>
-                Close
+                {t("common.close")}
               </Button>
               <Button
                 variant="contained"
@@ -465,7 +470,7 @@ function KnowledgePage() {
                 onClick={() => askAI(`Tell me more about: ${openArticle.title}`)}
                 sx={{ textTransform: "none", fontWeight: 700, boxShadow: "none", borderRadius: 3 }}
               >
-                Ask AI a follow-up
+                {t("knowledge.askFollowUpButton")}
               </Button>
             </DialogActions>
           </>
