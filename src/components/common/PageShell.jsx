@@ -8,11 +8,24 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 import Navbar from "./Navbar";
+import { useLanguage } from "../../context/LanguageContext";
 
-const SECTIONS = [
-  { label: "History", path: "/history", icon: <HistoryIcon fontSize="small" /> },
-  { label: "AI Assistant", path: "/assistant", icon: <AutoAwesomeIcon fontSize="small" /> },
-  { label: "Knowledge", path: "/knowledge", icon: <MenuBookIcon fontSize="small" /> },
+const getSections = (t) => [
+  {
+    label: t("assistant.shortHistory"),
+    path: "/history",
+    icon: <HistoryIcon fontSize="small" />,
+  },
+  {
+    label: t("assistant.shortAssistant"),
+    path: "/assistant",
+    icon: <AutoAwesomeIcon fontSize="small" />,
+  },
+  {
+    label: t("assistant.shortKnowledge"),
+    path: "/knowledge",
+    icon: <MenuBookIcon fontSize="small" />,
+  },
 ];
 
 /*
@@ -23,6 +36,9 @@ const SECTIONS = [
 function PageShell({ icon, title, subtitle, actions, children, maxWidth = "lg" }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { t } = useLanguage();
+
+  const sections = getSections(t);
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "#F8FAFC" }}>
@@ -51,11 +67,11 @@ function PageShell({ icon, title, subtitle, actions, children, maxWidth = "lg" }
               onClick={() => navigate("/dashboard")}
               sx={{ textTransform: "none", fontWeight: 700, color: "#475569" }}
             >
-              Dashboard
+              {t("sidebar.dashboard")}
             </Button>
 
             <Stack direction="row" spacing={1}>
-              {SECTIONS.map((section) => {
+              {sections.map((section) => {
                 const active = pathname.startsWith(section.path);
 
                 return (

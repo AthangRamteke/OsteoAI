@@ -941,16 +941,18 @@ function LandingPage() {
                         primary={item.label}
                         slotProps={{
                           primary: {
-                            fontWeight:
-                              item.active
-                                ? 700
-                                : 600,
+                            sx: {
+                              fontWeight:
+                                item.active
+                                  ? 700
+                                  : 600,
 
-                            fontSize:
-                              "0.91rem",
+                              fontSize:
+                                "0.91rem",
 
-                            whiteSpace:
-                              "nowrap",
+                              whiteSpace:
+                                "nowrap",
+                            },
                           },
                         }}
                       />
@@ -1032,15 +1034,17 @@ function LandingPage() {
                         primary={item.label}
                         slotProps={{
                           primary: {
-                            fontWeight: 600,
-                            fontSize:
-                              "0.91rem",
+                            sx: {
+                              fontWeight: 600,
+                              fontSize:
+                                "0.91rem",
 
-                            color:
-                              item.id ===
-                                "logout"
-                                ? "#EF4444"
-                                : "#475569",
+                              color:
+                                item.id ===
+                                  "logout"
+                                  ? "#EF4444"
+                                  : "#475569",
+                            },
                           },
                         }}
                       />

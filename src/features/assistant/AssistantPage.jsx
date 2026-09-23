@@ -280,7 +280,9 @@ function AssistantPage() {
                   }}
                 >
                   <Typography sx={{ fontWeight: 800, color: riskColor(level).main, fontSize: 22 }}>
-                    {probabilityPercent(selectedRecord)?.toFixed(1)}% · {t("assistant.riskSuffix", { level })}
+                    {probabilityPercent(selectedRecord)?.toFixed(1)}% · {t("assistant.riskSuffix", {
+                      level: t(`common.riskLevels.${level}`) || level,
+                    })}
                   </Typography>
                   <Typography variant="caption" sx={{ color: "#475569" }}>
                     {t("assistant.modelEstimateCaption")}

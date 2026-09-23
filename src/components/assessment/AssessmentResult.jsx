@@ -557,6 +557,12 @@ function AssessmentResult({
   const riskLevel =
     result.risk_level || "Unavailable";
 
+  const shapExplanations = Array.isArray(
+    result.shap_explanations
+  )
+    ? result.shap_explanations
+    : [];
+
   const isPositive =
     prediction === 1;
 

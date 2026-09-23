@@ -1412,16 +1412,18 @@ function DashboardPage() {
                       }
                       slotProps={{
                         primary: {
-                          fontWeight:
-                            item.active
-                              ? 700
-                              : 600,
+                          sx: {
+                            fontWeight:
+                              item.active
+                                ? 700
+                                : 600,
 
-                          fontSize:
-                            "0.91rem",
+                            fontSize:
+                              "0.91rem",
 
-                          whiteSpace:
-                            "nowrap",
+                            whiteSpace:
+                              "nowrap",
+                          },
                         },
                       }}
                     />
@@ -1489,9 +1491,11 @@ function DashboardPage() {
                 primary={t("sidebar.settings")}
                 slotProps={{
                   primary: {
-                    fontWeight: 600,
-                    fontSize:
-                      "0.91rem",
+                    sx: {
+                      fontWeight: 600,
+                      fontSize:
+                        "0.91rem",
+                    },
                   },
                 }}
               />
@@ -1553,10 +1557,12 @@ function DashboardPage() {
                 primary={t("sidebar.logout")}
                 slotProps={{
                   primary: {
-                    fontWeight: 600,
-                    fontSize:
-                      "0.91rem",
-                    color: "#EF4444",
+                    sx: {
+                      fontWeight: 600,
+                      fontSize:
+                        "0.91rem",
+                      color: "#EF4444",
+                    },
                   },
                 }}
               />
