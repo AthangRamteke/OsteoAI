@@ -188,3 +188,7 @@ tempCodeRunnerFile.py
 # ignored) - the trained pipeline artifacts are project deliverables that
 # the backend loads directly. Do not add models/ to this ignore list.
 ml/osteoai_data/osteoai_osteoporosis_dataset.csv
+
+# Claude-generated scratch deliverables (summaries, changelogs, chart
+# exports) - not application source, kept locally only.
+Claude outputs/
