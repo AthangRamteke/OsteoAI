@@ -8,6 +8,16 @@ from typing import Any, Iterator
 from app.agent.conversation import get_or_create_conversation
 from app.agent.intent import detect_intent
 from app.agent.llm import ProviderError, generate, generate_stream
+from app.agent.reminders import (
+    cancelled_text,
+    confirm_text,
+    created_text,
+    format_due,
+    is_affirmative,
+    is_negative,
+    need_time_text,
+    parse_reminder,
+)
 from app.agent.prompt import (
     EMERGENCY_NOTICE,
     build_system_prompt,
@@ -81,6 +91,62 @@ def _unknown(language: str) -> str:
 # Intents that trigger an app action stay deterministic so the frontend only
 # ever receives whitelisted actions. Everything else is answered by the LLM.
 _ACTION_INTENTS = {"navigation", "document_assistant", "notification"}
+
+
+def _reminder_turn(
+    conversation,
+    message: str,
+    intent: str,
+    language: str,
+) -> dict[str, Any] | None:
+    """Handle the reminder request/confirm/cancel exchange.
+
+    Creating a reminder changes stored data, so it only happens after the
+    user explicitly confirms the exact reminder the Agent showed them.
+    Returns None when this turn is not about reminders.
+    """
+    pending = conversation.pending_reminder
+
+    if pending:
+        if is_affirmative(message):
+            conversation.pending_reminder = None
+            return {
+                "message": created_text(
+                    pending["title"], pending["due_text"], language
+                ),
+                "data": {},
+                "action": {"type": "create_reminder", "reminder": pending},
+            }
+
+        if is_negative(message):
+            conversation.pending_reminder = None
+            return {"message": cancelled_text(language), "data": {}}
+
+        # Anything else: drop the pending reminder and answer normally,
+        # rather than holding the conversation hostage to a yes/no.
+        conversation.pending_reminder = None
+
+    if intent != "notification":
+        return None
+
+    parsed = parse_reminder(message)
+
+    if not parsed["has_time"]:
+        return {"message": need_time_text(parsed["title"], language), "data": {}}
+
+    reminder = {
+        "title": parsed["title"],
+        "due_at": parsed["due_at"],
+        "due_text": format_due(parsed["due_at"], language),
+    }
+    conversation.pending_reminder = reminder
+
+    return {
+        "message": confirm_text(reminder["title"], reminder["due_text"], language),
+        "data": {},
+        "action": {"type": "reminder_preview", "reminder": reminder},
+        "needs_confirmation": True,
+    }
 
 
 def _deterministic_answer(
@@ -168,8 +234,9 @@ def handle_message_stream(
     intent = detect_intent(message)
     safe_context = context if isinstance(context, dict) else {}
 
-    result: dict[str, Any] | None = None
-    if intent in _ACTION_INTENTS:
+    result = _reminder_turn(conversation, message, intent, language_code)
+
+    if result is None and intent in _ACTION_INTENTS:
         result = _deterministic_answer(intent, message, language_code, safe_context)
 
     yield {
@@ -178,6 +245,7 @@ def handle_message_stream(
         "intent": intent,
         "language": language_code,
         "action": (result or {}).get("action"),
+        "needs_confirmation": bool((result or {}).get("needs_confirmation")),
     }
 
     prefix = _emergency_prefix(message, language_code)
@@ -226,8 +294,9 @@ def handle_message(
 
     safe_context = context if isinstance(context, dict) else {}
 
-    tool_result = None
-    if intent not in _ACTION_INTENTS:
+    tool_result = _reminder_turn(conversation, message, intent, language_code)
+
+    if tool_result is None and intent not in _ACTION_INTENTS:
         tool_result = _llm_answer(
             conversation, message, language_code, safe_context
         )
@@ -259,5 +328,5 @@ def handle_message(
         "language": language_code,
         "message": tool_result["message"],
         "action": tool_result.get("action"),
-        "needs_confirmation": False,
+        "needs_confirmation": bool(tool_result.get("needs_confirmation")),
     }

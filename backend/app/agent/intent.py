@@ -41,6 +41,31 @@ def detect_intent(message: str) -> str:
         return "unknown"
 
     # ---------------------------------------------------------
+    # Notifications / reminders
+    # ---------------------------------------------------------
+    #
+    # Checked first because the wording is explicit, and a request such
+    # as "remind me to finish my assessment" would otherwise be caught
+    # by the assessment-help keywords below.
+    #
+    if any(
+        phrase in text
+        for phrase in (
+            "remind me",
+            "set a reminder",
+            "create a reminder",
+            "notification",
+            "reminder",
+            "याद दिला",
+            "रिमाइंडर",
+            "स्मरणपत्र",
+            "आठवण करून",
+            "आठवण",
+        )
+    ):
+        return "notification"
+
+    # ---------------------------------------------------------
     # Result explanation
     # ---------------------------------------------------------
     #
@@ -146,21 +171,6 @@ def detect_intent(message: str) -> str:
     ):
         return "document_assistant"
 
-    # ---------------------------------------------------------
-    # Notifications
-    # ---------------------------------------------------------
-    if any(
-        phrase in text
-        for phrase in (
-            "remind me",
-            "set a reminder",
-            "notification",
-            "reminder",
-            "याद दिलाना",
-            "रिमाइंडर",
-        )
-    ):
-        return "notification"
 
     # ---------------------------------------------------------
     # Navigation

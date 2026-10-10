@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { streamAgentMessage } from "../../services/agentService";
+import { addReminder } from "../../services/reminderStore";
 import { useLanguage } from "../../context/LanguageContext";
 
 // Pages the Agent is allowed to open.
@@ -89,6 +90,12 @@ export default function useAgentChat(getContext) {
           finalMessage || streamedText || t("assistant.noResponse"),
           false
         );
+
+        // The backend only sends this after the user confirmed the
+        // reminder it showed them in the previous turn.
+        if (action?.type === "create_reminder" && action.reminder) {
+          addReminder(action.reminder);
+        }
 
         if (action?.type === "navigate" && ALLOWED_PATHS.includes(action.path)) {
           setTimeout(() => {

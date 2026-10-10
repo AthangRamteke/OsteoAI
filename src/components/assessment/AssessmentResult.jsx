@@ -37,6 +37,7 @@ import { useAssessment } from "../../context/AssessmentContext";
 import { useLanguage } from "../../context/LanguageContext";
 import { streamAgentMessage } from "../../services/agentService";
 import { historyForAgent } from "../../services/historyStore";
+import { addReminder } from "../../services/reminderStore";
 
 
 /* =========================================================
@@ -163,6 +164,18 @@ function ResultAssistant({ predictionResult }) {
         "/assistant",
         "/knowledge",
       ];
+
+      /*
+       * Only sent after the user confirmed the
+       * reminder shown in the previous turn.
+       */
+      if (
+        action?.type ===
+          "create_reminder" &&
+        action.reminder
+      ) {
+        addReminder(action.reminder);
+      }
 
       if (
         action?.type === "navigate" &&

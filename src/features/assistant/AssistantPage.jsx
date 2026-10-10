@@ -31,6 +31,7 @@ import LockIcon from "@mui/icons-material/Lock";
 
 import PageShell from "../../components/common/PageShell";
 import useAgentChat from "./useAgentChat";
+import RemindersCard from "./RemindersCard";
 import { useLanguage } from "../../context/LanguageContext";
 import {
   formatDate,
@@ -301,6 +302,8 @@ function AssistantPage() {
                 )
               )}
             </Card>
+
+            <RemindersCard />
 
             <Box>
               <Typography sx={{ fontWeight: 800, color: "#0F172A", mb: 1.25 }}>

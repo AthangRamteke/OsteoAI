@@ -20,6 +20,9 @@ class Conversation:
     )
     turns: list[dict[str, Any]] = field(default_factory=list)
 
+    # A reminder the user has been asked to confirm, waiting for yes/no.
+    pending_reminder: dict[str, Any] | None = None
+
     def add_turn(
         self,
         role: str,

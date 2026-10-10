@@ -36,12 +36,21 @@ class AgentChatRequest(BaseModel):
     )
 
 
+class AgentReminder(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    title: str
+    due_at: str
+    due_text: str
+
+
 class AgentAction(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     type: str
     path: str | None = None
     tool: str | None = None
+    reminder: AgentReminder | None = None
 
 
 class AgentChatResponse(BaseModel):
