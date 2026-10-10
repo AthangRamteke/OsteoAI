@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -38,6 +38,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import { streamAgentMessage } from "../../services/agentService";
 import { historyForAgent } from "../../services/historyStore";
 import { addReminder } from "../../services/reminderStore";
+import { loadChat, saveChat } from "../../services/chatStore";
 
 
 /* =========================================================
@@ -50,18 +51,33 @@ function ResultAssistant({ predictionResult }) {
 
   const [message, setMessage] = useState("");
 
-  const [messages, setMessages] = useState([
-    {
-      role: "assistant",
-      content: t("resultAssistant.greeting"),
-    },
-  ]);
+  /*
+   * The transcript is restored so leaving this screen and coming
+   * back continues the same conversation about this result.
+   */
+  const [restored] = useState(() => loadChat("result"));
+
+  const [messages, setMessages] = useState(
+    () =>
+      restored?.messages || [
+        {
+          role: "assistant",
+          content: t("resultAssistant.greeting"),
+        },
+      ]
+  );
 
   const [conversationId, setConversationId] =
-    useState(null);
+    useState(() => restored?.conversationId || null);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!loading) {
+      saveChat("result", messages, conversationId);
+    }
+  }, [messages, conversationId, loading]);
 
   const language =
     localStorage.getItem("osteoai-language") || "en";

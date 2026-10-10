@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import {
   Box,
+  Button,
   Card,
   Checkbox,
   Chip,
@@ -12,6 +13,7 @@ import {
 } from "@mui/material";
 
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";
 
 import { useLanguage } from "../../context/LanguageContext";
@@ -21,7 +23,9 @@ import {
   deleteReminder,
   getReminders,
   isOverdue,
+  notificationPermission,
   relativeDue,
+  requestNotificationPermission,
   toggleReminderDone,
 } from "../../services/reminderStore";
 
@@ -32,6 +36,7 @@ import {
 function RemindersCard() {
   const { t, language } = useLanguage();
   const [reminders, setReminders] = useState(getReminders);
+  const [permission, setPermission] = useState(notificationPermission);
 
   useEffect(() => {
     const refresh = () => setReminders(getReminders());
@@ -131,6 +136,28 @@ function RemindersCard() {
               </Stack>
             );
           })}
+        </Stack>
+      )}
+
+      {permission === "default" && (
+        <Button
+          fullWidth
+          size="small"
+          startIcon={<NotificationsActiveIcon sx={{ fontSize: 17 }} />}
+          onClick={async () => setPermission(await requestNotificationPermission())}
+          sx={{ mt: 1.5, textTransform: "none", fontWeight: 700, borderRadius: 2.5 }}
+          variant="outlined"
+        >
+          {t("assistant.notifyEnable")}
+        </Button>
+      )}
+
+      {permission === "denied" && (
+        <Stack direction="row" spacing={0.75} sx={{ alignItems: "center", mt: 1.5 }}>
+          <NotificationsOffIcon sx={{ fontSize: 16, color: "#94A3B8" }} />
+          <Typography variant="caption" sx={{ color: "#94A3B8" }}>
+            {t("assistant.notifyBlocked")}
+          </Typography>
         </Stack>
       )}
 

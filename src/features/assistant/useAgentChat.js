@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { streamAgentMessage } from "../../services/agentService";
 import { addReminder } from "../../services/reminderStore";
 import { useLanguage } from "../../context/LanguageContext";
-import { clearChat, loadChat, saveChat } from "../../services/chatStore";
+import {
+  archiveChat,
+  clearChat,
+  loadChat,
+  saveChat,
+} from "../../services/chatStore";
 
 // Pages the Agent is allowed to open.
 export const ALLOWED_PATHS = [
@@ -147,6 +152,11 @@ export default function useAgentChat(getContext, storageKey) {
   );
 
   const reset = () => {
+    // Keep the finished conversation so it can be reopened later.
+    if (storageKey && messages.length) {
+      archiveChat(messages, conversationIdRef.current);
+    }
+
     conversationIdRef.current = null;
     setMessages([]);
     setError("");
@@ -156,5 +166,16 @@ export default function useAgentChat(getContext, storageKey) {
     }
   };
 
-  return { messages, loading, error, send, reset };
+  /** Reopen a past conversation in place of the current one. */
+  const restoreConversation = (entry) => {
+    if (storageKey && messages.length) {
+      archiveChat(messages, conversationIdRef.current);
+    }
+
+    conversationIdRef.current = entry.conversationId || null;
+    setMessages(entry.messages.map((message) => ({ ...message, streaming: false })));
+    setError("");
+  };
+
+  return { messages, loading, error, send, reset, restoreConversation };
 }

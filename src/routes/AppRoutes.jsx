@@ -9,11 +9,15 @@ import HistoryResultPage from "../features/history/HistoryResultPage";
 import AssistantPage from "../features/assistant/AssistantPage";
 import KnowledgePage from "../features/knowledge/KnowledgePage";
 import SimulatorPage from "../features/simulator/SimulatorPage";
+import ReminderWatcher from "../features/assistant/ReminderWatcher";
 import ForecastPage from "../pages/Forecast/ForecastPage";
 
 function AppRoutes() {
   return (
     <BrowserRouter>
+      {/* Announces reminders on whichever page the user is on. */}
+      <ReminderWatcher />
+
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/assessment" element={<Assessment />} />

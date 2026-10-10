@@ -72,3 +72,67 @@ export function clearChat(key) {
     console.warn("Unable to clear OsteoAI chat:", error);
   }
 }
+
+/* ---------------------------------------------------------
+   Past conversations
+   --------------------------------------------------------- */
+
+const ARCHIVE_KEY = "osteoai_chat_archive";
+const MAX_ARCHIVED = 15;
+
+function readArchive() {
+  try {
+    const raw = localStorage.getItem(ARCHIVE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+
+    return Array.isArray(parsed) ? parsed.filter((item) => item?.id) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeArchive(items) {
+  try {
+    localStorage.setItem(ARCHIVE_KEY, JSON.stringify(items.slice(0, MAX_ARCHIVED)));
+  } catch (error) {
+    console.warn("Unable to save OsteoAI chat archive:", error);
+  }
+}
+
+/** Past conversations, newest first. */
+export function listArchivedChats() {
+  return readArchive();
+}
+
+/**
+ * Keep the current transcript before it is cleared, so starting a new
+ * conversation never throws the old one away.
+ */
+export function archiveChat(messages, conversationId) {
+  const real = messages.filter((message) => message.content?.trim());
+
+  if (real.length < 2) {
+    return listArchivedChats();
+  }
+
+  const firstQuestion = real.find((message) => message.role === "user");
+
+  const entry = {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    title: (firstQuestion?.content || real[0].content).slice(0, 80),
+    savedAt: new Date().toISOString(),
+    messageCount: real.length,
+    messages: real.map(({ role, content }) => ({ role, content })),
+    conversationId,
+  };
+
+  writeArchive([entry, ...readArchive()]);
+
+  return listArchivedChats();
+}
+
+export function deleteArchivedChat(id) {
+  writeArchive(readArchive().filter((item) => item.id !== id));
+
+  return listArchivedChats();
+}

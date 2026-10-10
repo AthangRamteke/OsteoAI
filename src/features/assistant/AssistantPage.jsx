@@ -33,6 +33,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import PageShell from "../../components/common/PageShell";
 import useAgentChat from "./useAgentChat";
 import RemindersCard from "./RemindersCard";
+import PastChatsMenu from "./PastChatsMenu";
 import { useLanguage } from "../../context/LanguageContext";
 import {
   formatDate,
@@ -205,10 +206,8 @@ function AssistantPage() {
     [selectedRecord, history]
   );
 
-  const { messages, loading, error, send, reset } = useAgentChat(
-    getContext,
-    "assistant"
-  );
+  const { messages, loading, error, send, reset, restoreConversation } =
+    useAgentChat(getContext, "assistant");
 
   // Questions handed over from other pages (?q=...), sent once.
   const handedOver = useRef(false);
@@ -407,6 +406,8 @@ function AssistantPage() {
                   {loading ? t("assistant.statusThinking") : t("assistant.statusReady")}
                 </Typography>
               </Stack>
+
+              <PastChatsMenu onRestore={restoreConversation} />
 
               <Tooltip title={t("assistant.newConversationTooltip")}>
                 <span>

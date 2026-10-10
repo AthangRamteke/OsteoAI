@@ -121,3 +121,51 @@ export function relativeDue(dueAt, language = "en") {
     return "";
   }
 }
+
+/* ---------------------------------------------------------
+   Notifications
+   --------------------------------------------------------- */
+
+/** Reminders whose time has arrived and that have not been announced. */
+export function getDueReminders() {
+  const now = new Date();
+
+  return read().filter(
+    (reminder) =>
+      !reminder.done && !reminder.notifiedAt && new Date(reminder.dueAt) <= now
+  );
+}
+
+/** Mark a reminder as announced so it is not shown again. */
+export function markReminderNotified(id) {
+  write(
+    read().map((item) =>
+      item.id === id
+        ? { ...item, notifiedAt: new Date().toISOString() }
+        : item
+    )
+  );
+
+  return getReminders();
+}
+
+export function notificationPermission() {
+  if (typeof Notification === "undefined") {
+    return "unsupported";
+  }
+
+  return Notification.permission;
+}
+
+/** Ask the browser for permission. Must be called from a user action. */
+export async function requestNotificationPermission() {
+  if (typeof Notification === "undefined") {
+    return "unsupported";
+  }
+
+  try {
+    return await Notification.requestPermission();
+  } catch {
+    return Notification.permission;
+  }
+}
