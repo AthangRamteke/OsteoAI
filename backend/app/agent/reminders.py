@@ -125,12 +125,18 @@ def _resolve_datetime(text: str, now: datetime) -> datetime | None:
     def at(day: datetime) -> datetime:
         return day.replace(hour=base_hour, minute=base_minute, second=0, microsecond=0)
 
-    # "in 3 days" / "in 2 hours" / "in a week"
-    match = re.search(r"\bin\s+(a|an|\d+)\s*(hour|hours|day|days|week|weeks|month|months)\b", text)
+    # "in 10 minutes" / "in 3 days" / "after 2 hours" / "in a week"
+    match = re.search(
+        r"\b(?:in|after)\s+(a|an|\d+)\s*"
+        r"(min|mins|minute|minutes|hour|hours|hr|hrs|day|days|week|weeks|month|months)\b",
+        text,
+    )
     if match:
         amount = 1 if match.group(1) in ("a", "an") else int(match.group(1))
         unit = match.group(2)
-        if unit.startswith("hour"):
+        if unit.startswith("min"):
+            return (now + timedelta(minutes=amount)).replace(second=0, microsecond=0)
+        if unit.startswith(("hour", "hr")):
             return (now + timedelta(hours=amount)).replace(second=0, microsecond=0)
         days = amount * (7 if unit.startswith("week") else 30 if unit.startswith("month") else 1)
         return at(now + timedelta(days=days))
@@ -180,7 +186,8 @@ def _extract_task(message: str) -> str:
     timing = [
         r"\bday after tomorrow\b", r"\btomorrow\b", r"\btonight\b", r"\btoday\b",
         r"\bnext week\b", r"\bnext month\b",
-        r"\bin\s+(a|an|\d+)\s*(hour|hours|day|days|week|weeks|month|months)\b",
+        r"\b(in|after)\s+(a|an|\d+)\s*"
+        r"(min|mins|minute|minutes|hour|hours|hr|hrs|day|days|week|weeks|month|months)\b",
         r"\b(on|next|this|coming)\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b",
         r"\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b",
         r"\bat\s+\d{1,2}(:\d{2})?\s*(am|pm)?\b", r"\b\d{1,2}:\d{2}\b",

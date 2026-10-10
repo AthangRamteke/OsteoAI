@@ -46,7 +46,12 @@ export function getReminders() {
 }
 
 /** Store a reminder the user confirmed in the chat. */
-export function addReminder({ title, due_at: dueAt, due_text: dueText }) {
+export function addReminder({
+  title,
+  due_at: dueAt,
+  due_text: dueText,
+  created_at: createdAt,
+}) {
   if (!title || !dueAt) {
     return getReminders();
   }
@@ -56,7 +61,7 @@ export function addReminder({ title, due_at: dueAt, due_text: dueText }) {
     title,
     dueAt,
     dueText: dueText || "",
-    createdAt: new Date().toISOString(),
+    createdAt: createdAt || new Date().toISOString(),
     done: false,
   };
 
@@ -83,4 +88,36 @@ export function deleteReminder(id) {
 
 export function isOverdue(reminder) {
   return !reminder.done && new Date(reminder.dueAt) < new Date();
+}
+
+/**
+ * "in 2 minutes" / "in 3 days" / "2 hours ago", in the user's language.
+ *
+ * Uses the browser's own relative-time formatting, so no translation
+ * strings are needed.
+ */
+export function relativeDue(dueAt, language = "en") {
+  const target = new Date(dueAt);
+
+  if (Number.isNaN(target.getTime())) {
+    return "";
+  }
+
+  const diffMinutes = Math.round((target - new Date()) / 60000);
+
+  const [value, unit] =
+    Math.abs(diffMinutes) < 60
+      ? [diffMinutes, "minute"]
+      : Math.abs(diffMinutes) < 1440
+        ? [Math.round(diffMinutes / 60), "hour"]
+        : [Math.round(diffMinutes / 1440), "day"];
+
+  try {
+    return new Intl.RelativeTimeFormat(language, { numeric: "auto" }).format(
+      value,
+      unit
+    );
+  } catch {
+    return "";
+  }
 }

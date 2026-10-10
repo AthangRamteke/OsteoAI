@@ -42,6 +42,7 @@ class AgentReminder(BaseModel):
     title: str
     due_at: str
     due_text: str
+    created_at: str | None = None
 
 
 class AgentAction(BaseModel):

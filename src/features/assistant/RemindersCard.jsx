@@ -15,11 +15,13 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";
 
 import { useLanguage } from "../../context/LanguageContext";
+import { formatDate } from "../../services/historyStore";
 import {
   REMINDERS_UPDATED_EVENT,
   deleteReminder,
   getReminders,
   isOverdue,
+  relativeDue,
   toggleReminderDone,
 } from "../../services/reminderStore";
 
@@ -28,7 +30,7 @@ import {
  * conversation; this card is where they live afterwards.
  */
 function RemindersCard() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [reminders, setReminders] = useState(getReminders);
 
   useEffect(() => {
@@ -94,10 +96,27 @@ function RemindersCard() {
                   </Typography>
                   <Typography
                     variant="caption"
-                    sx={{ color: overdue ? "#DC2626" : "#64748B", fontWeight: overdue ? 700 : 400 }}
+                    sx={{
+                      display: "block",
+                      color: overdue ? "#DC2626" : "#64748B",
+                      fontWeight: overdue ? 700 : 400,
+                    }}
                   >
-                    {reminder.dueText}
-                    {overdue ? ` · ${t("assistant.remindersDue")}` : ""}
+                    {t("assistant.remindersDueLabel", {
+                      time: reminder.dueText,
+                    })}
+                    {reminder.done
+                      ? ""
+                      : ` · ${relativeDue(reminder.dueAt, language)}`}
+                  </Typography>
+
+                  <Typography
+                    variant="caption"
+                    sx={{ display: "block", color: "#94A3B8" }}
+                  >
+                    {t("assistant.remindersCreatedLabel", {
+                      time: formatDate(reminder.createdAt, true),
+                    })}
                   </Typography>
                 </Box>
 

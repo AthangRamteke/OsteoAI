@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from datetime import datetime
 from typing import Any, Iterator
 
 from app.agent.conversation import get_or_create_conversation
@@ -93,6 +94,30 @@ def _unknown(language: str) -> str:
 _ACTION_INTENTS = {"navigation", "notification"}
 
 
+def _confirm_reminder(
+    conversation,
+    title: str,
+    due_at: str,
+    language: str,
+) -> dict[str, Any]:
+    """Show the exact reminder and wait for the user's yes."""
+    reminder = {
+        "title": title,
+        "due_at": due_at,
+        "due_text": format_due(due_at, language),
+        # Recorded now so the user can see when they asked for it.
+        "created_at": datetime.now().isoformat(timespec="minutes"),
+    }
+    conversation.pending_reminder = reminder
+
+    return {
+        "message": confirm_text(reminder["title"], reminder["due_text"], language),
+        "data": {},
+        "action": {"type": "reminder_preview", "reminder": reminder},
+        "needs_confirmation": True,
+    }
+
+
 def _reminder_turn(
     conversation,
     message: str,
@@ -106,47 +131,55 @@ def _reminder_turn(
     Returns None when this turn is not about reminders.
     """
     pending = conversation.pending_reminder
+    title = None
 
     if pending:
-        if is_affirmative(message):
-            conversation.pending_reminder = None
-            return {
-                "message": created_text(
-                    pending["title"], pending["due_text"], language
-                ),
-                "data": {},
-                "action": {"type": "create_reminder", "reminder": pending},
-            }
+        if pending.get("awaiting_time"):
+            # The task is known; this turn should supply the missing time.
+            if is_negative(message):
+                conversation.pending_reminder = None
+                return {"message": cancelled_text(language), "data": {}}
 
-        if is_negative(message):
-            conversation.pending_reminder = None
-            return {"message": cancelled_text(language), "data": {}}
+            supplied = parse_reminder(message)
 
-        # Anything else: drop the pending reminder and answer normally,
-        # rather than holding the conversation hostage to a yes/no.
-        conversation.pending_reminder = None
+            if supplied["has_time"]:
+                return _confirm_reminder(
+                    conversation, pending["title"], supplied["due_at"], language
+                )
+
+            # Still no time: drop it and answer the message normally.
+            conversation.pending_reminder = None
+        else:
+            if is_affirmative(message):
+                conversation.pending_reminder = None
+                return {
+                    "message": created_text(
+                        pending["title"], pending["due_text"], language
+                    ),
+                    "data": {},
+                    "action": {"type": "create_reminder", "reminder": pending},
+                }
+
+            if is_negative(message):
+                conversation.pending_reminder = None
+                return {"message": cancelled_text(language), "data": {}}
+
+            # Anything else: drop the pending reminder and answer normally,
+            # rather than holding the conversation hostage to a yes/no.
+            conversation.pending_reminder = None
 
     if intent != "notification":
         return None
 
     parsed = parse_reminder(message)
+    title = parsed["title"]
 
     if not parsed["has_time"]:
-        return {"message": need_time_text(parsed["title"], language), "data": {}}
+        # Remember the task so the next message only has to give a time.
+        conversation.pending_reminder = {"title": title, "awaiting_time": True}
+        return {"message": need_time_text(title, language), "data": {}}
 
-    reminder = {
-        "title": parsed["title"],
-        "due_at": parsed["due_at"],
-        "due_text": format_due(parsed["due_at"], language),
-    }
-    conversation.pending_reminder = reminder
-
-    return {
-        "message": confirm_text(reminder["title"], reminder["due_text"], language),
-        "data": {},
-        "action": {"type": "reminder_preview", "reminder": reminder},
-        "needs_confirmation": True,
-    }
+    return _confirm_reminder(conversation, title, parsed["due_at"], language)
 
 
 def _deterministic_answer(

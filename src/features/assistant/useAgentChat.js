@@ -1,9 +1,10 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { streamAgentMessage } from "../../services/agentService";
 import { addReminder } from "../../services/reminderStore";
 import { useLanguage } from "../../context/LanguageContext";
+import { clearChat, loadChat, saveChat } from "../../services/chatStore";
 
 // Pages the Agent is allowed to open.
 export const ALLOWED_PATHS = [
@@ -21,17 +22,40 @@ export const ALLOWED_PATHS = [
  *
  * `getContext()` is read at send time so the latest selected
  * assessment and history are always sent with each message.
+ *
+ * Pass `storageKey` to keep the transcript across page changes: the
+ * messages and the backend conversation id are restored on mount, so
+ * leaving the page and coming back continues the same conversation.
  */
-export default function useAgentChat(getContext) {
+export default function useAgentChat(getContext, storageKey) {
   const navigate = useNavigate();
   const { t, language } = useLanguage();
 
-  const [messages, setMessages] = useState([]);
+  // Read the saved transcript once, when the hook first mounts.
+  const [restored] = useState(() => (storageKey ? loadChat(storageKey) : null));
+
+  const [messages, setMessages] = useState(() => restored?.messages || []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const conversationIdRef = useRef(null);
   const loadingRef = useRef(false);
+
+  // Continue the same backend conversation as before the page change.
+  useEffect(() => {
+    if (restored?.conversationId) {
+      conversationIdRef.current = restored.conversationId;
+    }
+  }, [restored]);
+
+  // Persist after each turn, once streaming has settled.
+  useEffect(() => {
+    if (!storageKey || loading) {
+      return;
+    }
+
+    saveChat(storageKey, messages, conversationIdRef.current);
+  }, [messages, loading, storageKey]);
 
   const showAssistantText = (content, streaming = true) => {
     setMessages((previous) => {
@@ -126,6 +150,10 @@ export default function useAgentChat(getContext) {
     conversationIdRef.current = null;
     setMessages([]);
     setError("");
+
+    if (storageKey) {
+      clearChat(storageKey);
+    }
   };
 
   return { messages, loading, error, send, reset };

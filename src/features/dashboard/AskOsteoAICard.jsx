@@ -17,6 +17,7 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import ScienceIcon from "@mui/icons-material/Science";
 
 import { useLanguage } from "../../context/LanguageContext";
+import { formatDate } from "../../services/historyStore";
 import {
   REMINDERS_UPDATED_EVENT,
   getReminders,
@@ -186,16 +187,27 @@ function AskOsteoAICard({ surfaceSx }) {
                 <Typography variant="body2" sx={{ color: "#334155", fontWeight: 600 }}>
                   {reminder.title}
                 </Typography>
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color: isOverdue(reminder) ? "#DC2626" : "#64748B",
-                    fontWeight: isOverdue(reminder) ? 700 : 500,
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {reminder.dueText}
-                </Typography>
+                <Box sx={{ textAlign: "right" }}>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      display: "block",
+                      color: isOverdue(reminder) ? "#DC2626" : "#64748B",
+                      fontWeight: isOverdue(reminder) ? 700 : 600,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {reminder.dueText}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{ color: "#94A3B8", whiteSpace: "nowrap" }}
+                  >
+                    {t("dashboard.askRemindersSet", {
+                      time: formatDate(reminder.createdAt, true),
+                    })}
+                  </Typography>
+                </Box>
               </Stack>
             ))}
           </Stack>

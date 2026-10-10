@@ -205,7 +205,10 @@ function AssistantPage() {
     [selectedRecord, history]
   );
 
-  const { messages, loading, error, send, reset } = useAgentChat(getContext);
+  const { messages, loading, error, send, reset } = useAgentChat(
+    getContext,
+    "assistant"
+  );
 
   // Questions handed over from other pages (?q=...), sent once.
   const handedOver = useRef(false);
