@@ -595,6 +595,40 @@ const translations = {
       exploreKnowledgeDesc:
         "Access understandable bone-health education and frequently asked questions.",
       exploreNotificationsTitle: "Notifications",
+      askTitle: "Ask OsteoAI",
+      askSubtitle: "Your private assistant, running on a local AI model.",
+      askLocalChip: "Local AI",
+      askPlaceholder: "Ask about your result, bone health or the app...",
+      askSuggestionResult: "Explain my latest result",
+      askSuggestionImprove: "How can I improve my bone health?",
+      askSuggestionProgress: "How has my risk changed?",
+      askOpenSimulator: "Try What-if",
+      askRemindersTitle: "Your reminders",
+      askRemindersEmpty:
+        "No reminders yet. Ask the assistant to remind you about something.",
+      documentsUpload: "Upload",
+      documentsFound: "{count} values found",
+      documentsReview: "{count} to review",
+      documentsAskAi: "Ask AI about this document",
+      documentsDelete: "Remove from list",
+      documentsAskQuestion: "What did you find in my document {name}?",
+      documentsEmpty:
+        "No documents yet. Upload a report during an assessment and it will appear here.",
+      summaryIntro:
+        "Create a short summary of your latest result and trend that you can take to a doctor.",
+      summaryNeedsAssessment:
+        "Complete an assessment first, then a summary can be generated.",
+      summaryGenerate: "Generate summary",
+      summaryGenerating: "Writing...",
+      summaryRegenerate: "Regenerate",
+      summaryCopy: "Copy",
+      summaryDownload: "Download",
+      summaryFailed: "The summary could not be generated.",
+      summaryDisclaimer:
+        "AI-written from your own assessment data. Not a medical report or diagnosis.",
+      summaryPrompt:
+        "Write a short health summary I can take to my doctor. Use only my assessment data. Cover: my current model estimate and risk level, the main factors raising and lowering it, and how it compares with my previous assessments if there are any. Up to 120 words, plain sentences, no markdown.",
+      historyViewAll: "View all",
       exploreSimulatorTitle: "What-if Simulator",
       exploreSimulatorDesc:
         "Try a lifestyle change and see how the model estimate compares.",
@@ -1531,6 +1565,40 @@ const translations = {
       exploreKnowledgeTitle: "जानकारी और सहायता",
       exploreKnowledgeDesc: "समझने में आसान बोन-हेल्थ शिक्षा और सामान्य प्रश्नों तक पहुँचें।",
       exploreNotificationsTitle: "सूचनाएँ",
+      askTitle: "OsteoAI से पूछें",
+      askSubtitle: "आपका निजी असिस्टेंट, लोकल AI मॉडल पर चलता है।",
+      askLocalChip: "लोकल AI",
+      askPlaceholder: "अपने result, हड्डी-स्वास्थ्य या ऐप के बारे में पूछें...",
+      askSuggestionResult: "मेरा नवीनतम परिणाम समझाएं",
+      askSuggestionImprove: "मैं अपनी हड्डियों की सेहत कैसे सुधारूँ?",
+      askSuggestionProgress: "मेरा जोखिम कैसे बदला है?",
+      askOpenSimulator: "व्हाट-इफ आज़माएँ",
+      askRemindersTitle: "आपके रिमाइंडर",
+      askRemindersEmpty:
+        "अभी कोई रिमाइंडर नहीं। असिस्टेंट से किसी काम की याद दिलाने को कहें।",
+      documentsUpload: "अपलोड",
+      documentsFound: "{count} मान मिले",
+      documentsReview: "{count} की समीक्षा बाकी",
+      documentsAskAi: "इस डॉक्यूमेंट के बारे में AI से पूछें",
+      documentsDelete: "सूची से हटाएँ",
+      documentsAskQuestion: "मेरे डॉक्यूमेंट {name} में आपको क्या मिला?",
+      documentsEmpty:
+        "अभी कोई डॉक्यूमेंट नहीं। असेसमेंट के दौरान रिपोर्ट अपलोड करें, वह यहाँ दिखेगी।",
+      summaryIntro:
+        "अपने नवीनतम परिणाम और ट्रेंड का छोटा सारांश बनाएँ, जिसे आप डॉक्टर के पास ले जा सकें।",
+      summaryNeedsAssessment:
+        "पहले असेसमेंट पूरा करें, फिर सारांश बनाया जा सकता है।",
+      summaryGenerate: "सारांश बनाएँ",
+      summaryGenerating: "लिखा जा रहा है...",
+      summaryRegenerate: "दोबारा बनाएँ",
+      summaryCopy: "कॉपी",
+      summaryDownload: "डाउनलोड",
+      summaryFailed: "सारांश नहीं बन सका।",
+      summaryDisclaimer:
+        "आपके असेसमेंट डेटा से AI द्वारा लिखा गया। यह मेडिकल रिपोर्ट या निदान नहीं है।",
+      summaryPrompt:
+        "एक छोटा health summary लिखें जिसे मैं डॉक्टर के पास ले जा सकूँ। केवल मेरे assessment डेटा का उपयोग करें। इसमें हो: मेरा वर्तमान model अनुमान और risk level, इसे बढ़ाने और घटाने वाले मुख्य factors, और पिछले assessments से तुलना यदि हो। अधिकतम 120 शब्द, सरल वाक्य, markdown नहीं।",
+      historyViewAll: "सभी देखें",
       exploreSimulatorTitle: "व्हाट-इफ सिम्युलेटर",
       exploreSimulatorDesc:
         "कोई लाइफस्टाइल बदलाव आज़माएँ और मॉडल अनुमान की तुलना देखें।",
@@ -2460,6 +2528,40 @@ const translations = {
       exploreKnowledgeTitle: "माहिती आणि सहाय्य",
       exploreKnowledgeDesc: "समजण्यास सोपे बोन-हेल्थ शिक्षण आणि वारंवार विचारले जाणारे प्रश्न पहा.",
       exploreNotificationsTitle: "सूचना",
+      askTitle: "OsteoAI ला विचारा",
+      askSubtitle: "तुमचा खाजगी असिस्टंट, स्थानिक AI मॉडेलवर चालतो.",
+      askLocalChip: "स्थानिक AI",
+      askPlaceholder: "तुमचा result, हाड-आरोग्य किंवा अ‍ॅपबद्दल विचारा...",
+      askSuggestionResult: "माझा अलीकडचा निकाल समजावा",
+      askSuggestionImprove: "माझे हाड-आरोग्य कसे सुधारू?",
+      askSuggestionProgress: "माझी जोखीम कशी बदलली?",
+      askOpenSimulator: "व्हॉट-इफ पहा",
+      askRemindersTitle: "तुमची स्मरणपत्रे",
+      askRemindersEmpty:
+        "अजून स्मरणपत्र नाही. असिस्टंटला एखाद्या कामाची आठवण करायला सांगा.",
+      documentsUpload: "अपलोड",
+      documentsFound: "{count} मूल्ये सापडली",
+      documentsReview: "{count} तपासायची",
+      documentsAskAi: "या दस्तऐवजाबद्दल AI ला विचारा",
+      documentsDelete: "यादीतून काढा",
+      documentsAskQuestion: "माझ्या {name} दस्तऐवजात तुम्हाला काय सापडले?",
+      documentsEmpty:
+        "अजून दस्तऐवज नाही. असेसमेंटदरम्यान अहवाल अपलोड करा, तो इथे दिसेल.",
+      summaryIntro:
+        "तुमच्या अलीकडच्या निकालाचा आणि ट्रेंडचा छोटा सारांश तयार करा, जो डॉक्टरकडे नेता येईल.",
+      summaryNeedsAssessment:
+        "आधी असेसमेंट पूर्ण करा, मग सारांश तयार करता येईल.",
+      summaryGenerate: "सारांश तयार करा",
+      summaryGenerating: "लिहित आहे...",
+      summaryRegenerate: "पुन्हा तयार करा",
+      summaryCopy: "कॉपी",
+      summaryDownload: "डाउनलोड",
+      summaryFailed: "सारांश तयार होऊ शकला नाही.",
+      summaryDisclaimer:
+        "तुमच्या असेसमेंट डेटावरून AI ने लिहिलेले. हा वैद्यकीय अहवाल किंवा निदान नाही.",
+      summaryPrompt:
+        "डॉक्टरकडे नेता येईल असा छोटा health summary लिहा. फक्त माझा assessment डेटा वापरा. त्यात असावे: माझा सध्याचा model अंदाज आणि risk level, तो वाढवणारे आणि कमी करणारे मुख्य factors, आणि मागील assessments शी तुलना असल्यास. जास्तीत जास्त 120 शब्द, साधी वाक्ये, markdown नको.",
+      historyViewAll: "सर्व पहा",
       exploreSimulatorTitle: "व्हॉट-इफ सिम्युलेटर",
       exploreSimulatorDesc:
         "जीवनशैलीत बदल करून मॉडेल अंदाजाची तुलना पहा.",

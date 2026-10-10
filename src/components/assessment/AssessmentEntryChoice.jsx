@@ -3,6 +3,7 @@ import { useAssessment } from "../../context/AssessmentContext";
 
 import CircularProgress from "@mui/material/CircularProgress";
 import AutofillReview from "./AutofillReview";
+import { addDocument } from "../../services/documentStore";
 import { extractAssessmentDocument } from "../../services/documentExtractionService";
 import { useLanguage } from "../../context/LanguageContext";
 
@@ -231,6 +232,10 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
         );
         return;
       }
+
+      // Remember the document the user accepted, so the dashboard can
+      // list it and the Agent can answer questions about it later.
+      addDocument(extractionResult, selectedFile?.name);
 
       try {
         // The document extractor stores model-friendly binary values as

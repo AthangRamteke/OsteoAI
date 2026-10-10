@@ -65,6 +65,62 @@ def _fmt_number(value: Any) -> str:
     return f"{number:g}" if number == int(number) else f"{number:.2f}"
 
 
+# Model inputs are numeric codes; spell them out so the Agent never has
+# to guess what a value like gender = 2 means.
+_YES_NO_FEATURES = {
+    "other_bone_fracture_after_20",
+    "long_term_steroid_use",
+    "parent_osteoporosis_history",
+    "mother_hip_fracture",
+    "father_hip_fracture",
+    "smoked_100_cigarettes",
+    "vigorous_work_activity",
+    "moderate_work_activity",
+    "walk_or_bicycle",
+    "vigorous_recreation",
+    "moderate_recreation",
+}
+
+_GENDER_LABELS = {1: "Male", 2: "Female"}
+
+_RACE_LABELS = {
+    1: "Mexican American",
+    2: "Other Hispanic",
+    3: "White",
+    4: "Black",
+    5: "Other / multiracial",
+}
+
+
+def _describe_value(feature: str | None, value: Any) -> str | None:
+    if value is None:
+        return None
+
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return str(value)
+
+    if feature in _YES_NO_FEATURES:
+        return "Yes" if number == 1 else "No"
+    if feature == "gender":
+        return _GENDER_LABELS.get(int(number), _fmt_number(number))
+    if feature == "race_ethnicity":
+        return _RACE_LABELS.get(int(number), _fmt_number(number))
+    if feature == "sedentary_minutes":
+        return f"{_fmt_number(number)} minutes per day"
+    if feature == "age":
+        return f"{_fmt_number(number)} years"
+    if feature == "weight_kg":
+        return f"{_fmt_number(number)} kg"
+    if feature == "height_cm":
+        return f"{_fmt_number(number)} cm"
+    if feature in ("waist_cm", "hip_cm"):
+        return f"{_fmt_number(number)} cm"
+
+    return _fmt_number(number)
+
+
 def build_result_context(context: dict[str, Any]) -> str:
     """Turn the frontend's prediction_result into a compact, factual summary."""
     result = context.get("prediction_result") or {}
@@ -100,12 +156,30 @@ def build_result_context(context: dict[str, Any]) -> str:
     raising = [s for s in shap_items if s.get("direction") == "increases_model_output"]
     lowering = [s for s in shap_items if s.get("direction") == "decreases_model_output"]
 
+    strongest = max((abs(s.get("shap_value") or 0) for s in shap_items), default=0)
+
     def describe(item: dict[str, Any]) -> str:
         label = item.get("label") or item.get("feature")
         text = f"  - {label}"
-        if item.get("value") is not None:
-            text += f" (input value: {_fmt_number(item['value'])})"
-        return text + f", SHAP {_fmt_number(item.get('shap_value'))}"
+
+        readable = _describe_value(item.get("feature"), item.get("value"))
+        if readable:
+            text += f" (the user's answer: {readable})"
+
+        # Qualitative strength instead of the raw SHAP number, so the
+        # reply cannot turn a contribution into "added 0.12 risk".
+        magnitude = abs(item.get("shap_value") or 0)
+        if strongest:
+            share = magnitude / strongest
+            strength = (
+                "strongest influence" if share >= 0.8
+                else "moderate influence" if share >= 0.4
+                else "small influence"
+            )
+        else:
+            strength = "influence unknown"
+
+        return f"{text}, {strength}"
 
     if raising:
         lines.append("SHAP factors that increased the model output (largest first):")

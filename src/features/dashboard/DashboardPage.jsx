@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import AskOsteoAICard from "./AskOsteoAICard";
+import ReportsDocumentsCard from "./ReportsDocumentsCard";
+
 import {
   Box,
   Typography,
@@ -13,6 +16,7 @@ import {
   ListItemText,
   Tooltip,
   Button,
+  Chip,
   Paper,
   Stack,
   Grid,
@@ -392,6 +396,16 @@ const ChevronSvg = () => (
     />
   </IconBase>
 );
+
+// One card style for the whole dashboard, so every panel reads as part
+// of the same surface instead of each block styling itself.
+const surfaceSx = {
+  borderRadius: 4.5,
+  border: "1px solid #E7EDF5",
+  bgcolor: "#FFFFFF",
+  boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
+};
+
 
 function DashboardPage() {
   const navigate = useNavigate();
@@ -1600,6 +1614,10 @@ function DashboardPage() {
           ml: sidebarOpen ? "292px" : "72px",
           transition: "margin-left 0.28s cubic-bezier(0.4,0,0.2,1)",
           minHeight: "100vh",
+          background:
+            "radial-gradient(1100px 420px at 12% -8%, #EAF2FF 0%, rgba(234,242,255,0) 62%)," +
+            "radial-gradient(900px 400px at 92% 0%, #E6FBF7 0%, rgba(230,251,247,0) 60%)," +
+            "#F6F8FC",
           p: {
             xs: 2,
             sm: 3,
@@ -1615,6 +1633,12 @@ function DashboardPage() {
           <Box
             sx={{
               mb: 3.5,
+              p: { xs: 2.5, md: 3.2 },
+              borderRadius: 4.5,
+              border: "1px solid #DCE8FB",
+              background:
+                "linear-gradient(120deg, #FFFFFF 0%, #F4F8FF 55%, #EFFBF8 100%)",
+              boxShadow: "0 12px 32px rgba(37, 99, 235, 0.07)",
               display: "flex",
               flexDirection: {
                 xs: "column",
@@ -1986,10 +2010,9 @@ function DashboardPage() {
                     height: "100%",
                     p: 2.5,
                     borderRadius: 4,
-                    border: "1px solid #E2E8F0",
-                    bgcolor: "white",
-                    boxShadow:
-                      "0 10px 26px rgba(15,23,42,0.035)",
+                    border: "1px solid #E7EDF5",
+                    bgcolor: "#FFFFFF",
+                    boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                   }}
                 >
                   <Stack
@@ -2069,8 +2092,9 @@ function DashboardPage() {
                     md: 3,
                   },
                   borderRadius: 4.5,
-                  border: "1px solid #E2E8F0",
-                  bgcolor: "white",
+                  border: "1px solid #E7EDF5",
+                  bgcolor: "#FFFFFF",
+                  boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                 }}
               >
                 <Typography
@@ -2172,8 +2196,9 @@ function DashboardPage() {
                     md: 3,
                   },
                   borderRadius: 4.5,
-                  border: "1px solid #E2E8F0",
-                  bgcolor: "white",
+                  border: "1px solid #E7EDF5",
+                  bgcolor: "#FFFFFF",
+                  boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                 }}
               >
                 <Typography
@@ -2306,8 +2331,9 @@ function DashboardPage() {
                 md: 3,
               },
               borderRadius: 4.5,
-              border: "1px solid #E2E8F0",
-              bgcolor: "white",
+              border: "1px solid #E7EDF5",
+              bgcolor: "#FFFFFF",
+              boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
             }}
           >
             <Typography
@@ -2477,8 +2503,9 @@ function DashboardPage() {
                     md: 3,
                   },
                   borderRadius: 4.5,
-                  border: "1px solid #E2E8F0",
-                  bgcolor: "white",
+                  border: "1px solid #E7EDF5",
+                  bgcolor: "#FFFFFF",
+                  boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                 }}
               >
                 <Stack
@@ -2801,8 +2828,9 @@ function DashboardPage() {
                     md: 3,
                   },
                   borderRadius: 4.5,
-                  border: "1px solid #E2E8F0",
-                  bgcolor: "white",
+                  border: "1px solid #E7EDF5",
+                  bgcolor: "#FFFFFF",
+                  boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                 }}
               >
                 <Stack
@@ -3045,7 +3073,7 @@ function DashboardPage() {
           </Grid>
 
           {/* =====================================================
-              POWER BI + REPORTS
+              ASSISTANT + REPORTS & DOCUMENTS
               ===================================================== */}
           <Grid container spacing={2.2} sx={{ mb: 3.5 }}>
             <Grid
@@ -3054,102 +3082,7 @@ function DashboardPage() {
                 lg: 7,
               }}
             >
-              <Paper
-                elevation={0}
-                sx={{
-                  height: "100%",
-                  p: {
-                    xs: 2.5,
-                    md: 3,
-                  },
-                  borderRadius: 4.5,
-                  border: "1px solid #E2E8F0",
-                  bgcolor: "white",
-                }}
-              >
-                <Stack
-                  direction="row"
-                  spacing={1.3}
-                  sx={{
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Box>
-                    <Typography
-                      sx={{
-                        fontWeight: 800,
-                        color: "#0F172A",
-                      }}
-                    >
-                      {t("dashboard.powerBiTitle")}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        mt: 0.35,
-                        color: "#64748B",
-                      }}
-                    >
-                      {t("dashboard.powerBiSubtitle")}
-                    </Typography>
-                  </Box>
-
-                  <Box
-                    sx={{
-                      px: 1.1,
-                      py: 0.55,
-                      borderRadius: 2,
-                      bgcolor: "#F1F5F9",
-                      color: "#64748B",
-                      fontSize: "0.72rem",
-                      fontWeight: 800,
-                    }}
-                  >
-                    {t("dashboard.connectLater")}
-                  </Box>
-                </Stack>
-
-                <Box
-                  sx={{
-                    mt: 2.5,
-                    minHeight: 210,
-                    borderRadius: 3.5,
-                    bgcolor: "#F8FAFC",
-                    border: "1px dashed #CBD5E1",
-                    p: 3,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "center",
-                  }}
-                >
-                  <DashboardSvg />
-
-                  <Typography
-                    sx={{
-                      mt: 1.2,
-                      fontWeight: 800,
-                      color: "#334155",
-                    }}
-                  >
-                    {t("dashboard.powerBiAreaTitle")}
-                  </Typography>
-
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      mt: 0.65,
-                      color: "#64748B",
-                      maxWidth: 500,
-                      lineHeight: 1.65,
-                    }}
-                  >
-                    {t("dashboard.powerBiAreaDesc")}
-                  </Typography>
-                </Box>
-              </Paper>
+              <AskOsteoAICard surfaceSx={surfaceSx} />
             </Grid>
 
             <Grid
@@ -3158,124 +3091,11 @@ function DashboardPage() {
                 lg: 5,
               }}
             >
-              <Paper
-                elevation={0}
-                sx={{
-                  height: "100%",
-                  p: {
-                    xs: 2.5,
-                    md: 3,
-                  },
-                  borderRadius: 4.5,
-                  border: "1px solid #E2E8F0",
-                  bgcolor: "white",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontWeight: 800,
-                    color: "#0F172A",
-                  }}
-                >
-                  {t("dashboard.reportsDocsTitle")}
-                </Typography>
-
-                <Typography
-                  variant="body2"
-                  sx={{
-                    mt: 0.45,
-                    color: "#64748B",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {t("dashboard.reportsDocsSubtitle")}
-                </Typography>
-
-                <Box
-                  sx={{
-                    mt: 2.2,
-                    p: 2.2,
-                    borderRadius: 3.5,
-                    bgcolor: "#F8FAFC",
-                    border: "1px solid #EDF2F7",
-                  }}
-                >
-                  <Stack
-                    direction="row"
-                    spacing={1.3}
-                    sx={{ alignItems: "center" }}
-                  >
-                    <Box
-                      sx={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 2.5,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        bgcolor: "#EEF4FF",
-                        color: "#2563EB",
-                      }}
-                    >
-                      <AssessmentSvg />
-                    </Box>
-
-                    <Box>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          fontWeight: 800,
-                          color: "#334155",
-                        }}
-                      >
-                        {t("dashboard.documentIntelligenceTitle")}
-                      </Typography>
-
-                      <Typography
-                        variant="caption"
-                        sx={{
-                          color: "#64748B",
-                          display: "block",
-                          mt: 0.25,
-                        }}
-                      >
-                        {t("dashboard.documentIntelligenceDesc")}
-                      </Typography>
-                    </Box>
-                  </Stack>
-                </Box>
-
-                <Box
-                  sx={{
-                    mt: 1.3,
-                    p: 2.2,
-                    borderRadius: 3.5,
-                    bgcolor: "#F8FAFC",
-                    border: "1px solid #EDF2F7",
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      fontWeight: 700,
-                      color: "#475569",
-                    }}
-                  >
-                    {t("dashboard.generatedSummaryTitle")}
-                  </Typography>
-
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      display: "block",
-                      mt: 0.45,
-                      color: "#94A3B8",
-                    }}
-                  >
-                    {t("dashboard.generatedSummaryDesc")}
-                  </Typography>
-                </Box>
-              </Paper>
+              <ReportsDocumentsCard
+                surfaceSx={surfaceSx}
+                latestAssessment={latestAssessment}
+                assessmentHistory={assessmentHistory}
+              />
             </Grid>
           </Grid>
 
@@ -3291,8 +3111,9 @@ function DashboardPage() {
                 md: 3,
               },
               borderRadius: 4.5,
-              border: "1px solid #E2E8F0",
-              bgcolor: "white",
+              border: "1px solid #E7EDF5",
+              bgcolor: "#FFFFFF",
+              boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
             }}
           >
             <Stack
@@ -3324,7 +3145,36 @@ function DashboardPage() {
                 </Typography>
               </Box>
 
-              <HistorySvg />
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{ alignItems: "center" }}
+              >
+                {assessmentHistory.length > 0 && (
+                  <Chip
+                    size="small"
+                    label={assessmentHistory.length}
+                    sx={{
+                      fontWeight: 800,
+                      bgcolor: "#EEF4FF",
+                      color: "#2563EB",
+                    }}
+                  />
+                )}
+
+                <Button
+                  size="small"
+                  onClick={() => navigate("/history")}
+                  sx={{
+                    textTransform: "none",
+                    fontWeight: 700,
+                  }}
+                >
+                  {t("dashboard.historyViewAll")}
+                </Button>
+
+                <HistorySvg />
+              </Stack>
             </Stack>
 
             {assessmentHistory.length > 0 ? (
@@ -3336,8 +3186,15 @@ function DashboardPage() {
                   overflow: "hidden",
                 }}
               >
+                {/* Fixed height: the page no longer grows with every
+                    new assessment, the list scrolls instead. */}
+                <Box
+                  sx={{
+                    maxHeight: 316,
+                    overflowY: "auto",
+                  }}
+                >
                 {assessmentHistory
-                  .slice(0, 8)
                   .map((item, index) => {
                     const probability = Number(
                       item?.predictionResult
@@ -3490,6 +3347,7 @@ function DashboardPage() {
                       </Box>
                     );
                   })}
+                </Box>
               </Box>
             ) : (
               <Box
@@ -3584,8 +3442,9 @@ function DashboardPage() {
                     height: "100%",
                     p: 2.5,
                     borderRadius: 4,
-                    border: "1px solid #E2E8F0",
-                    bgcolor: "white",
+                    border: "1px solid #E7EDF5",
+                    bgcolor: "#FFFFFF",
+                    boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                     cursor: item.path
                       ? "pointer"
                       : "default",
