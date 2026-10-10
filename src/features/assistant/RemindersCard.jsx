@@ -17,6 +17,7 @@ import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";
 
 import { useLanguage } from "../../context/LanguageContext";
+import { reminderWorkerActive } from "../../services/notificationService";
 import { formatDate } from "../../services/historyStore";
 import {
   REMINDERS_UPDATED_EVENT,
@@ -37,6 +38,21 @@ function RemindersCard() {
   const { t, language } = useLanguage();
   const [reminders, setReminders] = useState(getReminders);
   const [permission, setPermission] = useState(notificationPermission);
+  const [backgroundReady, setBackgroundReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    reminderWorkerActive().then((active) => {
+      if (!cancelled) {
+        setBackgroundReady(active);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const refresh = () => setReminders(getReminders());
@@ -150,6 +166,24 @@ function RemindersCard() {
         >
           {t("assistant.notifyEnable")}
         </Button>
+      )}
+
+      {permission === "granted" && (
+        <Stack direction="row" spacing={0.75} sx={{ alignItems: "center", mt: 1.5 }}>
+          <Box
+            sx={{
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              bgcolor: backgroundReady ? "#22C55E" : "#F59E0B",
+            }}
+          />
+          <Typography variant="caption" sx={{ color: "#64748B" }}>
+            {backgroundReady
+              ? t("assistant.notifyBackgroundOn")
+              : t("assistant.notifyBackgroundOff")}
+          </Typography>
+        </Stack>
       )}
 
       {permission === "denied" && (

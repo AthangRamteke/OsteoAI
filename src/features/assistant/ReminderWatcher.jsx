@@ -7,9 +7,15 @@ import { useLanguage } from "../../context/LanguageContext";
 import {
   REMINDERS_UPDATED_EVENT,
   getDueReminders,
+  getReminders,
   markReminderNotified,
   notificationPermission,
 } from "../../services/reminderStore";
+import {
+  onWorkerReminderShown,
+  registerReminderWorker,
+  syncRemindersToWorker,
+} from "../../services/notificationService";
 
 // How often to look for reminders that have come due.
 const CHECK_INTERVAL_MS = 30_000;
@@ -53,6 +59,35 @@ function ReminderWatcher() {
       }
     }
   }, [navigate, t]);
+
+  // Keep the service worker's copy of the schedule up to date, so a
+  // reminder can still be announced once this tab is closed.
+  const syncWorker = useCallback(() => {
+    syncRemindersToWorker(getReminders(), t("assistant.notifyTitle"));
+  }, [t]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    registerReminderWorker().then(() => {
+      if (!cancelled) {
+        syncWorker();
+      }
+    });
+
+    // If the worker announced one, don't repeat it in the page.
+    const stopListening = onWorkerReminderShown((id) => {
+      markReminderNotified(id);
+    });
+
+    window.addEventListener(REMINDERS_UPDATED_EVENT, syncWorker);
+
+    return () => {
+      cancelled = true;
+      stopListening();
+      window.removeEventListener(REMINDERS_UPDATED_EVENT, syncWorker);
+    };
+  }, [syncWorker]);
 
   useEffect(() => {
     // Slight delay so the first check happens after the page settles,
