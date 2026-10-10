@@ -8,6 +8,7 @@ import HistoryPage from "../features/history/HistoryPage";
 import HistoryResultPage from "../features/history/HistoryResultPage";
 import AssistantPage from "../features/assistant/AssistantPage";
 import KnowledgePage from "../features/knowledge/KnowledgePage";
+import SimulatorPage from "../features/simulator/SimulatorPage";
 import ForecastPage from "../pages/Forecast/ForecastPage";
 
 function AppRoutes() {
@@ -26,6 +27,7 @@ function AppRoutes() {
         <Route path="/history/:id" element={<HistoryResultPage />} />
         <Route path="/assistant" element={<AssistantPage />} />
         <Route path="/knowledge" element={<KnowledgePage />} />
+        <Route path="/simulator" element={<SimulatorPage />} />
         <Route path="/forecast" element={<ForecastPage />} />
       </Routes>
     </BrowserRouter>

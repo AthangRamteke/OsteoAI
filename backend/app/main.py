@@ -13,6 +13,7 @@ from app.routers import document_extract
 from app.services.predictor import MODEL_VERSION
 from app.routers.agent import router as agent_router
 from app.routers.knowledge import router as knowledge_router
+from app.routers.simulate import router as simulate_router
 
 app = FastAPI(
     title="OsteoAI API",
@@ -43,6 +44,7 @@ app.include_router(predict.router)
 app.include_router(document_extract.router)
 app.include_router(agent_router)
 app.include_router(knowledge_router)
+app.include_router(simulate_router)
 
 
 

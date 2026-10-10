@@ -13,6 +13,7 @@ export const ALLOWED_PATHS = [
   "/history",
   "/assistant",
   "/knowledge",
+  "/simulator",
 ];
 
 /*
@@ -61,12 +62,14 @@ export default function useAgentChat(getContext) {
       let streamedText = "";
 
       try {
-        const { predictionResult, assessmentHistory } = getContext();
+        const { predictionResult, assessmentHistory, documentExtraction } =
+          getContext();
 
         await streamAgentMessage({
           message,
           predictionResult,
           assessmentHistory,
+          documentExtraction,
           conversationId: conversationIdRef.current,
           language,
           onEvent: (event) => {

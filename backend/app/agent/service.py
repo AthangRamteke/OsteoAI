@@ -90,7 +90,7 @@ def _unknown(language: str) -> str:
 
 # Intents that trigger an app action stay deterministic so the frontend only
 # ever receives whitelisted actions. Everything else is answered by the LLM.
-_ACTION_INTENTS = {"navigation", "document_assistant", "notification"}
+_ACTION_INTENTS = {"navigation", "notification"}
 
 
 def _reminder_turn(
@@ -166,7 +166,7 @@ def _deterministic_answer(
     if intent == "navigation":
         return navigation_answer(message)
     if intent == "document_assistant":
-        return document_assistant_answer()
+        return document_assistant_answer(context)
     if intent == "notification":
         return notification_answer()
     return {"message": _unknown(language), "data": {}}

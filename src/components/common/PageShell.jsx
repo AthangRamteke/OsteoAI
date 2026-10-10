@@ -6,6 +6,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import HistoryIcon from "@mui/icons-material/History";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import ScienceIcon from "@mui/icons-material/Science";
 
 import Navbar from "./Navbar";
 import { useLanguage } from "../../context/LanguageContext";
@@ -25,6 +26,11 @@ const getSections = (t) => [
     label: t("assistant.shortKnowledge"),
     path: "/knowledge",
     icon: <MenuBookIcon fontSize="small" />,
+  },
+  {
+    label: t("assistant.shortSimulator"),
+    path: "/simulator",
+    icon: <ScienceIcon fontSize="small" />,
   },
 ];
 

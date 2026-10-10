@@ -90,6 +90,7 @@ const translations = {
       assessmentHistory: "Assessment History",
       aiAssistant: "AI Assistant",
       knowledgeSupport: "Knowledge & Support",
+      simulator: "What-if Simulator",
       settings: "Change Language",
       logout: "Logout",
       boneHealth: "Bone Health",
@@ -289,6 +290,15 @@ const translations = {
         extractionFailed: "Unable to analyze this document. Please try again.",
       },
 
+      documentAssistant: {
+        title: "Ask about this document",
+        subtitle: "I can only describe what was read from your file.",
+        promptFound: "What did you find?",
+        promptReview: "Which fields need review?",
+        promptMissing: "Why was something left empty?",
+        placeholder: "Ask about this document...",
+        note: "Nothing is saved until you confirm the values above.",
+      },
       autofillReview: {
         badge: "AI REVIEW",
         title: "Review information found",
@@ -585,6 +595,9 @@ const translations = {
       exploreKnowledgeDesc:
         "Access understandable bone-health education and frequently asked questions.",
       exploreNotificationsTitle: "Notifications",
+      exploreSimulatorTitle: "What-if Simulator",
+      exploreSimulatorDesc:
+        "Try a lifestyle change and see how the model estimate compares.",
       exploreNotificationsDesc:
         "Future email, WhatsApp, and SMS updates can be managed from your account.",
       alcoholFreqNever: "Never",
@@ -774,6 +787,41 @@ const translations = {
         "OsteoAI provides a prototype risk assessment explanation, not a medical diagnosis.",
     },
 
+    simulator: {
+      pageTitle: "What-if Simulator",
+      pageSubtitle:
+        "Change a lifestyle input and see how the model estimate compares.",
+      emptyTitle: "No assessment to simulate yet",
+      emptyDesc:
+        "Complete an assessment first; the simulator starts from your latest answers.",
+      emptyButton: "Start assessment",
+      resetButton: "Reset",
+      controlsTitle: "Adjust your inputs",
+      controlsDesc: "Starting from your assessment of {date}.",
+      toggleWalk: "Walks or cycles regularly",
+      toggleModerateRecreation: "Moderate recreational activity",
+      toggleVigorousRecreation: "Vigorous recreational activity",
+      toggleModerateWork: "Moderate activity at work",
+      toggleSmoking: "Has quit / never smoked",
+      sliderSedentary: "Sitting time",
+      minutesPerDay: "min/day",
+      sliderWeight: "Weight",
+      weightNote: "BMI is recalculated from this weight and your height.",
+      fixedInputsNote:
+        "Age, gender and family history cannot be simulated, so they stay as they are.",
+      outcomeTitle: "Model comparison",
+      outcomeIdle: "Change something on the left to see a comparison.",
+      labelNow: "Your assessment",
+      labelWhatIf: "What-if",
+      deltaNone: "No meaningful change",
+      deltaPoints: "{value} percentage points",
+      riskLevelChanged: "Risk level: {from} to {to}",
+      askAiButton: "Ask AI about this change",
+      askAiQuestion:
+        "In the what-if simulator my model estimate changed by {value} percentage points. What does that mean?",
+      disclaimer:
+        "This compares two model estimates for the same person with different inputs. It is a hypothetical comparison, not proof that making this change will alter your real bone health. Talk to a doctor about personal health decisions.",
+    },
     assistant: {
       pageTitle: "AI Assistant",
       pageSubtitle: "Your private bone-health companion, running on a local AI model.",
@@ -782,6 +830,9 @@ const translations = {
       shortHistory: "History",
       shortAssistant: "AI Assistant",
       shortKnowledge: "Knowledge",
+      shortSimulator: "What-if",
+      skillWhatIfTitle: "What-if simulator",
+      skillWhatIfDesc: "Try a lifestyle change and compare estimates.",
       remindersTitle: "Reminders",
       remindersEmpty: "No reminders yet. Ask me something like \"remind me to review my assessment next Monday\".",
       remindersDue: "due",
@@ -986,6 +1037,7 @@ const translations = {
       assessmentHistory: "असेसमेंट इतिहास",
       aiAssistant: "AI सहायक",
       knowledgeSupport: "जानकारी और सहायता",
+      simulator: "व्हाट-इफ सिम्युलेटर",
       settings: "भाषा बदलें",
       logout: "लॉगआउट",
       boneHealth: "हड्डी स्वास्थ्य",
@@ -1185,6 +1237,15 @@ const translations = {
         extractionFailed: "इस दस्तावेज़ का विश्लेषण नहीं हो सका। कृपया फिर से प्रयास करें।",
       },
 
+      documentAssistant: {
+        title: "इस डॉक्यूमेंट के बारे में पूछें",
+        subtitle: "मैं केवल वही बता सकता हूँ जो आपकी फ़ाइल से पढ़ा गया है।",
+        promptFound: "आपको क्या मिला?",
+        promptReview: "किन फ़ील्ड्स की समीक्षा चाहिए?",
+        promptMissing: "कुछ फ़ील्ड खाली क्यों रह गए?",
+        placeholder: "इस डॉक्यूमेंट के बारे में पूछें...",
+        note: "जब तक आप ऊपर के मान confirm नहीं करते, कुछ भी सेव नहीं होता।",
+      },
       autofillReview: {
         badge: "AI समीक्षा",
         title: "मिली हुई जानकारी की समीक्षा करें",
@@ -1470,6 +1531,9 @@ const translations = {
       exploreKnowledgeTitle: "जानकारी और सहायता",
       exploreKnowledgeDesc: "समझने में आसान बोन-हेल्थ शिक्षा और सामान्य प्रश्नों तक पहुँचें।",
       exploreNotificationsTitle: "सूचनाएँ",
+      exploreSimulatorTitle: "व्हाट-इफ सिम्युलेटर",
+      exploreSimulatorDesc:
+        "कोई लाइफस्टाइल बदलाव आज़माएँ और मॉडल अनुमान की तुलना देखें।",
       exploreNotificationsDesc: "भविष्य के ईमेल, व्हाट्सएप और SMS अपडेट आपके खाते से प्रबंधित किए जा सकते हैं।",
       alcoholFreqNever: "कभी नहीं",
       alcoholFreqLess1: "सप्ताह में एक बार से कम",
@@ -1658,6 +1722,41 @@ const translations = {
         "OsteoAI एक प्रोटोटाइप जोखिम असेसमेंट स्पष्टीकरण प्रदान करता है, चिकित्सीय निदान नहीं।",
     },
 
+    simulator: {
+      pageTitle: "व्हाट-इफ सिम्युलेटर",
+      pageSubtitle:
+        "कोई लाइफस्टाइल इनपुट बदलें और देखें कि मॉडल अनुमान कैसे बदलता है।",
+      emptyTitle: "सिम्युलेट करने के लिए कोई असेसमेंट नहीं",
+      emptyDesc:
+        "पहले असेसमेंट पूरा करें; सिम्युलेटर आपके नवीनतम उत्तरों से शुरू होता है।",
+      emptyButton: "असेसमेंट शुरू करें",
+      resetButton: "रीसेट",
+      controlsTitle: "अपने इनपुट बदलें",
+      controlsDesc: "{date} के आपके असेसमेंट से शुरू।",
+      toggleWalk: "नियमित रूप से चलना या साइकिल चलाना",
+      toggleModerateRecreation: "मध्यम मनोरंजक गतिविधि",
+      toggleVigorousRecreation: "तेज़ मनोरंजक गतिविधि",
+      toggleModerateWork: "काम पर मध्यम गतिविधि",
+      toggleSmoking: "धूम्रपान छोड़ा / कभी नहीं किया",
+      sliderSedentary: "बैठने का समय",
+      minutesPerDay: "मिनट/दिन",
+      sliderWeight: "वज़न",
+      weightNote: "इसी वज़न और आपकी लंबाई से BMI दोबारा निकाला जाता है।",
+      fixedInputsNote:
+        "उम्र, लिंग और पारिवारिक इतिहास सिम्युलेट नहीं किए जा सकते, इसलिए वे वैसे ही रहते हैं।",
+      outcomeTitle: "मॉडल तुलना",
+      outcomeIdle: "तुलना देखने के लिए बाईं ओर कुछ बदलें।",
+      labelNow: "आपका असेसमेंट",
+      labelWhatIf: "व्हाट-इफ",
+      deltaNone: "कोई खास बदलाव नहीं",
+      deltaPoints: "{value} प्रतिशत अंक",
+      riskLevelChanged: "जोखिम स्तर: {from} से {to}",
+      askAiButton: "इस बदलाव के बारे में AI से पूछें",
+      askAiQuestion:
+        "व्हाट-इफ सिम्युलेटर में मेरा मॉडल अनुमान {value} प्रतिशत अंक बदला। इसका क्या मतलब है?",
+      disclaimer:
+        "यह एक ही व्यक्ति के अलग-अलग इनपुट पर दो मॉडल अनुमानों की तुलना है। यह काल्पनिक तुलना है, इसका प्रमाण नहीं कि यह बदलाव आपकी असल हड्डी-सेहत बदल देगा। व्यक्तिगत स्वास्थ्य निर्णयों के लिए डॉक्टर से बात करें।",
+    },
     assistant: {
       pageTitle: "AI असिस्टेंट",
       pageSubtitle: "आपका निजी हड्डी-स्वास्थ्य साथी, एक लोकल AI मॉडल पर चल रहा है।",
@@ -1666,6 +1765,9 @@ const translations = {
       shortHistory: "इतिहास",
       shortAssistant: "AI असिस्टेंट",
       shortKnowledge: "जानकारी",
+      shortSimulator: "व्हाट-इफ",
+      skillWhatIfTitle: "व्हाट-इफ सिम्युलेटर",
+      skillWhatIfDesc: "लाइफस्टाइल बदलाव आज़माकर अनुमान की तुलना करें।",
       remindersTitle: "रिमाइंडर",
       remindersEmpty: "अभी कोई रिमाइंडर नहीं। मुझसे कहें, जैसे \"अगले सोमवार असेसमेंट देखने की याद दिलाना\"।",
       remindersDue: "समय हो गया",
@@ -1870,6 +1972,7 @@ const translations = {
       assessmentHistory: "असेसमेंट इतिहास",
       aiAssistant: "AI सहाय्यक",
       knowledgeSupport: "माहिती आणि सहाय्य",
+      simulator: "व्हॉट-इफ सिम्युलेटर",
       settings: "भाषा बदला",
       logout: "लॉगआउट",
       boneHealth: "हाडांचे आरोग्य",
@@ -2069,6 +2172,15 @@ const translations = {
         extractionFailed: "या दस्तऐवजाचे विश्लेषण करता आले नाही. कृपया पुन्हा प्रयत्न करा.",
       },
 
+      documentAssistant: {
+        title: "या दस्तऐवजाबद्दल विचारा",
+        subtitle: "तुमच्या फाइलमधून जे वाचले तेच मी सांगू शकतो.",
+        promptFound: "तुम्हाला काय सापडले?",
+        promptReview: "कोणत्या फील्डची तपासणी हवी?",
+        promptMissing: "काही फील्ड रिकामी का राहिली?",
+        placeholder: "या दस्तऐवजाबद्दल विचारा...",
+        note: "वरील मूल्ये तुम्ही confirm करेपर्यंत काहीही सेव्ह होत नाही.",
+      },
       autofillReview: {
         badge: "AI पुनरावलोकन",
         title: "सापडलेल्या माहितीचे पुनरावलोकन करा",
@@ -2348,6 +2460,9 @@ const translations = {
       exploreKnowledgeTitle: "माहिती आणि सहाय्य",
       exploreKnowledgeDesc: "समजण्यास सोपे बोन-हेल्थ शिक्षण आणि वारंवार विचारले जाणारे प्रश्न पहा.",
       exploreNotificationsTitle: "सूचना",
+      exploreSimulatorTitle: "व्हॉट-इफ सिम्युलेटर",
+      exploreSimulatorDesc:
+        "जीवनशैलीत बदल करून मॉडेल अंदाजाची तुलना पहा.",
       exploreNotificationsDesc: "भविष्यातील ईमेल, व्हॉट्सअॅप आणि SMS अपडेट्स तुमच्या खात्यातून व्यवस्थापित करता येतील.",
       alcoholFreqNever: "कधीच नाही",
       alcoholFreqLess1: "आठवड्यातून एकदापेक्षा कमी",
@@ -2536,6 +2651,41 @@ const translations = {
         "OsteoAI एक प्रोटोटाइप जोखीम असेसमेंट स्पष्टीकरण देते, वैद्यकीय निदान नाही.",
     },
 
+    simulator: {
+      pageTitle: "व्हॉट-इफ सिम्युलेटर",
+      pageSubtitle:
+        "जीवनशैलीतील एखादा इनपुट बदला आणि मॉडेल अंदाज कसा बदलतो ते पहा.",
+      emptyTitle: "सिम्युलेट करण्यासाठी असेसमेंट नाही",
+      emptyDesc:
+        "आधी असेसमेंट पूर्ण करा; सिम्युलेटर तुमच्या अलीकडच्या उत्तरांपासून सुरू होतो.",
+      emptyButton: "असेसमेंट सुरू करा",
+      resetButton: "रीसेट",
+      controlsTitle: "तुमचे इनपुट बदला",
+      controlsDesc: "{date} च्या तुमच्या असेसमेंटपासून सुरू.",
+      toggleWalk: "नियमित चालणे किंवा सायकल चालवणे",
+      toggleModerateRecreation: "मध्यम मनोरंजक हालचाल",
+      toggleVigorousRecreation: "जोरदार मनोरंजक हालचाल",
+      toggleModerateWork: "कामावर मध्यम हालचाल",
+      toggleSmoking: "धूम्रपान सोडले / कधीच केले नाही",
+      sliderSedentary: "बसण्याचा वेळ",
+      minutesPerDay: "मिनिटे/दिवस",
+      sliderWeight: "वजन",
+      weightNote: "याच वजनावरून आणि तुमच्या उंचीवरून BMI पुन्हा मोजला जातो.",
+      fixedInputsNote:
+        "वय, लिंग आणि कौटुंबिक इतिहास सिम्युलेट करता येत नाहीत, म्हणून ते तसेच राहतात.",
+      outcomeTitle: "मॉडेल तुलना",
+      outcomeIdle: "तुलना पाहण्यासाठी डावीकडे काहीतरी बदला.",
+      labelNow: "तुमचे असेसमेंट",
+      labelWhatIf: "व्हॉट-इफ",
+      deltaNone: "विशेष बदल नाही",
+      deltaPoints: "{value} टक्के अंक",
+      riskLevelChanged: "जोखीम पातळी: {from} ते {to}",
+      askAiButton: "या बदलाबद्दल AI ला विचारा",
+      askAiQuestion:
+        "व्हॉट-इफ सिम्युलेटरमध्ये माझा मॉडेल अंदाज {value} टक्के अंकांनी बदलला. याचा अर्थ काय?",
+      disclaimer:
+        "ही एकाच व्यक्तीच्या वेगवेगळ्या इनपुटवरील दोन मॉडेल अंदाजांची तुलना आहे. ही काल्पनिक तुलना आहे, हा बदल तुमचे प्रत्यक्ष हाड-आरोग्य बदलेल याचा पुरावा नाही. वैयक्तिक आरोग्य निर्णयांसाठी डॉक्टरांशी बोला.",
+    },
     assistant: {
       pageTitle: "AI असिस्टंट",
       pageSubtitle: "तुमचा खाजगी हाड-आरोग्य साथीदार, स्थानिक AI मॉडेलवर चालणारा.",
@@ -2544,6 +2694,9 @@ const translations = {
       shortHistory: "इतिहास",
       shortAssistant: "AI असिस्टंट",
       shortKnowledge: "माहिती",
+      shortSimulator: "व्हॉट-इफ",
+      skillWhatIfTitle: "व्हॉट-इफ सिम्युलेटर",
+      skillWhatIfDesc: "जीवनशैलीत बदल करून अंदाजाची तुलना करा.",
       remindersTitle: "स्मरणपत्रे",
       remindersEmpty: "अजून स्मरणपत्र नाही. मला सांगा, उदा. \"पुढच्या सोमवारी असेसमेंट पाहण्याची आठवण करून दे\".",
       remindersDue: "वेळ झाली",

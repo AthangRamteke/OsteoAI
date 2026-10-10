@@ -158,6 +158,10 @@ def navigation_answer(message: str) -> dict[str, Any]:
         path = "/history"
         label = "Assessment History"
 
+    elif any(word in text for word in ("simulator", "what-if", "what if")):
+        path = "/simulator"
+        label = "What-if Simulator"
+
     elif any(word in text for word in ("knowledge", "support", "help center")):
         path = "/knowledge"
         label = "Knowledge & Support"
@@ -180,20 +184,56 @@ def navigation_answer(message: str) -> dict[str, Any]:
     }
 
 
-def document_assistant_answer() -> dict[str, Any]:
-    return {
-        "message": (
-            "The document assistant is planned as an Agent tool. The "
-            "existing document-extraction endpoint already handles "
-            "candidate extraction and review; the Agent will connect "
-            "to that workflow after the core chat layer is stable."
-        ),
-        "data": {},
-        "action": {
-            "type": "planned_tool",
-            "tool": "document_assistant",
-        },
-    }
+def document_assistant_answer(context: dict[str, Any]) -> dict[str, Any]:
+    """Factual summary of the current document extraction.
+
+    Used when no LLM is available; the Agent normally answers document
+    questions conversationally with the same data.
+    """
+    extraction = context.get("document_extraction")
+
+    if not isinstance(extraction, dict) or not extraction.get("fields"):
+        return {
+            "message": (
+                "I can explain an uploaded report once it has been read. "
+                "Start a new assessment, choose the document option, and "
+                "upload a PDF, Word file or image. I'll then tell you what "
+                "was found and which fields still need your review."
+            ),
+            "data": {},
+        }
+
+    fields = [f for f in extraction["fields"] if isinstance(f, dict)]
+    found = [f for f in fields if f.get("status") == "found"]
+    review = [f for f in fields if f.get("status") != "found"]
+
+    parts = [
+        f"From {extraction.get('filename', 'your document')} I found "
+        f"{len(found)} value(s) for review."
+    ]
+
+    if found:
+        parts.append(
+            "Found: "
+            + ", ".join(
+                f"{f.get('label')} = {f.get('value')}" for f in found[:6]
+            )
+            + "."
+        )
+
+    if review:
+        parts.append(
+            "Still needs your review: "
+            + ", ".join(str(f.get("label")) for f in review[:6])
+            + "."
+        )
+
+    parts.append(
+        "These are candidates only; nothing is used until you confirm it "
+        "on the review screen."
+    )
+
+    return {"message": " ".join(parts), "data": {}}
 
 
 def notification_answer() -> dict[str, Any]:

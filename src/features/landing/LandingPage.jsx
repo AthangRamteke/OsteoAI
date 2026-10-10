@@ -253,6 +253,20 @@ const AIIcon = () => (
   </IconBase>
 );
 
+const SimulatorSvg = () => (
+  <IconBase>
+    <path
+      d="M9 3V9.5L4.5 17.5C3.9 18.6 4.7 20 6 20H18C19.3 20 20.1 18.6 19.5 17.5L15 9.5V3"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path d="M8 3H16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M7 15H17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+  </IconBase>
+);
+
 const KnowledgeSvg = () => (
   <IconBase>
     <path
@@ -438,6 +452,12 @@ function LandingPage() {
       label: t("sidebar.knowledgeSupport"),
       icon: <KnowledgeSvg />,
       action: goTo("/knowledge"),
+      disabled: false,
+    },
+    {
+      label: t("sidebar.simulator"),
+      icon: <SimulatorSvg />,
+      action: goTo("/simulator"),
       disabled: false,
     },
   ];

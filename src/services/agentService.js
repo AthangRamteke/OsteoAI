@@ -65,6 +65,7 @@ export async function streamAgentMessage({
   message,
   predictionResult,
   assessmentHistory = [],
+  documentExtraction = null,
   conversationId = null,
   language = "en",
   onEvent,
@@ -87,6 +88,9 @@ export async function streamAgentMessage({
         context: {
           prediction_result: predictionResult || {},
           assessment_history: assessmentHistory,
+          ...(documentExtraction
+            ? { document_extraction: documentExtraction }
+            : {}),
         },
       }),
     }

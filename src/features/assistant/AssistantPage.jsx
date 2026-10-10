@@ -27,6 +27,7 @@ import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutlined";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import ScienceIcon from "@mui/icons-material/Science";
 import LockIcon from "@mui/icons-material/Lock";
 
 import PageShell from "../../components/common/PageShell";
@@ -84,6 +85,13 @@ const getSkills = (t) => [
     prompt:
       "Suggest 3 simple, general bone-healthy habits that relate to the factors in my result.",
     needs: "result",
+  },
+  {
+    id: "whatif",
+    icon: <ScienceIcon />,
+    title: t("assistant.skillWhatIfTitle"),
+    description: t("assistant.skillWhatIfDesc"),
+    prompt: "Open the what-if simulator",
   },
   {
     id: "fields",

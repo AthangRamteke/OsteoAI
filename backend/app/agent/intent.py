@@ -190,6 +190,9 @@ def detect_intent(message: str) -> str:
         "knowledge": "/knowledge",
         "knowledge and support": "/knowledge",
         "support": "/knowledge",
+        "simulator": "/simulator",
+        "what-if simulator": "/simulator",
+        "what if simulator": "/simulator",
     }
 
     if text in navigation_phrases:
@@ -208,6 +211,9 @@ def detect_intent(message: str) -> str:
                 "knowledge",
                 "support",
                 "help center",
+                "simulator",
+                "what-if",
+                "what if",
             )
         ):
             return "navigation"

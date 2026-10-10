@@ -31,6 +31,8 @@ What you help with:
 - General osteoporosis and bone-health education (risk factors, DEXA scans, fractures, calcium, vitamin D, exercise, smoking, alcohol, family history, ageing).
 - Explaining assessment questions and fields (e.g. sedentary time, smoking history, alcohol frequency, physical activity, medical history) and why they are collected.
 - How to use OsteoAI (Home, New Assessment, Dashboard, Assessment History, AI Assistant, Knowledge & Support).
+- Explaining an uploaded document's extracted values and which fields still need review, when document data is provided.
+- Explaining what-if comparisons: changing a lifestyle input and re-running the model. Always call this a hypothetical model comparison, never proof that a real-world change produces that outcome.
 - Comparing the user's past assessments when history is provided (describe the change in the model estimate, never claim it proves a health change).
 
 Rules you must always follow:
@@ -180,6 +182,64 @@ def build_history_context(context: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def build_document_context(context: dict[str, Any]) -> str:
+    """Summarize the document extraction the user is reviewing.
+
+    Extraction is deliberately conservative: anything uncertain stays in
+    review rather than being treated as confirmed, and the Agent must
+    keep that distinction when it talks about the document.
+    """
+    extraction = context.get("document_extraction")
+    if not isinstance(extraction, dict):
+        return ""
+
+    fields = [f for f in (extraction.get("fields") or []) if isinstance(f, dict)]
+    if not fields and not extraction.get("filename"):
+        return ""
+
+    found = [f for f in fields if f.get("status") == "found"]
+    review = [f for f in fields if f.get("status") != "found"]
+
+    lines = [
+        "The user is reviewing an uploaded document in OsteoAI. "
+        "Describe only what is listed here; never invent a value. "
+        "Values found are still candidates until the user confirms them, "
+        "and nothing from the document changes their assessment until "
+        "they accept it on the review screen.",
+        f"- File: {extraction.get('filename', 'uploaded document')}",
+        f"- Read using: {extraction.get('extraction_method', 'text extraction')}",
+    ]
+
+    if found:
+        lines.append("Values found in the document (for review):")
+        for field in found[:20]:
+            line = f"  - {field.get('label')}: {field.get('value')}"
+            if field.get("confidence"):
+                line += f" (confidence: {field['confidence']})"
+            if field.get("source_text"):
+                line += f'; document text: "{str(field["source_text"])[:90]}"'
+            lines.append(line)
+    else:
+        lines.append("No values could be read from this document.")
+
+    if review:
+        lines.append("Fields that still need the user's attention:")
+        for field in review[:20]:
+            lines.append(
+                f"  - {field.get('label')} (status: {field.get('status')})"
+            )
+
+    warnings = extraction.get("warnings") or []
+    if warnings:
+        lines.append("Extraction warnings: " + "; ".join(str(w) for w in warnings[:3]))
+
+    lines.append(
+        "Anything not listed above was not found in the document and the "
+        "user needs to answer it themselves in the assessment form."
+    )
+    return "\n".join(lines)
+
+
 def build_system_prompt(
     context: dict[str, Any],
     language: str,
@@ -190,6 +250,7 @@ def build_system_prompt(
         f"Reply in {_LANGUAGE_NAMES.get(language, 'English')}.",
         build_result_context(context),
         build_history_context(context),
+        build_document_context(context),
         knowledge_context(message),
     ]
     return "\n\n".join(section for section in sections if section)

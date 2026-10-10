@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 
 import { useLanguage } from "../../context/LanguageContext";
+import DocumentAssistantPanel from "./DocumentAssistantPanel";
 
 function AutofillReview({ result, fileName, onBack, onContinue }) {
   const { t } = useLanguage();
@@ -223,6 +224,8 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
           })}
         </Typography>
       </Box>
+
+      <DocumentAssistantPanel result={result} />
 
       <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} sx={{ mt: 3 }}>
         <Button
