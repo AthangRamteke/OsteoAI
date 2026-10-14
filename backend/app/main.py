@@ -25,16 +25,16 @@ app = FastAPI(
     version=MODEL_VERSION,
 )
 
-# Development CORS: allow common local React/Vite dev server origins.
+# Development CORS: any port on the local machine.
+#
+# Vite picks the next free port when 5173 is taken (5174, 5175, ...),
+# and a fixed list silently blocks every API call from that origin,
+# which the browser reports only as "Failed to fetch".
+#
 # TODO before production deployment: replace with the real frontend origin(s).
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],
+    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
