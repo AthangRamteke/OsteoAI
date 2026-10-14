@@ -6,6 +6,7 @@ import { Alert, Button, Snackbar } from "@mui/material";
 import { useLanguage } from "../../context/LanguageContext";
 import {
   REMINDERS_UPDATED_EVENT,
+  acknowledgeReminder,
   getDueReminders,
   getReminders,
   markReminderNotified,
@@ -122,6 +123,11 @@ function ReminderWatcher() {
             size="small"
             sx={{ color: "#FFFFFF", fontWeight: 700, textTransform: "none" }}
             onClick={() => {
+              // Opening it counts as having seen it.
+              if (due) {
+                acknowledgeReminder(due.id);
+              }
+
               setDue(null);
               navigate("/assistant");
             }}

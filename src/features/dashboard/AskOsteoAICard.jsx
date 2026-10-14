@@ -22,6 +22,7 @@ import {
   REMINDERS_UPDATED_EVENT,
   getReminders,
   isOverdue,
+  isUnread,
 } from "../../services/reminderStore";
 
 /*
@@ -64,6 +65,7 @@ function AskOsteoAICard({ surfaceSx }) {
   ];
 
   const openReminders = reminders.filter((item) => !item.done).slice(0, 3);
+  const pendingCount = reminders.filter(isUnread).length;
 
   return (
     <Box sx={{ ...surfaceSx, p: { xs: 2.5, md: 3 }, height: "100%" }}>
@@ -173,6 +175,15 @@ function AskOsteoAICard({ surfaceSx }) {
           <Typography variant="body2" sx={{ fontWeight: 800, color: "#334155" }}>
             {t("dashboard.askRemindersTitle")}
           </Typography>
+
+          {pendingCount > 0 && (
+            <Chip
+              size="small"
+              label={t("assistant.remindersPendingCount", { count: pendingCount })}
+              onClick={() => navigate("/assistant")}
+              sx={{ fontWeight: 800, bgcolor: "#FEF3C7", color: "#B45309" }}
+            />
+          )}
         </Stack>
 
         {openReminders.length ? (

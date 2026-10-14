@@ -41,6 +41,10 @@ export function getReminders() {
       return a.done ? 1 : -1;
     }
 
+    if (isUnread(a) !== isUnread(b)) {
+      return isUnread(a) ? -1 : 1;
+    }
+
     return new Date(a.dueAt) - new Date(b.dueAt);
   });
 }
@@ -73,7 +77,13 @@ export function addReminder({
 export function toggleReminderDone(id) {
   write(
     read().map((item) =>
-      item.id === id ? { ...item, done: !item.done } : item
+      item.id === id
+        ? {
+            ...item,
+            done: !item.done,
+            acknowledgedAt: item.acknowledgedAt || new Date().toISOString(),
+          }
+        : item
     )
   );
 
@@ -88,6 +98,46 @@ export function deleteReminder(id) {
 
 export function isOverdue(reminder) {
   return !reminder.done && new Date(reminder.dueAt) < new Date();
+}
+
+/**
+ * Announced but not looked at yet.
+ *
+ * A reminder stays "unread" from the moment its alert fires until the
+ * user opens or ticks it, so one missed notification does not mean the
+ * reminder is silently gone.
+ */
+export function isUnread(reminder) {
+  return Boolean(reminder.notifiedAt) && !reminder.acknowledgedAt && !reminder.done;
+}
+
+export function unreadReminderCount() {
+  return read().filter(isUnread).length;
+}
+
+/** Clear the unread state once the user has seen it. */
+export function acknowledgeReminder(id) {
+  write(
+    read().map((item) =>
+      item.id === id
+        ? { ...item, acknowledgedAt: new Date().toISOString() }
+        : item
+    )
+  );
+
+  return getReminders();
+}
+
+export function acknowledgeAllReminders() {
+  const now = new Date().toISOString();
+
+  write(
+    read().map((item) =>
+      isUnread(item) ? { ...item, acknowledgedAt: now } : item
+    )
+  );
+
+  return getReminders();
 }
 
 /**

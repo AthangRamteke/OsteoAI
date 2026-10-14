@@ -115,6 +115,19 @@ export function archiveChat(messages, conversationId) {
     return listArchivedChats();
   }
 
+  const existing = readArchive();
+
+  // Reopening a conversation and putting it back must not create a
+  // second copy of the same transcript.
+  const fingerprint = (list) =>
+    list.map((message) => `${message.role}:${message.content}`).join("|");
+
+  const transcript = fingerprint(real);
+
+  if (existing.some((item) => fingerprint(item.messages || []) === transcript)) {
+    return existing;
+  }
+
   const firstQuestion = real.find((message) => message.role === "user");
 
   const entry = {
@@ -126,7 +139,7 @@ export function archiveChat(messages, conversationId) {
     conversationId,
   };
 
-  writeArchive([entry, ...readArchive()]);
+  writeArchive([entry, ...existing]);
 
   return listArchivedChats();
 }

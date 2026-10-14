@@ -7,6 +7,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import {
   archiveChat,
   clearChat,
+  deleteArchivedChat,
   loadChat,
   saveChat,
 } from "../../services/chatStore";
@@ -168,9 +169,15 @@ export default function useAgentChat(getContext, storageKey) {
 
   /** Reopen a past conversation in place of the current one. */
   const restoreConversation = (entry) => {
+    // Park whatever is open now...
     if (storageKey && messages.length) {
       archiveChat(messages, conversationIdRef.current);
     }
+
+    // ...and take the chosen one out of the archive, since it becomes
+    // the active conversation. Leaving it there would archive it again
+    // on the next switch, duplicating the entry each time.
+    deleteArchivedChat(entry.id);
 
     conversationIdRef.current = entry.conversationId || null;
     setMessages(entry.messages.map((message) => ({ ...message, streaming: false })));

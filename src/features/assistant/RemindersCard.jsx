@@ -21,9 +21,12 @@ import { reminderWorkerActive } from "../../services/notificationService";
 import { formatDate } from "../../services/historyStore";
 import {
   REMINDERS_UPDATED_EVENT,
+  acknowledgeAllReminders,
+  acknowledgeReminder,
   deleteReminder,
   getReminders,
   isOverdue,
+  isUnread,
   notificationPermission,
   relativeDue,
   requestNotificationPermission,
@@ -38,6 +41,8 @@ function RemindersCard() {
   const { t, language } = useLanguage();
   const [reminders, setReminders] = useState(getReminders);
   const [permission, setPermission] = useState(notificationPermission);
+
+  const unreadCount = reminders.filter(isUnread).length;
   const [backgroundReady, setBackgroundReady] = useState(false);
 
   useEffect(() => {
@@ -89,7 +94,19 @@ function RemindersCard() {
           {t("assistant.remindersTitle")}
         </Typography>
         {reminders.length > 0 && (
-          <Chip size="small" label={reminders.filter((item) => !item.done).length} />
+          <Chip
+            size="small"
+            label={reminders.filter((item) => !item.done).length}
+          />
+        )}
+
+        {unreadCount > 0 && (
+          <Chip
+            size="small"
+            label={t("assistant.remindersPendingCount", { count: unreadCount })}
+            onClick={() => setReminders(acknowledgeAllReminders())}
+            sx={{ fontWeight: 800, bgcolor: "#FEF3C7", color: "#B45309" }}
+          />
         )}
       </Stack>
 
@@ -101,15 +118,24 @@ function RemindersCard() {
         <Stack sx={{ mt: 1 }}>
           {reminders.map((reminder, index) => {
             const overdue = isOverdue(reminder);
+            const unread = isUnread(reminder);
 
             return (
               <Stack
                 key={reminder.id}
                 direction="row"
                 spacing={0.5}
+                onClick={() =>
+                  unread && setReminders(acknowledgeReminder(reminder.id))
+                }
                 sx={{
                   alignItems: "center",
                   py: 0.75,
+                  px: unread ? 1 : 0,
+                  mx: unread ? -1 : 0,
+                  borderRadius: 2,
+                  cursor: unread ? "pointer" : "default",
+                  bgcolor: unread ? "#FFFBEB" : "transparent",
                   borderTop: index ? "1px solid #F1F5F9" : "none",
                 }}
               >
@@ -120,6 +146,31 @@ function RemindersCard() {
                 />
 
                 <Box sx={{ flex: 1, minWidth: 0 }}>
+                  <Stack direction="row" spacing={0.75} sx={{ alignItems: "center" }}>
+                    {unread && (
+                      <Box
+                        sx={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: "50%",
+                          bgcolor: "#F59E0B",
+                          flexShrink: 0,
+                        }}
+                      />
+                    )}
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        display: unread ? "block" : "none",
+                        fontWeight: 800,
+                        color: "#B45309",
+                        letterSpacing: 0.4,
+                      }}
+                    >
+                      {t("assistant.remindersPending")}
+                    </Typography>
+                  </Stack>
+
                   <Typography
                     variant="body2"
                     sx={{
