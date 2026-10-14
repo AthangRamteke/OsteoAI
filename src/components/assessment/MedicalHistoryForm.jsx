@@ -13,41 +13,21 @@ import { useAssessment } from "../../context/AssessmentContext";
 import SelectableCard from "../ui/SelectableCard";
 import { useLanguage } from "../../context/LanguageContext";
 
-function MedicalHistoryForm() {
+/*
+ * One yes / no medical-history question.
+ *
+ * Module level on purpose: a component declared inside its parent is
+ * recreated on every render, which remounts the cards below it.
+ */
+function YesNoQuestion({ title, description, value, onSelect, icon }) {
   const { t } = useLanguage();
 
-  const yesNoOptions = [
-    {
-      value: "Yes",
-      title: t("common.yes"),
-      subtitle: t("common.yes"),
-    },
-    {
-      value: "No",
-      title: t("common.no"),
-      subtitle: t("common.no"),
-    },
+  const options = [
+    { value: "Yes", title: t("common.yes"), subtitle: t("common.yes") },
+    { value: "No", title: t("common.no"), subtitle: t("common.no") },
   ];
 
-  const {
-    assessmentData,
-    updateMedicalHistory,
-  } = useAssessment();
-
-  const medicalHistory = assessmentData.medicalHistory;
-
-  const handleChange = (name, value) => {
-    updateMedicalHistory({
-      [name]: value,
-    });
-  };
-
-  const YesNoQuestion = ({
-    title,
-    description,
-    field,
-    icon,
-  }) => (
+  return (
     <Box>
       <Box
         sx={{
@@ -82,18 +62,14 @@ function MedicalHistoryForm() {
         container
         spacing={2}
       >
-        {yesNoOptions.map((option) => (
+        {options.map((option) => (
           <Grid
             key={option.value}
             size={{ xs: 12, sm: 6 }}
           >
             <SelectableCard
-              selected={
-                medicalHistory[field] === option.value
-              }
-              onClick={() =>
-                handleChange(field, option.value)
-              }
+              selected={value === option.value}
+              onClick={() => onSelect(option.value)}
               icon={icon}
               title={option.title}
               subtitle={option.subtitle}
@@ -103,6 +79,24 @@ function MedicalHistoryForm() {
       </Grid>
     </Box>
   );
+}
+
+
+function MedicalHistoryForm() {
+  const { t } = useLanguage();
+
+  const {
+    assessmentData,
+    updateMedicalHistory,
+  } = useAssessment();
+
+  const medicalHistory = assessmentData.medicalHistory;
+
+  const handleChange = (name, value) => {
+    updateMedicalHistory({
+      [name]: value,
+    });
+  };
 
   return (
     <Box
@@ -136,7 +130,8 @@ function MedicalHistoryForm() {
       <YesNoQuestion
         title={t("assessment.medical.q1Title")}
         description={t("assessment.medical.q1Desc")}
-        field="otherBoneFractureAfter20"
+        value={medicalHistory.otherBoneFractureAfter20}
+        onSelect={(choice) => handleChange("otherBoneFractureAfter20", choice)}
         icon={<HealingIcon color="primary" />}
       />
 
@@ -144,7 +139,8 @@ function MedicalHistoryForm() {
       <YesNoQuestion
         title={t("assessment.medical.q2Title")}
         description={t("assessment.medical.q2Desc")}
-        field="longTermSteroidUse"
+        value={medicalHistory.longTermSteroidUse}
+        onSelect={(choice) => handleChange("longTermSteroidUse", choice)}
         icon={<MedicationIcon color="primary" />}
       />
 
@@ -152,7 +148,8 @@ function MedicalHistoryForm() {
       <YesNoQuestion
         title={t("assessment.medical.q3Title")}
         description={t("assessment.medical.q3Desc")}
-        field="parentOsteoporosisHistory"
+        value={medicalHistory.parentOsteoporosisHistory}
+        onSelect={(choice) => handleChange("parentOsteoporosisHistory", choice)}
         icon={<FamilyRestroomIcon color="primary" />}
       />
 
@@ -160,7 +157,8 @@ function MedicalHistoryForm() {
       <YesNoQuestion
         title={t("assessment.medical.q4Title")}
         description={t("assessment.medical.q4Desc")}
-        field="motherHipFracture"
+        value={medicalHistory.motherHipFracture}
+        onSelect={(choice) => handleChange("motherHipFracture", choice)}
         icon={<PersonIcon color="primary" />}
       />
 
@@ -168,7 +166,8 @@ function MedicalHistoryForm() {
       <YesNoQuestion
         title={t("assessment.medical.q5Title")}
         description={t("assessment.medical.q5Desc")}
-        field="fatherHipFracture"
+        value={medicalHistory.fatherHipFracture}
+        onSelect={(choice) => handleChange("fatherHipFracture", choice)}
         icon={<PersonIcon color="primary" />}
       />
 

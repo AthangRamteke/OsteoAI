@@ -18,6 +18,67 @@ import { useAssessment } from "../../context/AssessmentContext";
 import SelectableCard from "../ui/SelectableCard";
 import { useLanguage } from "../../context/LanguageContext";
 
+/*
+ * A yes / no question card pair.
+ *
+ * Defined at module level: a component declared inside its parent is a
+ * new component type on every render, which throws away the subtree's
+ * state and remounts it.
+ */
+function BinaryQuestion({
+  title,
+  description,
+  value,
+  onSelect,
+  yesIcon,
+  noIcon,
+}) {
+  const { t } = useLanguage();
+
+  return (
+    <Box>
+      <Typography
+        variant="h6"
+        fontWeight={700}
+        sx={{ mb: 1 }}
+      >
+        {title}
+      </Typography>
+
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{ mb: 2 }}
+      >
+        {description}
+      </Typography>
+
+      <Grid container spacing={2}>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <SelectableCard
+            selected={value === "Yes"}
+            onClick={() => onSelect("Yes")}
+            icon={yesIcon}
+            title={t("common.yes")}
+            subtitle={t("common.yes")}
+          />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <SelectableCard
+            selected={value === "No"}
+            onClick={() => onSelect("No")}
+            icon={noIcon}
+            title={t("common.no")}
+            subtitle={t("common.no")}
+          />
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}
+
+
 function LifestyleForm() {
   const { t } = useLanguage();
 
@@ -57,54 +118,6 @@ function LifestyleForm() {
     });
   };
 
-  const BinaryQuestion = ({
-    title,
-    description,
-    field,
-    yesIcon,
-    noIcon,
-  }) => (
-    <Box>
-      <Typography
-        variant="h6"
-        fontWeight={700}
-        sx={{ mb: 1 }}
-      >
-        {title}
-      </Typography>
-
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        sx={{ mb: 2 }}
-      >
-        {description}
-      </Typography>
-
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <SelectableCard
-            selected={lifestyle[field] === "Yes"}
-            onClick={() => handleChange(field, "Yes")}
-            icon={yesIcon}
-            title={t("common.yes")}
-            subtitle={t("common.yes")}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <SelectableCard
-            selected={lifestyle[field] === "No"}
-            onClick={() => handleChange(field, "No")}
-            icon={noIcon}
-            title={t("common.no")}
-            subtitle={t("common.no")}
-          />
-        </Grid>
-      </Grid>
-    </Box>
-  );
-
   return (
     <Box
       sx={{
@@ -137,7 +150,8 @@ function LifestyleForm() {
       <BinaryQuestion
         title={t("assessment.lifestyle.smokingTitle")}
         description={t("assessment.lifestyle.smokingDesc")}
-        field="smoked100Cigarettes"
+        value={lifestyle.smoked100Cigarettes}
+        onSelect={(choice) => handleChange("smoked100Cigarettes", choice)}
         yesIcon={<SmokingRoomsIcon />}
         noIcon={<SmokeFreeIcon />}
       />
@@ -252,7 +266,8 @@ function LifestyleForm() {
           <BinaryQuestion
             title={t("assessment.lifestyle.vigorousWorkTitle")}
             description={t("assessment.lifestyle.vigorousWorkDesc")}
-            field="vigorousWorkActivity"
+            value={lifestyle.vigorousWorkActivity}
+        onSelect={(choice) => handleChange("vigorousWorkActivity", choice)}
             yesIcon={<DirectionsRunIcon />}
             noIcon={<ChairIcon />}
           />
@@ -260,7 +275,8 @@ function LifestyleForm() {
           <BinaryQuestion
             title={t("assessment.lifestyle.moderateWorkTitle")}
             description={t("assessment.lifestyle.moderateWorkDesc")}
-            field="moderateWorkActivity"
+            value={lifestyle.moderateWorkActivity}
+        onSelect={(choice) => handleChange("moderateWorkActivity", choice)}
             yesIcon={<DirectionsWalkIcon />}
             noIcon={<ChairIcon />}
           />
@@ -295,7 +311,8 @@ function LifestyleForm() {
           <BinaryQuestion
             title={t("assessment.lifestyle.walkBicycleTitle")}
             description={t("assessment.lifestyle.walkBicycleDesc")}
-            field="walkOrBicycle"
+            value={lifestyle.walkOrBicycle}
+        onSelect={(choice) => handleChange("walkOrBicycle", choice)}
             yesIcon={<DirectionsWalkIcon />}
             noIcon={<ChairIcon />}
           />
@@ -303,7 +320,8 @@ function LifestyleForm() {
           <BinaryQuestion
             title={t("assessment.lifestyle.vigorousRecreationTitle")}
             description={t("assessment.lifestyle.vigorousRecreationDesc")}
-            field="vigorousRecreation"
+            value={lifestyle.vigorousRecreation}
+        onSelect={(choice) => handleChange("vigorousRecreation", choice)}
             yesIcon={<DirectionsRunIcon />}
             noIcon={<ChairIcon />}
           />
@@ -311,7 +329,8 @@ function LifestyleForm() {
           <BinaryQuestion
             title={t("assessment.lifestyle.moderateRecreationTitle")}
             description={t("assessment.lifestyle.moderateRecreationDesc")}
-            field="moderateRecreation"
+            value={lifestyle.moderateRecreation}
+        onSelect={(choice) => handleChange("moderateRecreation", choice)}
             yesIcon={<DirectionsWalkIcon />}
             noIcon={<ChairIcon />}
           />
