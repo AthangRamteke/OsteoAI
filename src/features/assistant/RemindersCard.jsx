@@ -43,14 +43,29 @@ function RemindersCard() {
   useEffect(() => {
     let cancelled = false;
 
-    reminderWorkerActive().then((active) => {
-      if (!cancelled) {
-        setBackgroundReady(active);
-      }
-    });
+    const check = () =>
+      reminderWorkerActive().then((active) => {
+        if (!cancelled) {
+          setBackgroundReady(active);
+        }
+      });
+
+    check();
+
+    // The worker may finish registering after this card has rendered.
+    const supported =
+      typeof navigator !== "undefined" && "serviceWorker" in navigator;
+
+    if (supported) {
+      navigator.serviceWorker.addEventListener("controllerchange", check);
+    }
 
     return () => {
       cancelled = true;
+
+      if (supported) {
+        navigator.serviceWorker.removeEventListener("controllerchange", check);
+      }
     };
   }, []);
 

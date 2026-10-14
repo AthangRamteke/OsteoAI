@@ -594,7 +594,7 @@ const translations = {
       exploreKnowledgeTitle: "Knowledge & Support",
       exploreKnowledgeDesc:
         "Access understandable bone-health education and frequently asked questions.",
-      exploreNotificationsTitle: "Notifications",
+      exploreNotificationsTitle: "Reminders",
       askTitle: "Ask OsteoAI",
       askSubtitle: "Your private assistant, running on a local AI model.",
       askLocalChip: "Local AI",
@@ -634,7 +634,7 @@ const translations = {
       exploreSimulatorDesc:
         "Try a lifestyle change and see how the model estimate compares.",
       exploreNotificationsDesc:
-        "Future email, WhatsApp, and SMS updates can be managed from your account.",
+        "Ask the assistant to remind you, and get a desktop alert when it is due.",
       alcoholFreqNever: "Never",
       alcoholFreqLess1: "Less than once a week",
       alcoholFreqOnce1: "Once a week",
@@ -1578,7 +1578,7 @@ const translations = {
       exploreAiDesc: "भविष्य के असेसमेंट, स्पष्टीकरण और स्वास्थ्य दस्तावेज़ों में निर्देशित सहायता पाएँ।",
       exploreKnowledgeTitle: "जानकारी और सहायता",
       exploreKnowledgeDesc: "समझने में आसान बोन-हेल्थ शिक्षा और सामान्य प्रश्नों तक पहुँचें।",
-      exploreNotificationsTitle: "सूचनाएँ",
+      exploreNotificationsTitle: "रिमाइंडर",
       askTitle: "OsteoAI से पूछें",
       askSubtitle: "आपका निजी असिस्टेंट, लोकल AI मॉडल पर चलता है।",
       askLocalChip: "लोकल AI",
@@ -1617,7 +1617,7 @@ const translations = {
       exploreSimulatorTitle: "व्हाट-इफ सिम्युलेटर",
       exploreSimulatorDesc:
         "कोई लाइफस्टाइल बदलाव आज़माएँ और मॉडल अनुमान की तुलना देखें।",
-      exploreNotificationsDesc: "भविष्य के ईमेल, व्हाट्सएप और SMS अपडेट आपके खाते से प्रबंधित किए जा सकते हैं।",
+      exploreNotificationsDesc: "असिस्टेंट से रिमाइंडर बनवाएँ और समय पर डेस्कटॉप अलर्ट पाएँ।",
       alcoholFreqNever: "कभी नहीं",
       alcoholFreqLess1: "सप्ताह में एक बार से कम",
       alcoholFreqOnce1: "सप्ताह में एक बार",
@@ -2555,7 +2555,7 @@ const translations = {
       exploreAiDesc: "भविष्यातील असेसमेंट्स, स्पष्टीकरणे आणि आरोग्य दस्तऐवजांसाठी मार्गदर्शित मदत मिळवा.",
       exploreKnowledgeTitle: "माहिती आणि सहाय्य",
       exploreKnowledgeDesc: "समजण्यास सोपे बोन-हेल्थ शिक्षण आणि वारंवार विचारले जाणारे प्रश्न पहा.",
-      exploreNotificationsTitle: "सूचना",
+      exploreNotificationsTitle: "स्मरणपत्रे",
       askTitle: "OsteoAI ला विचारा",
       askSubtitle: "तुमचा खाजगी असिस्टंट, स्थानिक AI मॉडेलवर चालतो.",
       askLocalChip: "स्थानिक AI",
@@ -2594,7 +2594,7 @@ const translations = {
       exploreSimulatorTitle: "व्हॉट-इफ सिम्युलेटर",
       exploreSimulatorDesc:
         "जीवनशैलीत बदल करून मॉडेल अंदाजाची तुलना पहा.",
-      exploreNotificationsDesc: "भविष्यातील ईमेल, व्हॉट्सअॅप आणि SMS अपडेट्स तुमच्या खात्यातून व्यवस्थापित करता येतील.",
+      exploreNotificationsDesc: "असिस्टंटकडून स्मरणपत्र तयार करा आणि वेळेवर डेस्कटॉप सूचना मिळवा.",
       alcoholFreqNever: "कधीच नाही",
       alcoholFreqLess1: "आठवड्यातून एकदापेक्षा कमी",
       alcoholFreqOnce1: "आठवड्यातून एकदा",

@@ -6,8 +6,6 @@ import {
 } from "@mui/material";
 
 import PsychologyIcon from "@mui/icons-material/Psychology";
-import InsightsIcon from "@mui/icons-material/Insights";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PieChartIcon from "@mui/icons-material/PieChart";

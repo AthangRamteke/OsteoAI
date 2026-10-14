@@ -644,40 +644,6 @@ function DashboardPage() {
     });
   };
 
-  const activitySummary =
-    !hasAssessment
-      ? "—"
-      : [
-          lifestyle.vigorousRecreation,
-          lifestyle.moderateRecreation,
-          lifestyle.vigorousWorkActivity,
-          lifestyle.moderateWorkActivity,
-          lifestyle.walkOrBicycle,
-        ].some(
-          (value) =>
-            String(value).toLowerCase() === "yes" ||
-            String(value).toLowerCase() === "1"
-        )
-        ? "Active"
-        : "Recorded";
-
-  const medicalSummary =
-    !hasAssessment
-      ? "—"
-      : [
-          medicalHistory.otherBoneFractureAfter20,
-          medicalHistory.longTermSteroidUse,
-          medicalHistory.parentOsteoporosisHistory,
-          medicalHistory.motherHipFracture,
-          medicalHistory.fatherHipFracture,
-        ].some(
-          (value) =>
-            String(value).toLowerCase() === "yes" ||
-            String(value).toLowerCase() === "1"
-        )
-        ? "Factors present"
-        : "No reported factors";
-
   const displayValue = (
     value,
     fallback = t("common.notProvided")
@@ -890,7 +856,7 @@ function DashboardPage() {
 
     const feature = rawFeature
       .toLowerCase()
-      .replace(/[\s\-\/]+/g, "_")
+      .replace(/[\s\-/]+/g, "_")
       .replace(/__+/g, "_");
 
     const sourceValueMap = {
@@ -3421,7 +3387,8 @@ function DashboardPage() {
               {
                 title: t("dashboard.exploreNotificationsTitle"),
                 description: t("dashboard.exploreNotificationsDesc"),
-                icon: <HistorySvg />,
+                icon: <AIIcon />,
+                path: "/assistant",
               },
             ].map((item) => (
               <Grid

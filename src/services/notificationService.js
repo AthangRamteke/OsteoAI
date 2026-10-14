@@ -89,14 +89,24 @@ export function onWorkerReminderShown(handler) {
   return () => navigator.serviceWorker.removeEventListener("message", listener);
 }
 
-/** True when the reminder worker is registered and running. */
+/**
+ * True once the reminder worker is running.
+ *
+ * Waits for `serviceWorker.ready` rather than reading the registration
+ * immediately: registration is still in flight when the page first
+ * renders, which would otherwise report "not active" forever.
+ */
 export async function reminderWorkerActive() {
   if (!serviceWorkerSupported()) {
     return false;
   }
 
   try {
-    const registration = await navigator.serviceWorker.getRegistration("/");
+    const registration = await Promise.race([
+      navigator.serviceWorker.ready,
+      new Promise((resolve) => setTimeout(() => resolve(null), 8000)),
+    ]);
+
     return Boolean(registration?.active);
   } catch {
     return false;

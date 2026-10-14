@@ -233,10 +233,6 @@ function RiskForecastRecommendations({
     medicalHistory.otherBoneFractureAfter20
   );
 
-  const steroidYes = isYes(
-    medicalHistory.longTermSteroidUse
-  );
-
   const exerciseNeedsCaution =
     fractureAfter20Yes ||
     isHigherRisk ||

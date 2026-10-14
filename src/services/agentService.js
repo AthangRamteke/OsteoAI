@@ -30,12 +30,12 @@ export async function sendAgentMessage({
     }
   );
 
-  let payload = null;
+  let payload;
 
   try {
     payload = await response.json();
   } catch {
-    payload = null;
+    // Non-JSON response; fall through to the error handling below.
   }
 
   if (!response.ok) {

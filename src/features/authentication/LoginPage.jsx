@@ -17,7 +17,6 @@ import {
 } from "react-router-dom";
 
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
-import AutoGraphIcon from "@mui/icons-material/AutoGraph";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import DescriptionIcon from "@mui/icons-material/Description";
 import HistoryIcon from "@mui/icons-material/History";
