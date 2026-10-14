@@ -434,7 +434,6 @@ function LandingPage() {
       icon: <AssessmentSvg />,
       action: handleAssessment,
       disabled: false,
-      emphasis: true,
     },
     {
       label: t("sidebar.assessmentHistory"),
@@ -885,9 +884,7 @@ function LandingPage() {
 
                       bgcolor: item.active
                         ? "rgba(37, 99, 235, 0.10)"
-                        : item.emphasis
-                          ? "rgba(240, 249, 255, 0.72)"
-                          : "transparent",
+                        : "transparent",
 
                       border:
                         "1px solid transparent",
@@ -895,9 +892,7 @@ function LandingPage() {
                       borderColor:
                         item.active
                           ? "rgba(37, 99, 235, 0.16)"
-                          : item.emphasis
-                            ? "rgba(56, 189, 248, 0.18)"
-                            : "transparent",
+                          : "transparent",
 
                       transition:
                         "all 0.2s ease",
@@ -938,13 +933,9 @@ function LandingPage() {
 
                         bgcolor: item.active
                           ? "rgba(37, 99, 235, 0.14)"
-                          : item.emphasis
-                            ? "rgba(14, 165, 233, 0.12)"
-                            : "transparent",
+                          : "transparent",
 
-                        color: item.emphasis
-                          ? "var(--oa-sky-strong)"
-                          : "inherit",
+                        color: "inherit",
 
                         display: "flex",
                         alignItems: "center",
