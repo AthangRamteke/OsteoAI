@@ -98,14 +98,14 @@ function ChoiceCard({ iconType, title, description, eyebrow, actionLabel, onClic
       sx={{
         height: "100%",
         borderRadius: 4,
-        border: muted ? "1px dashed #CBD5E1" : "1px solid #DBEAFE",
-        bgcolor: muted ? "#F8FAFC" : "white",
+        border: muted ? "1px dashed var(--oa-border-4)" : "1px solid var(--oa-border-brand-soft)",
+        bgcolor: muted ? "var(--oa-surface-2)" : "var(--oa-surface)",
         transition: "transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease",
         "&:hover": muted
           ? undefined
           : {
               transform: "translateY(-3px)",
-              borderColor: "#93C5FD",
+              borderColor: "var(--oa-brand-200)",
               boxShadow: "0 16px 34px rgba(37,99,235,0.10)",
             },
       }}
@@ -120,8 +120,8 @@ function ChoiceCard({ iconType, title, description, eyebrow, actionLabel, onClic
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: muted ? "#64748B" : "#2563EB",
-              bgcolor: muted ? "#EEF2F7" : "#EEF4FF",
+              color: muted ? "var(--oa-text-500)" : "var(--oa-brand)",
+              bgcolor: muted ? "var(--oa-surface-3)" : "var(--oa-brand-soft)",
             }}
           >
             <ChoiceIcon type={iconType} />
@@ -131,7 +131,7 @@ function ChoiceCard({ iconType, title, description, eyebrow, actionLabel, onClic
             <Typography
               variant="overline"
               sx={{
-                color: muted ? "#94A3B8" : "#2563EB",
+                color: muted ? "var(--oa-text-400)" : "var(--oa-brand)",
                 fontWeight: 800,
                 letterSpacing: "0.08em",
               }}
@@ -143,7 +143,7 @@ function ChoiceCard({ iconType, title, description, eyebrow, actionLabel, onClic
               sx={{
                 mt: 0.35,
                 fontWeight: 800,
-                color: "#0F172A",
+                color: "var(--oa-text-900)",
               }}
             >
               {title}
@@ -152,7 +152,7 @@ function ChoiceCard({ iconType, title, description, eyebrow, actionLabel, onClic
               variant="body2"
               sx={{
                 mt: 0.8,
-                color: "#64748B",
+                color: "var(--oa-text-500)",
                 lineHeight: 1.7,
               }}
             >
@@ -436,8 +436,8 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
             sx={{
               mb: 1.2,
               fontWeight: 800,
-              color: "#1D4ED8",
-              bgcolor: "#EEF4FF",
+              color: "var(--oa-brand-strong)",
+              bgcolor: "var(--oa-brand-soft)",
             }}
           />
           <Typography
@@ -462,7 +462,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
           sx={{
             border: "1.5px dashed #93C5FD",
             borderRadius: 4,
-            bgcolor: "#F8FBFF",
+            bgcolor: "var(--oa-surface-2)",
             p: { xs: 3, md: 4 },
             textAlign: "center",
           }}
@@ -486,17 +486,17 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#2563EB",
-                  bgcolor: "#EEF4FF",
+                  color: "var(--oa-brand)",
+                  bgcolor: "var(--oa-brand-soft)",
                 }}
               >
                 <UploadIcon />
               </Box>
 
-              <Typography sx={{ mt: 2, fontWeight: 800, color: "#0F172A" }}>
+              <Typography sx={{ mt: 2, fontWeight: 800, color: "var(--oa-text-900)" }}>
                 {t("assessment.aiEntry.chooseDocument")}
               </Typography>
-              <Typography variant="body2" sx={{ mt: 0.6, color: "#64748B" }}>
+              <Typography variant="body2" sx={{ mt: 0.6, color: "var(--oa-text-500)" }}>
                 {t("assessment.aiEntry.fileTypes")}
               </Typography>
 
@@ -521,7 +521,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
                 variant="subtitle2"
                 sx={{
                   mb: 1.3,
-                  color: "#475569",
+                  color: "var(--oa-text-600)",
                   fontWeight: 800,
                   textTransform: "uppercase",
                   letterSpacing: "0.06em",
@@ -537,8 +537,8 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
                   gap: 1.5,
                   p: 1.7,
                   borderRadius: 3,
-                  bgcolor: "white",
-                  border: "1px solid #DBEAFE",
+                  bgcolor: "var(--oa-surface)",
+                  border: "1px solid var(--oa-border-brand-soft)",
                 }}
               >
                 <Box
@@ -550,8 +550,8 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "#2563EB",
-                    bgcolor: "#EEF4FF",
+                    color: "var(--oa-brand)",
+                    bgcolor: "var(--oa-brand-soft)",
                   }}
                 >
                   <FileIcon />
@@ -562,7 +562,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
                     variant="body2"
                     sx={{
                       fontWeight: 800,
-                      color: "#0F172A",
+                      color: "var(--oa-text-900)",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
@@ -571,7 +571,7 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
                   >
                     {selectedFile.name}
                   </Typography>
-                  <Typography variant="caption" sx={{ color: "#64748B" }}>
+                  <Typography variant="caption" sx={{ color: "var(--oa-text-500)" }}>
                     {formatFileSize(selectedFile.size)}
                   </Typography>
                 </Box>
@@ -602,10 +602,10 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
                     borderRadius: 2.5,
                     textTransform: "none",
                     fontWeight: 700,
-                    color: "#64748B",
+                    color: "var(--oa-text-500)",
                     "&:hover": {
-                      color: "#DC2626",
-                      bgcolor: "#FEF2F2",
+                      color: "var(--oa-danger)",
+                      bgcolor: "var(--oa-danger-soft)",
                     },
                   }}
                 >
@@ -708,8 +708,8 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
           sx={{
             mb: 1.2,
             fontWeight: 800,
-            color: "#1D4ED8",
-            bgcolor: "#EEF4FF",
+            color: "var(--oa-brand-strong)",
+            bgcolor: "var(--oa-brand-soft)",
           }}
         />
         <Typography
@@ -763,11 +763,11 @@ function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBa
           mt: 2.5,
           p: 2,
           borderRadius: 3,
-          bgcolor: "#F8FAFC",
-          border: "1px solid #E2E8F0",
+          bgcolor: "var(--oa-surface-2)",
+          border: "1px solid var(--oa-border-1)",
         }}
       >
-        <Typography variant="caption" sx={{ color: "#64748B", lineHeight: 1.7 }}>
+        <Typography variant="caption" sx={{ color: "var(--oa-text-500)", lineHeight: 1.7 }}>
           {t("assessment.entryChoice.note")}
         </Typography>
       </Box>

@@ -137,7 +137,7 @@ function MessageBubble({ message }) {
             alignItems: "center",
             justifyContent: "center",
             color: "#FFFFFF",
-            background: "linear-gradient(135deg, #2563EB, #14B8A6)",
+            background: "var(--oa-brand-gradient)",
           }}
         >
           <SmartToyIcon sx={{ fontSize: 18 }} />
@@ -152,9 +152,9 @@ function MessageBubble({ message }) {
           borderRadius: 3,
           borderTopLeftRadius: isAssistant ? 6 : 24,
           borderTopRightRadius: isAssistant ? 24 : 6,
-          bgcolor: isAssistant ? "#FFFFFF" : "#2563EB",
-          color: isAssistant ? "#334155" : "#FFFFFF",
-          border: isAssistant ? "1px solid #E2E8F0" : "none",
+          bgcolor: isAssistant ? "var(--oa-surface)" : "var(--oa-brand-solid)",
+          color: isAssistant ? "var(--oa-text-700)" : "#FFFFFF",
+          border: isAssistant ? "1px solid var(--oa-border-1)" : "none",
           boxShadow: isAssistant ? "0 4px 14px rgba(15,23,42,0.04)" : "none",
         }}
       >
@@ -168,7 +168,7 @@ function MessageBubble({ message }) {
                 width: 7,
                 height: 14,
                 ml: 0.5,
-                bgcolor: "#2563EB",
+                bgcolor: "var(--oa-brand-solid)",
                 verticalAlign: "middle",
                 animation: "osteoBlink 1s steps(2) infinite",
                 "@keyframes osteoBlink": { "50%": { opacity: 0 } },
@@ -249,7 +249,7 @@ function AssistantPage() {
         <Chip
           icon={<LockIcon sx={{ fontSize: 16 }} />}
           label={t("assistant.localAiChip")}
-          sx={{ fontWeight: 700, bgcolor: "#ECFDF5", color: "#047857" }}
+          sx={{ fontWeight: 700, bgcolor: "var(--oa-success-soft)", color: "var(--oa-success-strong)" }}
         />
       }
     >
@@ -257,11 +257,11 @@ function AssistantPage() {
         {/* ---------------- Context + skills ---------------- */}
         <Grid size={{ xs: 12, md: 4 }}>
           <Stack spacing={2.5}>
-            <Card sx={{ p: 2.5, borderRadius: 4, border: "1px solid #E2E8F0", boxShadow: "none" }}>
-              <Typography sx={{ fontWeight: 800, color: "#0F172A" }}>
+            <Card sx={{ p: 2.5, borderRadius: 4, border: "1px solid var(--oa-border-1)", boxShadow: "none" }}>
+              <Typography sx={{ fontWeight: 800, color: "var(--oa-text-900)" }}>
                 {t("assistant.contextCardTitle")}
               </Typography>
-              <Typography variant="body2" sx={{ color: "#64748B", mb: 1.5 }}>
+              <Typography variant="body2" sx={{ color: "var(--oa-text-500)", mb: 1.5 }}>
                 {t("assistant.contextCardDesc")}
               </Typography>
 
@@ -295,7 +295,7 @@ function AssistantPage() {
                       level: t(`common.riskLevels.${level}`) || level,
                     })}
                   </Typography>
-                  <Typography variant="caption" sx={{ color: "#475569" }}>
+                  <Typography variant="caption" sx={{ color: "var(--oa-text-600)" }}>
                     {t("assistant.modelEstimateCaption")}
                   </Typography>
                 </Box>
@@ -316,7 +316,7 @@ function AssistantPage() {
             <RemindersCard />
 
             <Box>
-              <Typography sx={{ fontWeight: 800, color: "#0F172A", mb: 1.25 }}>
+              <Typography sx={{ fontWeight: 800, color: "var(--oa-text-900)", mb: 1.25 }}>
                 {t("assistant.skillsTitle")}
               </Typography>
 
@@ -341,21 +341,21 @@ function AssistantPage() {
                             p: 1.75,
                             height: "100%",
                             borderRadius: 3,
-                            border: "1px solid #E2E8F0",
+                            border: "1px solid var(--oa-border-1)",
                             boxShadow: "none",
                             cursor: available ? "pointer" : "not-allowed",
                             opacity: available ? 1 : 0.5,
                             transition: "all 0.2s",
                             "&:hover": available
-                              ? { borderColor: "#93C5FD", transform: "translateY(-2px)" }
+                              ? { borderColor: "var(--oa-brand-200)", transform: "translateY(-2px)" }
                               : {},
                           }}
                         >
-                          <Box sx={{ color: "#2563EB", mb: 0.5 }}>{skill.icon}</Box>
-                          <Typography sx={{ fontWeight: 700, fontSize: 14, color: "#0F172A" }}>
+                          <Box sx={{ color: "var(--oa-brand)", mb: 0.5 }}>{skill.icon}</Box>
+                          <Typography sx={{ fontWeight: 700, fontSize: 14, color: "var(--oa-text-900)" }}>
                             {skill.title}
                           </Typography>
-                          <Typography variant="caption" sx={{ color: "#64748B" }}>
+                          <Typography variant="caption" sx={{ color: "var(--oa-text-500)" }}>
                             {skill.description}
                           </Typography>
                         </Card>
@@ -373,7 +373,7 @@ function AssistantPage() {
           <Card
             sx={{
               borderRadius: 4,
-              border: "1px solid #E2E8F0",
+              border: "1px solid var(--oa-border-1)",
               boxShadow: "0 10px 30px rgba(15,23,42,0.05)",
               display: "flex",
               flexDirection: "column",
@@ -385,7 +385,7 @@ function AssistantPage() {
               sx={{
                 px: 2.5,
                 py: 1.5,
-                borderBottom: "1px solid #F1F5F9",
+                borderBottom: "1px solid var(--oa-border-5)",
                 justifyContent: "space-between",
                 alignItems: "center",
               }}
@@ -396,13 +396,13 @@ function AssistantPage() {
                     width: 9,
                     height: 9,
                     borderRadius: "50%",
-                    bgcolor: loading ? "#F59E0B" : "#22C55E",
+                    bgcolor: loading ? "var(--oa-warn)" : "var(--oa-success-bright)",
                   }}
                 />
-                <Typography sx={{ fontWeight: 700, color: "#0F172A" }}>
+                <Typography sx={{ fontWeight: 700, color: "var(--oa-text-900)" }}>
                   {t("assistant.chatHeaderTitle")}
                 </Typography>
-                <Typography variant="caption" sx={{ color: "#94A3B8" }}>
+                <Typography variant="caption" sx={{ color: "var(--oa-text-400)" }}>
                   {loading ? t("assistant.statusThinking") : t("assistant.statusReady")}
                 </Typography>
               </Stack>
@@ -420,7 +420,7 @@ function AssistantPage() {
 
             <Box
               ref={scrollRef}
-              sx={{ flex: 1, overflowY: "auto", px: { xs: 2, md: 3 }, py: 2.5, bgcolor: "#F8FAFC" }}
+              sx={{ flex: 1, overflowY: "auto", px: { xs: 2, md: 3 }, py: 2.5, bgcolor: "var(--oa-surface-2)" }}
             >
               {!messages.length ? (
                 <Stack sx={{ height: "100%", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
@@ -433,16 +433,16 @@ function AssistantPage() {
                       alignItems: "center",
                       justifyContent: "center",
                       color: "#FFFFFF",
-                      background: "linear-gradient(135deg, #2563EB, #14B8A6)",
+                      background: "var(--oa-brand-gradient)",
                       mb: 2,
                     }}
                   >
                     <AutoAwesomeIcon fontSize="large" />
                   </Box>
-                  <Typography variant="h6" sx={{ fontWeight: 800, color: "#0F172A" }}>
+                  <Typography variant="h6" sx={{ fontWeight: 800, color: "var(--oa-text-900)" }}>
                     {t("assistant.emptyStateTitle")}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: "#64748B", maxWidth: 420, mt: 0.5, mb: 2.5 }}>
+                  <Typography variant="body2" sx={{ color: "var(--oa-text-500)", maxWidth: 420, mt: 0.5, mb: 2.5 }}>
                     {t("assistant.emptyStateDesc")}
                   </Typography>
                   <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1, justifyContent: "center" }}>
@@ -452,7 +452,7 @@ function AssistantPage() {
                         label={starter}
                         onClick={() => send(starter)}
                         variant="outlined"
-                        sx={{ fontWeight: 600, bgcolor: "#FFFFFF" }}
+                        sx={{ fontWeight: 600, bgcolor: "var(--oa-surface)" }}
                       />
                     ))}
                   </Stack>
@@ -466,7 +466,7 @@ function AssistantPage() {
                   {loading && lastMessage?.role === "user" && (
                     <Stack direction="row" spacing={1.25} sx={{ alignItems: "center" }}>
                       <CircularProgress size={18} />
-                      <Typography variant="caption" sx={{ color: "#94A3B8" }}>
+                      <Typography variant="caption" sx={{ color: "var(--oa-text-400)" }}>
                         {t("assistant.thinkingLabel")}
                       </Typography>
                     </Stack>
@@ -481,7 +481,7 @@ function AssistantPage() {
               </Alert>
             )}
 
-            <Box sx={{ p: 2, borderTop: "1px solid #F1F5F9" }}>
+            <Box sx={{ p: 2, borderTop: "1px solid var(--oa-border-5)" }}>
               <Stack direction="row" spacing={1} sx={{ alignItems: "flex-end" }}>
                 <TextField
                   fullWidth
@@ -504,16 +504,16 @@ function AssistantPage() {
                   onClick={submit}
                   disabled={loading || !input.trim()}
                   sx={{
-                    bgcolor: "#2563EB",
+                    bgcolor: "var(--oa-brand-solid)",
                     color: "#FFFFFF",
-                    "&:hover": { bgcolor: "#1D4ED8" },
-                    "&.Mui-disabled": { bgcolor: "#E2E8F0" },
+                    "&:hover": { bgcolor: "var(--oa-brand-solid-strong)" },
+                    "&.Mui-disabled": { bgcolor: "var(--oa-border-1)" },
                   }}
                 >
                   <SendIcon />
                 </IconButton>
               </Stack>
-              <Typography variant="caption" sx={{ display: "block", color: "#94A3B8", mt: 1 }}>
+              <Typography variant="caption" sx={{ display: "block", color: "var(--oa-text-400)", mt: 1 }}>
                 {t("assistant.footerDisclaimer")}
               </Typography>
             </Box>

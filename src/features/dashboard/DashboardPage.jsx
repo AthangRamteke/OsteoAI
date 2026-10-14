@@ -401,8 +401,8 @@ const ChevronSvg = () => (
 // of the same surface instead of each block styling itself.
 const surfaceSx = {
   borderRadius: 4.5,
-  border: "1px solid #E7EDF5",
-  bgcolor: "#FFFFFF",
+  border: "1px solid var(--oa-border-3)",
+  bgcolor: "var(--oa-surface)",
   boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
 };
 
@@ -1022,7 +1022,7 @@ function DashboardPage() {
       sx={{
         minHeight: "100vh",
         display: "flex",
-        bgcolor: "#F8FAFC",
+        bgcolor: "var(--oa-surface-2)",
       }}
     >
       {/* =========================================================
@@ -1035,7 +1035,7 @@ function DashboardPage() {
           minHeight: "100vh",
 
           bgcolor:
-            "rgba(255,255,255,0.98)",
+            "var(--oa-surface-glass-strong)",
 
           borderRight:
             "1px solid rgba(226,232,240,0.9)",
@@ -1093,7 +1093,7 @@ function DashboardPage() {
                   alignItems: "center",
                   justifyContent: "center",
 
-                  bgcolor: "#2563EB",
+                  bgcolor: "var(--oa-brand-solid)",
 
                   color: "white",
 
@@ -1109,7 +1109,7 @@ function DashboardPage() {
                   sx={{
                     fontWeight: 800,
                     lineHeight: 1.05,
-                    color: "#0F172A",
+                    color: "var(--oa-text-900)",
                   }}
                 >
                   {t("brand.name")}
@@ -1118,7 +1118,7 @@ function DashboardPage() {
                 <Typography
                   variant="caption"
                   sx={{
-                    color: "#64748B",
+                    color: "var(--oa-text-500)",
                     whiteSpace:
                       "nowrap",
                   }}
@@ -1148,7 +1148,7 @@ function DashboardPage() {
                 width: 42,
                 height: 42,
 
-                color: "#2563EB",
+                color: "var(--oa-brand)",
 
                 bgcolor:
                   sidebarOpen
@@ -1216,7 +1216,7 @@ function DashboardPage() {
                 height: 42,
 
                 background:
-                  "linear-gradient(135deg, #0B3B82 0%, #2563EB 55%, #38BDF8 100%)",
+                  "linear-gradient(135deg, var(--oa-brand-strong) 0%, var(--oa-brand) 55%, var(--oa-sky) 100%)",
 
                 border:
                   "2px solid rgba(255,255,255,0.96)",
@@ -1243,7 +1243,7 @@ function DashboardPage() {
 
                 borderRadius: "50%",
 
-                bgcolor: "#22C55E",
+                bgcolor: "var(--oa-success-bright)",
 
                 border:
                   "2px solid white",
@@ -1262,7 +1262,7 @@ function DashboardPage() {
                 variant="body2"
                 sx={{
                   fontWeight: 800,
-                  color: "#0F172A",
+                  color: "var(--oa-text-900)",
                 }}
               >
                 {t("sidebar.userProfile")}
@@ -1271,7 +1271,7 @@ function DashboardPage() {
               <Typography
                 variant="caption"
                 sx={{
-                  color: "#64748B",
+                  color: "var(--oa-text-500)",
                 }}
               >
                 {t("sidebar.activeAccount")}
@@ -1282,7 +1282,7 @@ function DashboardPage() {
           {sidebarOpen && (
             <Box
               sx={{
-                color: "#94A3B8",
+                color: "var(--oa-text-400)",
                 display: "flex",
               }}
             >
@@ -1341,10 +1341,10 @@ function DashboardPage() {
 
                     color:
                       item.disabled
-                        ? "#94A3B8"
+                        ? "var(--oa-text-400)"
                         : item.active
-                          ? "#1D4ED8"
-                          : "#334155",
+                          ? "var(--oa-brand-strong)"
+                          : "var(--oa-text-700)",
 
                     bgcolor:
                       item.active
@@ -1362,8 +1362,8 @@ function DashboardPage() {
 
                       color:
                         item.disabled
-                          ? "#94A3B8"
-                          : "#2563EB",
+                          ? "var(--oa-text-400)"
+                          : "var(--oa-brand)",
                     },
 
                     "&.Mui-disabled": {
@@ -1461,7 +1461,7 @@ function DashboardPage() {
                   ? "flex-start"
                   : "center",
 
-              color: "#64748B",
+              color: "var(--oa-text-500)",
 
               "&.Mui-disabled": {
                 opacity: 0.48,
@@ -1527,7 +1527,7 @@ function DashboardPage() {
                   ? "flex-start"
                   : "center",
 
-              color: "#EF4444",
+              color: "var(--oa-danger)",
 
               "&.Mui-disabled": {
                 opacity: 0.48,
@@ -1560,7 +1560,7 @@ function DashboardPage() {
                       fontWeight: 600,
                       fontSize:
                         "0.91rem",
-                      color: "#EF4444",
+                      color: "var(--oa-danger)",
                     },
                   },
                 }}
@@ -1581,9 +1581,9 @@ function DashboardPage() {
           transition: "margin-left 0.28s cubic-bezier(0.4,0,0.2,1)",
           minHeight: "100vh",
           background:
-            "radial-gradient(1100px 420px at 12% -8%, #EAF2FF 0%, rgba(234,242,255,0) 62%)," +
-            "radial-gradient(900px 400px at 92% 0%, #E6FBF7 0%, rgba(230,251,247,0) 60%)," +
-            "#F6F8FC",
+            "radial-gradient(1100px 420px at 12% -8%, var(--oa-brand-soft) 0%, rgba(234,242,255,0) 62%)," +
+            "radial-gradient(900px 400px at 92% 0%, var(--oa-success-soft) 0%, rgba(230,251,247,0) 60%)," +
+            "var(--oa-canvas)",
           p: {
             xs: 2,
             sm: 3,
@@ -1601,9 +1601,9 @@ function DashboardPage() {
               mb: 3.5,
               p: { xs: 2.5, md: 3.2 },
               borderRadius: 4.5,
-              border: "1px solid #DCE8FB",
+              border: "1px solid var(--oa-border-brand-soft)",
               background:
-                "linear-gradient(120deg, #FFFFFF 0%, #F4F8FF 55%, #EFFBF8 100%)",
+                "var(--oa-header-gradient)",
               boxShadow: "0 12px 32px rgba(37, 99, 235, 0.07)",
               display: "flex",
               flexDirection: {
@@ -1622,7 +1622,7 @@ function DashboardPage() {
               <Typography
                 variant="overline"
                 sx={{
-                  color: "#2563EB",
+                  color: "var(--oa-brand)",
                   fontWeight: 800,
                   letterSpacing: "0.08em",
                 }}
@@ -1636,7 +1636,7 @@ function DashboardPage() {
                   mt: 0.45,
                   fontWeight: 800,
                   letterSpacing: "-0.03em",
-                  color: "#0F172A",
+                  color: "var(--oa-text-900)",
                   fontSize: {
                     xs: "1.9rem",
                     sm: "2.25rem",
@@ -1650,7 +1650,7 @@ function DashboardPage() {
               <Typography
                 sx={{
                   mt: 0.85,
-                  color: "#64748B",
+                  color: "var(--oa-text-500)",
                   maxWidth: 720,
                   lineHeight: 1.7,
                 }}
@@ -1714,9 +1714,9 @@ function DashboardPage() {
                 md: 4,
               },
               borderRadius: 5,
-              border: "1px solid #DBEAFE",
+              border: "1px solid var(--oa-border-brand-soft)",
               background:
-                "linear-gradient(135deg, #EEF5FF 0%, #F8FBFF 58%, #FFFFFF 100%)",
+                "linear-gradient(135deg, var(--oa-brand-soft) 0%, var(--oa-surface-2) 58%, var(--oa-surface) 100%)",
               boxShadow: "0 18px 44px rgba(37,99,235,0.06)",
             }}
           >
@@ -1758,7 +1758,7 @@ function DashboardPage() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      bgcolor: "#2563EB",
+                      bgcolor: "var(--oa-brand-solid)",
                       color: "white",
                       boxShadow: "0 8px 18px rgba(37,99,235,0.18)",
                     }}
@@ -1771,14 +1771,14 @@ function DashboardPage() {
                       variant="h6"
                       sx={{
                         fontWeight: 800,
-                        color: "#0F172A",
+                        color: "var(--oa-text-900)",
                       }}
                     >
                       {t("dashboard.latestAssessmentTitle")}
                     </Typography>
                     <Typography
                       variant="body2"
-                      sx={{ color: "#64748B", mt: 0.2 }}
+                      sx={{ color: "var(--oa-text-500)", mt: 0.2 }}
                     >
                       {t("dashboard.latestAssessmentSubtitle")}
                     </Typography>
@@ -1790,16 +1790,16 @@ function DashboardPage() {
                     mt: 3,
                     p: 2.25,
                     borderRadius: 3.5,
-                    border: "1px dashed #BFDBFE",
-                    bgcolor: "rgba(255,255,255,0.72)",
+                    border: "1px dashed var(--oa-border-brand)",
+                    bgcolor: "var(--oa-surface-glass)",
                   }}
                 >
                   <Typography
                     sx={{
                       fontWeight: 800,
                       color: hasAssessment
-                        ? "#0F172A"
-                        : "#1E3A8A",
+                        ? "var(--oa-text-900)"
+                        : "var(--oa-brand-strong)",
                     }}
                   >
                     {hasAssessment
@@ -1811,7 +1811,7 @@ function DashboardPage() {
                     variant="body2"
                     sx={{
                       mt: 0.7,
-                      color: "#64748B",
+                      color: "var(--oa-text-500)",
                       lineHeight: 1.65,
                       maxWidth: 680,
                     }}
@@ -1829,7 +1829,7 @@ function DashboardPage() {
                       sx={{
                         display: "block",
                         mt: 1,
-                        color: "#94A3B8",
+                        color: "var(--oa-text-400)",
                       }}
                     >
                       {t("dashboard.assessmentDateLabel", {
@@ -1848,7 +1848,7 @@ function DashboardPage() {
                   },
                   p: 2.5,
                   borderRadius: 4,
-                  bgcolor: "rgba(255,255,255,0.78)",
+                  bgcolor: "var(--oa-surface-glass)",
                   border: "1px solid rgba(191,219,254,0.9)",
                   textAlign: "center",
                 }}
@@ -1856,7 +1856,7 @@ function DashboardPage() {
                 <Typography
                   variant="caption"
                   sx={{
-                    color: "#64748B",
+                    color: "var(--oa-text-500)",
                     fontWeight: 700,
                     letterSpacing: "0.04em",
                   }}
@@ -1874,7 +1874,7 @@ function DashboardPage() {
                     lineHeight: 1,
                     fontWeight: 900,
                     letterSpacing: "-0.04em",
-                    color: "#94A3B8",
+                    color: "var(--oa-text-400)",
                   }}
                 >
                   {hasAssessment ? riskPercent : "—"}
@@ -1884,8 +1884,8 @@ function DashboardPage() {
                   sx={{
                     mt: 0.9,
                     color: hasAssessment
-                      ? "#334155"
-                      : "#64748B",
+                      ? "var(--oa-text-700)"
+                      : "var(--oa-text-500)",
                     fontWeight: 700,
                     fontSize: "0.9rem",
                   }}
@@ -1903,7 +1903,7 @@ function DashboardPage() {
                     sx={{
                       display: "block",
                       mt: 0.55,
-                      color: "#64748B",
+                      color: "var(--oa-text-500)",
                     }}
                   >
                     {t("dashboard.lastAssessed", {
@@ -1923,7 +1923,7 @@ function DashboardPage() {
             sx={{
               mb: 1.5,
               fontWeight: 800,
-              color: "#0F172A",
+              color: "var(--oa-text-900)",
             }}
           >
             {t("dashboard.healthSnapshot")}
@@ -1976,8 +1976,8 @@ function DashboardPage() {
                     height: "100%",
                     p: 2.5,
                     borderRadius: 4,
-                    border: "1px solid #E7EDF5",
-                    bgcolor: "#FFFFFF",
+                    border: "1px solid var(--oa-border-3)",
+                    bgcolor: "var(--oa-surface)",
                     boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                   }}
                 >
@@ -1994,8 +1994,8 @@ function DashboardPage() {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        bgcolor: "#EEF4FF",
-                        color: "#2563EB",
+                        bgcolor: "var(--oa-brand-soft)",
+                        color: "var(--oa-brand)",
                         flexShrink: 0,
                       }}
                     >
@@ -2006,7 +2006,7 @@ function DashboardPage() {
                       <Typography
                         variant="body2"
                         sx={{
-                          color: "#64748B",
+                          color: "var(--oa-text-500)",
                           fontWeight: 600,
                         }}
                       >
@@ -2018,7 +2018,7 @@ function DashboardPage() {
                           mt: 0.2,
                           fontWeight: 900,
                           fontSize: "1.35rem",
-                          color: "#0F172A",
+                          color: "var(--oa-text-900)",
                         }}
                       >
                         {metric.value}
@@ -2031,7 +2031,7 @@ function DashboardPage() {
                     sx={{
                       display: "block",
                       mt: 1.7,
-                      color: "#94A3B8",
+                      color: "var(--oa-text-400)",
                     }}
                   >
                     {metric.note}
@@ -2058,15 +2058,15 @@ function DashboardPage() {
                     md: 3,
                   },
                   borderRadius: 4.5,
-                  border: "1px solid #E7EDF5",
-                  bgcolor: "#FFFFFF",
+                  border: "1px solid var(--oa-border-3)",
+                  bgcolor: "var(--oa-surface)",
                   boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                 }}
               >
                 <Typography
                   sx={{
                     fontWeight: 800,
-                    color: "#0F172A",
+                    color: "var(--oa-text-900)",
                   }}
                 >
                   {t("dashboard.bodyPersonalDetailsTitle")}
@@ -2076,7 +2076,7 @@ function DashboardPage() {
                   variant="body2"
                   sx={{
                     mt: 0.4,
-                    color: "#64748B",
+                    color: "var(--oa-text-500)",
                   }}
                 >
                   {t("dashboard.bodyPersonalDetailsSubtitle")}
@@ -2114,15 +2114,15 @@ function DashboardPage() {
                         sx={{
                           p: 1.7,
                           borderRadius: 3,
-                          bgcolor: "#F8FAFC",
-                          border: "1px solid #EDF2F7",
+                          bgcolor: "var(--oa-surface-2)",
+                          border: "1px solid var(--oa-border-2)",
                         }}
                       >
                         <Typography
                           variant="caption"
                           sx={{
                             display: "block",
-                            color: "#94A3B8",
+                            color: "var(--oa-text-400)",
                             fontWeight: 700,
                           }}
                         >
@@ -2133,7 +2133,7 @@ function DashboardPage() {
                           variant="body2"
                           sx={{
                             mt: 0.45,
-                            color: "#334155",
+                            color: "var(--oa-text-700)",
                             fontWeight: 800,
                           }}
                         >
@@ -2162,15 +2162,15 @@ function DashboardPage() {
                     md: 3,
                   },
                   borderRadius: 4.5,
-                  border: "1px solid #E7EDF5",
-                  bgcolor: "#FFFFFF",
+                  border: "1px solid var(--oa-border-3)",
+                  bgcolor: "var(--oa-surface)",
                   boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                 }}
               >
                 <Typography
                   sx={{
                     fontWeight: 800,
-                    color: "#0F172A",
+                    color: "var(--oa-text-900)",
                   }}
                 >
                   {t("dashboard.lifestyleProfileTitle")}
@@ -2180,7 +2180,7 @@ function DashboardPage() {
                   variant="body2"
                   sx={{
                     mt: 0.4,
-                    color: "#64748B",
+                    color: "var(--oa-text-500)",
                   }}
                 >
                   {t("dashboard.lifestyleProfileSubtitle")}
@@ -2254,15 +2254,15 @@ function DashboardPage() {
                           p: 1.7,
                           minHeight: 72,
                           borderRadius: 3,
-                          bgcolor: "#F8FAFC",
-                          border: "1px solid #EDF2F7",
+                          bgcolor: "var(--oa-surface-2)",
+                          border: "1px solid var(--oa-border-2)",
                         }}
                       >
                         <Typography
                           variant="caption"
                           sx={{
                             display: "block",
-                            color: "#94A3B8",
+                            color: "var(--oa-text-400)",
                             fontWeight: 700,
                             lineHeight: 1.35,
                           }}
@@ -2274,7 +2274,7 @@ function DashboardPage() {
                           variant="body2"
                           sx={{
                             mt: 0.55,
-                            color: "#334155",
+                            color: "var(--oa-text-700)",
                             fontWeight: 800,
                           }}
                         >
@@ -2297,15 +2297,15 @@ function DashboardPage() {
                 md: 3,
               },
               borderRadius: 4.5,
-              border: "1px solid #E7EDF5",
-              bgcolor: "#FFFFFF",
+              border: "1px solid var(--oa-border-3)",
+              bgcolor: "var(--oa-surface)",
               boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
             }}
           >
             <Typography
               sx={{
                 fontWeight: 800,
-                color: "#0F172A",
+                color: "var(--oa-text-900)",
               }}
             >
               {t("dashboard.medicalFamilyHistoryTitle")}
@@ -2315,7 +2315,7 @@ function DashboardPage() {
               variant="body2"
               sx={{
                 mt: 0.4,
-                color: "#64748B",
+                color: "var(--oa-text-500)",
               }}
             >
               {t("dashboard.medicalFamilyHistorySubtitle")}
@@ -2370,15 +2370,15 @@ function DashboardPage() {
                     sx={{
                       p: 1.8,
                       borderRadius: 3,
-                      bgcolor: "#F8FAFC",
-                      border: "1px solid #EDF2F7",
+                      bgcolor: "var(--oa-surface-2)",
+                      border: "1px solid var(--oa-border-2)",
                     }}
                   >
                     <Typography
                       variant="caption"
                       sx={{
                         display: "block",
-                        color: "#94A3B8",
+                        color: "var(--oa-text-400)",
                         fontWeight: 700,
                         lineHeight: 1.4,
                       }}
@@ -2390,7 +2390,7 @@ function DashboardPage() {
                       variant="body2"
                       sx={{
                         mt: 0.55,
-                        color: "#334155",
+                        color: "var(--oa-text-700)",
                         fontWeight: 800,
                       }}
                     >
@@ -2425,7 +2425,7 @@ function DashboardPage() {
                 variant="h6"
                 sx={{
                   fontWeight: 800,
-                  color: "#0F172A",
+                  color: "var(--oa-text-900)",
                 }}
               >
                 {t("dashboard.riskAnalyticsTitle")}
@@ -2434,7 +2434,7 @@ function DashboardPage() {
                 variant="body2"
                 sx={{
                   mt: 0.3,
-                  color: "#64748B",
+                  color: "var(--oa-text-500)",
                 }}
               >
                 {t("dashboard.riskAnalyticsSubtitle")}
@@ -2444,7 +2444,7 @@ function DashboardPage() {
             <Typography
               variant="caption"
               sx={{
-                color: "#64748B",
+                color: "var(--oa-text-500)",
                 fontWeight: 700,
               }}
             >
@@ -2469,8 +2469,8 @@ function DashboardPage() {
                     md: 3,
                   },
                   borderRadius: 4.5,
-                  border: "1px solid #E7EDF5",
-                  bgcolor: "#FFFFFF",
+                  border: "1px solid var(--oa-border-3)",
+                  bgcolor: "var(--oa-surface)",
                   boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                 }}
               >
@@ -2486,7 +2486,7 @@ function DashboardPage() {
                     <Typography
                       sx={{
                         fontWeight: 800,
-                        color: "#0F172A",
+                        color: "var(--oa-text-900)",
                       }}
                     >
                       {t("dashboard.riskTrendTitle")}
@@ -2496,7 +2496,7 @@ function DashboardPage() {
                       variant="body2"
                       sx={{
                         mt: 0.45,
-                        color: "#64748B",
+                        color: "var(--oa-text-500)",
                       }}
                     >
                       {t("dashboard.riskTrendSubtitle")}
@@ -2509,8 +2509,8 @@ function DashboardPage() {
                         px: 1.2,
                         py: 0.55,
                         borderRadius: 999,
-                        bgcolor: "#F1F5F9",
-                        color: "#475569",
+                        bgcolor: "var(--oa-surface-3)",
+                        color: "var(--oa-text-600)",
                         fontSize: "0.72rem",
                         fontWeight: 800,
                         whiteSpace: "nowrap",
@@ -2547,7 +2547,7 @@ function DashboardPage() {
                               key={value}
                               variant="caption"
                               sx={{
-                                color: "#94A3B8",
+                                color: "var(--oa-text-400)",
                                 fontSize:
                                   "0.68rem",
                                 lineHeight: 1,
@@ -2581,7 +2581,7 @@ function DashboardPage() {
                                 x2={trendPlotRight}
                                 y1={y}
                                 y2={y}
-                                stroke="#E2E8F0"
+                                stroke="var(--oa-border-1)"
                                 strokeWidth="0.35"
                                 strokeDasharray={
                                   index === 0 ||
@@ -2595,7 +2595,7 @@ function DashboardPage() {
 
                           <polygon
                             points={trendAreaPolygon}
-                            fill="#2563EB"
+                            fill="var(--oa-brand)"
                             opacity="0.055"
                           />
 
@@ -2603,7 +2603,7 @@ function DashboardPage() {
                             <polyline
                               points={trendPolyline}
                               fill="none"
-                              stroke="#2563EB"
+                              stroke="var(--oa-brand)"
                               strokeWidth="1.7"
                               vectorEffect="non-scaling-stroke"
                               strokeLinecap="round"
@@ -2619,7 +2619,7 @@ function DashboardPage() {
                                 cy={point.y}
                                 r="2.1"
                                 fill="#FFFFFF"
-                                stroke="#2563EB"
+                                stroke="var(--oa-brand)"
                                 strokeWidth="1.5"
                                 vectorEffect="non-scaling-stroke"
                               >
@@ -2657,7 +2657,7 @@ function DashboardPage() {
                                     left: `${point.x}%`,
                                     transform:
                                       "translateX(-50%)",
-                                    color: "#94A3B8",
+                                    color: "var(--oa-text-400)",
                                     fontSize:
                                       "0.67rem",
                                     whiteSpace:
@@ -2686,7 +2686,7 @@ function DashboardPage() {
                       <Typography
                         variant="caption"
                         sx={{
-                          color: "#94A3B8",
+                          color: "var(--oa-text-400)",
                         }}
                       >
                         {chartHistory[0].date}
@@ -2698,8 +2698,8 @@ function DashboardPage() {
                           px: 1.1,
                           py: 0.45,
                           borderRadius: 999,
-                          bgcolor: "#EEF4FF",
-                          color: "#2563EB",
+                          bgcolor: "var(--oa-brand-soft)",
+                          color: "var(--oa-brand)",
                           fontWeight: 800,
                         }}
                       >
@@ -2713,7 +2713,7 @@ function DashboardPage() {
                       <Typography
                         variant="caption"
                         sx={{
-                          color: "#94A3B8",
+                          color: "var(--oa-text-400)",
                         }}
                       >
                         {
@@ -2729,7 +2729,7 @@ function DashboardPage() {
                       sx={{
                         display: "block",
                         mt: 1.2,
-                        color: "#94A3B8",
+                        color: "var(--oa-text-400)",
                         lineHeight: 1.5,
                       }}
                     >
@@ -2742,8 +2742,8 @@ function DashboardPage() {
                       mt: 2.5,
                       height: 230,
                       borderRadius: 3.5,
-                      border: "1px dashed #CBD5E1",
-                      bgcolor: "#F8FAFC",
+                      border: "1px dashed var(--oa-border-4)",
+                      bgcolor: "var(--oa-surface-2)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -2755,7 +2755,7 @@ function DashboardPage() {
                       <Typography
                         sx={{
                           fontWeight: 800,
-                          color: "#334155",
+                          color: "var(--oa-text-700)",
                         }}
                       >
                         {t("dashboard.trendEmptyTitle")}
@@ -2765,7 +2765,7 @@ function DashboardPage() {
                         variant="body2"
                         sx={{
                           mt: 0.65,
-                          color: "#64748B",
+                          color: "var(--oa-text-500)",
                           lineHeight: 1.6,
                           maxWidth: 430,
                         }}
@@ -2794,8 +2794,8 @@ function DashboardPage() {
                     md: 3,
                   },
                   borderRadius: 4.5,
-                  border: "1px solid #E7EDF5",
-                  bgcolor: "#FFFFFF",
+                  border: "1px solid var(--oa-border-3)",
+                  bgcolor: "var(--oa-surface)",
                   boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                 }}
               >
@@ -2812,8 +2812,8 @@ function DashboardPage() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      bgcolor: "#EEF4FF",
-                      color: "#2563EB",
+                      bgcolor: "var(--oa-brand-soft)",
+                      color: "var(--oa-brand)",
                     }}
                   >
                     <AIIcon />
@@ -2823,7 +2823,7 @@ function DashboardPage() {
                     <Typography
                       sx={{
                         fontWeight: 800,
-                        color: "#0F172A",
+                        color: "var(--oa-text-900)",
                       }}
                     >
                       {t("dashboard.explainableAiTitle")}
@@ -2833,7 +2833,7 @@ function DashboardPage() {
                       variant="body2"
                       sx={{
                         mt: 0.2,
-                        color: "#64748B",
+                        color: "var(--oa-text-500)",
                       }}
                     >
                       {t("dashboard.explainableAiSubtitle")}
@@ -2876,7 +2876,7 @@ function DashboardPage() {
                                   whiteSpace:
                                     "nowrap",
                                   fontWeight: 800,
-                                  color: "#334155",
+                                  color: "var(--oa-text-700)",
                                 }}
                               >
                                 {item.feature}
@@ -2888,8 +2888,8 @@ function DashboardPage() {
                                   flexShrink: 0,
                                   fontWeight: 800,
                                   color: item.increases
-                                    ? "#DC2626"
-                                    : "#16A34A",
+                                    ? "var(--oa-danger)"
+                                    : "var(--oa-success)",
                                 }}
                               >
                                 {item.value > 0
@@ -2904,7 +2904,7 @@ function DashboardPage() {
                                 mt: 0.7,
                                 height: 9,
                                 borderRadius: 999,
-                                bgcolor: "#F1F5F9",
+                                bgcolor: "var(--oa-surface-3)",
                                 overflow: "hidden",
                               }}
                             >
@@ -2914,8 +2914,8 @@ function DashboardPage() {
                                   height: "100%",
                                   borderRadius: 999,
                                   bgcolor: item.increases
-                                    ? "#F87171"
-                                    : "#4ADE80",
+                                    ? "var(--oa-danger)"
+                                    : "var(--oa-success)",
                                   transition:
                                     "width 0.35s ease",
                                 }}
@@ -2927,7 +2927,7 @@ function DashboardPage() {
                               sx={{
                                 display: "block",
                                 mt: 0.35,
-                                color: "#94A3B8",
+                                color: "var(--oa-text-400)",
                               }}
                             >
                               {item.increases
@@ -2962,12 +2962,12 @@ function DashboardPage() {
                             width: 9,
                             height: 9,
                             borderRadius: "50%",
-                            bgcolor: "#F87171",
+                            bgcolor: "var(--oa-danger)",
                           }}
                         />
                         <Typography
                           variant="caption"
-                          sx={{ color: "#64748B" }}
+                          sx={{ color: "var(--oa-text-500)" }}
                         >
                           {t("dashboard.increasesModelOutput")}
                         </Typography>
@@ -2983,12 +2983,12 @@ function DashboardPage() {
                             width: 9,
                             height: 9,
                             borderRadius: "50%",
-                            bgcolor: "#4ADE80",
+                            bgcolor: "var(--oa-success)",
                           }}
                         />
                         <Typography
                           variant="caption"
-                          sx={{ color: "#64748B" }}
+                          sx={{ color: "var(--oa-text-500)" }}
                         >
                           {t("dashboard.decreasesModelOutput")}
                         </Typography>
@@ -3000,7 +3000,7 @@ function DashboardPage() {
                       sx={{
                         display: "block",
                         mt: 1.3,
-                        color: "#94A3B8",
+                        color: "var(--oa-text-400)",
                         lineHeight: 1.55,
                       }}
                     >
@@ -3013,8 +3013,8 @@ function DashboardPage() {
                       mt: 2.5,
                       minHeight: 230,
                       borderRadius: 3.5,
-                      border: "1px dashed #CBD5E1",
-                      bgcolor: "#F8FAFC",
+                      border: "1px dashed var(--oa-border-4)",
+                      bgcolor: "var(--oa-surface-2)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -3025,7 +3025,7 @@ function DashboardPage() {
                     <Typography
                       variant="body2"
                       sx={{
-                        color: "#64748B",
+                        color: "var(--oa-text-500)",
                         lineHeight: 1.65,
                         maxWidth: 360,
                       }}
@@ -3077,8 +3077,8 @@ function DashboardPage() {
                 md: 3,
               },
               borderRadius: 4.5,
-              border: "1px solid #E7EDF5",
-              bgcolor: "#FFFFFF",
+              border: "1px solid var(--oa-border-3)",
+              bgcolor: "var(--oa-surface)",
               boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
             }}
           >
@@ -3094,7 +3094,7 @@ function DashboardPage() {
                 <Typography
                   sx={{
                     fontWeight: 800,
-                    color: "#0F172A",
+                    color: "var(--oa-text-900)",
                   }}
                 >
                   {t("dashboard.assessmentHistoryTitle")}
@@ -3104,7 +3104,7 @@ function DashboardPage() {
                   variant="body2"
                   sx={{
                     mt: 0.4,
-                    color: "#64748B",
+                    color: "var(--oa-text-500)",
                   }}
                 >
                   {t("dashboard.assessmentHistorySubtitle")}
@@ -3122,8 +3122,8 @@ function DashboardPage() {
                     label={assessmentHistory.length}
                     sx={{
                       fontWeight: 800,
-                      bgcolor: "#EEF4FF",
-                      color: "#2563EB",
+                      bgcolor: "var(--oa-brand-soft)",
+                      color: "var(--oa-brand)",
                     }}
                   />
                 )}
@@ -3147,7 +3147,7 @@ function DashboardPage() {
               <Box
                 sx={{
                   mt: 2.2,
-                  border: "1px solid #EDF2F7",
+                  border: "1px solid var(--oa-border-2)",
                   borderRadius: 3.5,
                   overflow: "hidden",
                 }}
@@ -3203,7 +3203,7 @@ function DashboardPage() {
                           borderTop:
                             index === 0
                               ? "none"
-                              : "1px solid #EDF2F7",
+                              : "1px solid var(--oa-border-2)",
                         }}
                       >
                         <Box
@@ -3223,12 +3223,12 @@ function DashboardPage() {
                               justifyContent: "center",
                               bgcolor:
                                 index === 0
-                                  ? "#EEF4FF"
-                                  : "#F8FAFC",
+                                  ? "var(--oa-brand-soft)"
+                                  : "var(--oa-surface-2)",
                               color:
                                 index === 0
-                                  ? "#2563EB"
-                                  : "#64748B",
+                                  ? "var(--oa-brand)"
+                                  : "var(--oa-text-500)",
                               flexShrink: 0,
                             }}
                           >
@@ -3240,7 +3240,7 @@ function DashboardPage() {
                               variant="body2"
                               sx={{
                                 fontWeight: 800,
-                                color: "#334155",
+                                color: "var(--oa-text-700)",
                               }}
                             >
                               {index === 0
@@ -3253,7 +3253,7 @@ function DashboardPage() {
                             <Typography
                               variant="caption"
                               sx={{
-                                color: "#94A3B8",
+                                color: "var(--oa-text-400)",
                               }}
                             >
                               {formatDate(item.savedAt)}
@@ -3271,7 +3271,7 @@ function DashboardPage() {
                           <Typography
                             sx={{
                               fontWeight: 900,
-                              color: "#0F172A",
+                              color: "var(--oa-text-900)",
                             }}
                           >
                             {percent}
@@ -3284,24 +3284,24 @@ function DashboardPage() {
                               borderRadius: 999,
                               bgcolor:
                                 level === "High"
-                                  ? "#FEF2F2"
+                                  ? "var(--oa-danger-soft)"
                                   : level ===
                                     "Moderate"
-                                    ? "#FFFBEB"
+                                    ? "var(--oa-warn-soft-2)"
                                     : level ===
                                       "Low"
-                                      ? "#F0FDF4"
-                                      : "#F8FAFC",
+                                      ? "var(--oa-success-soft)"
+                                      : "var(--oa-surface-2)",
                               color:
                                 level === "High"
-                                  ? "#B91C1C"
+                                  ? "var(--oa-danger-strong)"
                                   : level ===
                                     "Moderate"
-                                    ? "#B45309"
+                                    ? "var(--oa-warn-deep)"
                                     : level ===
                                       "Low"
-                                      ? "#15803D"
-                                      : "#64748B",
+                                      ? "var(--oa-success-strong)"
+                                      : "var(--oa-text-500)",
                               fontSize:
                                 "0.72rem",
                               fontWeight: 800,
@@ -3321,15 +3321,15 @@ function DashboardPage() {
                   mt: 2.2,
                   p: 2.2,
                   borderRadius: 3.5,
-                  border: "1px dashed #CBD5E1",
-                  bgcolor: "#F8FAFC",
+                  border: "1px dashed var(--oa-border-4)",
+                  bgcolor: "var(--oa-surface-2)",
                   textAlign: "center",
                 }}
               >
                 <Typography
                   variant="body2"
                   sx={{
-                    color: "#475569",
+                    color: "var(--oa-text-600)",
                     fontWeight: 700,
                   }}
                 >
@@ -3341,7 +3341,7 @@ function DashboardPage() {
                   sx={{
                     display: "block",
                     mt: 0.45,
-                    color: "#94A3B8",
+                    color: "var(--oa-text-400)",
                   }}
                 >
                   {t("dashboard.noSavedAssessmentsDesc")}
@@ -3358,7 +3358,7 @@ function DashboardPage() {
             sx={{
               mb: 1.5,
               fontWeight: 800,
-              color: "#0F172A",
+              color: "var(--oa-text-900)",
             }}
           >
             {t("dashboard.exploreTitle")}
@@ -3409,8 +3409,8 @@ function DashboardPage() {
                     height: "100%",
                     p: 2.5,
                     borderRadius: 4,
-                    border: "1px solid #E7EDF5",
-                    bgcolor: "#FFFFFF",
+                    border: "1px solid var(--oa-border-3)",
+                    bgcolor: "var(--oa-surface)",
                     boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                     cursor: item.path
                       ? "pointer"
@@ -3418,7 +3418,7 @@ function DashboardPage() {
                     transition: "all 0.2s",
                     "&:hover": item.path
                       ? {
-                          borderColor: "#93C5FD",
+                          borderColor: "var(--oa-brand-200)",
                           transform:
                             "translateY(-2px)",
                         }
@@ -3433,8 +3433,8 @@ function DashboardPage() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      bgcolor: "#F8FAFC",
-                      color: "#475569",
+                      bgcolor: "var(--oa-surface-2)",
+                      color: "var(--oa-text-600)",
                     }}
                   >
                     {item.icon}
@@ -3444,7 +3444,7 @@ function DashboardPage() {
                     sx={{
                       mt: 1.5,
                       fontWeight: 800,
-                      color: "#0F172A",
+                      color: "var(--oa-text-900)",
                     }}
                   >
                     {item.title}
@@ -3454,7 +3454,7 @@ function DashboardPage() {
                     variant="body2"
                     sx={{
                       mt: 0.65,
-                      color: "#64748B",
+                      color: "var(--oa-text-500)",
                       lineHeight: 1.65,
                     }}
                   >

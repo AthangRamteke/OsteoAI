@@ -271,8 +271,8 @@ function ResultAssistant({ predictionResult }) {
       elevation={0}
       sx={{
         borderRadius: 4,
-        border: "1px solid #DCE6F4",
-        bgcolor: "white",
+        border: "1px solid var(--oa-border-3)",
+        bgcolor: "var(--oa-surface)",
         overflow: "hidden",
       }}
     >
@@ -299,8 +299,8 @@ function ResultAssistant({ predictionResult }) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              bgcolor: "#EEF4FF",
-              color: "#2563EB",
+              bgcolor: "var(--oa-brand-soft)",
+              color: "var(--oa-brand)",
               flexShrink: 0,
             }}
           >
@@ -312,7 +312,7 @@ function ResultAssistant({ predictionResult }) {
               variant="h6"
               fontWeight={800}
               sx={{
-                color: "#0F172A",
+                color: "var(--oa-text-900)",
               }}
             >
               {t("resultAssistant.title")}
@@ -322,7 +322,7 @@ function ResultAssistant({ predictionResult }) {
               variant="body2"
               sx={{
                 mt: 0.25,
-                color: "#64748B",
+                color: "var(--oa-text-500)",
               }}
             >
               {t("resultAssistant.subtitle")}
@@ -353,7 +353,7 @@ function ResultAssistant({ predictionResult }) {
               variant="outlined"
               sx={{
                 fontWeight: 600,
-                borderColor: "#D7E3F4",
+                borderColor: "var(--oa-border-brand-soft)",
               }}
             />
           ))}
@@ -398,8 +398,8 @@ function ResultAssistant({ predictionResult }) {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      bgcolor: "#EEF4FF",
-                      color: "#2563EB",
+                      bgcolor: "var(--oa-brand-soft)",
+                      color: "var(--oa-brand)",
                       flexShrink: 0,
                     }}
                   >
@@ -419,17 +419,17 @@ function ResultAssistant({ predictionResult }) {
                     py: 1.25,
                     borderRadius: 3,
                     bgcolor: isAssistant
-                      ? "#F8FAFC"
-                      : "#EEF4FF",
+                      ? "var(--oa-surface-2)"
+                      : "var(--oa-brand-soft)",
                     border: isAssistant
-                      ? "1px solid #E2E8F0"
-                      : "1px solid #D7E3F4",
+                      ? "1px solid var(--oa-border-1)"
+                      : "1px solid var(--oa-border-brand-soft)",
                   }}
                 >
                   <Typography
                     variant="body2"
                     sx={{
-                      color: "#334155",
+                      color: "var(--oa-text-700)",
                       lineHeight: 1.65,
                       whiteSpace: "pre-wrap",
                     }}
@@ -460,8 +460,8 @@ function ResultAssistant({ predictionResult }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  bgcolor: "#EEF4FF",
-                  color: "#2563EB",
+                  bgcolor: "var(--oa-brand-soft)",
+                  color: "var(--oa-brand)",
                 }}
               >
                 <SmartToyIcon
@@ -523,7 +523,7 @@ function ResultAssistant({ predictionResult }) {
               width: 44,
               height: 44,
               borderRadius: 2.5,
-              bgcolor: "#EEF4FF",
+              bgcolor: "var(--oa-brand-soft)",
             }}
           >
             <SendIcon />
@@ -536,7 +536,7 @@ function ResultAssistant({ predictionResult }) {
           sx={{
             display: "block",
             mt: 1,
-            color: "#94A3B8",
+            color: "var(--oa-text-400)",
           }}
         >
           {t("resultAssistant.disclaimer")}
@@ -677,35 +677,35 @@ function AssessmentResult({
 
   const getRiskColor = () => {
     if (riskLevel === "High") {
-      return "#DC2626";
+      return "var(--oa-danger)";
     }
 
     if (riskLevel === "Moderate") {
-      return "#D97706";
+      return "var(--oa-warn-strong)";
     }
 
     if (riskLevel === "Low") {
-      return "#16A34A";
+      return "var(--oa-success)";
     }
 
-    return "#2563EB";
+    return "var(--oa-brand)";
   };
 
 
   const getRiskBackground = () => {
     if (riskLevel === "High") {
-      return "#FEF2F2";
+      return "var(--oa-danger-soft)";
     }
 
     if (riskLevel === "Moderate") {
-      return "#FFFBEB";
+      return "var(--oa-warn-soft-2)";
     }
 
     if (riskLevel === "Low") {
-      return "#F0FDF4";
+      return "var(--oa-success-soft)";
     }
 
-    return "#EEF4FF";
+    return "var(--oa-brand-soft)";
   };
 
 
@@ -720,8 +720,8 @@ function AssessmentResult({
       sx={{
         height: "100%",
         borderRadius: 4,
-        border: "1px solid #E2E8F0",
-        bgcolor: "rgba(255,255,255,0.94)",
+        border: "1px solid var(--oa-border-1)",
+        bgcolor: "var(--oa-surface-glass)",
         boxShadow:
           "0 8px 24px rgba(15, 23, 42, 0.04)",
       }}
@@ -747,7 +747,7 @@ function AssessmentResult({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              bgcolor: "#EEF4FF",
+              bgcolor: "var(--oa-brand-soft)",
               color: "primary.main",
               flexShrink: 0,
             }}
@@ -759,7 +759,7 @@ function AssessmentResult({
             <Typography
               variant="body2"
               sx={{
-                color: "#64748B",
+                color: "var(--oa-text-500)",
               }}
             >
               {label}
@@ -770,7 +770,7 @@ function AssessmentResult({
               fontWeight={800}
               sx={{
                 mt: 0.25,
-                color: "#0F172A",
+                color: "var(--oa-text-900)",
                 overflowWrap: "anywhere",
               }}
             >
@@ -783,7 +783,7 @@ function AssessmentResult({
                 sx={{
                   display: "block",
                   mt: 0.25,
-                  color: "#94A3B8",
+                  color: "var(--oa-text-400)",
                 }}
               >
                 {subtitle}
@@ -809,8 +809,8 @@ function AssessmentResult({
         gap: 2,
         p: 1.5,
         borderRadius: 3,
-        bgcolor: "#F8FAFC",
-        border: "1px solid #E2E8F0",
+        bgcolor: "var(--oa-surface-2)",
+        border: "1px solid var(--oa-border-1)",
       }}
     >
       <Stack
@@ -829,7 +829,7 @@ function AssessmentResult({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            bgcolor: "white",
+            bgcolor: "var(--oa-surface)",
             color: "primary.main",
             flexShrink: 0,
           }}
@@ -841,7 +841,7 @@ function AssessmentResult({
           variant="body2"
           fontWeight={700}
           sx={{
-            color: "#334155",
+            color: "var(--oa-text-700)",
           }}
         >
           {title}
@@ -853,9 +853,9 @@ function AssessmentResult({
         size="small"
         sx={{
           fontWeight: 700,
-          bgcolor: "white",
+          bgcolor: "var(--oa-surface)",
           border:
-            "1px solid #E2E8F0",
+            "1px solid var(--oa-border-1)",
           maxWidth: "48%",
         }}
       />
@@ -885,11 +885,11 @@ function AssessmentResult({
             alignItems: "center",
             justifyContent: "center",
             bgcolor: isPositive
-              ? "#FEF2F2"
-              : "#F0FDF4",
+              ? "var(--oa-danger-soft)"
+              : "var(--oa-success-soft)",
             color: isPositive
-              ? "#DC2626"
-              : "#16A34A",
+              ? "var(--oa-danger)"
+              : "var(--oa-success)",
           }}
         >
           {isPositive ? (
@@ -908,7 +908,7 @@ function AssessmentResult({
           fontWeight={800}
           sx={{
             mt: 2,
-            color: "#0F172A",
+            color: "var(--oa-text-900)",
             letterSpacing: "-0.02em",
           }}
         >
@@ -918,7 +918,7 @@ function AssessmentResult({
         <Typography
           sx={{
             mt: 1,
-            color: "#64748B",
+            color: "var(--oa-text-500)",
             lineHeight: 1.7,
           }}
         >
@@ -934,7 +934,7 @@ function AssessmentResult({
         sx={{
           borderRadius: 5,
           border:
-            "1px solid #DCE6F4",
+            "1px solid var(--oa-border-3)",
           bgcolor:
             getRiskBackground(),
           overflow: "hidden",
@@ -980,7 +980,7 @@ function AssessmentResult({
                 fontWeight={800}
                 sx={{
                   mt: 0.5,
-                  color: "#0F172A",
+                  color: "var(--oa-text-900)",
                 }}
               >
                 {t("assessment.result.riskLevelSuffix", {
@@ -992,7 +992,7 @@ function AssessmentResult({
                 sx={{
                   mt: 1,
                   maxWidth: 620,
-                  color: "#64748B",
+                  color: "var(--oa-text-500)",
                   lineHeight: 1.7,
                 }}
               >
@@ -1009,16 +1009,16 @@ function AssessmentResult({
                 },
                 p: 2.5,
                 borderRadius: 4,
-                bgcolor: "white",
+                bgcolor: "var(--oa-surface)",
                 border:
-                  "1px solid #E2E8F0",
+                  "1px solid var(--oa-border-1)",
                 textAlign: "center",
               }}
             >
               <Typography
                 variant="body2"
                 sx={{
-                  color: "#64748B",
+                  color: "var(--oa-text-500)",
                 }}
               >
                 {t("assessment.result.estimatedProbability")}
@@ -1103,8 +1103,8 @@ function AssessmentResult({
           elevation={0}
           sx={{
             borderRadius: 4,
-            border: "1px solid #E2E8F0",
-            bgcolor: "white",
+            border: "1px solid var(--oa-border-1)",
+            bgcolor: "var(--oa-surface)",
           }}
         >
           <CardContent
@@ -1138,7 +1138,7 @@ function AssessmentResult({
               variant="body2"
               sx={{
                 mt: 1,
-                color: "#64748B",
+                color: "var(--oa-text-500)",
                 lineHeight: 1.7,
               }}
             >
@@ -1172,8 +1172,8 @@ function AssessmentResult({
                     sx={{
                       p: 1.75,
                       borderRadius: 3,
-                      bgcolor: "#F8FAFC",
-                      border: "1px solid #E2E8F0",
+                      bgcolor: "var(--oa-surface-2)",
+                      border: "1px solid var(--oa-border-1)",
                     }}
                   >
                     <Stack
@@ -1207,11 +1207,11 @@ function AssessmentResult({
                             alignItems: "center",
                             justifyContent: "center",
                             bgcolor: increases
-                              ? "#FEF2F2"
-                              : "#F0FDF4",
+                              ? "var(--oa-danger-soft)"
+                              : "var(--oa-success-soft)",
                             color: increases
-                              ? "#DC2626"
-                              : "#16A34A",
+                              ? "var(--oa-danger)"
+                              : "var(--oa-success)",
                             flexShrink: 0,
                           }}
                         >
@@ -1227,7 +1227,7 @@ function AssessmentResult({
                             variant="body1"
                             fontWeight={800}
                             sx={{
-                              color: "#0F172A",
+                              color: "var(--oa-text-900)",
                             }}
                           >
                             {item.label ||
@@ -1238,7 +1238,7 @@ function AssessmentResult({
                             variant="body2"
                             sx={{
                               mt: 0.25,
-                              color: "#64748B",
+                              color: "var(--oa-text-500)",
                             }}
                           >
                             {increases
@@ -1259,9 +1259,9 @@ function AssessmentResult({
                             sm: "center",
                           },
                           fontWeight: 800,
-                          bgcolor: "white",
+                          bgcolor: "var(--oa-surface)",
                           border:
-                            "1px solid #E2E8F0",
+                            "1px solid var(--oa-border-1)",
                         }}
                       />
                     </Stack>
@@ -1271,7 +1271,7 @@ function AssessmentResult({
                       sx={{
                         display: "block",
                         mt: 1,
-                        color: "#94A3B8",
+                        color: "var(--oa-text-400)",
                       }}
                     >
                       {t("assessment.result.inputValueLabel", {
@@ -1298,7 +1298,7 @@ function AssessmentResult({
           fontWeight={800}
           sx={{
             mb: 2,
-            color: "#0F172A",
+            color: "var(--oa-text-900)",
           }}
         >
           {t("assessment.result.keyMetricsTitle")}
@@ -1377,8 +1377,8 @@ function AssessmentResult({
         sx={{
           borderRadius: 4,
           border:
-            "1px solid #E2E8F0",
-          bgcolor: "white",
+            "1px solid var(--oa-border-1)",
+          bgcolor: "var(--oa-surface)",
         }}
       >
         <CardContent
@@ -1412,7 +1412,7 @@ function AssessmentResult({
             variant="body2"
             sx={{
               mt: 1,
-              color: "#64748B",
+              color: "var(--oa-text-500)",
               lineHeight: 1.7,
             }}
           >
@@ -1476,8 +1476,8 @@ function AssessmentResult({
         sx={{
           borderRadius: 4,
           border:
-            "1px solid #E2E8F0",
-          bgcolor: "#F8FAFC",
+            "1px solid var(--oa-border-1)",
+          bgcolor: "var(--oa-surface-2)",
         }}
       >
         <CardContent

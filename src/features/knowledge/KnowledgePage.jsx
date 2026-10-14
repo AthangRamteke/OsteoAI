@@ -38,30 +38,30 @@ import { useLanguage } from "../../context/LanguageContext";
 import { fetchKnowledge } from "../../services/knowledgeService";
 
 const CATEGORY_COLORS = {
-  basics: "#2563EB",
-  risk: "#DC2626",
-  testing: "#7C3AED",
-  lifestyle: "#16A34A",
-  result: "#0891B2",
-  app: "#D97706",
+  basics: "var(--oa-brand)",
+  risk: "var(--oa-danger)",
+  testing: "var(--oa-violet)",
+  lifestyle: "var(--oa-success)",
+  result: "var(--oa-cyan)",
+  app: "var(--oa-warn-strong)",
 };
 
 const cardSx = {
   borderRadius: 4,
-  border: "1px solid #E2E8F0",
+  border: "1px solid var(--oa-border-1)",
   boxShadow: "none",
 };
 
 function SectionTitle({ icon, title, subtitle }) {
   return (
     <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 2 }}>
-      <Box sx={{ color: "#2563EB", display: "flex" }}>{icon}</Box>
+      <Box sx={{ color: "var(--oa-brand)", display: "flex" }}>{icon}</Box>
       <Box>
-        <Typography variant="h6" sx={{ fontWeight: 800, color: "#0F172A", lineHeight: 1.2 }}>
+        <Typography variant="h6" sx={{ fontWeight: 800, color: "var(--oa-text-900)", lineHeight: 1.2 }}>
           {title}
         </Typography>
         {subtitle && (
-          <Typography variant="body2" sx={{ color: "#64748B" }}>
+          <Typography variant="body2" sx={{ color: "var(--oa-text-500)" }}>
             {subtitle}
           </Typography>
         )}
@@ -83,28 +83,28 @@ function MythCard({ item }) {
         p: 2.25,
         height: "100%",
         cursor: "pointer",
-        bgcolor: revealed ? "#F0FDF4" : "#FFFFFF",
-        borderColor: revealed ? "#BBF7D0" : "#E2E8F0",
+        bgcolor: revealed ? "var(--oa-success-soft)" : "var(--oa-surface)",
+        borderColor: revealed ? "var(--oa-success-border)" : "var(--oa-border-1)",
         transition: "all 0.25s",
         "&:hover": { transform: "translateY(-2px)" },
       }}
     >
       <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1 }}>
         {revealed ? (
-          <CheckCircleIcon sx={{ color: "#16A34A" }} fontSize="small" />
+          <CheckCircleIcon sx={{ color: "var(--oa-success)" }} fontSize="small" />
         ) : (
-          <CancelIcon sx={{ color: "#DC2626" }} fontSize="small" />
+          <CancelIcon sx={{ color: "var(--oa-danger)" }} fontSize="small" />
         )}
-        <Typography variant="caption" sx={{ fontWeight: 800, letterSpacing: 0.6, color: revealed ? "#15803D" : "#B91C1C" }}>
+        <Typography variant="caption" sx={{ fontWeight: 800, letterSpacing: 0.6, color: revealed ? "var(--oa-success-strong)" : "var(--oa-danger-strong)" }}>
           {revealed ? t("knowledge.factLabel") : t("knowledge.mythLabel")}
         </Typography>
       </Stack>
 
-      <Typography sx={{ fontWeight: revealed ? 500 : 700, color: "#0F172A", fontSize: 15 }}>
+      <Typography sx={{ fontWeight: revealed ? 500 : 700, color: "var(--oa-text-900)", fontSize: 15 }}>
         {revealed ? item.fact : `“${item.myth}”`}
       </Typography>
 
-      <Typography variant="caption" sx={{ display: "block", color: "#94A3B8", mt: 1.5 }}>
+      <Typography variant="caption" sx={{ display: "block", color: "var(--oa-text-400)", mt: 1.5 }}>
         {revealed ? t("knowledge.tapToSeeMythAgain") : t("knowledge.tapToRevealFact")}
       </Typography>
     </Card>
@@ -199,14 +199,14 @@ function KnowledgePage() {
                 },
               }}
               sx={{
-                "& .MuiOutlinedInput-root": { borderRadius: 4, bgcolor: "#FFFFFF", fontSize: 16 },
+                "& .MuiOutlinedInput-root": { borderRadius: 4, bgcolor: "var(--oa-surface)", fontSize: 16 },
               }}
             />
 
             <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1, mt: 2 }}>
               {[{ id: "all", label: t("knowledge.allTopicsLabel") }, ...content.categories].map((item) => {
                 const active = category === item.id;
-                const color = CATEGORY_COLORS[item.id] || "#2563EB";
+                const color = CATEGORY_COLORS[item.id] || "var(--oa-brand)";
 
                 return (
                   <Chip
@@ -226,7 +226,7 @@ function KnowledgePage() {
 
             <Grid container spacing={2} sx={{ mt: 1 }}>
               {articles.map((article) => {
-                const color = CATEGORY_COLORS[article.category] || "#2563EB";
+                const color = CATEGORY_COLORS[article.category] || "var(--oa-brand)";
 
                 return (
                   <Grid key={article.id} size={{ xs: 12, sm: 6, md: 4 }}>
@@ -245,13 +245,13 @@ function KnowledgePage() {
                       <Typography variant="caption" sx={{ fontWeight: 800, color, letterSpacing: 0.4 }}>
                         {categoryLabel(article.category).toUpperCase()}
                       </Typography>
-                      <Typography sx={{ fontWeight: 800, color: "#0F172A", mt: 0.5, mb: 0.75 }}>
+                      <Typography sx={{ fontWeight: 800, color: "var(--oa-text-900)", mt: 0.5, mb: 0.75 }}>
                         {article.title}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: "#64748B" }}>
+                      <Typography variant="body2" sx={{ color: "var(--oa-text-500)" }}>
                         {article.summary}
                       </Typography>
-                      <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color: "#94A3B8", mt: 1.5 }}>
+                      <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color: "var(--oa-text-400)", mt: 1.5 }}>
                         <AccessTimeIcon sx={{ fontSize: 15 }} />
                         <Typography variant="caption">
                           {t("knowledge.readMinutes", { count: article.readMinutes })}
@@ -264,11 +264,11 @@ function KnowledgePage() {
             </Grid>
 
             {!articles.length && (
-              <Card sx={{ ...cardSx, p: 3, mt: 2, textAlign: "center", bgcolor: "#EFF6FF", borderColor: "#BFDBFE" }}>
-                <Typography sx={{ fontWeight: 700, color: "#0F172A" }}>
+              <Card sx={{ ...cardSx, p: 3, mt: 2, textAlign: "center", bgcolor: "var(--oa-brand-soft-2)", borderColor: "var(--oa-border-brand)" }}>
+                <Typography sx={{ fontWeight: 700, color: "var(--oa-text-900)" }}>
                   {t("knowledge.noArticlesMatch", { query })}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "#475569", mt: 0.5, mb: 2 }}>
+                <Typography variant="body2" sx={{ color: "var(--oa-text-600)", mt: 0.5, mb: 2 }}>
                   {t("knowledge.aiCanAnswer")}
                 </Typography>
                 <Button
@@ -309,17 +309,17 @@ function KnowledgePage() {
                   disableGutters
                   elevation={0}
                   sx={{
-                    border: "1px solid #E2E8F0",
+                    border: "1px solid var(--oa-border-1)",
                     borderRadius: "12px !important",
                     mb: 1.25,
                     "&:before": { display: "none" },
                   }}
                 >
                   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography sx={{ fontWeight: 700, color: "#0F172A" }}>{faq.question}</Typography>
+                    <Typography sx={{ fontWeight: 700, color: "var(--oa-text-900)" }}>{faq.question}</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Typography variant="body2" sx={{ color: "#475569", lineHeight: 1.7 }}>
+                    <Typography variant="body2" sx={{ color: "var(--oa-text-600)", lineHeight: 1.7 }}>
                       {faq.answer}
                     </Typography>
                   </AccordionDetails>
@@ -338,13 +338,13 @@ function KnowledgePage() {
                       px: 1.75,
                       py: 1.25,
                       borderBottom:
-                        index < content.glossary.length - 1 ? "1px solid #F1F5F9" : "none",
+                        index < content.glossary.length - 1 ? "1px solid var(--oa-border-5)" : "none",
                     }}
                   >
-                    <Typography sx={{ fontWeight: 800, color: "#2563EB", fontSize: 14 }}>
+                    <Typography sx={{ fontWeight: 800, color: "var(--oa-brand)", fontSize: 14 }}>
                       {entry.term}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: "#475569" }}>
+                    <Typography variant="body2" sx={{ color: "var(--oa-text-600)" }}>
                       {entry.definition}
                     </Typography>
                   </Box>
@@ -363,7 +363,7 @@ function KnowledgePage() {
                   height: "100%",
                   color: "#FFFFFF",
                   border: "none",
-                  background: "linear-gradient(135deg, #2563EB, #14B8A6)",
+                  background: "var(--oa-brand-gradient)",
                 }}
               >
                 <Typography variant="h6" sx={{ fontWeight: 800 }}>
@@ -380,10 +380,10 @@ function KnowledgePage() {
                     sx={{
                       textTransform: "none",
                       fontWeight: 700,
-                      bgcolor: "#FFFFFF",
-                      color: "#2563EB",
+                      bgcolor: "var(--oa-surface)",
+                      color: "var(--oa-brand)",
                       boxShadow: "none",
-                      "&:hover": { bgcolor: "#EFF6FF" },
+                      "&:hover": { bgcolor: "var(--oa-brand-soft-2)" },
                     }}
                   >
                     {t("knowledge.openAiAssistantButton")}
@@ -399,16 +399,16 @@ function KnowledgePage() {
               </Card>
             </Grid>
             <Grid size={{ xs: 12, md: 4 }}>
-              <Card sx={{ ...cardSx, p: 3, height: "100%", bgcolor: "#FEF2F2", borderColor: "#FECACA" }}>
-                <Stack direction="row" spacing={1} sx={{ alignItems: "center", color: "#B91C1C" }}>
+              <Card sx={{ ...cardSx, p: 3, height: "100%", bgcolor: "var(--oa-danger-soft)", borderColor: "var(--oa-danger-border)" }}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center", color: "var(--oa-danger-strong)" }}>
                   <EmergencyIcon />
                   <Typography sx={{ fontWeight: 800 }}>{t("knowledge.importantLabel")}</Typography>
                 </Stack>
-                <Typography variant="body2" sx={{ color: "#7F1D1D", mt: 1, lineHeight: 1.7 }}>
+                <Typography variant="body2" sx={{ color: "var(--oa-danger-deep)", mt: 1, lineHeight: 1.7 }}>
                   {content.support.disclaimer}
                 </Typography>
                 {content.support.contact && (
-                  <Typography variant="body2" sx={{ color: "#7F1D1D", mt: 1, fontWeight: 700 }}>
+                  <Typography variant="body2" sx={{ color: "var(--oa-danger-deep)", mt: 1, fontWeight: 700 }}>
                     {t("knowledge.contactLabel", { value: content.support.contact })}
                   </Typography>
                 )}
@@ -427,7 +427,7 @@ function KnowledgePage() {
                 px: 3,
                 pt: 3,
                 pb: 2,
-                borderTop: `5px solid ${CATEGORY_COLORS[openArticle.category] || "#2563EB"}`,
+                borderTop: `5px solid ${CATEGORY_COLORS[openArticle.category] || "var(--oa-brand)"}`,
               }}
             >
               <Typography
@@ -436,20 +436,20 @@ function KnowledgePage() {
               >
                 {categoryLabel(openArticle.category).toUpperCase()} · {openArticle.readMinutes} {t("knowledge.minReadUpper")}
               </Typography>
-              <Typography variant="h5" sx={{ fontWeight: 800, color: "#0F172A", mt: 0.5 }}>
+              <Typography variant="h5" sx={{ fontWeight: 800, color: "var(--oa-text-900)", mt: 0.5 }}>
                 {openArticle.title}
               </Typography>
             </Box>
             <DialogContent sx={{ pt: 0 }}>
               {openArticle.body.map((paragraph) => (
-                <Typography key={paragraph} sx={{ color: "#334155", lineHeight: 1.8, mb: 1.75 }}>
+                <Typography key={paragraph} sx={{ color: "var(--oa-text-700)", lineHeight: 1.8, mb: 1.75 }}>
                   {paragraph}
                 </Typography>
               ))}
 
               {relatedArticles.length > 0 && (
                 <Box sx={{ mt: 2 }}>
-                  <Typography variant="body2" sx={{ fontWeight: 800, color: "#0F172A", mb: 1 }}>
+                  <Typography variant="body2" sx={{ fontWeight: 800, color: "var(--oa-text-900)", mb: 1 }}>
                     {t("knowledge.relatedLabel")}
                   </Typography>
                   <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1 }}>

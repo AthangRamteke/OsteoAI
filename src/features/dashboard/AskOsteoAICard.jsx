@@ -84,16 +84,16 @@ function AskOsteoAICard({ surfaceSx }) {
               alignItems: "center",
               justifyContent: "center",
               color: "#FFFFFF",
-              background: "linear-gradient(135deg, #2563EB, #14B8A6)",
+              background: "var(--oa-brand-gradient)",
             }}
           >
             <AutoAwesomeIcon />
           </Box>
           <Box>
-            <Typography sx={{ fontWeight: 800, color: "#0F172A" }}>
+            <Typography sx={{ fontWeight: 800, color: "var(--oa-text-900)" }}>
               {t("dashboard.askTitle")}
             </Typography>
-            <Typography variant="body2" sx={{ color: "#64748B" }}>
+            <Typography variant="body2" sx={{ color: "var(--oa-text-500)" }}>
               {t("dashboard.askSubtitle")}
             </Typography>
           </Box>
@@ -103,7 +103,7 @@ function AskOsteoAICard({ surfaceSx }) {
           icon={<LockIcon sx={{ fontSize: 15 }} />}
           label={t("dashboard.askLocalChip")}
           size="small"
-          sx={{ fontWeight: 700, bgcolor: "#ECFDF5", color: "#047857" }}
+          sx={{ fontWeight: 700, bgcolor: "var(--oa-success-soft)", color: "var(--oa-success-strong)" }}
         />
       </Stack>
 
@@ -123,17 +123,17 @@ function AskOsteoAICard({ surfaceSx }) {
           sx={{
             "& .MuiOutlinedInput-root": {
               borderRadius: 3,
-              bgcolor: "#F8FAFC",
+              bgcolor: "var(--oa-surface-2)",
             },
           }}
         />
         <IconButton
           onClick={() => ask()}
           sx={{
-            bgcolor: "#2563EB",
+            bgcolor: "var(--oa-brand-solid)",
             color: "#FFFFFF",
             borderRadius: 2.5,
-            "&:hover": { bgcolor: "#1D4ED8" },
+            "&:hover": { bgcolor: "var(--oa-brand-solid-strong)" },
           }}
         >
           <SendIcon fontSize="small" />
@@ -156,7 +156,7 @@ function AskOsteoAICard({ surfaceSx }) {
           label={t("dashboard.askOpenSimulator")}
           onClick={() => navigate("/simulator")}
           size="small"
-          sx={{ fontWeight: 700, borderRadius: 99, bgcolor: "#EEF4FF", color: "#2563EB" }}
+          sx={{ fontWeight: 700, borderRadius: 99, bgcolor: "var(--oa-brand-soft)", color: "var(--oa-brand)" }}
         />
       </Stack>
 
@@ -166,13 +166,13 @@ function AskOsteoAICard({ surfaceSx }) {
           mt: 2.4,
           p: 2,
           borderRadius: 3.5,
-          bgcolor: "#F8FAFC",
-          border: "1px solid #EDF2F7",
+          bgcolor: "var(--oa-surface-2)",
+          border: "1px solid var(--oa-border-2)",
         }}
       >
         <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: openReminders.length ? 1.2 : 0 }}>
-          <NotificationsActiveIcon sx={{ fontSize: 18, color: "#2563EB" }} />
-          <Typography variant="body2" sx={{ fontWeight: 800, color: "#334155" }}>
+          <NotificationsActiveIcon sx={{ fontSize: 18, color: "var(--oa-brand)" }} />
+          <Typography variant="body2" sx={{ fontWeight: 800, color: "var(--oa-text-700)" }}>
             {t("dashboard.askRemindersTitle")}
           </Typography>
 
@@ -181,7 +181,7 @@ function AskOsteoAICard({ surfaceSx }) {
               size="small"
               label={t("assistant.remindersPendingCount", { count: pendingCount })}
               onClick={() => navigate("/assistant")}
-              sx={{ fontWeight: 800, bgcolor: "#FEF3C7", color: "#B45309" }}
+              sx={{ fontWeight: 800, bgcolor: "var(--oa-warn-soft)", color: "var(--oa-warn-deep)" }}
             />
           )}
         </Stack>
@@ -195,7 +195,7 @@ function AskOsteoAICard({ surfaceSx }) {
                 spacing={1}
                 sx={{ alignItems: "center", justifyContent: "space-between" }}
               >
-                <Typography variant="body2" sx={{ color: "#334155", fontWeight: 600 }}>
+                <Typography variant="body2" sx={{ color: "var(--oa-text-700)", fontWeight: 600 }}>
                   {reminder.title}
                 </Typography>
                 <Box sx={{ textAlign: "right" }}>
@@ -203,7 +203,7 @@ function AskOsteoAICard({ surfaceSx }) {
                     variant="caption"
                     sx={{
                       display: "block",
-                      color: isOverdue(reminder) ? "#DC2626" : "#64748B",
+                      color: isOverdue(reminder) ? "var(--oa-danger)" : "var(--oa-text-500)",
                       fontWeight: isOverdue(reminder) ? 700 : 600,
                       whiteSpace: "nowrap",
                     }}
@@ -212,7 +212,7 @@ function AskOsteoAICard({ surfaceSx }) {
                   </Typography>
                   <Typography
                     variant="caption"
-                    sx={{ color: "#94A3B8", whiteSpace: "nowrap" }}
+                    sx={{ color: "var(--oa-text-400)", whiteSpace: "nowrap" }}
                   >
                     {t("dashboard.askRemindersSet", {
                       time: formatDate(reminder.createdAt, true),
@@ -223,7 +223,7 @@ function AskOsteoAICard({ surfaceSx }) {
             ))}
           </Stack>
         ) : (
-          <Typography variant="caption" sx={{ color: "#94A3B8" }}>
+          <Typography variant="caption" sx={{ color: "var(--oa-text-400)" }}>
             {t("dashboard.askRemindersEmpty")}
           </Typography>
         )}

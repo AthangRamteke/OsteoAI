@@ -101,21 +101,21 @@ function RiskForecastRecommendations({
 
   const bucketColor =
     bucket === "higher"
-      ? "#DC2626"
+      ? "var(--oa-danger)"
       : bucket === "moderate"
-        ? "#D97706"
+        ? "var(--oa-warn-strong)"
         : bucket === "lower"
-          ? "#16A34A"
-          : "#2563EB";
+          ? "var(--oa-success)"
+          : "var(--oa-brand)";
 
   const bucketBg =
     bucket === "higher"
-      ? "#FEF2F2"
+      ? "var(--oa-danger-soft)"
       : bucket === "moderate"
-        ? "#FFFBEB"
+        ? "var(--oa-warn-soft-2)"
         : bucket === "lower"
-          ? "#F0FDF4"
-          : "#EEF4FF";
+          ? "var(--oa-success-soft)"
+          : "var(--oa-brand-soft)";
 
   const bucketLabel =
     bucket === "higher"
@@ -387,8 +387,8 @@ function RiskForecastRecommendations({
       elevation={0}
       sx={{
         borderRadius: 4,
-        border: "1px solid #E2E8F0",
-        bgcolor: "white",
+        border: "1px solid var(--oa-border-1)",
+        bgcolor: "var(--oa-surface)",
         ...sx,
       }}
     >
@@ -402,7 +402,7 @@ function RiskForecastRecommendations({
     <Typography
       variant="h6"
       fontWeight={800}
-      sx={{ color: "#0F172A", mb: 1.5 }}
+      sx={{ color: "var(--oa-text-900)", mb: 1.5 }}
     >
       {children}
     </Typography>
@@ -417,14 +417,14 @@ function RiskForecastRecommendations({
         gap: 2,
         p: 1.5,
         borderRadius: 3,
-        bgcolor: "#F8FAFC",
-        border: "1px solid #E2E8F0",
+        bgcolor: "var(--oa-surface-2)",
+        border: "1px solid var(--oa-border-1)",
       }}
     >
       <Typography
         variant="body2"
         fontWeight={700}
-        sx={{ color: "#334155" }}
+        sx={{ color: "var(--oa-text-700)" }}
       >
         {label}
       </Typography>
@@ -434,8 +434,8 @@ function RiskForecastRecommendations({
         size="small"
         sx={{
           fontWeight: 700,
-          bgcolor: "white",
-          border: "1px solid #E2E8F0",
+          bgcolor: "var(--oa-surface)",
+          border: "1px solid var(--oa-border-1)",
           maxWidth: "55%",
         }}
       />
@@ -447,19 +447,19 @@ function RiskForecastRecommendations({
       sx={{
         p: 2,
         borderRadius: 3,
-        bgcolor: "#F8FAFC",
-        border: "1px solid #E2E8F0",
+        bgcolor: "var(--oa-surface-2)",
+        border: "1px solid var(--oa-border-1)",
       }}
     >
       <Typography
         fontWeight={800}
-        sx={{ color: "#0F172A" }}
+        sx={{ color: "var(--oa-text-900)" }}
       >
         {title}
       </Typography>
       <Typography
         variant="body2"
-        sx={{ mt: 0.5, color: "#64748B", lineHeight: 1.65 }}
+        sx={{ mt: 0.5, color: "var(--oa-text-500)", lineHeight: 1.65 }}
       >
         {body}
       </Typography>
@@ -473,7 +473,7 @@ function RiskForecastRecommendations({
           key={item}
           component="li"
           variant="body2"
-          sx={{ color: "#334155", mb: 0.5, lineHeight: 1.6 }}
+          sx={{ color: "var(--oa-text-700)", mb: 0.5, lineHeight: 1.6 }}
         >
           {item}
         </Typography>
@@ -489,9 +489,9 @@ function RiskForecastRecommendations({
         fontWeight: 700,
         fontSize: "0.68rem",
         height: 22,
-        bgcolor: "#EEF4FF",
-        color: "#2563EB",
-        border: "1px solid #DBEAFE",
+        bgcolor: "var(--oa-brand-soft)",
+        color: "var(--oa-brand)",
+        border: "1px solid var(--oa-border-brand-soft)",
       }}
     />
   );
@@ -512,7 +512,7 @@ function RiskForecastRecommendations({
           <Typography
             variant="h4"
             fontWeight={800}
-            sx={{ color: "#0F172A" }}
+            sx={{ color: "var(--oa-text-900)" }}
           >
             {t("forecast.pageTitle")}
           </Typography>
@@ -589,7 +589,7 @@ function RiskForecastRecommendations({
           variant="h4"
           fontWeight={800}
           sx={{
-            color: "#0F172A",
+            color: "var(--oa-text-900)",
             letterSpacing: "-0.02em",
           }}
         >
@@ -597,7 +597,7 @@ function RiskForecastRecommendations({
         </Typography>
 
         <Typography
-          sx={{ mt: 1, color: "#64748B", lineHeight: 1.7 }}
+          sx={{ mt: 1, color: "var(--oa-text-500)", lineHeight: 1.7 }}
         >
           {t("forecast.pageSubtitle")}
         </Typography>
@@ -610,7 +610,7 @@ function RiskForecastRecommendations({
         elevation={0}
         sx={{
           borderRadius: 5,
-          border: "1px solid #DCE6F4",
+          border: "1px solid var(--oa-border-3)",
           bgcolor: bucketBg,
           overflow: "hidden",
         }}
@@ -651,7 +651,7 @@ function RiskForecastRecommendations({
                 size="small"
                 sx={{
                   mt: 1.25,
-                  bgcolor: "white",
+                  bgcolor: "var(--oa-surface)",
                   color: bucketColor,
                   fontWeight: 800,
                   border: `1px solid ${bucketColor}33`,
@@ -664,13 +664,13 @@ function RiskForecastRecommendations({
                 maxWidth: { md: 420 },
                 p: 2.5,
                 borderRadius: 4,
-                bgcolor: "white",
-                border: "1px solid #E2E8F0",
+                bgcolor: "var(--oa-surface)",
+                border: "1px solid var(--oa-border-1)",
               }}
             >
               <Typography
                 variant="body2"
-                sx={{ color: "#64748B", lineHeight: 1.7 }}
+                sx={{ color: "var(--oa-text-500)", lineHeight: 1.7 }}
               >
                 {t("forecast.rangeDisclaimer")}
               </Typography>
@@ -733,12 +733,12 @@ function RiskForecastRecommendations({
               borderRadius: 999,
               overflow: "hidden",
               display: "flex",
-              border: "1px solid #E2E8F0",
+              border: "1px solid var(--oa-border-1)",
             }}
           >
-            <Box sx={{ width: "20%", bgcolor: "#BBF7D0" }} />
-            <Box sx={{ width: "40%", bgcolor: "#FDE68A" }} />
-            <Box sx={{ width: "40%", bgcolor: "#FECACA" }} />
+            <Box sx={{ width: "20%", bgcolor: "var(--oa-success-border)" }} />
+            <Box sx={{ width: "40%", bgcolor: "var(--oa-warn-border)" }} />
+            <Box sx={{ width: "40%", bgcolor: "var(--oa-danger-border)" }} />
           </Box>
 
           {/* Axis labels */}
@@ -767,7 +767,7 @@ function RiskForecastRecommendations({
                       : tick.value === 100
                         ? "translateX(-100%)"
                         : "translateX(-50%)",
-                  color: "#64748B",
+                  color: "var(--oa-text-500)",
                   fontWeight: 700,
                 }}
               >
@@ -784,15 +784,15 @@ function RiskForecastRecommendations({
         >
           {[
             {
-              color: "#16A34A",
+              color: "var(--oa-success)",
               label: t("forecast.scale.lower"),
             },
             {
-              color: "#D97706",
+              color: "var(--oa-warn-strong)",
               label: t("forecast.scale.moderate"),
             },
             {
-              color: "#DC2626",
+              color: "var(--oa-danger)",
               label: t("forecast.scale.higher"),
             },
           ].map((legend) => (
@@ -813,7 +813,7 @@ function RiskForecastRecommendations({
               <Typography
                 variant="caption"
                 fontWeight={700}
-                sx={{ color: "#475569" }}
+                sx={{ color: "var(--oa-text-600)" }}
               >
                 {legend.label}
               </Typography>
@@ -823,7 +823,7 @@ function RiskForecastRecommendations({
 
         <Typography
           variant="caption"
-          sx={{ display: "block", mt: 1.5, color: "#94A3B8" }}
+          sx={{ display: "block", mt: 1.5, color: "var(--oa-text-400)" }}
         >
           {t("forecast.scale.note")}
         </Typography>
@@ -879,7 +879,7 @@ function RiskForecastRecommendations({
 
           <Typography
             variant="body2"
-            sx={{ color: "#64748B", lineHeight: 1.7, mb: 2.5 }}
+            sx={{ color: "var(--oa-text-500)", lineHeight: 1.7, mb: 2.5 }}
           >
             {t("forecast.factors.desc")}
           </Typography>
@@ -888,7 +888,7 @@ function RiskForecastRecommendations({
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography
                 fontWeight={800}
-                sx={{ color: "#0F172A", mb: 0.25 }}
+                sx={{ color: "var(--oa-text-900)", mb: 0.25 }}
               >
                 {t("forecast.factors.modifiableTitle")}
               </Typography>
@@ -896,7 +896,7 @@ function RiskForecastRecommendations({
                 variant="caption"
                 sx={{
                   display: "block",
-                  color: "#94A3B8",
+                  color: "var(--oa-text-400)",
                   mb: 1.5,
                 }}
               >
@@ -915,7 +915,7 @@ function RiskForecastRecommendations({
                 ) : (
                   <Typography
                     variant="body2"
-                    sx={{ color: "#94A3B8" }}
+                    sx={{ color: "var(--oa-text-400)" }}
                   >
                     {t("common.notAvailable")}
                   </Typography>
@@ -926,7 +926,7 @@ function RiskForecastRecommendations({
             <Grid size={{ xs: 12, md: 6 }}>
               <Typography
                 fontWeight={800}
-                sx={{ color: "#0F172A", mb: 0.25 }}
+                sx={{ color: "var(--oa-text-900)", mb: 0.25 }}
               >
                 {t("forecast.factors.nonModifiableTitle")}
               </Typography>
@@ -934,7 +934,7 @@ function RiskForecastRecommendations({
                 variant="caption"
                 sx={{
                   display: "block",
-                  color: "#94A3B8",
+                  color: "var(--oa-text-400)",
                   mb: 1.5,
                 }}
               >
@@ -953,7 +953,7 @@ function RiskForecastRecommendations({
                 ) : (
                   <Typography
                     variant="body2"
-                    sx={{ color: "#94A3B8" }}
+                    sx={{ color: "var(--oa-text-400)" }}
                   >
                     {t("common.notAvailable")}
                   </Typography>
@@ -974,7 +974,7 @@ function RiskForecastRecommendations({
           </SectionTitle>
           <Typography
             variant="body2"
-            sx={{ color: "#64748B", lineHeight: 1.7, mb: 2 }}
+            sx={{ color: "var(--oa-text-500)", lineHeight: 1.7, mb: 2 }}
           >
             {t("forecast.priorities.desc")}
           </Typography>
@@ -1000,13 +1000,13 @@ function RiskForecastRecommendations({
       {/* ===================================================
           FUTURE RISK MANAGEMENT
           =================================================== */}
-      <SectionCard sx={{ bgcolor: "#F8FAFC" }}>
+      <SectionCard sx={{ bgcolor: "var(--oa-surface-2)" }}>
         <SectionTitle>
           {t("forecast.outlookFuture.title")}
         </SectionTitle>
         <Typography
           variant="body2"
-          sx={{ color: "#64748B", lineHeight: 1.75 }}
+          sx={{ color: "var(--oa-text-500)", lineHeight: 1.75 }}
         >
           {t("forecast.outlookFuture.body")}
         </Typography>
@@ -1031,7 +1031,7 @@ function RiskForecastRecommendations({
           <Grid size={{ xs: 12, md: 4 }}>
             <Typography
               fontWeight={800}
-              sx={{ color: "#0F172A", mb: 1 }}
+              sx={{ color: "var(--oa-text-900)", mb: 1 }}
             >
               {t("forecast.eat.calciumTitle")}
             </Typography>
@@ -1049,13 +1049,13 @@ function RiskForecastRecommendations({
           <Grid size={{ xs: 12, md: 4 }}>
             <Typography
               fontWeight={800}
-              sx={{ color: "#0F172A", mb: 1 }}
+              sx={{ color: "var(--oa-text-900)", mb: 1 }}
             >
               {t("forecast.eat.proteinTitle")}
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: "#334155", lineHeight: 1.7 }}
+              sx={{ color: "var(--oa-text-700)", lineHeight: 1.7 }}
             >
               {t("forecast.eat.proteinBody")}
             </Typography>
@@ -1064,13 +1064,13 @@ function RiskForecastRecommendations({
           <Grid size={{ xs: 12, md: 4 }}>
             <Typography
               fontWeight={800}
-              sx={{ color: "#0F172A", mb: 1 }}
+              sx={{ color: "var(--oa-text-900)", mb: 1 }}
             >
               {t("forecast.eat.vitaminDTitle")}
             </Typography>
             <Typography
               variant="body2"
-              sx={{ color: "#334155", lineHeight: 1.7 }}
+              sx={{ color: "var(--oa-text-700)", lineHeight: 1.7 }}
             >
               {t("forecast.eat.vitaminDBody")}
             </Typography>
@@ -1149,7 +1149,7 @@ function RiskForecastRecommendations({
               component="li"
               variant="body2"
               sx={{
-                color: "#334155",
+                color: "var(--oa-text-700)",
                 mb: 0.85,
                 lineHeight: 1.65,
                 fontWeight: 600,
@@ -1166,17 +1166,17 @@ function RiskForecastRecommendations({
           threshold — never shown as a generic upsell)
           =================================================== */}
       {isHigherRisk && (
-        <SectionCard sx={{ borderColor: "#FCA5A5" }}>
+        <SectionCard sx={{ borderColor: "var(--oa-danger-border)" }}>
           <Stack
             direction="row"
             spacing={1.25}
             sx={{ alignItems: "center", mb: 1 }}
           >
-            <LocalHospitalIcon sx={{ color: "#DC2626" }} />
+            <LocalHospitalIcon sx={{ color: "var(--oa-danger)" }} />
             <Typography
               variant="h6"
               fontWeight={800}
-              sx={{ color: "#0F172A" }}
+              sx={{ color: "var(--oa-text-900)" }}
             >
               {t("forecast.professional.title")}
             </Typography>
@@ -1184,7 +1184,7 @@ function RiskForecastRecommendations({
 
           <Typography
             variant="body2"
-            sx={{ color: "#334155", lineHeight: 1.75 }}
+            sx={{ color: "var(--oa-text-700)", lineHeight: 1.75 }}
           >
             {t("forecast.professional.body")}
           </Typography>
@@ -1193,7 +1193,7 @@ function RiskForecastRecommendations({
             variant="body2"
             sx={{
               mt: 1.25,
-              color: "#64748B",
+              color: "var(--oa-text-500)",
               lineHeight: 1.75,
               fontStyle: "italic",
             }}
@@ -1206,7 +1206,7 @@ function RiskForecastRecommendations({
       {/* ===================================================
           SOURCES & EVIDENCE
           =================================================== */}
-      <SectionCard sx={{ bgcolor: "#F8FAFC" }}>
+      <SectionCard sx={{ bgcolor: "var(--oa-surface-2)" }}>
         <Stack
           direction="row"
           spacing={1.25}
@@ -1222,22 +1222,22 @@ function RiskForecastRecommendations({
           sx={{
             p: 2,
             borderRadius: 3,
-            bgcolor: "white",
-            border: "1px solid #E2E8F0",
+            bgcolor: "var(--oa-surface)",
+            border: "1px solid var(--oa-border-1)",
           }}
         >
-          <Typography fontWeight={800} sx={{ color: "#0F172A" }}>
+          <Typography fontWeight={800} sx={{ color: "var(--oa-text-900)" }}>
             {t("forecast.sources.iofName")}
           </Typography>
           <Typography
             variant="body2"
-            sx={{ mt: 0.5, color: "#64748B", lineHeight: 1.7 }}
+            sx={{ mt: 0.5, color: "var(--oa-text-500)", lineHeight: 1.7 }}
           >
             {t("forecast.sources.iofDesc")}
           </Typography>
           <Typography
             variant="caption"
-            sx={{ display: "block", mt: 1, color: "#94A3B8" }}
+            sx={{ display: "block", mt: 1, color: "var(--oa-text-400)" }}
           >
             osteoporosis.foundation
           </Typography>

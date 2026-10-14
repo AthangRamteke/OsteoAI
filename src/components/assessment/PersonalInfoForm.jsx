@@ -455,8 +455,8 @@ function PersonalInfoForm() {
         elevation={0}
         sx={{
           borderRadius: 4,
-          border: "1px solid #E2E8F0",
-          bgcolor: "#F8FAFC",
+          border: "1px solid var(--oa-border-1)",
+          bgcolor: "var(--oa-surface-2)",
         }}
       >
         <CardContent
@@ -539,8 +539,8 @@ function PersonalInfoForm() {
               mt: 2.5,
               p: 2,
               borderRadius: 3,
-              bgcolor: "white",
-              border: "1px solid #E2E8F0",
+              bgcolor: "var(--oa-surface)",
+              border: "1px solid var(--oa-border-1)",
               textAlign: "center",
             }}
           >

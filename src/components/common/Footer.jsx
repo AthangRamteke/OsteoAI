@@ -24,7 +24,7 @@ function Footer() {
     <Box
       component="footer"
       sx={{
-        bgcolor: "#0F172A",
+        bgcolor: "var(--oa-ink)",
         color: "white",
         pt: 8,
         pb: 3,
@@ -50,7 +50,7 @@ function Footer() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  bgcolor: "primary.main",
+                  bgcolor: "var(--oa-brand-solid)",
                 }}
               >
                 <HealthAndSafetyIcon />

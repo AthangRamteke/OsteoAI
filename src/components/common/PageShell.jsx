@@ -47,14 +47,14 @@ function PageShell({ icon, title, subtitle, actions, children, maxWidth = "lg" }
   const sections = getSections(t);
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#F8FAFC" }}>
+    <Box sx={{ minHeight: "100vh", bgcolor: "var(--oa-surface-2)" }}>
       <Navbar />
 
       <Box
         sx={{
           background:
-            "linear-gradient(135deg, #EFF6FF 0%, #F0FDFA 55%, #F8FAFC 100%)",
-          borderBottom: "1px solid #E2E8F0",
+            "var(--oa-shell-gradient)",
+          borderBottom: "1px solid var(--oa-border-1)",
         }}
       >
         <Container maxWidth={maxWidth} sx={{ py: { xs: 3, md: 4 } }}>
@@ -71,7 +71,7 @@ function PageShell({ icon, title, subtitle, actions, children, maxWidth = "lg" }
             <Button
               startIcon={<ArrowBackIcon />}
               onClick={() => navigate("/dashboard")}
-              sx={{ textTransform: "none", fontWeight: 700, color: "#475569" }}
+              sx={{ textTransform: "none", fontWeight: 700, color: "var(--oa-text-600)" }}
             >
               {t("sidebar.dashboard")}
             </Button>
@@ -91,10 +91,10 @@ function PageShell({ icon, title, subtitle, actions, children, maxWidth = "lg" }
                       fontWeight: 700,
                       borderRadius: 99,
                       px: 1.75,
-                      color: active ? "#FFFFFF" : "#2563EB",
-                      bgcolor: active ? "#2563EB" : "rgba(37,99,235,0.08)",
+                      color: active ? "#FFFFFF" : "var(--oa-brand)",
+                      bgcolor: active ? "var(--oa-brand-solid)" : "rgba(37,99,235,0.08)",
                       "&:hover": {
-                        bgcolor: active ? "#1D4ED8" : "rgba(37,99,235,0.14)",
+                        bgcolor: active ? "var(--oa-brand-strong)" : "rgba(37,99,235,0.14)",
                       },
                       display: { xs: active ? "inline-flex" : "none", sm: "inline-flex" },
                     }}
@@ -121,7 +121,7 @@ function PageShell({ icon, title, subtitle, actions, children, maxWidth = "lg" }
                   alignItems: "center",
                   justifyContent: "center",
                   color: "#FFFFFF",
-                  background: "linear-gradient(135deg, #2563EB, #14B8A6)",
+                  background: "var(--oa-brand-gradient)",
                   boxShadow: "0 10px 24px rgba(37,99,235,0.25)",
                   flexShrink: 0,
                 }}
@@ -132,11 +132,11 @@ function PageShell({ icon, title, subtitle, actions, children, maxWidth = "lg" }
               <Box>
                 <Typography
                   variant="h4"
-                  sx={{ fontWeight: 800, color: "#0F172A", fontSize: { xs: 26, md: 32 } }}
+                  sx={{ fontWeight: 800, color: "var(--oa-text-900)", fontSize: { xs: 26, md: 32 } }}
                 >
                   {title}
                 </Typography>
-                <Typography sx={{ color: "#475569", mt: 0.5 }}>{subtitle}</Typography>
+                <Typography sx={{ color: "var(--oa-text-600)", mt: 0.5 }}>{subtitle}</Typography>
               </Box>
             </Stack>
 

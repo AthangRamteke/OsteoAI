@@ -39,7 +39,7 @@ function AboutSection() {
                 id="about"
                 sx={{
                     py: { xs: 8, md: 12 },
-                    bgcolor: "#F8FAFC",
+                    bgcolor: "var(--oa-surface-2)",
                 }}
             >
                 <Container maxWidth="lg">
@@ -118,8 +118,8 @@ function AboutSection() {
                                         sx={{
                                             p: 3,
                                             borderRadius: 4,
-                                            border: "1px solid #E2E8F0",
-                                            bgcolor: "white",
+                                            border: "1px solid var(--oa-border-1)",
+                                            bgcolor: "var(--oa-surface)",
                                         }}
                                     >
                                         <Stack
@@ -135,7 +135,7 @@ function AboutSection() {
                                                     display: "flex",
                                                     alignItems: "center",
                                                     justifyContent: "center",
-                                                    bgcolor: "#EEF4FF",
+                                                    bgcolor: "var(--oa-brand-soft)",
                                                     color: "primary.main",
                                                     flexShrink: 0,
                                                 }}
@@ -175,7 +175,7 @@ function AboutSection() {
             <Box
                 sx={{
                     py: { xs: 8, md: 10 },
-                    bgcolor: "white",
+                    bgcolor: "var(--oa-surface)",
                 }}
             >
                 <Container maxWidth="md">
@@ -185,9 +185,9 @@ function AboutSection() {
                             p: { xs: 4, md: 6 },
                             borderRadius: 5,
                             textAlign: "center",
-                            border: "1px solid #E2E8F0",
+                            border: "1px solid var(--oa-border-1)",
                             background:
-                                "linear-gradient(135deg, #F8FAFC 0%, #EEF4FF 100%)",
+                                "linear-gradient(135deg, var(--oa-surface-2) 0%, var(--oa-brand-soft) 100%)",
                         }}
                     >
                         <Typography

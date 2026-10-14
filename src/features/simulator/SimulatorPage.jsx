@@ -53,7 +53,7 @@ function RiskDial({ label, percent, level, muted }) {
 
   return (
     <Stack sx={{ alignItems: "center", flex: 1 }}>
-      <Typography variant="caption" sx={{ color: "#64748B", fontWeight: 700 }}>
+      <Typography variant="caption" sx={{ color: "var(--oa-text-500)", fontWeight: 700 }}>
         {label}
       </Typography>
       <Box
@@ -74,7 +74,7 @@ function RiskDial({ label, percent, level, muted }) {
             width: 82,
             height: 82,
             borderRadius: "50%",
-            bgcolor: "#FFFFFF",
+            bgcolor: "var(--oa-surface)",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -84,7 +84,7 @@ function RiskDial({ label, percent, level, muted }) {
           <Typography sx={{ fontWeight: 800, fontSize: 20, color: color.main }}>
             {percent.toFixed(1)}%
           </Typography>
-          <Typography variant="caption" sx={{ color: "#64748B" }}>
+          <Typography variant="caption" sx={{ color: "var(--oa-text-500)" }}>
             {level}
           </Typography>
         </Box>
@@ -174,7 +174,7 @@ function SimulatorPage() {
     : deltaPoints < 0
       ? TrendingDownIcon
       : TrendingUpIcon;
-  const deltaColor = flat ? "#64748B" : deltaPoints < 0 ? "#16A34A" : "#DC2626";
+  const deltaColor = flat ? "var(--oa-text-500)" : deltaPoints < 0 ? "var(--oa-success)" : "var(--oa-danger)";
 
   if (!latest) {
     return (
@@ -184,11 +184,11 @@ function SimulatorPage() {
         subtitle={t("simulator.pageSubtitle")}
       >
         <Card sx={{ p: { xs: 4, md: 6 }, borderRadius: 4, textAlign: "center" }}>
-          <ScienceIcon sx={{ fontSize: 48, color: "#93C5FD" }} />
+          <ScienceIcon sx={{ fontSize: 48, color: "var(--oa-brand-200)" }} />
           <Typography variant="h6" sx={{ fontWeight: 800, mt: 1 }}>
             {t("simulator.emptyTitle")}
           </Typography>
-          <Typography sx={{ color: "#64748B", mt: 0.5, mb: 3 }}>
+          <Typography sx={{ color: "var(--oa-text-500)", mt: 0.5, mb: 3 }}>
             {t("simulator.emptyDesc")}
           </Typography>
           <Button
@@ -222,15 +222,15 @@ function SimulatorPage() {
       <Grid container spacing={3}>
         {/* ---------------- Controls ---------------- */}
         <Grid size={{ xs: 12, md: 7 }}>
-          <Card sx={{ p: { xs: 2.5, md: 3 }, borderRadius: 4, border: "1px solid #E2E8F0", boxShadow: "none" }}>
-            <Typography sx={{ fontWeight: 800, color: "#0F172A" }}>
+          <Card sx={{ p: { xs: 2.5, md: 3 }, borderRadius: 4, border: "1px solid var(--oa-border-1)", boxShadow: "none" }}>
+            <Typography sx={{ fontWeight: 800, color: "var(--oa-text-900)" }}>
               {t("simulator.controlsTitle")}
             </Typography>
-            <Typography variant="body2" sx={{ color: "#64748B", mb: 2 }}>
+            <Typography variant="body2" sx={{ color: "var(--oa-text-500)", mb: 2 }}>
               {t("simulator.controlsDesc", { date: formatDate(latest.savedAt) })}
             </Typography>
 
-            <Stack divider={<Box sx={{ borderTop: "1px solid #F1F5F9" }} />}>
+            <Stack divider={<Box sx={{ borderTop: "1px solid var(--oa-border-5)" }} />}>
               {TOGGLES.map(({ key, labelKey, inverse }) => {
                 // Smoking reads better as "quit", so the switch is inverted.
                 const raw = Number(changes[key] ?? 0) === 1;
@@ -242,7 +242,7 @@ function SimulatorPage() {
                     direction="row"
                     sx={{ alignItems: "center", justifyContent: "space-between", py: 1 }}
                   >
-                    <Typography variant="body2" sx={{ fontWeight: 600, color: "#334155" }}>
+                    <Typography variant="body2" sx={{ fontWeight: 600, color: "var(--oa-text-700)" }}>
                       {t(labelKey)}
                     </Typography>
                     <Switch
@@ -266,10 +266,10 @@ function SimulatorPage() {
 
               <Box sx={{ py: 1.5 }}>
                 <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: "#334155" }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: "var(--oa-text-700)" }}>
                     {t("simulator.sliderSedentary")}
                   </Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 700, color: "#2563EB" }}>
+                  <Typography variant="body2" sx={{ fontWeight: 700, color: "var(--oa-brand)" }}>
                     {Math.round(changes.sedentary_minutes)} {t("simulator.minutesPerDay")}
                   </Typography>
                 </Stack>
@@ -284,10 +284,10 @@ function SimulatorPage() {
 
               <Box sx={{ py: 1.5 }}>
                 <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: "#334155" }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: "var(--oa-text-700)" }}>
                     {t("simulator.sliderWeight")}
                   </Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 700, color: "#2563EB" }}>
+                  <Typography variant="body2" sx={{ fontWeight: 700, color: "var(--oa-brand)" }}>
                     {Math.round(changes.weight_kg)} kg
                   </Typography>
                 </Stack>
@@ -298,7 +298,7 @@ function SimulatorPage() {
                   max={150}
                   step={1}
                 />
-                <Typography variant="caption" sx={{ color: "#94A3B8" }}>
+                <Typography variant="caption" sx={{ color: "var(--oa-text-400)" }}>
                   {t("simulator.weightNote")}
                 </Typography>
               </Box>
@@ -316,21 +316,21 @@ function SimulatorPage() {
             sx={{
               p: { xs: 2.5, md: 3 },
               borderRadius: 4,
-              border: "1px solid #E2E8F0",
+              border: "1px solid var(--oa-border-1)",
               boxShadow: "none",
               position: { md: "sticky" },
               top: { md: 24 },
             }}
           >
             <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
-              <Typography sx={{ fontWeight: 800, color: "#0F172A" }}>
+              <Typography sx={{ fontWeight: 800, color: "var(--oa-text-900)" }}>
                 {t("simulator.outcomeTitle")}
               </Typography>
               {loading && <CircularProgress size={18} />}
             </Stack>
 
             {!dirty ? (
-              <Typography variant="body2" sx={{ color: "#64748B", mt: 1.5 }}>
+              <Typography variant="body2" sx={{ color: "var(--oa-text-500)", mt: 1.5 }}>
                 {t("simulator.outcomeIdle")}
               </Typography>
             ) : (
@@ -404,7 +404,7 @@ function SimulatorPage() {
               </Alert>
             )}
 
-            <Typography variant="caption" sx={{ display: "block", color: "#94A3B8", mt: 2, lineHeight: 1.6 }}>
+            <Typography variant="caption" sx={{ display: "block", color: "var(--oa-text-400)", mt: 2, lineHeight: 1.6 }}>
               {t("simulator.disclaimer")}
             </Typography>
           </Card>

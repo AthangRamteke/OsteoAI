@@ -85,15 +85,15 @@ function ForecastPage() {
           minHeight: "100vh",
           py: { xs: 3, md: 5 },
           background:
-            "radial-gradient(1200px circle at 50% 0%, rgba(37, 99, 235, 0.06) 0%, #F8FAFC 100%)",
+            "radial-gradient(1200px circle at 50% 0%, rgba(37, 99, 235, 0.06) 0%, var(--oa-surface-2) 100%)",
         }}
       >
         <Container maxWidth="md">
           <Box
             sx={{
               borderRadius: { xs: 3, md: 5 },
-              border: "1px solid #E2E8F0",
-              bgcolor: "rgba(255,255,255,0.94)",
+              border: "1px solid var(--oa-border-1)",
+              bgcolor: "var(--oa-surface-glass)",
               backdropFilter: "blur(10px)",
               overflow: "hidden",
               p: { xs: 2.5, sm: 4, md: 5 },

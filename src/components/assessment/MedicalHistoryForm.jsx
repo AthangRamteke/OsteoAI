@@ -177,8 +177,8 @@ function MedicalHistoryForm() {
         sx={{
           p: 2,
           borderRadius: 3,
-          bgcolor: "#F8FAFC",
-          border: "1px solid #E2E8F0",
+          bgcolor: "var(--oa-surface-2)",
+          border: "1px solid var(--oa-border-1)",
         }}
       >
         <Typography

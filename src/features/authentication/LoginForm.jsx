@@ -45,7 +45,7 @@ function LoginForm({ onSwitch }) {
         variant="h4"
         fontWeight={800}
         sx={{
-          color: "#0F172A",
+          color: "var(--oa-text-900)",
         }}
       >
         {t("auth.loginTitle")}
@@ -54,7 +54,7 @@ function LoginForm({ onSwitch }) {
       <Typography
         sx={{
           mt: 1,
-          color: "#64748B",
+          color: "var(--oa-text-500)",
         }}
       >
         {t("auth.loginDesc")}
@@ -160,7 +160,7 @@ function LoginForm({ onSwitch }) {
         align="center"
         sx={{
           mt: 4,
-          color: "#64748B",
+          color: "var(--oa-text-500)",
         }}
       >
         {t("auth.noAccount")}{" "}

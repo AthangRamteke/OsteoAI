@@ -87,10 +87,10 @@ function RemindersCard() {
   }, []);
 
   return (
-    <Card sx={{ p: 2.5, borderRadius: 4, border: "1px solid #E2E8F0", boxShadow: "none" }}>
+    <Card sx={{ p: 2.5, borderRadius: 4, border: "1px solid var(--oa-border-1)", boxShadow: "none" }}>
       <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5 }}>
-        <NotificationsActiveIcon sx={{ color: "#2563EB", fontSize: 20 }} />
-        <Typography sx={{ fontWeight: 800, color: "#0F172A" }}>
+        <NotificationsActiveIcon sx={{ color: "var(--oa-brand)", fontSize: 20 }} />
+        <Typography sx={{ fontWeight: 800, color: "var(--oa-text-900)" }}>
           {t("assistant.remindersTitle")}
         </Typography>
         {reminders.length > 0 && (
@@ -105,13 +105,13 @@ function RemindersCard() {
             size="small"
             label={t("assistant.remindersPendingCount", { count: unreadCount })}
             onClick={() => setReminders(acknowledgeAllReminders())}
-            sx={{ fontWeight: 800, bgcolor: "#FEF3C7", color: "#B45309" }}
+            sx={{ fontWeight: 800, bgcolor: "var(--oa-warn-soft)", color: "var(--oa-warn-deep)" }}
           />
         )}
       </Stack>
 
       {!reminders.length ? (
-        <Typography variant="body2" sx={{ color: "#64748B" }}>
+        <Typography variant="body2" sx={{ color: "var(--oa-text-500)" }}>
           {t("assistant.remindersEmpty")}
         </Typography>
       ) : (
@@ -135,8 +135,8 @@ function RemindersCard() {
                   mx: unread ? -1 : 0,
                   borderRadius: 2,
                   cursor: unread ? "pointer" : "default",
-                  bgcolor: unread ? "#FFFBEB" : "transparent",
-                  borderTop: index ? "1px solid #F1F5F9" : "none",
+                  bgcolor: unread ? "var(--oa-warn-soft-2)" : "transparent",
+                  borderTop: index ? "1px solid var(--oa-border-5)" : "none",
                 }}
               >
                 <Checkbox
@@ -153,7 +153,7 @@ function RemindersCard() {
                           width: 8,
                           height: 8,
                           borderRadius: "50%",
-                          bgcolor: "#F59E0B",
+                          bgcolor: "var(--oa-warn)",
                           flexShrink: 0,
                         }}
                       />
@@ -163,7 +163,7 @@ function RemindersCard() {
                       sx={{
                         display: unread ? "block" : "none",
                         fontWeight: 800,
-                        color: "#B45309",
+                        color: "var(--oa-warn-deep)",
                         letterSpacing: 0.4,
                       }}
                     >
@@ -175,7 +175,7 @@ function RemindersCard() {
                     variant="body2"
                     sx={{
                       fontWeight: 600,
-                      color: reminder.done ? "#94A3B8" : "#0F172A",
+                      color: reminder.done ? "var(--oa-text-400)" : "var(--oa-text-900)",
                       textDecoration: reminder.done ? "line-through" : "none",
                     }}
                   >
@@ -185,7 +185,7 @@ function RemindersCard() {
                     variant="caption"
                     sx={{
                       display: "block",
-                      color: overdue ? "#DC2626" : "#64748B",
+                      color: overdue ? "var(--oa-danger)" : "var(--oa-text-500)",
                       fontWeight: overdue ? 700 : 400,
                     }}
                   >
@@ -199,7 +199,7 @@ function RemindersCard() {
 
                   <Typography
                     variant="caption"
-                    sx={{ display: "block", color: "#94A3B8" }}
+                    sx={{ display: "block", color: "var(--oa-text-400)" }}
                   >
                     {t("assistant.remindersCreatedLabel", {
                       time: formatDate(reminder.createdAt, true),
@@ -241,10 +241,10 @@ function RemindersCard() {
               width: 8,
               height: 8,
               borderRadius: "50%",
-              bgcolor: backgroundReady ? "#22C55E" : "#F59E0B",
+              bgcolor: backgroundReady ? "var(--oa-success-bright)" : "var(--oa-warn)",
             }}
           />
-          <Typography variant="caption" sx={{ color: "#64748B" }}>
+          <Typography variant="caption" sx={{ color: "var(--oa-text-500)" }}>
             {backgroundReady
               ? t("assistant.notifyBackgroundOn")
               : t("assistant.notifyBackgroundOff")}
@@ -254,14 +254,14 @@ function RemindersCard() {
 
       {permission === "denied" && (
         <Stack direction="row" spacing={0.75} sx={{ alignItems: "center", mt: 1.5 }}>
-          <NotificationsOffIcon sx={{ fontSize: 16, color: "#94A3B8" }} />
-          <Typography variant="caption" sx={{ color: "#94A3B8" }}>
+          <NotificationsOffIcon sx={{ fontSize: 16, color: "var(--oa-text-400)" }} />
+          <Typography variant="caption" sx={{ color: "var(--oa-text-400)" }}>
             {t("assistant.notifyBlocked")}
           </Typography>
         </Stack>
       )}
 
-      <Typography variant="caption" sx={{ display: "block", color: "#94A3B8", mt: 1.5 }}>
+      <Typography variant="caption" sx={{ display: "block", color: "var(--oa-text-400)", mt: 1.5 }}>
         {t("assistant.remindersHint")}
       </Typography>
     </Card>

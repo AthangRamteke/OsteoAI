@@ -543,7 +543,7 @@ function AssessmentContent() {
             md: 5,
           },
           background:
-            "radial-gradient(1200px circle at 50% 0%, rgba(37, 99, 235, 0.06) 0%, #F8FAFC 100%)",
+            "radial-gradient(1200px circle at 50% 0%, rgba(37, 99, 235, 0.06) 0%, var(--oa-surface-2) 100%)",
         }}
       >
         <Container maxWidth="md">
@@ -570,9 +570,9 @@ function AssessmentContent() {
                 md: 5,
               },
               border:
-                "1px solid #E2E8F0",
+                "1px solid var(--oa-border-1)",
               bgcolor:
-                "rgba(255,255,255,0.94)",
+                "var(--oa-surface-glass)",
               backdropFilter:
                 "blur(10px)",
               overflow: "hidden",
@@ -748,9 +748,9 @@ function AssessmentContent() {
                         p: 2,
                         borderRadius: 3,
                         border:
-                          "1px solid #E2E8F0",
+                          "1px solid var(--oa-border-1)",
                         bgcolor:
-                          "#F8FAFC",
+                          "var(--oa-surface-2)",
                       }}
                     >
                       <Box
@@ -803,7 +803,7 @@ function AssessmentContent() {
                           borderRadius:
                             999,
                           bgcolor:
-                            "#E2E8F0",
+                            "var(--oa-border-1)",
                           "& .MuiLinearProgress-bar":
                             {
                               borderRadius:

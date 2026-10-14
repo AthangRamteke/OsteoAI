@@ -58,7 +58,7 @@ function PastChatsMenu({ onRestore }) {
       >
         <Typography
           variant="caption"
-          sx={{ px: 2, py: 1, display: "block", fontWeight: 800, color: "#64748B" }}
+          sx={{ px: 2, py: 1, display: "block", fontWeight: 800, color: "var(--oa-text-500)" }}
         >
           {t("assistant.pastChatsTitle")}
         </Typography>
@@ -67,7 +67,7 @@ function PastChatsMenu({ onRestore }) {
 
         {!chats.length ? (
           <Box sx={{ px: 2, py: 2 }}>
-            <Typography variant="body2" sx={{ color: "#94A3B8" }}>
+            <Typography variant="body2" sx={{ color: "var(--oa-text-400)" }}>
               {t("assistant.pastChatsEmpty")}
             </Typography>
           </Box>
@@ -87,7 +87,7 @@ function PastChatsMenu({ onRestore }) {
                     variant="body2"
                     sx={{
                       fontWeight: 700,
-                      color: "#0F172A",
+                      color: "var(--oa-text-900)",
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       display: "-webkit-box",
@@ -97,7 +97,7 @@ function PastChatsMenu({ onRestore }) {
                   >
                     {chat.title}
                   </Typography>
-                  <Typography variant="caption" sx={{ color: "#94A3B8" }}>
+                  <Typography variant="caption" sx={{ color: "var(--oa-text-400)" }}>
                     {formatDate(chat.savedAt, true)} ·{" "}
                     {t("assistant.pastChatsMessages", { count: chat.messageCount })}
                   </Typography>

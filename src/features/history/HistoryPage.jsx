@@ -56,7 +56,7 @@ import {
 
 const cardSx = {
   borderRadius: 4,
-  border: "1px solid #E2E8F0",
+  border: "1px solid var(--oa-border-1)",
   boxShadow: "0 8px 24px rgba(15,23,42,0.04)",
 };
 
@@ -96,7 +96,7 @@ function DeltaBadge({ delta }) {
 
   if (delta === null) {
     return (
-      <Typography variant="caption" sx={{ color: "#94A3B8", fontWeight: 600 }}>
+      <Typography variant="caption" sx={{ color: "var(--oa-text-400)", fontWeight: 600 }}>
         {t("history.firstAssessment")}
       </Typography>
     );
@@ -105,7 +105,7 @@ function DeltaBadge({ delta }) {
   const flat = Math.abs(delta) < 0.1;
   const down = delta < 0;
   const Icon = flat ? TrendingFlatIcon : down ? TrendingDownIcon : TrendingUpIcon;
-  const color = flat ? "#64748B" : down ? "#16A34A" : "#DC2626";
+  const color = flat ? "var(--oa-text-500)" : down ? "var(--oa-success)" : "var(--oa-danger)";
 
   return (
     <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color }}>
@@ -121,17 +121,17 @@ function DeltaBadge({ delta }) {
   );
 }
 
-function StatCard({ label, value, hint, color = "#0F172A" }) {
+function StatCard({ label, value, hint, color = "var(--oa-text-900)" }) {
   return (
     <Card sx={{ ...cardSx, p: 2.25, height: "100%" }}>
-      <Typography variant="body2" sx={{ color: "#64748B", fontWeight: 600 }}>
+      <Typography variant="body2" sx={{ color: "var(--oa-text-500)", fontWeight: 600 }}>
         {label}
       </Typography>
       <Typography sx={{ fontSize: 28, fontWeight: 800, color, mt: 0.5 }}>
         {value}
       </Typography>
       {hint && (
-        <Typography variant="caption" sx={{ color: "#94A3B8" }}>
+        <Typography variant="caption" sx={{ color: "var(--oa-text-400)" }}>
           {hint}
         </Typography>
       )}
@@ -155,10 +155,10 @@ function TrendChart({ history }) {
 
   return (
     <Card sx={{ ...cardSx, p: { xs: 2, md: 3 } }}>
-      <Typography sx={{ fontWeight: 800, color: "#0F172A" }}>
+      <Typography sx={{ fontWeight: 800, color: "var(--oa-text-900)" }}>
         {t("history.trendTitle")}
       </Typography>
-      <Typography variant="body2" sx={{ color: "#64748B", mb: 2 }}>
+      <Typography variant="body2" sx={{ color: "var(--oa-text-500)", mb: 2 }}>
         {t("history.trendDesc")}
       </Typography>
 
@@ -167,16 +167,16 @@ function TrendChart({ history }) {
           <AreaChart data={data} margin={{ top: 8, right: 12, left: -16, bottom: 0 }}>
             <defs>
               <linearGradient id="riskFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#2563EB" stopOpacity={0.28} />
-                <stop offset="100%" stopColor="#2563EB" stopOpacity={0} />
+                <stop offset="0%" stopColor="var(--oa-brand)" stopOpacity={0.28} />
+                <stop offset="100%" stopColor="var(--oa-brand)" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
-            <XAxis dataKey="name" tick={{ fontSize: 12, fill: "#64748B" }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--oa-border-1)" vertical={false} />
+            <XAxis dataKey="name" tick={{ fontSize: 12, fill: "var(--oa-text-500)" }} />
             <YAxis
               domain={[0, 100]}
               tickFormatter={(value) => `${value}%`}
-              tick={{ fontSize: 12, fill: "#64748B" }}
+              tick={{ fontSize: 12, fill: "var(--oa-text-500)" }}
             />
             <ChartTooltip
               formatter={(value) => [`${value}%`, t("history.chartProbabilityLabel")]}
@@ -188,11 +188,11 @@ function TrendChart({ history }) {
                   : ""
               }
             />
-            <ReferenceLine y={50} stroke="#CBD5E1" strokeDasharray="4 4" />
+            <ReferenceLine y={50} stroke="var(--oa-border-4)" strokeDasharray="4 4" />
             <Area
               type="monotone"
               dataKey="probability"
-              stroke="#2563EB"
+              stroke="var(--oa-brand)"
               strokeWidth={2.5}
               fill="url(#riskFill)"
               dot={({ cx, cy, payload }) => (
@@ -262,18 +262,18 @@ function ComparePanel({ records, onClose }) {
     (probabilityPercent(after) ?? 0) - (probabilityPercent(before) ?? 0);
 
   return (
-    <Card sx={{ ...cardSx, p: { xs: 2, md: 3 }, borderColor: "#BFDBFE" }}>
+    <Card sx={{ ...cardSx, p: { xs: 2, md: 3 }, borderColor: "var(--oa-border-brand)" }}>
       <Stack
         direction={{ xs: "column", sm: "row" }}
         sx={{ justifyContent: "space-between", gap: 1, mb: 2 }}
       >
         <Box>
-          <Typography sx={{ fontWeight: 800, color: "#0F172A" }}>
+          <Typography sx={{ fontWeight: 800, color: "var(--oa-text-900)" }}>
             {t("history.comparisonTitle")}
           </Typography>
-          <Typography variant="body2" sx={{ color: "#64748B" }}>
+          <Typography variant="body2" sx={{ color: "var(--oa-text-500)" }}>
             {formatDate(before.savedAt)} → {formatDate(after.savedAt)} ·{" "}
-            <b style={{ color: delta <= 0 ? "#16A34A" : "#DC2626" }}>
+            <b style={{ color: delta <= 0 ? "var(--oa-success)" : "var(--oa-danger)" }}>
               {delta > 0 ? "+" : ""}
               {delta.toFixed(1)} {t("history.percentagePoints")}
             </b>
@@ -310,11 +310,11 @@ function ComparePanel({ records, onClose }) {
             "& td, & th": {
               py: 1.25,
               px: 1.5,
-              borderBottom: "1px solid #F1F5F9",
+              borderBottom: "1px solid var(--oa-border-5)",
               textAlign: "left",
               fontSize: 14,
             },
-            "& th": { color: "#64748B", fontWeight: 700 },
+            "& th": { color: "var(--oa-text-500)", fontWeight: 700 },
           }}
         >
           <thead>
@@ -331,12 +331,12 @@ function ComparePanel({ records, onClose }) {
 
               return (
                 <tr key={row.label}>
-                  <td style={{ color: "#475569", fontWeight: 600 }}>{row.label}</td>
+                  <td style={{ color: "var(--oa-text-600)", fontWeight: 600 }}>{row.label}</td>
                   <td>{a}</td>
                   <td
                     style={{
                       fontWeight: a !== b ? 800 : 400,
-                      color: a !== b ? "#2563EB" : "inherit",
+                      color: a !== b ? "var(--oa-brand)" : "inherit",
                     }}
                   >
                     {b}
@@ -348,7 +348,7 @@ function ComparePanel({ records, onClose }) {
         </Box>
       </Box>
 
-      <Typography variant="caption" sx={{ display: "block", color: "#94A3B8", mt: 1.5 }}>
+      <Typography variant="caption" sx={{ display: "block", color: "var(--oa-text-400)", mt: 1.5 }}>
         {t("history.comparisonCaption")}
       </Typography>
     </Card>
@@ -433,11 +433,11 @@ function HistoryPage() {
     >
       {!history.length ? (
         <Card sx={{ ...cardSx, p: { xs: 4, md: 6 }, textAlign: "center" }}>
-          <HistoryIcon sx={{ fontSize: 48, color: "#93C5FD" }} />
+          <HistoryIcon sx={{ fontSize: 48, color: "var(--oa-brand-200)" }} />
           <Typography variant="h6" sx={{ fontWeight: 800, mt: 1 }}>
             {t("history.emptyTitle")}
           </Typography>
-          <Typography sx={{ color: "#64748B", mt: 0.5, mb: 3 }}>
+          <Typography sx={{ color: "var(--oa-text-500)", mt: 0.5, mb: 3 }}>
             {t("history.emptyDesc")}
           </Typography>
           <Button
@@ -477,10 +477,10 @@ function HistoryPage() {
                 hint={t("history.statChangeHint")}
                 color={
                   stats.change === null
-                    ? "#0F172A"
+                    ? "var(--oa-text-900)"
                     : stats.change <= 0
-                      ? "#16A34A"
-                      : "#DC2626"
+                      ? "var(--oa-success)"
+                      : "var(--oa-danger)"
                 }
               />
             </Grid>
@@ -518,7 +518,7 @@ function HistoryPage() {
                 top: 12,
                 bottom: 12,
                 width: 2,
-                bgcolor: "#DBEAFE",
+                bgcolor: "var(--oa-border-brand-soft)",
               }}
             />
 
@@ -546,7 +546,7 @@ function HistoryPage() {
                         height: 14,
                         borderRadius: "50%",
                         bgcolor: color.main,
-                        border: "3px solid #FFFFFF",
+                        border: "3px solid var(--oa-surface)",
                         boxShadow: `0 0 0 2px ${color.soft}`,
                       }}
                     />
@@ -555,7 +555,7 @@ function HistoryPage() {
                       sx={{
                         ...cardSx,
                         p: { xs: 2, md: 2.5 },
-                        borderColor: isSelected ? "#2563EB" : "#E2E8F0",
+                        borderColor: isSelected ? "var(--oa-brand)" : "var(--oa-border-1)",
                         transition: "border-color 0.2s, transform 0.2s",
                         "&:hover": { transform: "translateY(-2px)" },
                       }}
@@ -583,7 +583,7 @@ function HistoryPage() {
                                 width: 56,
                                 height: 56,
                                 borderRadius: "50%",
-                                bgcolor: "#FFFFFF",
+                                bgcolor: "var(--oa-surface)",
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
@@ -597,7 +597,7 @@ function HistoryPage() {
 
                           <Box>
                             <Stack direction="row" spacing={1} sx={{ alignItems: "center", flexWrap: "wrap" }}>
-                              <Typography sx={{ fontWeight: 800, color: "#0F172A" }}>
+                              <Typography sx={{ fontWeight: 800, color: "var(--oa-text-900)" }}>
                                 {formatDate(record.savedAt, true)}
                               </Typography>
                               <RiskChip level={level} />
@@ -616,7 +616,7 @@ function HistoryPage() {
                                   key={`up-${item.feature}`}
                                   size="small"
                                   label={`↑ ${item.label}`}
-                                  sx={{ bgcolor: "#FEF2F2", color: "#B91C1C", fontWeight: 600 }}
+                                  sx={{ bgcolor: "var(--oa-danger-soft)", color: "var(--oa-danger-strong)", fontWeight: 600 }}
                                 />
                               ))}
                               {lowering.map((item) => (
@@ -624,7 +624,7 @@ function HistoryPage() {
                                   key={`down-${item.feature}`}
                                   size="small"
                                   label={`↓ ${item.label}`}
-                                  sx={{ bgcolor: "#F0FDF4", color: "#15803D", fontWeight: 600 }}
+                                  sx={{ bgcolor: "var(--oa-success-soft)", color: "var(--oa-success-strong)", fontWeight: 600 }}
                                 />
                               ))}
                             </Stack>
@@ -646,8 +646,8 @@ function HistoryPage() {
                                 sx={{
                                   "&.Mui-checked": {
                                     color: "#FFFFFF",
-                                    bgcolor: "#2563EB",
-                                    "&:hover": { bgcolor: "#1D4ED8" },
+                                    bgcolor: "var(--oa-brand-solid)",
+                                    "&:hover": { bgcolor: "var(--oa-brand-solid-strong)" },
                                   },
                                 }}
                               />
@@ -694,7 +694,7 @@ function HistoryPage() {
       <Dialog open={Boolean(pendingDelete)} onClose={() => setPendingDelete(null)}>
         <DialogTitle sx={{ fontWeight: 800 }}>{t("history.deleteDialogTitle")}</DialogTitle>
         <DialogContent>
-          <Typography sx={{ color: "#475569" }}>
+          <Typography sx={{ color: "var(--oa-text-600)" }}>
             {t("history.deleteDialogBody", {
               date: pendingDelete ? formatDate(pendingDelete.savedAt, true) : "",
             })}

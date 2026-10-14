@@ -60,7 +60,7 @@ function HistoryResultPage() {
         </Stack>
       }
     >
-      <Typography variant="body2" sx={{ color: "#64748B", mb: 2 }}>
+      <Typography variant="body2" sx={{ color: "var(--oa-text-500)", mb: 2 }}>
         {t("history.viewingSavedNote")}
       </Typography>
 

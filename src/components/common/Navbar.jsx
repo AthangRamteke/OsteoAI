@@ -20,6 +20,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { useLanguage } from "../../context/LanguageContext";
+import ThemeToggle from "./ThemeToggle";
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +37,7 @@ const OsteoLogo = ({ size = 40 }) => (
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      bgcolor: "#2563EB",
+      bgcolor: "var(--oa-brand-solid)",
       color: "white",
       boxShadow:
         "0 5px 16px rgba(37, 99, 235, 0.20)",
@@ -61,7 +62,7 @@ const OsteoLogo = ({ size = 40 }) => (
       {/* Medical cross */}
       <path
         d="M10.1 7.6H13.9V10.1H16.4V13.9H13.9V16.4H10.1V13.9H7.6V10.1H10.1V7.6Z"
-        fill="#2563EB"
+        fill="var(--oa-brand)"
       />
     </svg>
   </Box>
@@ -384,7 +385,7 @@ function Navbar({ sidebarOpen = false }) {
             borderRadius: 4,
 
             bgcolor:
-              "rgba(255, 255, 255, 0.94)",
+              "var(--oa-surface-glass)",
 
             backdropFilter:
               "blur(14px)",
@@ -433,7 +434,7 @@ function Navbar({ sidebarOpen = false }) {
                   letterSpacing:
                     "-0.02em",
                   color:
-                    "#0F172A",
+                    "var(--oa-text-900)",
                 }}
               >
                 OsteoAI
@@ -448,7 +449,7 @@ function Navbar({ sidebarOpen = false }) {
                     "nowrap",
                   lineHeight: 1,
                   color:
-                    "#64748B",
+                    "var(--oa-text-500)",
                 }}
               >
                 {t("brand.tagline")}
@@ -494,7 +495,7 @@ function Navbar({ sidebarOpen = false }) {
                       fontWeight: 600,
 
                       color:
-                        "#0F172A",
+                        "var(--oa-text-900)",
 
                       whiteSpace:
                         "nowrap",
@@ -503,7 +504,7 @@ function Navbar({ sidebarOpen = false }) {
                         bgcolor:
                           "rgba(37, 99, 235, 0.06)",
                         color:
-                          "#2563EB",
+                          "var(--oa-brand)",
                       },
                     }}
                   >
@@ -528,12 +529,14 @@ function Navbar({ sidebarOpen = false }) {
                 gap: 1,
               }}
             >
+              <ThemeToggle />
+
               <Box
                 sx={{
                   width: "1px",
                   height: 28,
                   bgcolor:
-                    "#E2E8F0",
+                    "var(--oa-border-1)",
                   mr: 0.5,
                 }}
               />
@@ -586,20 +589,24 @@ function Navbar({ sidebarOpen = false }) {
 
           {/* MOBILE MENU */}
           {isMobile && (
-            <IconButton
-              onClick={() =>
-                setDrawerOpen(true)
-              }
-              aria-label="open navigation menu"
+            <Box
               sx={{
-                justifySelf:
-                  "end",
-                color:
-                  "#2563EB",
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                justifySelf: "end",
               }}
             >
-              <MenuSvg />
-            </IconButton>
+              <ThemeToggle size="small" />
+
+              <IconButton
+                onClick={() => setDrawerOpen(true)}
+                aria-label="open navigation menu"
+                sx={{ color: "var(--oa-brand)" }}
+              >
+                <MenuSvg />
+              </IconButton>
+            </Box>
           )}
         </Toolbar>
       </AppBar>
@@ -645,7 +652,7 @@ function Navbar({ sidebarOpen = false }) {
                 fontWeight={800}
                 sx={{
                   color:
-                    "#0F172A",
+                    "var(--oa-text-900)",
                 }}
               >
                 OsteoAI
@@ -734,7 +741,7 @@ function Navbar({ sidebarOpen = false }) {
                     2,
                   mt: 0.5,
                   bgcolor:
-                    "primary.main",
+                    "var(--oa-brand-solid)",
                   color:
                     "white",
                   "&:hover": {

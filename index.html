@@ -42,6 +42,23 @@
     <title>
       OsteoAI - AI-Powered Osteoporosis Risk Assessment
     </title>
+
+    <script>
+      /*
+       * Apply the saved theme before the first paint, so the page never
+       * flashes light on the way to dark (and no colour transition runs
+       * on load).
+       */
+      (function () {
+        try {
+          var mode = localStorage.getItem("osteoai-theme");
+          document.documentElement.dataset.theme =
+            mode === "dark" ? "dark" : "light";
+        } catch (error) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
   </head>
 
   <body>

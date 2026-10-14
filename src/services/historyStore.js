@@ -131,10 +131,10 @@ export function historyForAgent(history = getHistory()) {
 }
 
 export const RISK_COLORS = {
-  Low: { main: "#16A34A", soft: "#DCFCE7" },
-  Moderate: { main: "#D97706", soft: "#FEF3C7" },
-  High: { main: "#DC2626", soft: "#FEE2E2" },
-  Unknown: { main: "#64748B", soft: "#F1F5F9" },
+  Low: { main: "var(--oa-success)", soft: "var(--oa-success-soft-2)" },
+  Moderate: { main: "var(--oa-warn-strong)", soft: "var(--oa-warn-soft)" },
+  High: { main: "var(--oa-danger)", soft: "var(--oa-danger-soft)" },
+  Unknown: { main: "var(--oa-text-500)", soft: "var(--oa-surface-3)" },
 };
 
 export function riskColor(level) {

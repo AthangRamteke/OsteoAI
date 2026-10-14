@@ -71,7 +71,7 @@ function RegisterForm({ onSwitch }) {
         variant="h4"
         fontWeight={800}
         sx={{
-          color: "#0F172A",
+          color: "var(--oa-text-900)",
         }}
       >
         {t("auth.registerTitle")}
@@ -80,7 +80,7 @@ function RegisterForm({ onSwitch }) {
       <Typography
         sx={{
           mt: 1,
-          color: "#64748B",
+          color: "var(--oa-text-500)",
         }}
       >
         {t("auth.registerDesc")}
@@ -131,7 +131,7 @@ function RegisterForm({ onSwitch }) {
             <Typography
               variant="caption"
               sx={{
-                color: "#64748B",
+                color: "var(--oa-text-500)",
               }}
             >
               {t("auth.passwordStrength")}
@@ -192,7 +192,7 @@ function RegisterForm({ onSwitch }) {
         align="center"
         sx={{
           mt: 4,
-          color: "#64748B",
+          color: "var(--oa-text-500)",
         }}
       >
         {t("auth.alreadyRegistered")}{" "}

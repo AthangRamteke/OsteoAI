@@ -22,7 +22,7 @@ function LanguageMenuItems({ onSelected }) {
           fontWeight: 800,
           letterSpacing: "0.06em",
           textTransform: "uppercase",
-          color: "#94A3B8",
+          color: "var(--oa-text-400)",
         }}
       >
         {t("settingsMenu.changeLanguage")}
@@ -49,7 +49,7 @@ function LanguageMenuItems({ onSelected }) {
               justifyContent: "space-between",
               gap: 1.5,
               fontWeight: selected ? 700 : 500,
-              color: selected ? "#1D4ED8" : "#334155",
+              color: selected ? "var(--oa-brand-strong)" : "var(--oa-text-700)",
               bgcolor: selected
                 ? "rgba(37, 99, 235, 0.08)"
                 : "transparent",
@@ -71,7 +71,7 @@ function LanguageMenuItems({ onSelected }) {
             {selected && (
               <CheckIcon
                 fontSize="small"
-                sx={{ color: "#2563EB" }}
+                sx={{ color: "var(--oa-brand)" }}
               />
             )}
           </MenuItem>

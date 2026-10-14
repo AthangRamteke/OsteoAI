@@ -70,8 +70,8 @@ function DocumentAssistantPanel({ result }) {
         mt: 2.2,
         p: { xs: 2, md: 2.5 },
         borderRadius: 3,
-        bgcolor: "#FFFFFF",
-        border: "1px solid #E2E8F0",
+        bgcolor: "var(--oa-surface)",
+        border: "1px solid var(--oa-border-1)",
       }}
     >
       <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
@@ -84,16 +84,16 @@ function DocumentAssistantPanel({ result }) {
             alignItems: "center",
             justifyContent: "center",
             color: "#FFFFFF",
-            background: "linear-gradient(135deg, #2563EB, #14B8A6)",
+            background: "var(--oa-brand-gradient)",
           }}
         >
           <SmartToyIcon sx={{ fontSize: 17 }} />
         </Box>
         <Box>
-          <Typography sx={{ fontWeight: 800, color: "#0F172A", fontSize: 15 }}>
+          <Typography sx={{ fontWeight: 800, color: "var(--oa-text-900)", fontSize: 15 }}>
             {t("assessment.documentAssistant.title")}
           </Typography>
-          <Typography variant="caption" sx={{ color: "#64748B" }}>
+          <Typography variant="caption" sx={{ color: "var(--oa-text-500)" }}>
             {t("assessment.documentAssistant.subtitle")}
           </Typography>
         </Box>
@@ -130,13 +130,13 @@ function DocumentAssistantPanel({ result }) {
                     px: 1.6,
                     py: 1.1,
                     borderRadius: 2.5,
-                    bgcolor: isAssistant ? "#F8FAFC" : "#EEF4FF",
-                    border: `1px solid ${isAssistant ? "#E2E8F0" : "#D7E3F4"}`,
+                    bgcolor: isAssistant ? "var(--oa-surface-2)" : "var(--oa-brand-soft)",
+                    border: `1px solid ${isAssistant ? "var(--oa-border-1)" : "var(--oa-border-brand-soft)"}`,
                   }}
                 >
                   <Typography
                     variant="body2"
-                    sx={{ color: "#334155", lineHeight: 1.65, whiteSpace: "pre-wrap" }}
+                    sx={{ color: "var(--oa-text-700)", lineHeight: 1.65, whiteSpace: "pre-wrap" }}
                   >
                     {message.content}
                   </Typography>
@@ -181,7 +181,7 @@ function DocumentAssistantPanel({ result }) {
         </IconButton>
       </Stack>
 
-      <Typography variant="caption" sx={{ display: "block", color: "#94A3B8", mt: 1 }}>
+      <Typography variant="caption" sx={{ display: "block", color: "var(--oa-text-400)", mt: 1 }}>
         {t("assessment.documentAssistant.note")}
       </Typography>
     </Box>

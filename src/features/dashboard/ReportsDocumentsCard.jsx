@@ -119,17 +119,17 @@ function ReportsDocumentsCard({ surfaceSx, latestAssessment, assessmentHistory }
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            bgcolor: "#EEF4FF",
-            color: "#2563EB",
+            bgcolor: "var(--oa-brand-soft)",
+            color: "var(--oa-brand)",
           }}
         >
           <DescriptionIcon />
         </Box>
         <Box>
-          <Typography sx={{ fontWeight: 800, color: "#0F172A" }}>
+          <Typography sx={{ fontWeight: 800, color: "var(--oa-text-900)" }}>
             {t("dashboard.reportsDocsTitle")}
           </Typography>
-          <Typography variant="body2" sx={{ color: "#64748B" }}>
+          <Typography variant="body2" sx={{ color: "var(--oa-text-500)" }}>
             {t("dashboard.reportsDocsSubtitle")}
           </Typography>
         </Box>
@@ -140,7 +140,7 @@ function ReportsDocumentsCard({ surfaceSx, latestAssessment, assessmentHistory }
         direction="row"
         sx={{ alignItems: "center", justifyContent: "space-between", mt: 2.4, mb: 1 }}
       >
-        <Typography variant="body2" sx={{ fontWeight: 800, color: "#334155" }}>
+        <Typography variant="body2" sx={{ fontWeight: 800, color: "var(--oa-text-700)" }}>
           {t("dashboard.documentIntelligenceTitle")}
         </Typography>
         <Button
@@ -164,8 +164,8 @@ function ReportsDocumentsCard({ surfaceSx, latestAssessment, assessmentHistory }
                 alignItems: "center",
                 p: 1.5,
                 borderRadius: 3,
-                bgcolor: "#F8FAFC",
-                border: "1px solid #EDF2F7",
+                bgcolor: "var(--oa-surface-2)",
+                border: "1px solid var(--oa-border-2)",
               }}
             >
               <Box sx={{ flex: 1, minWidth: 0 }}>
@@ -173,7 +173,7 @@ function ReportsDocumentsCard({ surfaceSx, latestAssessment, assessmentHistory }
                   variant="body2"
                   sx={{
                     fontWeight: 700,
-                    color: "#0F172A",
+                    color: "var(--oa-text-900)",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
@@ -181,7 +181,7 @@ function ReportsDocumentsCard({ surfaceSx, latestAssessment, assessmentHistory }
                 >
                   {document.filename}
                 </Typography>
-                <Typography variant="caption" sx={{ color: "#64748B" }}>
+                <Typography variant="caption" sx={{ color: "var(--oa-text-500)" }}>
                   {formatDate(document.savedAt)} ·{" "}
                   {t("dashboard.documentsFound", { count: document.foundCount })}
                   {document.reviewCount
@@ -226,11 +226,11 @@ function ReportsDocumentsCard({ surfaceSx, latestAssessment, assessmentHistory }
           sx={{
             p: 2,
             borderRadius: 3,
-            bgcolor: "#F8FAFC",
-            border: "1px dashed #CBD5E1",
+            bgcolor: "var(--oa-surface-2)",
+            border: "1px dashed var(--oa-border-4)",
           }}
         >
-          <Typography variant="caption" sx={{ color: "#64748B" }}>
+          <Typography variant="caption" sx={{ color: "var(--oa-text-500)" }}>
             {t("dashboard.documentsEmpty")}
           </Typography>
         </Box>
@@ -241,7 +241,7 @@ function ReportsDocumentsCard({ surfaceSx, latestAssessment, assessmentHistory }
         direction="row"
         sx={{ alignItems: "center", justifyContent: "space-between", mt: 2.6, mb: 1 }}
       >
-        <Typography variant="body2" sx={{ fontWeight: 800, color: "#334155" }}>
+        <Typography variant="body2" sx={{ fontWeight: 800, color: "var(--oa-text-700)" }}>
           {t("dashboard.generatedSummaryTitle")}
         </Typography>
         {summary && (
@@ -258,14 +258,14 @@ function ReportsDocumentsCard({ surfaceSx, latestAssessment, assessmentHistory }
           sx={{
             p: 2,
             borderRadius: 3,
-            bgcolor: "#F8FAFC",
-            border: "1px solid #EDF2F7",
+            bgcolor: "var(--oa-surface-2)",
+            border: "1px solid var(--oa-border-2)",
           }}
         >
           <Typography
             variant="body2"
             sx={{
-              color: "#334155",
+              color: "var(--oa-text-700)",
               lineHeight: 1.7,
               whiteSpace: "pre-wrap",
               maxHeight: 190,
@@ -307,11 +307,11 @@ function ReportsDocumentsCard({ surfaceSx, latestAssessment, assessmentHistory }
           sx={{
             p: 2,
             borderRadius: 3,
-            bgcolor: "#F8FAFC",
-            border: "1px solid #EDF2F7",
+            bgcolor: "var(--oa-surface-2)",
+            border: "1px solid var(--oa-border-2)",
           }}
         >
-          <Typography variant="caption" sx={{ color: "#64748B", display: "block", mb: 1.3 }}>
+          <Typography variant="caption" sx={{ color: "var(--oa-text-500)", display: "block", mb: 1.3 }}>
             {hasResult
               ? t("dashboard.summaryIntro")
               : t("dashboard.summaryNeedsAssessment")}
@@ -344,7 +344,7 @@ function ReportsDocumentsCard({ surfaceSx, latestAssessment, assessmentHistory }
         </Alert>
       )}
 
-      <Typography variant="caption" sx={{ display: "block", color: "#94A3B8", mt: 1.5 }}>
+      <Typography variant="caption" sx={{ display: "block", color: "var(--oa-text-400)", mt: 1.5 }}>
         {t("dashboard.summaryDisclaimer")}
       </Typography>
     </Box>

@@ -76,8 +76,8 @@ function AnalysisScreen({
           width: "100%",
           maxWidth: 620,
           borderRadius: 5,
-          border: "1px solid #DCE6F4",
-          bgcolor: "rgba(255,255,255,0.98)",
+          border: "1px solid var(--oa-border-3)",
+          bgcolor: "var(--oa-surface-glass-strong)",
           boxShadow:
             "0 24px 60px rgba(15, 23, 42, 0.08)",
           textAlign: "center",
@@ -119,7 +119,7 @@ function AnalysisScreen({
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  bgcolor: "#EEF4FF",
+                  bgcolor: "var(--oa-brand-soft)",
                   color: "primary.main",
                 }}
               >
@@ -135,7 +135,7 @@ function AnalysisScreen({
             variant="h4"
             fontWeight={800}
             sx={{
-              color: "#0F172A",
+              color: "var(--oa-text-900)",
               letterSpacing: "-0.02em",
               fontSize: {
                 xs: "1.8rem",
@@ -150,7 +150,7 @@ function AnalysisScreen({
             sx={{
               mt: 1,
               lineHeight: 1.7,
-              color: "#64748B",
+              color: "var(--oa-text-500)",
             }}
           >
             {t("assessment.analysis.subtitle")}
@@ -163,8 +163,8 @@ function AnalysisScreen({
               px: 2,
               py: 1.5,
               borderRadius: 3,
-              bgcolor: "#F8FAFC",
-              border: "1px solid #E2E8F0",
+              bgcolor: "var(--oa-surface-2)",
+              border: "1px solid var(--oa-border-1)",
               minHeight: 52,
               display: "flex",
               alignItems: "center",
@@ -175,7 +175,7 @@ function AnalysisScreen({
               variant="body2"
               fontWeight={700}
               sx={{
-                color: "#334155",
+                color: "var(--oa-text-700)",
                 lineHeight: 1.5,
               }}
             >
@@ -201,7 +201,7 @@ function AnalysisScreen({
               <Typography
                 variant="body2"
                 fontWeight={700}
-                sx={{ color: "#0F172A" }}
+                sx={{ color: "var(--oa-text-900)" }}
               >
                 {t("assessment.analysis.progressLabel")}
               </Typography>
@@ -221,7 +221,7 @@ function AnalysisScreen({
               sx={{
                 height: 8,
                 borderRadius: 999,
-                bgcolor: "#E2E8F0",
+                bgcolor: "var(--oa-border-1)",
                 "& .MuiLinearProgress-bar": {
                   borderRadius: 999,
                 },
@@ -247,12 +247,12 @@ function AnalysisScreen({
                   p: 1.25,
                   borderRadius: 3,
                   bgcolor: stage.completed
-                    ? "#F0FDF4"
-                    : "#F8FAFC",
+                    ? "var(--oa-success-soft)"
+                    : "var(--oa-surface-2)",
                   border: "1px solid",
                   borderColor: stage.completed
-                    ? "#BBF7D0"
-                    : "#E2E8F0",
+                    ? "var(--oa-success-border)"
+                    : "var(--oa-border-1)",
                 }}
               >
                 <Box
@@ -265,10 +265,10 @@ function AnalysisScreen({
                     alignItems: "center",
                     justifyContent: "center",
                     bgcolor: stage.completed
-                      ? "#DCFCE7"
-                      : "#EEF4FF",
+                      ? "var(--oa-success-soft-2)"
+                      : "var(--oa-brand-soft)",
                     color: stage.completed
-                      ? "#16A34A"
+                      ? "var(--oa-success)"
                       : "primary.main",
                   }}
                 >
@@ -286,8 +286,8 @@ function AnalysisScreen({
                   fontWeight={700}
                   sx={{
                     color: stage.completed
-                      ? "#166534"
-                      : "#334155",
+                      ? "var(--oa-success-deep)"
+                      : "var(--oa-text-700)",
                   }}
                 >
                   {stage.label}
@@ -300,7 +300,7 @@ function AnalysisScreen({
             variant="body2"
             sx={{
               mt: 2.5,
-              color: "#94A3B8",
+              color: "var(--oa-text-400)",
             }}
           >
             {t("assessment.analysis.footerNote")}

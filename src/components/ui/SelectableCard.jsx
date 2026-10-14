@@ -34,16 +34,16 @@ function SelectableCard({
         cursor: "pointer",
         borderRadius: 3,
         border: selected
-          ? "2px solid #2563EB"
-          : "1px solid #E2E8F0",
-        bgcolor: selected ? "#EEF4FF" : "#FFFFFF",
+          ? "2px solid var(--oa-brand)"
+          : "1px solid var(--oa-border-1)",
+        bgcolor: selected ? "var(--oa-brand-soft)" : "var(--oa-surface)",
         boxShadow: selected
           ? "0 4px 12px rgba(37, 99, 235, 0.12)"
           : "none",
         transition:
           "border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease",
         "&:hover": {
-          borderColor: "#2563EB",
+          borderColor: "var(--oa-brand)",
           transform: "translateY(-2px)",
           boxShadow:
             "0 6px 16px rgba(15, 23, 42, 0.08)",
@@ -73,7 +73,7 @@ function SelectableCard({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            bgcolor: selected ? "#DCE9FF" : "#F8FAFC",
+            bgcolor: selected ? "var(--oa-border-brand-soft)" : "var(--oa-surface-2)",
             color: "primary.main",
             transition: "background-color 0.2s ease",
           }}

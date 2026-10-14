@@ -539,7 +539,7 @@ function LandingPage() {
             },
 
           bgcolor:
-            "rgba(255, 255, 255, 0.98)",
+            "var(--oa-surface-glass-strong)",
 
           backdropFilter:
             "blur(18px)",
@@ -612,8 +612,8 @@ function LandingPage() {
                 height: 44,
 
                 color: sidebarOpen
-                  ? "#2563EB"
-                  : "#334155",
+                  ? "var(--oa-brand)"
+                  : "var(--oa-text-700)",
 
                 bgcolor: sidebarOpen
                   ? "rgba(37, 99, 235, 0.08)"
@@ -698,7 +698,7 @@ function LandingPage() {
                   height: 42,
 
                   background:
-                    "linear-gradient(135deg, #0B3B82 0%, #2563EB 55%, #38BDF8 100%)",
+                    "linear-gradient(135deg, var(--oa-brand-strong) 0%, var(--oa-brand) 55%, var(--oa-sky) 100%)",
 
                   border:
                     "2px solid rgba(255,255,255,0.96)",
@@ -731,10 +731,10 @@ function LandingPage() {
 
                 borderRadius: "50%",
 
-                bgcolor: "#22C55E",
+                bgcolor: "var(--oa-success-bright)",
 
                 border:
-                  "2px solid #FFFFFF",
+                  "2px solid var(--oa-surface)",
 
                 boxShadow:
                   "0 2px 6px rgba(34,197,94,0.35)",
@@ -753,7 +753,7 @@ function LandingPage() {
               <Typography
                 variant="body2"
                 sx={{
-                  color: "#0F172A",
+                  color: "var(--oa-text-900)",
 
                   fontWeight: 800,
 
@@ -787,14 +787,14 @@ function LandingPage() {
 
                     borderRadius: "50%",
 
-                    bgcolor: "#22C55E",
+                    bgcolor: "var(--oa-success-bright)",
                   }}
                 />
 
                 <Typography
                   variant="caption"
                   sx={{
-                    color: "#64748B",
+                    color: "var(--oa-text-500)",
 
                     fontSize: "0.73rem",
 
@@ -813,7 +813,7 @@ function LandingPage() {
           {sidebarOpen && (
             <Box
               sx={{
-                color: "#94A3B8",
+                color: "var(--oa-text-400)",
 
                 display: "flex",
                 alignItems: "center",
@@ -878,10 +878,10 @@ function LandingPage() {
                           : "center",
 
                       color: item.disabled
-                        ? "#94A3B8"
+                        ? "var(--oa-text-400)"
                         : item.active
-                          ? "#1D4ED8"
-                          : "#334155",
+                          ? "var(--oa-brand-strong)"
+                          : "var(--oa-text-700)",
 
                       bgcolor: item.active
                         ? "rgba(37, 99, 235, 0.10)"
@@ -906,7 +906,7 @@ function LandingPage() {
                         bgcolor:
                           "rgba(37, 99, 235, 0.10)",
 
-                        color: "#2563EB",
+                        color: "var(--oa-brand)",
 
                         transform:
                           item.disabled
@@ -943,7 +943,7 @@ function LandingPage() {
                             : "transparent",
 
                         color: item.emphasis
-                          ? "#0284C7"
+                          ? "var(--oa-sky-strong)"
                           : "inherit",
 
                         display: "flex",
@@ -1025,8 +1025,8 @@ function LandingPage() {
 
                       color:
                         item.id === "logout"
-                          ? "#EF4444"
-                          : "#64748B",
+                          ? "var(--oa-danger)"
+                          : "var(--oa-text-500)",
 
                       "&.Mui-disabled": {
                         opacity: 0.48,
@@ -1062,8 +1062,8 @@ function LandingPage() {
                               color:
                                 item.id ===
                                   "logout"
-                                  ? "#EF4444"
-                                  : "#475569",
+                                  ? "var(--oa-danger)"
+                                  : "var(--oa-text-600)",
                             },
                           },
                         }}
@@ -1087,7 +1087,7 @@ function LandingPage() {
             paper: {
               sx: {
                 borderRadius: 3,
-                border: "1px solid #E2E8F0",
+                border: "1px solid var(--oa-border-1)",
                 boxShadow: "0 18px 44px rgba(15, 23, 42, 0.12)",
                 mb: 1,
               },

@@ -69,7 +69,7 @@ function ScrollProgressBar() {
           transformOrigin: "0% 50%",
           transform: "scaleX(0)",
           background:
-            "linear-gradient(90deg, #2563EB 0%, #6366F1 100%)",
+            "linear-gradient(90deg, var(--oa-brand) 0%, var(--oa-indigo) 100%)",
           willChange: "transform",
         }}
       />

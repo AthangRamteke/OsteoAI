@@ -26,31 +26,31 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
     if (status === "found") {
       return {
         label: t("assessment.autofillReview.statusFound"),
-        color: "#166534",
-        bgcolor: "#DCFCE7",
+        color: "var(--oa-success-deep)",
+        bgcolor: "var(--oa-success-soft-2)",
       };
     }
 
     if (status === "manual_mapping_required") {
       return {
         label: t("assessment.autofillReview.statusNeedsMapping"),
-        color: "#92400E",
-        bgcolor: "#FEF3C7",
+        color: "var(--oa-warn-deeper)",
+        bgcolor: "var(--oa-warn-soft)",
       };
     }
 
     if (status === "reference_only") {
       return {
         label: t("assessment.autofillReview.statusReference"),
-        color: "#475569",
-        bgcolor: "#F1F5F9",
+        color: "var(--oa-text-600)",
+        bgcolor: "var(--oa-surface-3)",
       };
     }
 
     return {
       label: t("assessment.autofillReview.statusReview"),
-      color: "#1D4ED8",
-      bgcolor: "#EEF4FF",
+      color: "var(--oa-brand-strong)",
+      bgcolor: "var(--oa-brand-soft)",
     };
   };
 
@@ -72,8 +72,8 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
           sx={{
             mb: 1.2,
             fontWeight: 800,
-            color: "#1D4ED8",
-            bgcolor: "#EEF4FF",
+            color: "var(--oa-brand-strong)",
+            bgcolor: "var(--oa-brand-soft)",
           }}
         />
 
@@ -113,8 +113,8 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
         elevation={0}
         sx={{
           borderRadius: 4,
-          border: "1px solid #E2E8F0",
-          bgcolor: "#FFFFFF",
+          border: "1px solid var(--oa-border-1)",
+          bgcolor: "var(--oa-surface)",
         }}
       >
         <CardContent sx={{ p: { xs: 2, md: 3 } }}>
@@ -123,7 +123,7 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
               <Box key={group.section}>
                 <Typography
                   variant="subtitle1"
-                  sx={{ fontWeight: 800, color: "#0F172A", mb: 1.5 }}
+                  sx={{ fontWeight: 800, color: "var(--oa-text-900)", mb: 1.5 }}
                 >
                   {sectionTitles[group.section]}
                 </Typography>
@@ -138,8 +138,8 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
                         sx={{
                           p: 1.5,
                           borderRadius: 3,
-                          border: "1px solid #E2E8F0",
-                          bgcolor: "#F8FAFC",
+                          border: "1px solid var(--oa-border-1)",
+                          bgcolor: "var(--oa-surface-2)",
                         }}
                       >
                         <Box
@@ -154,7 +154,7 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
                         >
                           <Typography
                             variant="body2"
-                            sx={{ fontWeight: 800, color: "#334155" }}
+                            sx={{ fontWeight: 800, color: "var(--oa-text-700)" }}
                           >
                             {field.label}
                           </Typography>
@@ -174,9 +174,9 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
                         <Typography
                           sx={{
                             fontWeight: 700,
-                            color: "#0F172A",
-                            bgcolor: "#FFFFFF",
-                            border: "1px solid #E2E8F0",
+                            color: "var(--oa-text-900)",
+                            bgcolor: "var(--oa-surface)",
+                            border: "1px solid var(--oa-border-1)",
                             borderRadius: 2,
                             px: 1.5,
                             py: 1,
@@ -190,7 +190,7 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
                         {field.source_text && (
                           <Typography
                             variant="caption"
-                            sx={{ display: "block", mt: 0.8, color: "#64748B" }}
+                            sx={{ display: "block", mt: 0.8, color: "var(--oa-text-500)" }}
                           >
                             {t("assessment.autofillReview.sourceLabel", {
                               source: field.source_text,
@@ -214,11 +214,11 @@ function AutofillReview({ result, fileName, onBack, onContinue }) {
           mt: 2.2,
           p: 2,
           borderRadius: 3,
-          bgcolor: "#F0F9FF",
-          border: "1px solid #BAE6FD",
+          bgcolor: "var(--oa-info-soft)",
+          border: "1px solid var(--oa-border-sky)",
         }}
       >
-        <Typography variant="body2" sx={{ color: "#075985", lineHeight: 1.7 }}>
+        <Typography variant="body2" sx={{ color: "var(--oa-info-deep)", lineHeight: 1.7 }}>
           {t("assessment.autofillReview.foundCount", {
             count: result?.field_count_found ?? fields.length,
           })}

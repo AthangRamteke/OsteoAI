@@ -34,7 +34,7 @@ function HowItWorks() {
       sx={{
         scrollMarginTop: "115px",
         py: { xs: 8, md: 12 },
-        bgcolor: "white",
+        bgcolor: "var(--oa-surface)",
       }}
     >
       <Container maxWidth="lg">

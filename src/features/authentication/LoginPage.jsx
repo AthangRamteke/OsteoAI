@@ -106,7 +106,7 @@ function LoginPage() {
         alignItems: "center",
         py: { xs: 3, md: 6 },
         background:
-          "radial-gradient(1000px circle at 20% 20%, rgba(37,99,235,0.10) 0%, rgba(255,255,255,0) 60%), linear-gradient(135deg, #F8FAFC 0%, #EEF4FF 100%)",
+          "radial-gradient(1000px circle at 20% 20%, rgba(37,99,235,0.10) 0%, rgba(255,255,255,0) 60%), linear-gradient(135deg, var(--oa-surface-2) 0%, var(--oa-brand-soft) 100%)",
       }}
     >
       <Container maxWidth="lg">
@@ -115,8 +115,8 @@ function LoginPage() {
           sx={{
             overflow: "hidden",
             borderRadius: { xs: 4, md: 6 },
-            border: "1px solid #DCE6F4",
-            bgcolor: "rgba(255,255,255,0.88)",
+            border: "1px solid var(--oa-border-3)",
+            bgcolor: "var(--oa-surface-glass)",
             backdropFilter: "blur(16px)",
             boxShadow:
               "0 24px 70px rgba(15,23,42,0.08)",
@@ -134,7 +134,7 @@ function LoginPage() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              bgcolor: "#F8FAFC",
+              bgcolor: "var(--oa-surface-2)",
               background:
                 "radial-gradient(600px circle at 40% 30%, rgba(37,99,235,0.13) 0%, rgba(255,255,255,0) 68%)",
             }}
@@ -154,7 +154,7 @@ function LoginPage() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  bgcolor: "primary.main",
+                  bgcolor: "var(--oa-brand-solid)",
                   color: "white",
                   boxShadow:
                     "0 8px 22px rgba(37,99,235,0.18)",
@@ -168,7 +168,7 @@ function LoginPage() {
                   variant="h5"
                   fontWeight={800}
                   sx={{
-                    color: "#0F172A",
+                    color: "var(--oa-text-900)",
                     lineHeight: 1,
                   }}
                 >
@@ -179,7 +179,7 @@ function LoginPage() {
                   variant="body2"
                   sx={{
                     mt: 0.5,
-                    color: "#64748B",
+                    color: "var(--oa-text-500)",
                   }}
                 >
                   {t("brand.tagline")}
@@ -199,7 +199,7 @@ function LoginPage() {
                 },
                 lineHeight: 1.1,
                 letterSpacing: "-0.03em",
-                color: "#0F172A",
+                color: "var(--oa-text-900)",
               }}
             >
               {isLogin ? (
@@ -236,7 +236,7 @@ function LoginPage() {
                 mt: 2,
                 maxWidth: 500,
                 lineHeight: 1.8,
-                color: "#64748B",
+                color: "var(--oa-text-500)",
               }}
             >
               {isLogin
@@ -269,7 +269,7 @@ function LoginPage() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      bgcolor: "#EEF4FF",
+                      bgcolor: "var(--oa-brand-soft)",
                       color: "primary.main",
                       flexShrink: 0,
                     }}
@@ -281,7 +281,7 @@ function LoginPage() {
                     variant="body2"
                     fontWeight={600}
                     sx={{
-                      color: "#334155",
+                      color: "var(--oa-text-700)",
                     }}
                   >
                     {item.text}
@@ -296,7 +296,7 @@ function LoginPage() {
             sx={{
               p: { xs: 3, sm: 5, md: 6 },
               bgcolor:
-                "rgba(255,255,255,0.94)",
+                "var(--oa-surface-glass)",
             }}
           >
             {/* Mode selector */}
@@ -305,8 +305,8 @@ function LoginPage() {
                 display: "inline-flex",
                 p: 0.5,
                 borderRadius: 3,
-                bgcolor: "#F1F5F9",
-                border: "1px solid #E2E8F0",
+                bgcolor: "var(--oa-surface-3)",
+                border: "1px solid var(--oa-border-1)",
                 mb: 4,
               }}
             >
@@ -323,7 +323,7 @@ function LoginPage() {
                   fontWeight: 700,
                   color: isLogin
                     ? "white"
-                    : "#64748B",
+                    : "var(--oa-text-500)",
                   bgcolor: isLogin
                     ? "primary.main"
                     : "transparent",
@@ -353,7 +353,7 @@ function LoginPage() {
                   fontWeight: 700,
                   color: !isLogin
                     ? "white"
-                    : "#64748B",
+                    : "var(--oa-text-500)",
                   bgcolor: !isLogin
                     ? "primary.main"
                     : "transparent",

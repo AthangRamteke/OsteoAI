@@ -21,29 +21,29 @@ function FeaturesSection() {
       icon: <PsychologyIcon />,
       title: t("features.item1Title"),
       description: t("features.item1Desc"),
-      tint: "#EEF4FF",
-      iconColor: "#2563EB",
+      tint: "var(--oa-brand-soft)",
+      iconColor: "var(--oa-brand)",
     },
     {
       icon: <ShowChartIcon />,
       title: t("features.item2Title"),
       description: t("features.item2Desc"),
-      tint: "#F3EEFF",
-      iconColor: "#7C3AED",
+      tint: "var(--oa-violet-soft)",
+      iconColor: "var(--oa-violet)",
     },
     {
       icon: <FavoriteIcon />,
       title: t("features.item3Title"),
       description: t("features.item3Desc"),
-      tint: "#ECFDF3",
-      iconColor: "#16A34A",
+      tint: "var(--oa-success-soft)",
+      iconColor: "var(--oa-success)",
     },
     {
       icon: <PieChartIcon />,
       title: t("features.item4Title"),
       description: t("features.item4Desc"),
-      tint: "#FFF7ED",
-      iconColor: "#EA580C",
+      tint: "var(--oa-warn-soft-2)",
+      iconColor: "var(--oa-warn-strong)",
     },
   ];
 
@@ -52,7 +52,7 @@ function FeaturesSection() {
       id="features"
       sx={{
         py: { xs: 8, md: 12 },
-        bgcolor: "#F8FAFC",
+        bgcolor: "var(--oa-surface-2)",
       }}
     >
       <Container maxWidth="lg">

@@ -86,7 +86,7 @@ function Hero() {
         px: { xs: 3, sm: 5, md: 8, lg: 12 },
         py: { xs: 6, md: 10 },
         background:
-          "radial-gradient(1000px circle at 70% 35%, rgba(37, 99, 235, 0.12) 0%, rgba(99, 102, 241, 0.055) 34%, rgba(255,255,255,0) 70%), linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%)",
+          "radial-gradient(1000px circle at 70% 35%, rgba(37, 99, 235, 0.12) 0%, rgba(99, 102, 241, 0.055) 34%, rgba(255,255,255,0) 70%), linear-gradient(180deg, var(--oa-surface) 0%, var(--oa-surface-2) 100%)",
       }}
     >
       <Box
@@ -129,7 +129,7 @@ function Hero() {
               lineHeight: 1.08,
               letterSpacing: "-0.03em",
               maxWidth: 760,
-              color: "#0F172A",
+              color: "var(--oa-text-900)",
             }}
           >
             {t("hero.titleLine1")}
@@ -154,7 +154,7 @@ function Hero() {
                 md: "1.12rem",
               },
               lineHeight: 1.8,
-              color: "#475569",
+              color: "var(--oa-text-600)",
             }}
           >
             {t("hero.subtitle")}
@@ -176,7 +176,7 @@ function Hero() {
               variant="outlined"
               onClick={scrollToFeatures}
               sx={{
-                bgcolor: "rgba(255,255,255,0.82)",
+                bgcolor: "var(--oa-surface-glass)",
                 color: "primary.main",
               }}
             >
@@ -189,7 +189,7 @@ function Hero() {
             spacing={3}
             sx={{
               mt: 4,
-              color: "#64748B",
+              color: "var(--oa-text-500)",
             }}
           >
             <Box>
@@ -197,7 +197,7 @@ function Hero() {
                 variant="body2"
                 fontWeight={700}
                 sx={{
-                  color: "#0F172A",
+                  color: "var(--oa-text-900)",
                 }}
               >
                 {t("hero.statMultiFactorTitle")}
@@ -213,7 +213,7 @@ function Hero() {
                 variant="body2"
                 fontWeight={700}
                 sx={{
-                  color: "#0F172A",
+                  color: "var(--oa-text-900)",
                 }}
               >
                 {t("hero.statAiTitle")}
@@ -275,8 +275,8 @@ function Hero() {
               maxWidth: 440,
               borderRadius: 6,
               p: { xs: 3, sm: 4 },
-              bgcolor: "rgba(255,255,255,0.94)",
-              border: "1px solid #E2E8F0",
+              bgcolor: "var(--oa-surface-glass)",
+              border: "1px solid var(--oa-border-1)",
               boxShadow:
                 "0 24px 60px rgba(15, 23, 42, 0.08)",
               backdropFilter: "blur(12px)",
@@ -298,7 +298,7 @@ function Hero() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  bgcolor: "#EEF4FF",
+                  bgcolor: "var(--oa-brand-soft)",
                   color: "primary.main",
                   flexShrink: 0,
                 }}
@@ -320,7 +320,7 @@ function Hero() {
                   fontWeight={800}
                   sx={{
                     lineHeight: 1.2,
-                    color: "#0F172A",
+                    color: "var(--oa-text-900)",
                   }}
                 >
                   {t("hero.cardTitle")}
@@ -335,7 +335,7 @@ function Hero() {
                     px: 1.25,
                     py: 0.6,
                     borderRadius: 999,
-                    bgcolor: "#ECFDF3",
+                    bgcolor: "var(--oa-success-soft)",
                     border: "1px solid #D1FAE5",
                   }}
                 >
@@ -344,7 +344,7 @@ function Hero() {
                       width: 7,
                       height: 7,
                       borderRadius: "50%",
-                      bgcolor: "#22C55E",
+                      bgcolor: "var(--oa-success-bright)",
                       boxShadow:
                         "0 0 0 4px rgba(34, 197, 94, 0.12)",
                       flexShrink: 0,
@@ -355,7 +355,7 @@ function Hero() {
                     variant="caption"
                     fontWeight={700}
                     sx={{
-                      color: "#15803D",
+                      color: "var(--oa-success-strong)",
                       whiteSpace: "nowrap",
                     }}
                   >
@@ -368,7 +368,7 @@ function Hero() {
                   sx={{
                     mt: 1,
                     lineHeight: 1.5,
-                    color: "#64748B",
+                    color: "var(--oa-text-500)",
                   }}
                 >
                   {t("hero.cardNote")}
@@ -405,8 +405,8 @@ function Hero() {
                         justifyContent: "center",
                         bgcolor:
                           index === 0
-                            ? "primary.main"
-                            : "#EEF4FF",
+                            ? "var(--oa-brand-solid)"
+                            : "var(--oa-brand-soft)",
                         color:
                           index === 0
                             ? "white"
@@ -414,7 +414,7 @@ function Hero() {
                         border:
                           index === 0
                             ? "none"
-                            : "1px solid #C7D2FE",
+                            : "1px solid var(--oa-indigo-soft)",
                         fontWeight: 800,
                         boxShadow:
                           index === 0
@@ -435,7 +435,7 @@ function Hero() {
                         variant="body1"
                         fontWeight={800}
                         sx={{
-                          color: "#0F172A",
+                          color: "var(--oa-text-900)",
                         }}
                       >
                         {step.title}
@@ -446,7 +446,7 @@ function Hero() {
                         sx={{
                           mt: 0.35,
                           lineHeight: 1.5,
-                          color: "#64748B",
+                          color: "var(--oa-text-500)",
                         }}
                       >
                         {step.description}
@@ -494,20 +494,20 @@ function Hero() {
                 gap: 1,
                 mt: 3,
                 pt: 2.5,
-                borderTop: "1px solid #E2E8F0",
+                borderTop: "1px solid var(--oa-border-1)",
               }}
             >
               <AccessTimeIcon
                 sx={{
                   fontSize: 18,
-                  color: "#64748B",
+                  color: "var(--oa-text-500)",
                 }}
               />
 
               <Typography
                 variant="body2"
                 sx={{
-                  color: "#64748B",
+                  color: "var(--oa-text-500)",
                 }}
               >
                 {t("hero.bottomNote")}
