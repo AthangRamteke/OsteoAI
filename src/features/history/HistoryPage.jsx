@@ -540,7 +540,7 @@ function HistoryPage() {
                     <Box
                       sx={{
                         position: "absolute",
-                        left: { xs: -22, md: -30 },
+                        left: { xs: -19, md: -25 },
                         top: 22,
                         width: 14,
                         height: 14,

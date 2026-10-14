@@ -458,17 +458,18 @@ function Hero() {
                     assessmentSteps.length - 1 && (
                     <Box
                       sx={{
+                        width: 34,
                         height: 34,
-                        ml: "16px",
                         display: "flex",
+                        flexDirection: "column",
                         alignItems: "center",
                       }}
                     >
                       <Box
                         sx={{
-                          height: 22,
+                          flex: 1,
                           borderLeft:
-                            "2px dotted #C7D2FE",
+                            "2px dotted var(--oa-indigo-soft)",
                         }}
                       />
 
@@ -476,8 +477,7 @@ function Hero() {
                         sx={{
                           color: "primary.main",
                           fontSize: 18,
-                          ml: -1.15,
-                          mt: 1.2,
+                          mt: "-7px",
                         }}
                       />
                     </Box>
@@ -491,6 +491,7 @@ function Hero() {
               sx={{
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "center",
                 gap: 1,
                 mt: 3,
                 pt: 2.5,

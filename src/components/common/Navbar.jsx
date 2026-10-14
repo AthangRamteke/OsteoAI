@@ -380,7 +380,7 @@ function Navbar({ sidebarOpen = false }) {
             py: 1,
 
             border:
-              "1px solid rgba(226, 232, 240, 0.9)",
+              "1px solid var(--oa-glass-border)",
 
             borderRadius: 4,
 
