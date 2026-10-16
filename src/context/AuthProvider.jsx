@@ -7,7 +7,7 @@ import {
   loginAccount,
   registerAccount,
 } from "../services/authService";
-import { setSession } from "../services/userStorage";
+import { historyKey, latestKey, setSession } from "../services/userStorage";
 import { syncHistoryFromServer } from "../services/historySync";
 
 /*
@@ -125,6 +125,15 @@ function AuthProvider({ children }) {
   );
 
   const logout = useCallback(() => {
+    // Health data should not stay readable on a shared device. The saved
+    // assessments are on the server and come back at the next sign-in.
+    try {
+      localStorage.removeItem(historyKey());
+      localStorage.removeItem(latestKey());
+    } catch {
+      // Storage unavailable; nothing to clear.
+    }
+
     setSession(null, null);
     clearStoredToken();
     setToken(null);

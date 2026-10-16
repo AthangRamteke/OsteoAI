@@ -1,4 +1,4 @@
-import Assessment from "../pages/assessment/assessment";
+import Assessment from "../pages/Assessment/Assessment";
 import {
   BrowserRouter,
   Routes,

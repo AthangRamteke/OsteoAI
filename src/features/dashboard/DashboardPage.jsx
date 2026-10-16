@@ -429,8 +429,10 @@ function DashboardPage() {
     navigate("/login", { replace: true });
   };
 
+  // Expanded on wide screens; on phones it starts as the slim icon rail so
+  // the page content is not pushed off screen.
   const [sidebarOpen, setSidebarOpen] =
-    useState(true);
+    useState(() => window.innerWidth >= 900);
 
   const [settingsAnchorEl, setSettingsAnchorEl] =
     useState(null);
