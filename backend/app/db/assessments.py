@@ -34,9 +34,10 @@ _INSERT = """
         risk_level,
         model_version,
         threshold_used,
-        shap_explanations
+        shap_explanations,
+        user_id
     )
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     RETURNING id, created_at
 """
 
@@ -53,12 +54,17 @@ def _number(value: Any) -> float | None:
         return None
 
 
-def save_assessment(features: dict[str, Any], result: dict[str, Any]) -> int:
+def save_assessment(
+    features: dict[str, Any],
+    result: dict[str, Any],
+    user_id: int | None = None,
+) -> int:
     """
     Store one assessment and its prediction as a single row.
 
     `features` is the validated request body, `result` the prediction
-    response. Returns the new row id.
+    response. `user_id` is the signed-in owner, or None when unknown.
+    Returns the new row id.
 
     Raises DatabaseUnavailable if the row could not be written, so the
     caller can never report an unsaved assessment as saved. The whole
@@ -85,6 +91,7 @@ def save_assessment(features: dict[str, Any], result: dict[str, Any]) -> int:
                 str(result["model_version"]),
                 float(result["threshold_used"]),
                 Jsonb(result.get("shap_explanations", [])),
+                user_id,
             ),
         ).fetchone()
 

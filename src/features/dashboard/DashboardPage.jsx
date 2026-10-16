@@ -25,6 +25,7 @@ import {
 
 import { useLanguage } from "../../context/LanguageContext";
 import { useAuth } from "../../context/authContext";
+import { historyKey, latestKey } from "../../services/userStorage";
 import OsteoMonogram from "../../components/common/OsteoMonogram";
 import LanguageMenuItems from "../../components/common/LanguageMenuItems";
 
@@ -453,7 +454,7 @@ function DashboardPage() {
       try {
         const storedLatest =
           localStorage.getItem(
-            "osteoai_latest_assessment"
+            latestKey()
           );
 
         if (storedLatest) {
@@ -472,7 +473,7 @@ function DashboardPage() {
 
         const storedHistory =
           localStorage.getItem(
-            "osteoai_assessment_history"
+            historyKey()
           );
 
         if (storedHistory) {

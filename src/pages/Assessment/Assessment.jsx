@@ -32,6 +32,8 @@ import {
 } from "../../context/AssessmentContext";
 
 import { predictAssessment } from "../../services/predictionService";
+import { historyKey, latestKey } from "../../services/userStorage";
+import { pushHistoryRecord } from "../../services/historySync";
 import { useLanguage } from "../../context/LanguageContext";
 
 function AssessmentContent({ restored }) {
@@ -351,13 +353,13 @@ function AssessmentContent({ restored }) {
 
       try {
         localStorage.setItem(
-          "osteoai_latest_assessment",
+          latestKey(),
           JSON.stringify(dashboardRecord)
         );
 
         const storedHistory =
           localStorage.getItem(
-            "osteoai_assessment_history"
+            historyKey()
           );
 
         let history = [];
@@ -384,7 +386,7 @@ function AssessmentContent({ restored }) {
         ].slice(0, 25);
 
         localStorage.setItem(
-          "osteoai_assessment_history",
+          historyKey(),
           JSON.stringify(updatedHistory)
         );
 
@@ -397,6 +399,9 @@ function AssessmentContent({ restored }) {
           storageError
         );
       }
+
+      // Keep a copy on the server, under this user's account.
+      pushHistoryRecord(dashboardRecord);
 
       setPredictionResult(result);
       setShowAnalysis(false);
@@ -907,7 +912,7 @@ function readRestoredAssessment(state) {
 
   try {
     const stored = localStorage.getItem(
-      "osteoai_latest_assessment"
+      latestKey()
     );
 
     const parsed = stored ? JSON.parse(stored) : null;

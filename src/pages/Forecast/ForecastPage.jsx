@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Container } from "@mui/material";
 
 import Navbar from "../../components/common/Navbar";
+import { latestKey } from "../../services/userStorage";
 import RiskForecastRecommendations from "../../components/forecast/RiskForecastRecommendations";
 
 /*
@@ -29,7 +30,7 @@ function ForecastPage() {
     const readLatestAssessment = () => {
       try {
         const stored = localStorage.getItem(
-          "osteoai_latest_assessment"
+          latestKey()
         );
 
         if (!stored) {

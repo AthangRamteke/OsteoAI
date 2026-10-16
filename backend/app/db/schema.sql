@@ -114,3 +114,40 @@ CREATE INDEX IF NOT EXISTS lookup_cache_expires_at_idx
 INSERT INTO schema_migrations (version)
 VALUES ('0003_lookup_cache')
 ON CONFLICT (version) DO NOTHING;
+
+-- ---------------------------------------------------------------------
+-- Per-user assessment history
+--
+-- Every assessment a signed-in user completes is kept here under their
+-- account, so a new account starts empty and a returning user sees their
+-- own history on any browser or device. `record` is the history entry
+-- exactly as the app displays it ({id, savedAt, assessmentData,
+-- predictionResult}); `record_id` is the app's id for it. Deleting a
+-- user deletes their history.
+-- ---------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS user_assessments (
+    id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id     BIGINT      NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    record_id   TEXT        NOT NULL,
+    saved_at    TIMESTAMPTZ NOT NULL,
+    record      JSONB       NOT NULL,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+
+    CONSTRAINT user_assessments_unique_record UNIQUE (user_id, record_id)
+);
+
+CREATE INDEX IF NOT EXISTS user_assessments_user_saved_idx
+    ON user_assessments (user_id, saved_at DESC);
+
+-- Which account a stored prediction belongs to. Nullable: rows created
+-- before accounts existed, or by a request without a token, have no owner.
+ALTER TABLE assessments
+    ADD COLUMN IF NOT EXISTS user_id BIGINT REFERENCES users (id) ON DELETE SET NULL;
+
+CREATE INDEX IF NOT EXISTS assessments_user_id_idx
+    ON assessments (user_id);
+
+INSERT INTO schema_migrations (version)
+VALUES ('0004_user_history')
+ON CONFLICT (version) DO NOTHING;

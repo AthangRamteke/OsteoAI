@@ -6,13 +6,15 @@
  * read/explain/navigate is free but write/create needs confirmation.
  */
 
+import { userKey } from "./userStorage";
+
 const REMINDERS_KEY = "osteoai_reminders";
 
 export const REMINDERS_UPDATED_EVENT = "osteoai:reminders-updated";
 
 function read() {
   try {
-    const raw = localStorage.getItem(REMINDERS_KEY);
+    const raw = localStorage.getItem(userKey(REMINDERS_KEY));
     const parsed = raw ? JSON.parse(raw) : [];
 
     return Array.isArray(parsed)
@@ -25,7 +27,7 @@ function read() {
 
 function write(reminders) {
   try {
-    localStorage.setItem(REMINDERS_KEY, JSON.stringify(reminders));
+    localStorage.setItem(userKey(REMINDERS_KEY), JSON.stringify(reminders));
     window.dispatchEvent(new Event(REMINDERS_UPDATED_EVENT));
   } catch (error) {
     console.warn("Unable to save OsteoAI reminders:", error);

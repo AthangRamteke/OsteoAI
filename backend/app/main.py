@@ -18,6 +18,7 @@ from app.services.predictor import MODEL_VERSION
 from app.routers.agent import router as agent_router
 from app.routers.auth import router as auth_router
 from app.routers.doctors import router as doctors_router
+from app.routers.history import router as history_router
 from app.routers.knowledge import router as knowledge_router
 from app.routers.simulate import router as simulate_router
 
@@ -109,6 +110,7 @@ app.include_router(knowledge_router)
 app.include_router(simulate_router)
 app.include_router(auth_router)
 app.include_router(doctors_router)
+app.include_router(history_router)
 
 
 

@@ -7,6 +7,8 @@ import {
   loginAccount,
   registerAccount,
 } from "../services/authService";
+import { setSession } from "../services/userStorage";
+import { syncHistoryFromServer } from "../services/historySync";
 
 /*
  * Session handling.
@@ -68,7 +70,11 @@ function AuthProvider({ children }) {
 
     fetchCurrentUser(storedToken)
       .then((currentUser) => {
-        if (!cancelled) setUser(currentUser);
+        if (!cancelled) {
+          setSession(currentUser.id, storedToken);
+          setUser(currentUser);
+          syncHistoryFromServer().catch(() => {});
+        }
       })
       .catch((error) => {
         if (cancelled) return;
@@ -92,8 +98,11 @@ function AuthProvider({ children }) {
 
   const startSession = useCallback((result, remember) => {
     storeToken(result.token, remember);
+    // Per-user browser storage and history sync key off the session.
+    setSession(result.user.id, result.token);
     setToken(result.token);
     setUser(result.user);
+    syncHistoryFromServer().catch(() => {});
     return result.user;
   }, []);
 
@@ -116,6 +125,7 @@ function AuthProvider({ children }) {
   );
 
   const logout = useCallback(() => {
+    setSession(null, null);
     clearStoredToken();
     setToken(null);
     setUser(null);

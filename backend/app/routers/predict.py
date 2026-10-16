@@ -17,11 +17,13 @@ which must never be stored as real assessments.
 
 import logging
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 
+from app.auth_schemas import UserOut
 from app.config import database_required, database_url
 from app.db import DatabaseUnavailable
 from app.db.assessments import save_assessment
+from app.routers.auth import optional_user
 from app.schemas import PatientFeatures, PredictionResponse
 from app.services.predictor import predict_patient
 
@@ -31,7 +33,10 @@ router = APIRouter(prefix="/api", tags=["prediction"])
 
 
 @router.post("/predict", response_model=PredictionResponse)
-def predict(payload: PatientFeatures) -> PredictionResponse:
+def predict(
+    payload: PatientFeatures,
+    user: UserOut | None = Depends(optional_user),
+) -> PredictionResponse:
     features = payload.model_dump()
 
     try:
@@ -45,7 +50,9 @@ def predict(payload: PatientFeatures) -> PredictionResponse:
     # is a database failure and must be reported as one.
     if database_url() is not None:
         try:
-            assessment_id = save_assessment(features, result)
+            assessment_id = save_assessment(
+                features, result, user_id=user.id if user else None
+            )
         except DatabaseUnavailable as exc:
             # Never claim a save that did not happen. With DB_REQUIRED=true
             # the request fails; otherwise the prediction is still returned,

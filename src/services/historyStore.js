@@ -1,12 +1,13 @@
 /*
- * Assessment history stored in the browser.
+ * Assessment history stored in the browser, per signed-in user (the
+ * server copy is kept in step by historySync.js).
  *
  * Assessment.jsx writes records shaped like:
  *   { id, savedAt, assessmentData, predictionResult }
  */
 
-const HISTORY_KEY = "osteoai_assessment_history";
-const LATEST_KEY = "osteoai_latest_assessment";
+import { historyKey, latestKey } from "./userStorage";
+import { deleteHistoryRecordRemote } from "./historySync";
 
 export const HISTORY_UPDATED_EVENT = "osteoai:assessment-updated";
 
@@ -21,7 +22,7 @@ function readJson(key, fallback) {
 
 /** All valid records, newest first. */
 export function getHistory() {
-  const history = readJson(HISTORY_KEY, []);
+  const history = readJson(historyKey(), []);
 
   return Array.isArray(history)
     ? history.filter(
@@ -40,16 +41,18 @@ export function getHistoryRecord(id) {
 export function deleteHistoryRecord(id) {
   const remaining = getHistory().filter((item) => item.id !== id);
 
-  try {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(remaining));
+  deleteHistoryRecordRemote(id);
 
-    const latest = readJson(LATEST_KEY, null);
+  try {
+    localStorage.setItem(historyKey(), JSON.stringify(remaining));
+
+    const latest = readJson(latestKey(), null);
 
     if (latest?.id === id) {
       if (remaining[0]) {
-        localStorage.setItem(LATEST_KEY, JSON.stringify(remaining[0]));
+        localStorage.setItem(latestKey(), JSON.stringify(remaining[0]));
       } else {
-        localStorage.removeItem(LATEST_KEY);
+        localStorage.removeItem(latestKey());
       }
     }
 

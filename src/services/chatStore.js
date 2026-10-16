@@ -9,6 +9,8 @@
  * keeps its own transcript under its own key.
  */
 
+import { userKey } from "./userStorage";
+
 const PREFIX = "osteoai_chat_";
 const MAX_MESSAGES = 60;
 
@@ -17,7 +19,7 @@ const MAX_AGE_HOURS = 12;
 
 export function loadChat(key) {
   try {
-    const raw = localStorage.getItem(PREFIX + key);
+    const raw = localStorage.getItem(userKey(PREFIX + key));
 
     if (!raw) {
       return null;
@@ -28,7 +30,7 @@ export function loadChat(key) {
       (Date.now() - new Date(saved.updatedAt).getTime()) / 3_600_000;
 
     if (!Array.isArray(saved.messages) || ageHours > MAX_AGE_HOURS) {
-      localStorage.removeItem(PREFIX + key);
+      localStorage.removeItem(userKey(PREFIX + key));
       return null;
     }
 
@@ -48,12 +50,12 @@ export function loadChat(key) {
 export function saveChat(key, messages, conversationId) {
   try {
     if (!messages.length) {
-      localStorage.removeItem(PREFIX + key);
+      localStorage.removeItem(userKey(PREFIX + key));
       return;
     }
 
     localStorage.setItem(
-      PREFIX + key,
+      userKey(PREFIX + key),
       JSON.stringify({
         messages: messages.slice(-MAX_MESSAGES),
         conversationId,
@@ -67,7 +69,7 @@ export function saveChat(key, messages, conversationId) {
 
 export function clearChat(key) {
   try {
-    localStorage.removeItem(PREFIX + key);
+    localStorage.removeItem(userKey(PREFIX + key));
   } catch (error) {
     console.warn("Unable to clear OsteoAI chat:", error);
   }
@@ -82,7 +84,7 @@ const MAX_ARCHIVED = 15;
 
 function readArchive() {
   try {
-    const raw = localStorage.getItem(ARCHIVE_KEY);
+    const raw = localStorage.getItem(userKey(ARCHIVE_KEY));
     const parsed = raw ? JSON.parse(raw) : [];
 
     return Array.isArray(parsed) ? parsed.filter((item) => item?.id) : [];
@@ -93,7 +95,7 @@ function readArchive() {
 
 function writeArchive(items) {
   try {
-    localStorage.setItem(ARCHIVE_KEY, JSON.stringify(items.slice(0, MAX_ARCHIVED)));
+    localStorage.setItem(userKey(ARCHIVE_KEY), JSON.stringify(items.slice(0, MAX_ARCHIVED)));
   } catch (error) {
     console.warn("Unable to save OsteoAI chat archive:", error);
   }

@@ -153,6 +153,24 @@ def current_user(
     return UserOut(**user)
 
 
+def optional_user(
+    credentials: HTTPAuthorizationCredentials | None = Depends(_bearer),
+) -> UserOut | None:
+    """
+    Dependency: the signed-in user if a valid token was sent, otherwise
+    None. Never raises, so endpoints that work for everyone (predict) can
+    still attribute the work to an account when there is one.
+    """
+
+    if credentials is None:
+        return None
+
+    try:
+        return current_user(credentials)
+    except HTTPException:
+        return None
+
+
 @router.get("/me", response_model=UserOut)
 def me(user: UserOut = Depends(current_user)) -> UserOut:
     return user

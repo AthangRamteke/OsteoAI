@@ -6,13 +6,15 @@
  * about them. The file itself is never stored.
  */
 
+import { userKey } from "./userStorage";
+
 const DOCUMENTS_KEY = "osteoai_documents";
 
 export const DOCUMENTS_UPDATED_EVENT = "osteoai:documents-updated";
 
 function read() {
   try {
-    const raw = localStorage.getItem(DOCUMENTS_KEY);
+    const raw = localStorage.getItem(userKey(DOCUMENTS_KEY));
     const parsed = raw ? JSON.parse(raw) : [];
 
     return Array.isArray(parsed) ? parsed.filter((item) => item?.id) : [];
@@ -51,7 +53,7 @@ export function addDocument(extraction, fileName) {
 
   try {
     localStorage.setItem(
-      DOCUMENTS_KEY,
+      userKey(DOCUMENTS_KEY),
       JSON.stringify([record, ...read()].slice(0, 10))
     );
     window.dispatchEvent(new Event(DOCUMENTS_UPDATED_EVENT));
@@ -65,7 +67,7 @@ export function addDocument(extraction, fileName) {
 export function deleteDocument(id) {
   try {
     localStorage.setItem(
-      DOCUMENTS_KEY,
+      userKey(DOCUMENTS_KEY),
       JSON.stringify(read().filter((item) => item.id !== id))
     );
     window.dispatchEvent(new Event(DOCUMENTS_UPDATED_EVENT));
@@ -84,7 +86,7 @@ const SUMMARY_KEY = "osteoai_health_summary";
 
 export function getHealthSummary() {
   try {
-    const raw = localStorage.getItem(SUMMARY_KEY);
+    const raw = localStorage.getItem(userKey(SUMMARY_KEY));
     return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
@@ -95,7 +97,7 @@ export function saveHealthSummary(text) {
   const summary = { text, createdAt: new Date().toISOString() };
 
   try {
-    localStorage.setItem(SUMMARY_KEY, JSON.stringify(summary));
+    localStorage.setItem(userKey(SUMMARY_KEY), JSON.stringify(summary));
   } catch (error) {
     console.warn("Unable to save OsteoAI health summary:", error);
   }
@@ -105,7 +107,7 @@ export function saveHealthSummary(text) {
 
 export function clearHealthSummary() {
   try {
-    localStorage.removeItem(SUMMARY_KEY);
+    localStorage.removeItem(userKey(SUMMARY_KEY));
   } catch (error) {
     console.warn("Unable to clear OsteoAI health summary:", error);
   }
