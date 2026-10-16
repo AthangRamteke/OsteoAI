@@ -24,6 +24,7 @@ import {
 } from "@mui/material";
 
 import { useLanguage } from "../../context/LanguageContext";
+import { useAuth } from "../../context/authContext";
 import LanguageMenuItems from "../../components/common/LanguageMenuItems";
 
 /*
@@ -424,6 +425,12 @@ const surfaceSx = {
 function DashboardPage() {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login", { replace: true });
+  };
 
   const [sidebarOpen, setSidebarOpen] =
     useState(true);
@@ -1284,7 +1291,7 @@ function DashboardPage() {
                   color: "var(--oa-text-900)",
                 }}
               >
-                {t("sidebar.userProfile")}
+                {user?.name || t("sidebar.userProfile")}
               </Typography>
 
               <Typography
@@ -1531,7 +1538,7 @@ function DashboardPage() {
           </Menu>
 
           <ListItemButton
-            disabled
+            onClick={handleLogout}
             sx={{
               minHeight: 52,
 

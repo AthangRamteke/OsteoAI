@@ -211,6 +211,22 @@ class PredictionResponse(BaseModel):
         ),
     )
 
+    assessment_id: Optional[int] = Field(
+        None,
+        description=(
+            "Database id of the stored assessment, or null when the "
+            "prediction was not persisted."
+        ),
+    )
+
+    persisted: bool = Field(
+        False,
+        description=(
+            "True only when this assessment was successfully written to "
+            "the database."
+        ),
+    )
+
     disclaimer: str = Field(
         default=(
             "This is a research/prototype risk-assessment output, "

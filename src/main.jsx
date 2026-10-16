@@ -6,6 +6,7 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 import App from "./App";
 import { createAppTheme } from "./theme/theme";
 import { LanguageProvider } from "./context/LanguageContext";
+import AuthProvider from "./context/AuthProvider";
 import {
   ThemeModeProvider,
   useThemeMode,
@@ -31,7 +32,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeModeProvider>
       <LanguageProvider>
-        <ThemedApp />
+        <AuthProvider>
+          <ThemedApp />
+        </AuthProvider>
       </LanguageProvider>
     </ThemeModeProvider>
   </React.StrictMode>

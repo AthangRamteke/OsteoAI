@@ -1,42 +1,65 @@
 import { useState } from "react";
 
 import {
+  Alert,
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   FormControlLabel,
-  IconButton,
-  InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
 
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import DisabledVisibleIcon from "@mui/icons-material/DisabledVisible";
-
 import { useLanguage } from "../../context/LanguageContext";
+import { useAuth } from "../../context/authContext";
+import PasswordField from "./PasswordField";
+import { authErrorKey } from "./authErrors";
 
 function LoginForm({ onSwitch }) {
   const { t } = useLanguage();
-
-  const [showPassword, setShowPassword] =
-    useState(false);
+  const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
 
+  const [submitting, setSubmitting] =
+    useState(false);
+  const [errorKey, setErrorKey] =
+    useState(null);
+
+  // Any non-empty password is accepted.
   const isValid =
     email.trim() !== "" &&
-    password.trim() !== "";
+    password !== "";
 
-  const handleSubmit = (event) => {
+  const editField = (setter) => (event) => {
+    setter(event.target.value);
+    setErrorKey(null);
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!isValid) {
+    if (!isValid || submitting) {
       return;
     }
 
-    // Backend authentication will be connected later.
+    setSubmitting(true);
+    setErrorKey(null);
+
+    try {
+      // On success GuestRoute redirects away from this page.
+      await login({
+        email: email.trim(),
+        password,
+        remember,
+      });
+    } catch (error) {
+      setErrorKey(authErrorKey(error));
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -62,6 +85,7 @@ function LoginForm({ onSwitch }) {
 
       <Box
         component="form"
+        noValidate
         onSubmit={handleSubmit}
         sx={{
           mt: 4,
@@ -70,47 +94,30 @@ function LoginForm({ onSwitch }) {
           gap: 2.25,
         }}
       >
+        {errorKey && (
+          <Alert severity="error" role="alert">
+            {t(errorKey)}
+          </Alert>
+        )}
+
         <TextField
           fullWidth
           label={t("auth.emailLabel")}
           type="email"
+          name="email"
+          autoComplete="email"
           value={email}
-          onChange={(event) =>
-            setEmail(event.target.value)
-          }
+          onChange={editField(setEmail)}
+          disabled={submitting}
         />
 
-        <TextField
-          fullWidth
+        <PasswordField
           label={t("auth.passwordLabel")}
-          type={showPassword ? "text" : "password"}
+          name="password"
+          autoComplete="current-password"
           value={password}
-          onChange={(event) =>
-            setPassword(event.target.value)
-          }
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() =>
-                      setShowPassword(
-                        (previous) => !previous
-                      )
-                    }
-                    edge="end"
-                    aria-label="toggle password visibility"
-                  >
-                    {showPassword ? (
-                      <DisabledVisibleIcon />
-                    ) : (
-                      <RemoveRedEyeIcon />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            },
-          }}
+          onChange={editField(setPassword)}
+          disabled={submitting}
         />
 
         <Box
@@ -123,26 +130,31 @@ function LoginForm({ onSwitch }) {
           }}
         >
           <FormControlLabel
-            control={<Checkbox />}
+            control={
+              <Checkbox
+                checked={remember}
+                onChange={(event) =>
+                  setRemember(event.target.checked)
+                }
+                disabled={submitting}
+              />
+            }
             label={t("auth.rememberMe")}
           />
-
-          <Button
-            variant="text"
-            sx={{
-              textTransform: "none",
-              fontWeight: 700,
-              p: 0.5,
-            }}
-          >
-            {t("auth.forgotPassword")}
-          </Button>
         </Box>
 
         <Button
           type="submit"
           variant="contained"
-          disabled={!isValid}
+          disabled={!isValid || submitting}
+          startIcon={
+            submitting ? (
+              <CircularProgress
+                size={18}
+                color="inherit"
+              />
+            ) : null
+          }
           sx={{
             py: 1.35,
             borderRadius: 3,
@@ -152,7 +164,9 @@ function LoginForm({ onSwitch }) {
             boxShadow: "none",
           }}
         >
-          {t("auth.signIn")}
+          {submitting
+            ? t("auth.signingIn")
+            : t("auth.signIn")}
         </Button>
       </Box>
 

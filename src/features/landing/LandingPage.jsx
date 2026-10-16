@@ -26,6 +26,7 @@ import Footer from "../../components/common/Footer";
 import LanguageMenuItems from "../../components/common/LanguageMenuItems";
 
 import { useLanguage } from "../../context/LanguageContext";
+import { useAuth } from "../../context/authContext";
 
 /*
 |--------------------------------------------------------------------------
@@ -377,6 +378,12 @@ const ChevronSvg = () => (
 function LandingPage() {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login", { replace: true });
+  };
 
   const [sidebarOpen, setSidebarOpen] =
     useState(false);
@@ -493,7 +500,10 @@ function LandingPage() {
       id: "logout",
       label: t("sidebar.logout"),
       icon: <LogoutSvg />,
-      disabled: true,
+      // Landing is public; there is only something to log out of
+      // when signed in.
+      disabled: !user,
+      action: handleLogout,
     },
   ];
 
@@ -707,7 +717,7 @@ function LandingPage() {
               title={
                 sidebarOpen
                   ? ""
-                  : t("sidebar.userProfile")
+                  : user?.name || t("sidebar.userProfile")
               }
               placement="right"
             >
@@ -787,7 +797,7 @@ function LandingPage() {
                   textOverflow: "ellipsis",
                 }}
               >
-                {t("sidebar.userProfile")}
+                {user?.name || t("sidebar.userProfile")}
               </Typography>
 
               <Box

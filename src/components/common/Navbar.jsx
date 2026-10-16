@@ -20,6 +20,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { useLanguage } from "../../context/LanguageContext";
+import { useAuth } from "../../context/authContext";
 import ThemeToggle from "./ThemeToggle";
 
 /*
@@ -249,6 +250,14 @@ function Navbar({ sidebarOpen = false }) {
     requestAnimationFrame(
       animateScroll
     );
+  };
+
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    setDrawerOpen(false);
+    logout();
+    navigate("/login", { replace: true });
   };
 
   const handleNavigation = (path) => {
@@ -541,49 +550,70 @@ function Navbar({ sidebarOpen = false }) {
                 }}
               />
 
-              <Button
-                variant="outlined"
-                onClick={() =>
-                  handleNavigation(
-                    "/login"
-                  )
-                }
-                sx={{
-                  px: 2,
-                  borderRadius:
-                    2.5,
-                  textTransform:
-                    "none",
-                  fontWeight: 700,
-                  whiteSpace:
-                    "nowrap",
-                }}
-              >
-                {t("nav.login")}
-              </Button>
+              {user ? (
+                <Button
+                  variant="outlined"
+                  onClick={handleLogout}
+                  sx={{
+                    px: 2,
+                    borderRadius:
+                      2.5,
+                    textTransform:
+                      "none",
+                    fontWeight: 700,
+                    whiteSpace:
+                      "nowrap",
+                  }}
+                >
+                  {t("sidebar.logout")}
+                </Button>
+              ) : (
+                <>
+                <Button
+                  variant="outlined"
+                  onClick={() =>
+                    handleNavigation(
+                      "/login"
+                    )
+                  }
+                  sx={{
+                    px: 2,
+                    borderRadius:
+                      2.5,
+                    textTransform:
+                      "none",
+                    fontWeight: 700,
+                    whiteSpace:
+                      "nowrap",
+                  }}
+                >
+                  {t("nav.login")}
+                </Button>
 
-              <Button
-                variant="contained"
-                onClick={() =>
-                  handleNavigation(
-                    "/signup"
-                  )
-                }
-                sx={{
-                  px: 2,
-                  borderRadius:
-                    2.5,
-                  textTransform:
-                    "none",
-                  fontWeight: 700,
-                  whiteSpace:
-                    "nowrap",
-                  boxShadow:
-                    "none",
-                }}
-              >
-                {t("nav.signUp")}
-              </Button>
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    handleNavigation(
+                      "/signup"
+                    )
+                  }
+                  sx={{
+                    px: 2,
+                    borderRadius:
+                      2.5,
+                    textTransform:
+                      "none",
+                    fontWeight: 700,
+                    whiteSpace:
+                      "nowrap",
+                    boxShadow:
+                      "none",
+                  }}
+                >
+                  {t("nav.signUp")}
+                </Button>
+                </>
+              )}
             </Box>
           )}
 
@@ -706,55 +736,76 @@ function Navbar({ sidebarOpen = false }) {
               )
             )}
 
-            <ListItem
-              disablePadding
-            >
-              <ListItemButton
-                onClick={() =>
-                  handleNavigation(
-                    "/login"
-                  )
-                }
-                sx={{
-                  borderRadius:
-                    2,
-                  mt: 1,
-                }}
+            {user ? (
+              <ListItem
+                disablePadding
               >
-                <ListItemText
-                  primary={t("nav.login")}
-                />
-              </ListItemButton>
-            </ListItem>
+                <ListItemButton
+                  onClick={handleLogout}
+                  sx={{
+                    borderRadius:
+                      2,
+                    mt: 1,
+                  }}
+                >
+                  <ListItemText
+                    primary={t("sidebar.logout")}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ) : (
+              <>
+              <ListItem
+                disablePadding
+              >
+                <ListItemButton
+                  onClick={() =>
+                    handleNavigation(
+                      "/login"
+                    )
+                  }
+                  sx={{
+                    borderRadius:
+                      2,
+                    mt: 1,
+                  }}
+                >
+                  <ListItemText
+                    primary={t("nav.login")}
+                  />
+                </ListItemButton>
+              </ListItem>
 
-            <ListItem
-              disablePadding
-            >
-              <ListItemButton
-                onClick={() =>
-                  handleNavigation(
-                    "/signup"
-                  )
-                }
-                sx={{
-                  borderRadius:
-                    2,
-                  mt: 0.5,
-                  bgcolor:
-                    "var(--oa-brand-solid)",
-                  color:
-                    "white",
-                  "&:hover": {
-                    bgcolor:
-                      "primary.dark",
-                  },
-                }}
+              <ListItem
+                disablePadding
               >
-                <ListItemText
-                  primary={t("nav.signUp")}
-                />
-              </ListItemButton>
-            </ListItem>
+                <ListItemButton
+                  onClick={() =>
+                    handleNavigation(
+                      "/signup"
+                    )
+                  }
+                  sx={{
+                    borderRadius:
+                      2,
+                    mt: 0.5,
+                    bgcolor:
+                      "var(--oa-brand-solid)",
+                    color:
+                      "white",
+                    "&:hover": {
+                      bgcolor:
+                        "primary.dark",
+                    },
+                  }}
+                >
+                  <ListItemText
+                    primary={t("nav.signUp")}
+                  />
+                </ListItemButton>
+              </ListItem>
+              </>
+            )}
           </List>
         </Box>
       </Drawer>

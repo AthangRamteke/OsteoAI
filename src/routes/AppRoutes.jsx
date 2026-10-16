@@ -12,6 +12,7 @@ import SimulatorPage from "../features/simulator/SimulatorPage";
 import FindDoctorPage from "../features/doctors/FindDoctorPage";
 import ReminderWatcher from "../features/assistant/ReminderWatcher";
 import ForecastPage from "../pages/Forecast/ForecastPage";
+import { GuestRoute, ProtectedRoute } from "./RouteGuards";
 
 function AppRoutes() {
   return (
@@ -21,20 +22,24 @@ function AppRoutes() {
 
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/assessment" element={<Assessment />} />
 
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<LoginPage />} />
-        <Route path="/register" element={<LoginPage />} />
+        <Route element={<GuestRoute />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<LoginPage />} />
+          <Route path="/register" element={<LoginPage />} />
+        </Route>
 
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/history" element={<HistoryPage />} />
-        <Route path="/history/:id" element={<HistoryResultPage />} />
-        <Route path="/assistant" element={<AssistantPage />} />
-        <Route path="/knowledge" element={<KnowledgePage />} />
-        <Route path="/simulator" element={<SimulatorPage />} />
-        <Route path="/find-doctor" element={<FindDoctorPage />} />
-        <Route path="/forecast" element={<ForecastPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/assessment" element={<Assessment />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/history" element={<HistoryPage />} />
+          <Route path="/history/:id" element={<HistoryResultPage />} />
+          <Route path="/assistant" element={<AssistantPage />} />
+          <Route path="/knowledge" element={<KnowledgePage />} />
+          <Route path="/simulator" element={<SimulatorPage />} />
+          <Route path="/find-doctor" element={<FindDoctorPage />} />
+          <Route path="/forecast" element={<ForecastPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

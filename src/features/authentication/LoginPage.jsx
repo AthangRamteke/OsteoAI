@@ -1,9 +1,4 @@
 import {
-  useEffect,
-  useState,
-} from "react";
-
-import {
   Box,
   Container,
   Paper,
@@ -32,32 +27,22 @@ function LoginPage() {
   const navigate = useNavigate();
   const { t } = useLanguage();
 
-  const isSignupPath =
+  // The URL is the single source of truth for which form is shown.
+  const mode =
     location.pathname === "/signup" ||
-    location.pathname === "/register";
-
-  const [mode, setMode] = useState(
-    isSignupPath ? "register" : "login"
-  );
-
-  useEffect(() => {
-    setMode(
-      location.pathname === "/signup" ||
-      location.pathname === "/register"
-        ? "register"
-        : "login"
-    );
-  }, [location.pathname]);
+    location.pathname === "/register"
+      ? "register"
+      : "login";
 
   const handleModeChange = (newMode) => {
-    setMode(newMode);
-
     navigate(
       newMode === "login"
         ? "/login"
         : "/signup",
       {
         replace: true,
+        // Keep the page the user was heading to.
+        state: location.state,
       }
     );
   };

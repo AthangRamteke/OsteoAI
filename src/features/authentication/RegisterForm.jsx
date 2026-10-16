@@ -1,17 +1,22 @@
 import { useState } from "react";
 
 import {
+  Alert,
   Box,
   Button,
-  LinearProgress,
+  CircularProgress,
   TextField,
   Typography,
 } from "@mui/material";
 
 import { useLanguage } from "../../context/LanguageContext";
+import { useAuth } from "../../context/authContext";
+import PasswordField from "./PasswordField";
+import { authErrorKey } from "./authErrors";
 
 function RegisterForm({ onSwitch }) {
   const { t } = useLanguage();
+  const { register } = useAuth();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -20,31 +25,13 @@ function RegisterForm({ onSwitch }) {
   const [confirmPassword, setConfirmPassword] =
     useState("");
 
-  const getPasswordScore = () => {
-    let score = 0;
+  const [submitting, setSubmitting] =
+    useState(false);
+  const [errorKey, setErrorKey] =
+    useState(null);
 
-    if (password.length >= 8) {
-      score += 1;
-    }
-
-    if (/[A-Z]/.test(password)) {
-      score += 1;
-    }
-
-    if (/[0-9]/.test(password)) {
-      score += 1;
-    }
-
-    if (/[^A-Za-z0-9]/.test(password)) {
-      score += 1;
-    }
-
-    return score;
-  };
-
-  const passwordScore =
-    getPasswordScore();
-
+  // No length or complexity rules: any non-empty password, typed the
+  // same way twice, is accepted.
   const passwordsMatch =
     password !== "" &&
     password === confirmPassword;
@@ -52,17 +39,34 @@ function RegisterForm({ onSwitch }) {
   const isValid =
     name.trim() !== "" &&
     email.trim() !== "" &&
-    password.length >= 8 &&
     passwordsMatch;
 
-  const handleSubmit = (event) => {
+  const editField = (setter) => (event) => {
+    setter(event.target.value);
+    setErrorKey(null);
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!isValid) {
+    if (!isValid || submitting) {
       return;
     }
 
-    // Backend registration will be connected later.
+    setSubmitting(true);
+    setErrorKey(null);
+
+    try {
+      // On success GuestRoute redirects away from this page.
+      await register({
+        name: name.trim(),
+        email: email.trim(),
+        password,
+      });
+    } catch (error) {
+      setErrorKey(authErrorKey(error));
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -88,6 +92,7 @@ function RegisterForm({ onSwitch }) {
 
       <Box
         component="form"
+        noValidate
         onSubmit={handleSubmit}
         sx={{
           mt: 4,
@@ -96,69 +101,49 @@ function RegisterForm({ onSwitch }) {
           gap: 2.25,
         }}
       >
+        {errorKey && (
+          <Alert severity="error" role="alert">
+            {t(errorKey)}
+          </Alert>
+        )}
+
         <TextField
           fullWidth
           label={t("auth.fullNameLabel")}
+          name="name"
+          autoComplete="name"
           value={name}
-          onChange={(event) =>
-            setName(event.target.value)
-          }
+          onChange={editField(setName)}
+          disabled={submitting}
         />
 
         <TextField
           fullWidth
           label={t("auth.emailLabel")}
           type="email"
+          name="email"
+          autoComplete="email"
           value={email}
-          onChange={(event) =>
-            setEmail(event.target.value)
-          }
+          onChange={editField(setEmail)}
+          disabled={submitting}
         />
 
-        <TextField
-          fullWidth
+        <PasswordField
           label={t("auth.passwordLabel")}
-          type="password"
+          name="new-password"
+          autoComplete="new-password"
           value={password}
-          onChange={(event) =>
-            setPassword(event.target.value)
-          }
-          helperText={t("auth.passwordHelper")}
+          onChange={editField(setPassword)}
+          disabled={submitting}
         />
 
-        {password && (
-          <Box>
-            <Typography
-              variant="caption"
-              sx={{
-                color: "var(--oa-text-500)",
-              }}
-            >
-              {t("auth.passwordStrength")}
-            </Typography>
-
-            <LinearProgress
-              variant="determinate"
-              value={passwordScore * 25}
-              sx={{
-                mt: 0.75,
-                height: 7,
-                borderRadius: 999,
-              }}
-            />
-          </Box>
-        )}
-
-        <TextField
-          fullWidth
+        <PasswordField
           label={t("auth.confirmPasswordLabel")}
-          type="password"
+          name="confirm-password"
+          autoComplete="new-password"
           value={confirmPassword}
-          onChange={(event) =>
-            setConfirmPassword(
-              event.target.value
-            )
-          }
+          onChange={editField(setConfirmPassword)}
+          disabled={submitting}
           error={
             confirmPassword !== "" &&
             !passwordsMatch
@@ -174,7 +159,15 @@ function RegisterForm({ onSwitch }) {
         <Button
           type="submit"
           variant="contained"
-          disabled={!isValid}
+          disabled={!isValid || submitting}
+          startIcon={
+            submitting ? (
+              <CircularProgress
+                size={18}
+                color="inherit"
+              />
+            ) : null
+          }
           sx={{
             py: 1.35,
             borderRadius: 3,
@@ -184,7 +177,9 @@ function RegisterForm({ onSwitch }) {
             boxShadow: "none",
           }}
         >
-          {t("auth.createAccount")}
+          {submitting
+            ? t("auth.creatingAccount")
+            : t("auth.createAccount")}
         </Button>
       </Box>
 
