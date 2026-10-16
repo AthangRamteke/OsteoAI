@@ -266,6 +266,20 @@ const SimulatorSvg = () => (
   </IconBase>
 );
 
+const DoctorSvg = () => (
+  <IconBase>
+    <path
+      d="M12 21C12 21 19 15.4 19 10C19 6.13 15.87 3 12 3C8.13 3 5 6.13 5 10C5 15.4 12 21 12 21Z"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path d="M12 7.5V12.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M9.5 10H14.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+  </IconBase>
+);
+
 const KnowledgeSvg = () => (
   <IconBase>
     <path
@@ -543,6 +557,11 @@ function DashboardPage() {
       label: t("sidebar.simulator"),
       icon: <SimulatorSvg />,
       path: "/simulator",
+    },
+    {
+      label: t("sidebar.findDoctor"),
+      icon: <DoctorSvg />,
+      path: "/find-doctor",
     },
   ];
 

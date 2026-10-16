@@ -91,6 +91,7 @@ const translations = {
       aiAssistant: "AI Assistant",
       knowledgeSupport: "Knowledge & Support",
       simulator: "What-if Simulator",
+      findDoctor: "Find a Doctor",
       settings: "Change Language",
       logout: "Logout",
       boneHealth: "Bone Health",
@@ -822,6 +823,64 @@ const translations = {
         "OsteoAI provides a prototype risk assessment explanation, not a medical diagnosis.",
     },
 
+    doctors: {
+      pageTitle: "Find a Doctor",
+      pageSubtitle:
+        "Orthopedic and bone-care hospitals near you, with directions and contact details.",
+      searchTitle: "Where should we look?",
+      searchDesc:
+        "Share your location for the closest results, or enter a PIN code if you would rather not.",
+      useLocation: "Use my current location",
+      locating: "Finding your location...",
+      privacyNote: "Your location is used only for this search and is never stored.",
+      pinTitle: "Prefer not to share your location?",
+      pinDesc: "Enter your PIN code or city and we will search around it.",
+      pinLabel: "PIN code or city",
+      pinPlaceholder: "e.g. 411001",
+      pinInvalid: "Enter a 6-digit PIN code or a city name.",
+      searchButton: "Search",
+      locationDenied:
+        "Location access was blocked. Enter your PIN code or city to continue.",
+      locationUnavailable:
+        "We could not detect your location. Enter your PIN code or city instead.",
+      locationUnsupported:
+        "This browser cannot share a location. Enter your PIN code or city instead.",
+      introTitle: "Find orthopedic care close to you",
+      introDesc:
+        "Choose how to share your area above. We will list nearby orthopedic and bone-care hospitals and show them on a map.",
+      searching: "Searching nearby hospitals...",
+      yourLocation: "your location",
+      resultsSummary: "{count} facilities within {radius} km of {place}",
+      widened:
+        "Few facilities were found close by, so the search area was widened to {radius} km.",
+      filterAll: "All",
+      filterSpecialist: "Orthopedic specialists",
+      filterHospital: "Hospitals",
+      noFilterResults: "No facilities match this filter.",
+      badgeSpecialist: "Orthopedic care",
+      badgeHospital: "Hospital",
+      badgeClinic: "Clinic",
+      badgePractice: "Doctor's practice",
+      badgeEmergency: "Emergency",
+      distanceAway: "{km} km away",
+      addressUnavailable: "Address not available",
+      phoneLabel: "Phone",
+      phoneUnavailable: "Phone number not available",
+      hoursLabel: "Opening hours",
+      websiteLabel: "Website",
+      call: "Call",
+      directions: "Get directions",
+      openOsm: "Open in OpenStreetMap",
+      listTab: "List",
+      mapTab: "Map",
+      mapLabel: "Map of nearby facilities",
+      emptyTitle: "No facilities found",
+      emptyDesc:
+        "Try a nearby PIN code or a larger town. Map coverage varies by area.",
+      retry: "Try again",
+      disclaimer:
+        "Listings come from OpenStreetMap, a community-maintained map, and may be incomplete or out of date. Please call to confirm services and timings before you visit. This is not a medical referral. Currently available across India.",
+    },
     simulator: {
       pageTitle: "What-if Simulator",
       pageSubtitle:
@@ -866,6 +925,7 @@ const translations = {
       shortAssistant: "AI Assistant",
       shortKnowledge: "Knowledge",
       shortSimulator: "What-if",
+      shortDoctors: "Find a Doctor",
       skillWhatIfTitle: "What-if simulator",
       skillWhatIfDesc: "Try a lifestyle change and compare estimates.",
       remindersTitle: "Reminders",
@@ -1088,6 +1148,7 @@ const translations = {
       aiAssistant: "AI सहायक",
       knowledgeSupport: "जानकारी और सहायता",
       simulator: "व्हाट-इफ सिम्युलेटर",
+      findDoctor: "डॉक्टर खोजें",
       settings: "भाषा बदलें",
       logout: "लॉगआउट",
       boneHealth: "हड्डी स्वास्थ्य",
@@ -1807,6 +1868,64 @@ const translations = {
         "OsteoAI एक प्रोटोटाइप जोखिम असेसमेंट स्पष्टीकरण प्रदान करता है, चिकित्सीय निदान नहीं।",
     },
 
+    doctors: {
+      pageTitle: "डॉक्टर खोजें",
+      pageSubtitle:
+        "आपके पास के ऑर्थोपेडिक और हड्डी रोग अस्पताल, दिशा-निर्देश और संपर्क जानकारी के साथ।",
+      searchTitle: "हम कहाँ खोजें?",
+      searchDesc:
+        "सबसे नज़दीकी परिणामों के लिए अपना स्थान साझा करें, या न चाहें तो पिन कोड दर्ज करें।",
+      useLocation: "मेरा वर्तमान स्थान उपयोग करें",
+      locating: "आपका स्थान खोजा जा रहा है...",
+      privacyNote: "आपका स्थान केवल इस खोज के लिए उपयोग होता है और कभी सहेजा नहीं जाता।",
+      pinTitle: "स्थान साझा नहीं करना चाहते?",
+      pinDesc: "अपना पिन कोड या शहर दर्ज करें, हम उसके आसपास खोजेंगे।",
+      pinLabel: "पिन कोड या शहर",
+      pinPlaceholder: "जैसे 411001",
+      pinInvalid: "6 अंकों का पिन कोड या शहर का नाम दर्ज करें।",
+      searchButton: "खोजें",
+      locationDenied:
+        "स्थान की अनुमति नहीं मिली। आगे बढ़ने के लिए अपना पिन कोड या शहर दर्ज करें।",
+      locationUnavailable:
+        "हम आपका स्थान नहीं पहचान सके। कृपया पिन कोड या शहर दर्ज करें।",
+      locationUnsupported:
+        "यह ब्राउज़र स्थान साझा नहीं कर सकता। कृपया पिन कोड या शहर दर्ज करें।",
+      introTitle: "अपने पास ऑर्थोपेडिक देखभाल खोजें",
+      introDesc:
+        "ऊपर चुनें कि अपना क्षेत्र कैसे साझा करना है। हम पास के ऑर्थोपेडिक और हड्डी रोग अस्पताल सूचीबद्ध करेंगे और उन्हें नक्शे पर दिखाएँगे।",
+      searching: "पास के अस्पताल खोजे जा रहे हैं...",
+      yourLocation: "आपका स्थान",
+      resultsSummary: "{place} से {radius} किमी के भीतर {count} सुविधाएँ",
+      widened:
+        "पास में कम सुविधाएँ मिलीं, इसलिए खोज क्षेत्र बढ़ाकर {radius} किमी कर दिया गया।",
+      filterAll: "सभी",
+      filterSpecialist: "ऑर्थोपेडिक विशेषज्ञ",
+      filterHospital: "अस्पताल",
+      noFilterResults: "इस फ़िल्टर से कोई सुविधा मेल नहीं खाती।",
+      badgeSpecialist: "ऑर्थोपेडिक देखभाल",
+      badgeHospital: "अस्पताल",
+      badgeClinic: "क्लिनिक",
+      badgePractice: "डॉक्टर का क्लिनिक",
+      badgeEmergency: "आपातकालीन",
+      distanceAway: "{km} किमी दूर",
+      addressUnavailable: "पता उपलब्ध नहीं",
+      phoneLabel: "फ़ोन",
+      phoneUnavailable: "फ़ोन नंबर उपलब्ध नहीं",
+      hoursLabel: "खुलने का समय",
+      websiteLabel: "वेबसाइट",
+      call: "कॉल करें",
+      directions: "दिशा-निर्देश पाएँ",
+      openOsm: "OpenStreetMap में खोलें",
+      listTab: "सूची",
+      mapTab: "नक्शा",
+      mapLabel: "पास की सुविधाओं का नक्शा",
+      emptyTitle: "कोई सुविधा नहीं मिली",
+      emptyDesc:
+        "पास का पिन कोड या बड़ा शहर आज़माएँ। नक्शे की जानकारी क्षेत्र के अनुसार अलग होती है।",
+      retry: "फिर कोशिश करें",
+      disclaimer:
+        "सूची OpenStreetMap से ली गई है, जो समुदाय द्वारा बनाया गया नक्शा है, इसलिए अधूरी या पुरानी हो सकती है। जाने से पहले कृपया कॉल करके सेवाओं और समय की पुष्टि करें। यह चिकित्सकीय रेफ़रल नहीं है। फ़िलहाल पूरे भारत में उपलब्ध।",
+    },
     simulator: {
       pageTitle: "व्हाट-इफ सिम्युलेटर",
       pageSubtitle:
@@ -1851,6 +1970,7 @@ const translations = {
       shortAssistant: "AI असिस्टेंट",
       shortKnowledge: "जानकारी",
       shortSimulator: "व्हाट-इफ",
+      shortDoctors: "डॉक्टर खोजें",
       skillWhatIfTitle: "व्हाट-इफ सिम्युलेटर",
       skillWhatIfDesc: "लाइफस्टाइल बदलाव आज़माकर अनुमान की तुलना करें।",
       remindersTitle: "रिमाइंडर",
@@ -2073,6 +2193,7 @@ const translations = {
       aiAssistant: "AI सहाय्यक",
       knowledgeSupport: "माहिती आणि सहाय्य",
       simulator: "व्हॉट-इफ सिम्युलेटर",
+      findDoctor: "डॉक्टर शोधा",
       settings: "भाषा बदला",
       logout: "लॉगआउट",
       boneHealth: "हाडांचे आरोग्य",
@@ -2786,6 +2907,64 @@ const translations = {
         "OsteoAI एक प्रोटोटाइप जोखीम असेसमेंट स्पष्टीकरण देते, वैद्यकीय निदान नाही.",
     },
 
+    doctors: {
+      pageTitle: "डॉक्टर शोधा",
+      pageSubtitle:
+        "तुमच्या जवळील ऑर्थोपेडिक आणि हाडांच्या उपचारांची रुग्णालये, दिशा आणि संपर्क माहितीसह.",
+      searchTitle: "आम्ही कुठे शोधू?",
+      searchDesc:
+        "सर्वात जवळच्या निकालांसाठी तुमचे स्थान शेअर करा, किंवा नको असल्यास पिन कोड टाका.",
+      useLocation: "माझे सध्याचे स्थान वापरा",
+      locating: "तुमचे स्थान शोधत आहे...",
+      privacyNote: "तुमचे स्थान फक्त या शोधासाठी वापरले जाते आणि कधीही साठवले जात नाही.",
+      pinTitle: "स्थान शेअर करायचे नाही?",
+      pinDesc: "तुमचा पिन कोड किंवा शहर टाका, आम्ही त्याच्या आसपास शोधू.",
+      pinLabel: "पिन कोड किंवा शहर",
+      pinPlaceholder: "उदा. 411001",
+      pinInvalid: "6 अंकी पिन कोड किंवा शहराचे नाव टाका.",
+      searchButton: "शोधा",
+      locationDenied:
+        "स्थानाची परवानगी मिळाली नाही. पुढे जाण्यासाठी पिन कोड किंवा शहर टाका.",
+      locationUnavailable:
+        "आम्हाला तुमचे स्थान ओळखता आले नाही. कृपया पिन कोड किंवा शहर टाका.",
+      locationUnsupported:
+        "हा ब्राउझर स्थान शेअर करू शकत नाही. कृपया पिन कोड किंवा शहर टाका.",
+      introTitle: "तुमच्या जवळ ऑर्थोपेडिक उपचार शोधा",
+      introDesc:
+        "वर तुमचा परिसर कसा शेअर करायचा ते निवडा. आम्ही जवळची ऑर्थोपेडिक आणि हाडांची रुग्णालये दाखवू आणि नकाशावर देऊ.",
+      searching: "जवळची रुग्णालये शोधत आहे...",
+      yourLocation: "तुमचे स्थान",
+      resultsSummary: "{place} पासून {radius} किमी मध्ये {count} सुविधा",
+      widened:
+        "जवळ कमी सुविधा मिळाल्या, म्हणून शोध क्षेत्र {radius} किमी पर्यंत वाढवले.",
+      filterAll: "सर्व",
+      filterSpecialist: "ऑर्थोपेडिक तज्ज्ञ",
+      filterHospital: "रुग्णालये",
+      noFilterResults: "या फिल्टरशी कोणतीही सुविधा जुळत नाही.",
+      badgeSpecialist: "ऑर्थोपेडिक उपचार",
+      badgeHospital: "रुग्णालय",
+      badgeClinic: "क्लिनिक",
+      badgePractice: "डॉक्टरांचे क्लिनिक",
+      badgeEmergency: "आपत्कालीन",
+      distanceAway: "{km} किमी अंतरावर",
+      addressUnavailable: "पत्ता उपलब्ध नाही",
+      phoneLabel: "फोन",
+      phoneUnavailable: "फोन नंबर उपलब्ध नाही",
+      hoursLabel: "वेळ",
+      websiteLabel: "वेबसाइट",
+      call: "कॉल करा",
+      directions: "दिशा मिळवा",
+      openOsm: "OpenStreetMap मध्ये उघडा",
+      listTab: "यादी",
+      mapTab: "नकाशा",
+      mapLabel: "जवळच्या सुविधांचा नकाशा",
+      emptyTitle: "कोणतीही सुविधा आढळली नाही",
+      emptyDesc:
+        "जवळचा पिन कोड किंवा मोठे शहर वापरून पहा. नकाशाची माहिती भागानुसार वेगळी असते.",
+      retry: "पुन्हा प्रयत्न करा",
+      disclaimer:
+        "ही यादी OpenStreetMap वरून घेतली आहे, जो समुदायाने तयार केलेला नकाशा आहे, त्यामुळे ती अपूर्ण किंवा जुनी असू शकते. भेट देण्यापूर्वी कृपया फोन करून सेवा आणि वेळ निश्चित करा. हा वैद्यकीय संदर्भ नाही. सध्या संपूर्ण भारतात उपलब्ध.",
+    },
     simulator: {
       pageTitle: "व्हॉट-इफ सिम्युलेटर",
       pageSubtitle:
@@ -2830,6 +3009,7 @@ const translations = {
       shortAssistant: "AI असिस्टंट",
       shortKnowledge: "माहिती",
       shortSimulator: "व्हॉट-इफ",
+      shortDoctors: "डॉक्टर शोधा",
       skillWhatIfTitle: "व्हॉट-इफ सिम्युलेटर",
       skillWhatIfDesc: "जीवनशैलीत बदल करून अंदाजाची तुलना करा.",
       remindersTitle: "स्मरणपत्रे",

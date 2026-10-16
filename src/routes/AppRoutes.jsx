@@ -9,6 +9,7 @@ import HistoryResultPage from "../features/history/HistoryResultPage";
 import AssistantPage from "../features/assistant/AssistantPage";
 import KnowledgePage from "../features/knowledge/KnowledgePage";
 import SimulatorPage from "../features/simulator/SimulatorPage";
+import FindDoctorPage from "../features/doctors/FindDoctorPage";
 import ReminderWatcher from "../features/assistant/ReminderWatcher";
 import ForecastPage from "../pages/Forecast/ForecastPage";
 
@@ -32,6 +33,7 @@ function AppRoutes() {
         <Route path="/assistant" element={<AssistantPage />} />
         <Route path="/knowledge" element={<KnowledgePage />} />
         <Route path="/simulator" element={<SimulatorPage />} />
+        <Route path="/find-doctor" element={<FindDoctorPage />} />
         <Route path="/forecast" element={<ForecastPage />} />
       </Routes>
     </BrowserRouter>
