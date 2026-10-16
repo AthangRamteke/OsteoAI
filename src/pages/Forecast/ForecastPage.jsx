@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Box, Container } from "@mui/material";
 
@@ -20,6 +20,7 @@ import RiskForecastRecommendations from "../../components/forecast/RiskForecastR
 
 function ForecastPage() {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const [latestAssessment, setLatestAssessment] =
     useState(null);
@@ -106,7 +107,18 @@ function ForecastPage() {
               predictionResult={
                 latestAssessment?.predictionResult
               }
-              onBack={() => navigate(-1)}
+              onBack={() => {
+                // Return to the exact result screen the user came from.
+                const from = state?.from;
+
+                if (from?.startsWith("/history/")) {
+                  navigate(from);
+                } else {
+                  navigate("/assessment", {
+                    state: { restoreResult: true },
+                  });
+                }
+              }}
               onRetake={() => navigate("/assessment")}
             />
           </Box>

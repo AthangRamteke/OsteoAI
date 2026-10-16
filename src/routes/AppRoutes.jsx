@@ -1,5 +1,11 @@
 import Assessment from "../pages/assessment/assessment";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import { useEffect } from "react";
 
 import LandingPage from "../features/landing/LandingPage";
 import LoginPage from "../features/authentication/LoginPage";
@@ -14,11 +20,29 @@ import ReminderWatcher from "../features/assistant/ReminderWatcher";
 import ForecastPage from "../pages/Forecast/ForecastPage";
 import { GuestRoute, ProtectedRoute } from "./RouteGuards";
 
+/*
+ * Every page opens at its top. The router keeps the previous page's
+ * scroll position by default, which is why pages used to open halfway
+ * down. In-page anchors (#features, ...) are left to their own handlers.
+ */
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
+
+  return null;
+}
+
 function AppRoutes() {
   return (
     <BrowserRouter>
       {/* Announces reminders on whichever page the user is on. */}
       <ReminderWatcher />
+      <ScrollToTop />
 
       <Routes>
         <Route path="/" element={<LandingPage />} />

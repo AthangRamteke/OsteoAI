@@ -1,3 +1,4 @@
+import { flushSync } from "react-dom";
 import {
   createContext,
   useCallback,
@@ -48,18 +49,60 @@ export function ThemeModeProvider({ children }) {
     }
   }, [mode]);
 
-  const setMode = useCallback((next) => {
+  /*
+   * Switching theme reveals the new look as a circle growing from the
+   * toggle (View Transitions API). The browser snapshots the old and new
+   * page once and animates between them, so nothing repaints
+   * element by element. Browsers without it, and users who prefer
+   * reduced motion, just switch instantly.
+   */
+  const setMode = useCallback((next, origin) => {
     const root = document.documentElement;
 
-    // Only animate an actual switch, so first paint is not a fade.
-    root.setAttribute("data-theme-animating", "");
-    setModeState(next);
+    const apply = () => {
+      root.dataset.theme = next;
+      flushSync(() => setModeState(next));
+    };
 
-    window.setTimeout(() => root.removeAttribute("data-theme-animating"), 500);
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (typeof document.startViewTransition !== "function" || reduceMotion) {
+      apply();
+      return;
+    }
+
+    const x = origin?.x ?? window.innerWidth / 2;
+    const y = origin?.y ?? 0;
+    const radius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = document.startViewTransition(apply);
+
+    transition.ready
+      .then(() =>
+        root.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${radius}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 650,
+            easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+            pseudoElement: "::view-transition-new(root)",
+          }
+        )
+      )
+      .catch(() => {});
   }, []);
 
   const toggleMode = useCallback(
-    () => setMode(mode === "dark" ? "light" : "dark"),
+    (origin) => setMode(mode === "dark" ? "light" : "dark", origin),
     [mode, setMode]
   );
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 
 import {
   Alert,
@@ -1571,12 +1572,23 @@ function AssessmentResult({
 
       <Divider />
 
-      {/* Forecast & Recommendations */}
-      <Box sx={{ textAlign: "center" }}>
+      {/* Forecast & Recommendations, and nearby care */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          flexWrap: "wrap",
+          gap: 1.5,
+        }}
+      >
         <Button
           variant="contained"
           endIcon={<ArrowForwardIcon />}
-          onClick={() => navigate("/forecast")}
+          onClick={() =>
+            navigate("/forecast", {
+              state: { from: window.location.pathname },
+            })
+          }
           sx={{
             px: 3.5,
             py: 1.3,
@@ -1587,6 +1599,21 @@ function AssessmentResult({
           }}
         >
           {t("assessment.result.viewForecast")}
+        </Button>
+
+        <Button
+          variant="outlined"
+          startIcon={<PlaceOutlinedIcon />}
+          onClick={() => navigate("/find-doctor")}
+          sx={{
+            px: 3.5,
+            py: 1.3,
+            borderRadius: 3,
+            textTransform: "none",
+            fontWeight: 700,
+          }}
+        >
+          {t("assessment.result.findDoctorLink")}
         </Button>
       </Box>
 

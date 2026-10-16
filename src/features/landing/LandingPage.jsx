@@ -27,6 +27,7 @@ import LanguageMenuItems from "../../components/common/LanguageMenuItems";
 
 import { useLanguage } from "../../context/LanguageContext";
 import { useAuth } from "../../context/authContext";
+import OsteoMonogram from "../../components/common/OsteoMonogram";
 
 /*
 |--------------------------------------------------------------------------
@@ -316,23 +317,18 @@ const KnowledgeSvg = () => (
 // misleading; this is a plain globe to signal "change language" instead.
 const LanguageSvg = () => (
   <IconBase>
-    <circle
-      cx="12"
-      cy="12"
-      r="9"
-      stroke="currentColor"
-      strokeWidth="1.9"
-    />
     <path
-      d="M3 12H21"
+      d="M4 6.5H13M8.5 4.5V6.5M6 6.5C6.5 9.5 8.4 12 11.5 13.4M11 6.5C10.4 9.6 8 12.2 4.5 13.4"
       stroke="currentColor"
-      strokeWidth="1.9"
+      strokeWidth="1.8"
       strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
-      d="M12 3C14.5 5.5 15.8 8.6 15.8 12C15.8 15.4 14.5 18.5 12 21C9.5 18.5 8.2 15.4 8.2 12C8.2 8.6 9.5 5.5 12 3Z"
+      d="M12.5 20 16.5 10.5 20.5 20M13.9 17H19.1"
       stroke="currentColor"
-      strokeWidth="1.9"
+      strokeWidth="1.8"
+      strokeLinecap="round"
       strokeLinejoin="round"
     />
   </IconBase>
@@ -579,6 +575,11 @@ function LandingPage() {
           borderRight:
             "1px solid rgba(226, 232, 240, 0.9)",
 
+          // No bright edge line against the dark canvas.
+          '[data-theme="dark"] &': {
+            borderRight: "none",
+          },
+
           boxShadow: sidebarOpen
             ? "10px 0 35px rgba(15, 23, 42, 0.12)"
             : "3px 0 15px rgba(15, 23, 42, 0.06)",
@@ -743,7 +744,7 @@ function LandingPage() {
                     "0.04em",
                 }}
               >
-                OA
+                <OsteoMonogram name={user?.name} />
               </Avatar>
             </Tooltip>
 

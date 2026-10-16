@@ -24,11 +24,17 @@ function ThemeToggle({ size = "normal" }) {
         aria-checked={dark}
         aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
         tabIndex={0}
-        onClick={toggleMode}
+        onClick={(event) =>
+          toggleMode({ x: event.clientX, y: event.clientY })
+        }
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
-            toggleMode();
+            const box = event.currentTarget.getBoundingClientRect();
+            toggleMode({
+              x: box.left + box.width / 2,
+              y: box.top + box.height / 2,
+            });
           }
         }}
         sx={{

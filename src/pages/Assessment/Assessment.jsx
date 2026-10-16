@@ -10,6 +10,8 @@ import {
   Typography,
 } from "@mui/material";
 
+import { useLocation } from "react-router-dom";
+
 import { AnimatePresence, motion } from "framer-motion";
 
 import AssessmentStepper from "../../components/assessment/AssessmentStepper";
@@ -32,7 +34,7 @@ import {
 import { predictAssessment } from "../../services/predictionService";
 import { useLanguage } from "../../context/LanguageContext";
 
-function AssessmentContent() {
+function AssessmentContent({ restored }) {
   const { t } = useLanguage();
 
   const stepNames = [
@@ -42,15 +44,21 @@ function AssessmentContent() {
   ];
 
   const [activeStep, setActiveStep] = useState(0);
-  const [entryMode, setEntryMode] = useState("choice");
+  const [entryMode, setEntryMode] = useState(
+    restored ? "self" : "choice"
+  );
 
   const [showAnalysis, setShowAnalysis] = useState(false);
-  const [showResult, setShowResult] = useState(false);
+  const [showResult, setShowResult] = useState(
+    Boolean(restored)
+  );
 
   const [analysisProgress, setAnalysisProgress] = useState(0);
   const [analysisStage, setAnalysisStage] = useState(0);
 
-  const [predictionResult, setPredictionResult] = useState(null);
+  const [predictionResult, setPredictionResult] = useState(
+    restored?.predictionResult ?? null
+  );
   const [predictionError, setPredictionError] = useState("");
 
   const analysisRef = useRef(null);
@@ -887,10 +895,41 @@ function AssessmentContent() {
   );
 }
 
+/*
+ * Coming back from the Forecast page (state.restoreResult) re-opens the
+ * latest finished assessment on its result screen instead of starting a
+ * blank one.
+ */
+function readRestoredAssessment(state) {
+  if (!state?.restoreResult) {
+    return null;
+  }
+
+  try {
+    const stored = localStorage.getItem(
+      "osteoai_latest_assessment"
+    );
+
+    const parsed = stored ? JSON.parse(stored) : null;
+
+    return parsed?.assessmentData && parsed?.predictionResult
+      ? parsed
+      : null;
+  } catch {
+    return null;
+  }
+}
+
 function Assessment() {
+  const { state } = useLocation();
+
+  const [restored] = useState(() =>
+    readRestoredAssessment(state)
+  );
+
   return (
-    <AssessmentProvider>
-      <AssessmentContent />
+    <AssessmentProvider initialData={restored?.assessmentData}>
+      <AssessmentContent restored={restored} />
     </AssessmentProvider>
   );
 }

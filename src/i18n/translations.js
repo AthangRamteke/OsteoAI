@@ -188,7 +188,7 @@ const translations = {
 
     footer: {
       description:
-        "An AI-powered preventive bone-health platform designed to help users understand risk factors, explore insights, and make informed health decisions.",
+        "An AI-powered preventive bone-health platform that helps you understand risk factors, explore lifestyle what-ifs, and find orthopedic care near you.",
       exploreTitle: "Explore",
       linkHome: "Home",
       linkFeatures: "Features",
@@ -197,8 +197,8 @@ const translations = {
       projectTitle: "Project",
       projectItem1: "AI Risk Assessment",
       projectItem2: "Explainable AI",
-      projectItem3: "Health Analytics",
-      projectItem4: "Preventive Guidance",
+      projectItem3: "What-if Simulator",
+      projectItem4: "Find a Doctor",
       importantTitle: "Important",
       disclaimer:
         "OsteoAI is intended as an educational and risk-assessment project and is not a replacement for professional medical diagnosis or treatment.",
@@ -503,6 +503,7 @@ const translations = {
         editAssessment: "Edit Assessment",
         retakeAssessment: "Retake Assessment",
         viewForecast: "View Forecast & Recommendations",
+        findDoctorLink: "Find an orthopedic doctor near you",
       },
     },
 
@@ -513,6 +514,7 @@ const translations = {
         "Track your latest OsteoAI assessment, understand contributing factors, and build a clearer picture of your health data over time.",
       newAssessment: "New Assessment",
       viewForecast: "View Forecast & Recommendations",
+      findDoctorLink: "Find an orthopedic doctor near you",
       latestAssessmentTitle: "Latest Assessment",
       latestAssessmentSubtitle: "Your most recent model-based assessment",
       estimatedRisk: "Estimated risk: {percent}",
@@ -1254,7 +1256,7 @@ const translations = {
 
     footer: {
       description:
-        "एक AI-संचालित निवारक बोन-हेल्थ प्लेटफ़ॉर्म, जो उपयोगकर्ताओं को जोखिम कारकों को समझने, जानकारी जानने और सूचित स्वास्थ्य निर्णय लेने में मदद करने के लिए डिज़ाइन किया गया है।",
+        "एक AI-संचालित निवारक बोन-हेल्थ प्लेटफ़ॉर्म, जो जोखिम कारकों को समझने, जीवनशैली के बदलावों को परखने और अपने पास ऑर्थोपेडिक देखभाल खोजने में आपकी मदद करता है।",
       exploreTitle: "एक्सप्लोर करें",
       linkHome: "होम",
       linkFeatures: "विशेषताएँ",
@@ -1263,8 +1265,8 @@ const translations = {
       projectTitle: "प्रोजेक्ट",
       projectItem1: "AI जोखिम मूल्यांकन",
       projectItem2: "एक्सप्लेनेबल AI",
-      projectItem3: "हेल्थ एनालिटिक्स",
-      projectItem4: "निवारक मार्गदर्शन",
+      projectItem3: "व्हाट-इफ सिम्युलेटर",
+      projectItem4: "डॉक्टर खोजें",
       importantTitle: "महत्वपूर्ण",
       disclaimer:
         "OsteoAI एक शैक्षिक और जोखिम-मूल्यांकन परियोजना के रूप में तैयार किया गया है और यह पेशेवर चिकित्सा निदान या उपचार का विकल्प नहीं है।",
@@ -1561,6 +1563,7 @@ const translations = {
         editAssessment: "असेसमेंट संपादित करें",
         retakeAssessment: "असेसमेंट फिर से करें",
         viewForecast: "जोखिम पूर्वानुमान और सिफारिशें देखें",
+        findDoctorLink: "अपने पास ऑर्थोपेडिक डॉक्टर खोजें",
       },
     },
 
@@ -1571,6 +1574,7 @@ const translations = {
         "अपने नवीनतम OsteoAI असेसमेंट को ट्रैक करें, योगदान देने वाले कारकों को समझें, और समय के साथ अपने स्वास्थ्य डेटा की स्पष्ट तस्वीर बनाएँ।",
       newAssessment: "नया असेसमेंट",
       viewForecast: "जोखिम पूर्वानुमान और सिफारिशें देखें",
+      findDoctorLink: "अपने पास ऑर्थोपेडिक डॉक्टर खोजें",
       latestAssessmentTitle: "नवीनतम असेसमेंट",
       latestAssessmentSubtitle: "आपका सबसे हालिया मॉडल-आधारित असेसमेंट",
       estimatedRisk: "अनुमानित जोखिम: {percent}",
@@ -2308,7 +2312,7 @@ const translations = {
 
     footer: {
       description:
-        "वापरकर्त्यांना जोखीम घटक समजून घेण्यास, माहिती जाणून घेण्यास आणि माहितीपूर्ण आरोग्य निर्णय घेण्यास मदत करण्यासाठी तयार केलेले AI-चालित प्रतिबंधात्मक बोन-हेल्थ प्लॅटफॉर्म.",
+        "एक AI-आधारित प्रतिबंधात्मक हाडांच्या आरोग्याचा प्लॅटफॉर्म, जो जोखीम घटक समजून घेण्यास, जीवनशैलीतील बदल तपासण्यास आणि जवळची ऑर्थोपेडिक सेवा शोधण्यास मदत करतो.",
       exploreTitle: "एक्सप्लोर करा",
       linkHome: "मुख्यपृष्ठ",
       linkFeatures: "वैशिष्ट्ये",
@@ -2317,8 +2321,8 @@ const translations = {
       projectTitle: "प्रोजेक्ट",
       projectItem1: "AI जोखीम मूल्यांकन",
       projectItem2: "स्पष्टीकरणीय AI",
-      projectItem3: "हेल्थ अॅनालिटिक्स",
-      projectItem4: "प्रतिबंधात्मक मार्गदर्शन",
+      projectItem3: "व्हॉट-इफ सिम्युलेटर",
+      projectItem4: "डॉक्टर शोधा",
       importantTitle: "महत्त्वाचे",
       disclaimer:
         "OsteoAI हे एक शैक्षणिक आणि जोखीम-मूल्यांकन प्रकल्प म्हणून तयार केले आहे आणि व्यावसायिक वैद्यकीय निदान किंवा उपचारांना पर्याय नाही.",
@@ -2610,6 +2614,7 @@ const translations = {
         editAssessment: "असेसमेंट संपादित करा",
         retakeAssessment: "पुन्हा असेसमेंट करा",
         viewForecast: "जोखीम अंदाज आणि शिफारसी पहा",
+        findDoctorLink: "तुमच्या जवळचे ऑर्थोपेडिक डॉक्टर शोधा",
       },
     },
 
@@ -2620,6 +2625,7 @@ const translations = {
         "तुमचे नवीनतम OsteoAI असेसमेंट ट्रॅक करा, कारणीभूत घटक समजून घ्या आणि कालांतराने तुमच्या आरोग्य डेटाचे स्पष्ट चित्र तयार करा.",
       newAssessment: "नवीन असेसमेंट",
       viewForecast: "जोखीम अंदाज आणि शिफारसी पहा",
+      findDoctorLink: "तुमच्या जवळचे ऑर्थोपेडिक डॉक्टर शोधा",
       latestAssessmentTitle: "नवीनतम असेसमेंट",
       latestAssessmentSubtitle: "तुमचे सर्वात अलीकडील मॉडेल-आधारित असेसमेंट",
       estimatedRisk: "अंदाजित जोखीम: {percent}",
