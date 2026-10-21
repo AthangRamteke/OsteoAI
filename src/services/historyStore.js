@@ -1,0 +1,145 @@
+/*
+ * Assessment history stored in the browser, per signed-in user (the
+ * server copy is kept in step by historySync.js).
+ *
+ * Assessment.jsx writes records shaped like:
+ *   { id, savedAt, assessmentData, predictionResult }
+ */
+
+import { historyKey, latestKey } from "./userStorage";
+import { deleteHistoryRecordRemote } from "./historySync";
+
+export const HISTORY_UPDATED_EVENT = "osteoai:assessment-updated";
+
+function readJson(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+/** All valid records, newest first. */
+export function getHistory() {
+  const history = readJson(historyKey(), []);
+
+  return Array.isArray(history)
+    ? history.filter(
+        (item) =>
+          item?.id &&
+          item?.assessmentData &&
+          item?.predictionResult
+      )
+    : [];
+}
+
+export function getHistoryRecord(id) {
+  return getHistory().find((item) => item.id === id) || null;
+}
+
+export function deleteHistoryRecord(id) {
+  const remaining = getHistory().filter((item) => item.id !== id);
+
+  deleteHistoryRecordRemote(id);
+
+  try {
+    localStorage.setItem(historyKey(), JSON.stringify(remaining));
+
+    const latest = readJson(latestKey(), null);
+
+    if (latest?.id === id) {
+      if (remaining[0]) {
+        localStorage.setItem(latestKey(), JSON.stringify(remaining[0]));
+      } else {
+        localStorage.removeItem(latestKey());
+      }
+    }
+
+    window.dispatchEvent(new Event(HISTORY_UPDATED_EVENT));
+  } catch (error) {
+    console.warn("Unable to update OsteoAI history:", error);
+  }
+
+  return remaining;
+}
+
+/* ---------------------------------------------------------
+   Formatting helpers shared by History and Assistant pages
+   --------------------------------------------------------- */
+
+export function probabilityPercent(record) {
+  const value = Number(record?.predictionResult?.osteoporosis_probability);
+  return Number.isFinite(value) ? value * 100 : null;
+}
+
+export function riskLevel(record) {
+  return record?.predictionResult?.risk_level || "Unknown";
+}
+
+export function computeBmi(personal = {}) {
+  const height = Number(personal.height) / 100;
+  const weight = Number(personal.weight);
+
+  if (!height || !weight) {
+    return null;
+  }
+
+  return weight / (height * height);
+}
+
+/** SHAP factors sorted by influence, split by direction. */
+export function topFactors(record, limit = 3) {
+  const items = [
+    ...(record?.predictionResult?.shap_explanations || []),
+  ].sort(
+    (a, b) => Math.abs(b.shap_value || 0) - Math.abs(a.shap_value || 0)
+  );
+
+  return {
+    raising: items
+      .filter((item) => item.direction === "increases_model_output")
+      .slice(0, limit),
+    lowering: items
+      .filter((item) => item.direction === "decreases_model_output")
+      .slice(0, limit),
+  };
+}
+
+export function formatDate(iso, withTime = false) {
+  const date = new Date(iso);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Unknown date";
+  }
+
+  return date.toLocaleDateString(undefined, {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    ...(withTime ? { hour: "2-digit", minute: "2-digit" } : {}),
+  });
+}
+
+/** Compact history summary the Agent uses for progress questions. */
+export function historyForAgent(history = getHistory()) {
+  return history.slice(0, 10).map((record) => ({
+    date: (record.savedAt || "").slice(0, 10),
+    probability: record.predictionResult?.osteoporosis_probability,
+    risk_level: riskLevel(record),
+    top_factors: topFactors(record, 2).raising.map(
+      (item) => item.label || item.feature
+    ),
+  }));
+}
+
+export const RISK_COLORS = {
+  Low: { main: "var(--oa-success)", soft: "var(--oa-success-soft-2)" },
+  Moderate: { main: "var(--oa-warn-strong)", soft: "var(--oa-warn-soft)" },
+  High: { main: "var(--oa-danger)", soft: "var(--oa-danger-soft)" },
+  Unknown: { main: "var(--oa-text-500)", soft: "var(--oa-surface-3)" },
+};
+
+export function riskColor(level) {
+  return RISK_COLORS[level] || RISK_COLORS.Unknown;
+}

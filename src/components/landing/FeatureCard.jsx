@@ -20,7 +20,7 @@ function FeatureCard({
                 height:"100%",
                 p:2,
                 transition:"0.3s",
-                border:"1px solid #E2E8F0",
+                border:"1px solid var(--oa-border-1)",
 
                 "&:hover":{
 

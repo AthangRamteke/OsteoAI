@@ -1,0 +1,1676 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
+
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  CircularProgress,
+  Divider,
+  Grid,
+  IconButton,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+
+import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
+import PersonIcon from "@mui/icons-material/Person";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
+import InsightsIcon from "@mui/icons-material/Insights";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import SendIcon from "@mui/icons-material/Send";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
+import WarningAmberIcon from "@mui/icons-material/ReportProblem";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+
+import { useAssessment } from "../../context/AssessmentContext";
+import { useLanguage } from "../../context/LanguageContext";
+import { streamAgentMessage } from "../../services/agentService";
+import { historyForAgent } from "../../services/historyStore";
+import { addReminder } from "../../services/reminderStore";
+import { loadChat, saveChat } from "../../services/chatStore";
+
+
+/* =========================================================
+   Result Assistant
+   ========================================================= */
+
+function ResultAssistant({ predictionResult }) {
+  const navigate = useNavigate();
+  const { t } = useLanguage();
+
+  const [message, setMessage] = useState("");
+
+  /*
+   * The transcript is restored so leaving this screen and coming
+   * back continues the same conversation about this result.
+   */
+  const [restored] = useState(() => loadChat("result"));
+
+  const [messages, setMessages] = useState(
+    () =>
+      restored?.messages || [
+        {
+          role: "assistant",
+          content: t("resultAssistant.greeting"),
+        },
+      ]
+  );
+
+  const [conversationId, setConversationId] =
+    useState(() => restored?.conversationId || null);
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!loading) {
+      saveChat("result", messages, conversationId);
+    }
+  }, [messages, conversationId, loading]);
+
+  const language =
+    localStorage.getItem("osteoai-language") || "en";
+
+
+  const sendMessage = async (text = message) => {
+    const trimmedMessage = text.trim();
+
+    if (!trimmedMessage || loading) {
+      return;
+    }
+
+    setError("");
+
+    setMessages((previous) => [
+      ...previous,
+      {
+        role: "user",
+        content: trimmedMessage,
+      },
+    ]);
+
+    setMessage("");
+    setLoading(true);
+
+    try {
+      let action = null;
+      let finalMessage = "";
+      let streamedText = "";
+
+      /*
+       * Show the assistant reply as it streams in.
+       * The first chunk adds a bubble marked
+       * `streaming`; later chunks update it.
+       */
+      const showAssistantText = (
+        content,
+        streaming = true
+      ) => {
+        setMessages((previous) => {
+          const last = previous[previous.length - 1];
+          const next = {
+            role: "assistant",
+            content,
+            streaming,
+          };
+
+          return last?.streaming
+            ? [...previous.slice(0, -1), next]
+            : [...previous, next];
+        });
+      };
+
+      await streamAgentMessage({
+        message: trimmedMessage,
+        predictionResult,
+        assessmentHistory: historyForAgent(),
+        conversationId,
+        language,
+        onEvent: (event) => {
+          if (event.type === "meta") {
+            if (event.conversation_id) {
+              setConversationId(
+                event.conversation_id
+              );
+            }
+            action = event.action;
+          }
+
+          if (event.type === "delta") {
+            streamedText += event.text;
+            showAssistantText(streamedText);
+          }
+
+          if (event.type === "done") {
+            finalMessage = event.message;
+          }
+        },
+      });
+
+      /*
+       * Execute Agent actions.
+       *
+       * The backend can return:
+       *
+       * {
+       *   "action": {
+       *     "type": "navigate",
+       *     "path": "/dashboard"
+       *   }
+       * }
+       *
+       * The frontend performs the actual navigation.
+       */
+      const allowedPaths = [
+        "/",
+        "/dashboard",
+        "/assessment",
+        "/history",
+        "/assistant",
+        "/knowledge",
+      ];
+
+      /*
+       * Only sent after the user confirmed the
+       * reminder shown in the previous turn.
+       */
+      if (
+        action?.type ===
+          "create_reminder" &&
+        action.reminder
+      ) {
+        addReminder(action.reminder);
+      }
+
+      if (
+        action?.type === "navigate" &&
+        allowedPaths.includes(action.path)
+      ) {
+        showAssistantText(
+          finalMessage ||
+          t("resultAssistant.openingPage"),
+          false
+        );
+
+        setTimeout(() => {
+          if (action.path === "/assessment") {
+            /*
+             * Result and Assessment currently share
+             * the same /assessment route.
+             *
+             * A full navigation resets Assessment.jsx
+             * back to its initial entry state.
+             */
+            window.location.assign(
+              "/assessment"
+            );
+            return;
+          }
+
+          navigate(action.path);
+        }, 350);
+
+        return;
+      }
+
+      // The final message is cleaned of formatting
+      // the chat bubble cannot display.
+      showAssistantText(
+        finalMessage ||
+        streamedText ||
+        t("resultAssistant.noResponse"),
+        false
+      );
+    } catch (agentError) {
+      console.error(
+        "OsteoAI Agent request failed:",
+        agentError
+      );
+
+      setError(
+        agentError?.message ||
+        t("resultAssistant.connectionError")
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const handleKeyDown = (event) => {
+    if (
+      event.key === "Enter" &&
+      !event.shiftKey
+    ) {
+      event.preventDefault();
+      sendMessage();
+    }
+  };
+
+
+  const quickQuestions = [
+    t("resultAssistant.quickQuestion1"),
+    t("resultAssistant.quickQuestion2"),
+    t("resultAssistant.quickQuestion3"),
+  ];
+
+
+  return (
+    <Card
+      elevation={0}
+      sx={{
+        borderRadius: 4,
+        border: "1px solid var(--oa-border-3)",
+        bgcolor: "var(--oa-surface)",
+        overflow: "hidden",
+      }}
+    >
+      <CardContent
+        sx={{
+          p: { xs: 2.5, md: 3 },
+        }}
+      >
+
+        {/* Header */}
+
+        <Stack
+          direction="row"
+          spacing={1.25}
+          sx={{
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              width: 42,
+              height: 42,
+              borderRadius: 3,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              bgcolor: "var(--oa-brand-soft)",
+              color: "var(--oa-brand)",
+              flexShrink: 0,
+            }}
+          >
+            <AutoAwesomeIcon />
+          </Box>
+
+          <Box>
+            <Typography
+              variant="h6"
+              fontWeight={800}
+              sx={{
+                color: "var(--oa-text-900)",
+              }}
+            >
+              {t("resultAssistant.title")}
+            </Typography>
+
+            <Typography
+              variant="body2"
+              sx={{
+                mt: 0.25,
+                color: "var(--oa-text-500)",
+              }}
+            >
+              {t("resultAssistant.subtitle")}
+            </Typography>
+          </Box>
+        </Stack>
+
+
+        {/* Quick Questions */}
+
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            mt: 2,
+            flexWrap: "wrap",
+            gap: 1,
+          }}
+        >
+          {quickQuestions.map((question) => (
+            <Chip
+              key={question}
+              label={question}
+              onClick={() =>
+                sendMessage(question)
+              }
+              clickable
+              variant="outlined"
+              sx={{
+                fontWeight: 600,
+                borderColor: "var(--oa-border-brand-soft)",
+              }}
+            />
+          ))}
+        </Stack>
+
+
+        {/* Conversation */}
+
+        <Box
+          sx={{
+            mt: 2.5,
+            display: "flex",
+            flexDirection: "column",
+            gap: 1.5,
+            maxHeight: 360,
+            overflowY: "auto",
+            pr: 0.5,
+          }}
+        >
+          {messages.map((item, index) => {
+            const isAssistant =
+              item.role === "assistant";
+
+            return (
+              <Stack
+                key={`${item.role}-${index}`}
+                direction="row"
+                spacing={1}
+                sx={{
+                  alignItems: "flex-start",
+                  justifyContent: isAssistant
+                    ? "flex-start"
+                    : "flex-end",
+                }}
+              >
+                {isAssistant && (
+                  <Box
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      bgcolor: "var(--oa-brand-soft)",
+                      color: "var(--oa-brand)",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <SmartToyIcon
+                      sx={{ fontSize: 18 }}
+                    />
+                  </Box>
+                )}
+
+                <Box
+                  sx={{
+                    maxWidth: {
+                      xs: "88%",
+                      sm: "78%",
+                    },
+                    px: 1.75,
+                    py: 1.25,
+                    borderRadius: 3,
+                    bgcolor: isAssistant
+                      ? "var(--oa-surface-2)"
+                      : "var(--oa-brand-soft)",
+                    border: isAssistant
+                      ? "1px solid var(--oa-border-1)"
+                      : "1px solid var(--oa-border-brand-soft)",
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: "var(--oa-text-700)",
+                      lineHeight: 1.65,
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
+                    {item.content}
+                  </Typography>
+                </Box>
+              </Stack>
+            );
+          })}
+
+
+          {loading &&
+            !messages[messages.length - 1]
+              ?.streaming && (
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{
+                alignItems: "center",
+              }}
+            >
+              <Box
+                sx={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  bgcolor: "var(--oa-brand-soft)",
+                  color: "var(--oa-brand)",
+                }}
+              >
+                <SmartToyIcon
+                  sx={{ fontSize: 18 }}
+                />
+              </Box>
+
+              <CircularProgress size={18} />
+            </Stack>
+          )}
+        </Box>
+
+
+        {/* Error */}
+
+        {error && (
+          <Alert
+            severity="error"
+            sx={{
+              mt: 2,
+              borderRadius: 3,
+            }}
+          >
+            {error}
+          </Alert>
+        )}
+
+
+        {/* Input */}
+
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            mt: 2.5,
+            alignItems: "flex-end",
+          }}
+        >
+          <TextField
+            fullWidth
+            multiline
+            maxRows={4}
+            value={message}
+            onChange={(event) =>
+              setMessage(event.target.value)
+            }
+            onKeyDown={handleKeyDown}
+            placeholder={t("resultAssistant.inputPlaceholder")}
+            size="small"
+          />
+
+          <IconButton
+            color="primary"
+            onClick={() => sendMessage()}
+            disabled={
+              loading || !message.trim()
+            }
+            sx={{
+              width: 44,
+              height: 44,
+              borderRadius: 2.5,
+              bgcolor: "var(--oa-brand-soft)",
+            }}
+          >
+            <SendIcon />
+          </IconButton>
+        </Stack>
+
+
+        <Typography
+          variant="caption"
+          sx={{
+            display: "block",
+            mt: 1,
+            color: "var(--oa-text-400)",
+          }}
+        >
+          {t("resultAssistant.disclaimer")}
+        </Typography>
+
+      </CardContent>
+    </Card>
+  );
+}
+
+
+/* =========================================================
+   Assessment Result
+   ========================================================= */
+
+function AssessmentResult({
+  predictionResult,
+  onEdit,
+  onRetake,
+}) {
+  const { t } = useLanguage();
+  const navigate = useNavigate();
+
+  const { assessmentData } = useAssessment();
+
+  const {
+    personal,
+    lifestyle,
+    medicalHistory,
+  } = assessmentData;
+
+  const result = predictionResult || {};
+
+  const probability = Number(
+    result.osteoporosis_probability
+  );
+
+  const probabilityPercent =
+    Number.isFinite(probability)
+      ? (probability * 100).toFixed(1)
+      : "—";
+
+  const prediction = Number(
+    result.prediction
+  );
+
+  const riskLevel =
+    result.risk_level || "Unavailable";
+
+  const shapExplanations = Array.isArray(
+    result.shap_explanations
+  )
+    ? result.shap_explanations
+    : [];
+
+  const isPositive =
+    prediction === 1;
+
+
+  const calculateBMI = () => {
+    const heightInMeters =
+      Number(personal.height) / 100;
+
+    const weight =
+      Number(personal.weight);
+
+    if (
+      !heightInMeters ||
+      !weight
+    ) {
+      return "";
+    }
+
+    return (
+      weight /
+      (heightInMeters * heightInMeters)
+    ).toFixed(1);
+  };
+
+
+  const getBMICategory = () => {
+    const bmi =
+      Number(calculateBMI());
+
+    if (!bmi) {
+      return "Not available";
+    }
+
+    if (bmi < 18.5) {
+      return "Underweight";
+    }
+
+    if (bmi < 25) {
+      return "Healthy Weight";
+    }
+
+    if (bmi < 30) {
+      return "Overweight";
+    }
+
+    return "Obese";
+  };
+
+  const translateBMICategory = (category) => {
+    if (category === "Not available") {
+      return t("common.notAvailable");
+    }
+
+    return (
+      t(`common.bmiCategories.${category}`) || category
+    );
+  };
+
+  const translateRiskLevel = (level) =>
+    t(`common.riskLevels.${level}`) || level;
+
+  const translateGender = (gender) => {
+    if (!gender) {
+      return "";
+    }
+
+    return (
+      t(`common.values.${gender.toLowerCase()}`) || gender
+    );
+  };
+
+  const translateYesNo = (value) => {
+    if (value === "Yes") {
+      return t("common.yes");
+    }
+
+    if (value === "No") {
+      return t("common.no");
+    }
+
+    return value;
+  };
+
+  const getRiskColor = () => {
+    if (riskLevel === "High") {
+      return "var(--oa-danger)";
+    }
+
+    if (riskLevel === "Moderate") {
+      return "var(--oa-warn-strong)";
+    }
+
+    if (riskLevel === "Low") {
+      return "var(--oa-success)";
+    }
+
+    return "var(--oa-brand)";
+  };
+
+
+  const getRiskBackground = () => {
+    if (riskLevel === "High") {
+      return "var(--oa-danger-soft)";
+    }
+
+    if (riskLevel === "Moderate") {
+      return "var(--oa-warn-soft-2)";
+    }
+
+    if (riskLevel === "Low") {
+      return "var(--oa-success-soft)";
+    }
+
+    return "var(--oa-brand-soft)";
+  };
+
+
+  const MetricCard = ({
+    icon,
+    label,
+    value,
+    subtitle,
+  }) => (
+    <Card
+      elevation={0}
+      sx={{
+        height: "100%",
+        borderRadius: 4,
+        border: "1px solid var(--oa-border-1)",
+        bgcolor: "var(--oa-surface-glass)",
+        boxShadow:
+          "0 8px 24px rgba(15, 23, 42, 0.04)",
+      }}
+    >
+      <CardContent
+        sx={{
+          p: 2.5,
+          height: "100%",
+        }}
+      >
+        <Stack
+          direction="row"
+          spacing={1.5}
+          sx={{
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              width: 44,
+              height: 44,
+              borderRadius: 3,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              bgcolor: "var(--oa-brand-soft)",
+              color: "primary.main",
+              flexShrink: 0,
+            }}
+          >
+            {icon}
+          </Box>
+
+          <Box sx={{ minWidth: 0 }}>
+            <Typography
+              variant="body2"
+              sx={{
+                color: "var(--oa-text-500)",
+              }}
+            >
+              {label}
+            </Typography>
+
+            <Typography
+              variant="h6"
+              fontWeight={800}
+              sx={{
+                mt: 0.25,
+                color: "var(--oa-text-900)",
+                overflowWrap: "anywhere",
+              }}
+            >
+              {value}
+            </Typography>
+
+            {subtitle && (
+              <Typography
+                variant="caption"
+                sx={{
+                  display: "block",
+                  mt: 0.25,
+                  color: "var(--oa-text-400)",
+                }}
+              >
+                {subtitle}
+              </Typography>
+            )}
+          </Box>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+
+
+  const FactorRow = ({
+    icon,
+    title,
+    value,
+  }) => (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 2,
+        p: 1.5,
+        borderRadius: 3,
+        bgcolor: "var(--oa-surface-2)",
+        border: "1px solid var(--oa-border-1)",
+      }}
+    >
+      <Stack
+        direction="row"
+        spacing={1.25}
+        sx={{
+          alignItems: "center",
+          minWidth: 0,
+        }}
+      >
+        <Box
+          sx={{
+            width: 36,
+            height: 36,
+            borderRadius: 2.5,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            bgcolor: "var(--oa-surface)",
+            color: "primary.main",
+            flexShrink: 0,
+          }}
+        >
+          {icon}
+        </Box>
+
+        <Typography
+          variant="body2"
+          fontWeight={700}
+          sx={{
+            color: "var(--oa-text-700)",
+          }}
+        >
+          {title}
+        </Typography>
+      </Stack>
+
+      <Chip
+        label={value || t("common.notProvided")}
+        size="small"
+        sx={{
+          fontWeight: 700,
+          bgcolor: "var(--oa-surface)",
+          border:
+            "1px solid var(--oa-border-1)",
+          maxWidth: "48%",
+        }}
+      />
+    </Box>
+  );
+
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 3,
+      }}
+    >
+
+      {/* Header */}
+
+      <Box sx={{ textAlign: "center" }}>
+        <Box
+          sx={{
+            width: 68,
+            height: 68,
+            mx: "auto",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            bgcolor: isPositive
+              ? "var(--oa-danger-soft)"
+              : "var(--oa-success-soft)",
+            color: isPositive
+              ? "var(--oa-danger)"
+              : "var(--oa-success)",
+          }}
+        >
+          {isPositive ? (
+            <WarningAmberIcon
+              sx={{ fontSize: 36 }}
+            />
+          ) : (
+            <CheckCircleIcon
+              sx={{ fontSize: 36 }}
+            />
+          )}
+        </Box>
+
+        <Typography
+          variant="h4"
+          fontWeight={800}
+          sx={{
+            mt: 2,
+            color: "var(--oa-text-900)",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          {t("assessment.result.title")}
+        </Typography>
+
+        <Typography
+          sx={{
+            mt: 1,
+            color: "var(--oa-text-500)",
+            lineHeight: 1.7,
+          }}
+        >
+          {t("assessment.result.subtitle")}
+        </Typography>
+      </Box>
+
+
+      {/* Overall Assessment */}
+
+      <Card
+        elevation={0}
+        sx={{
+          borderRadius: 5,
+          border:
+            "1px solid var(--oa-border-3)",
+          bgcolor:
+            getRiskBackground(),
+          overflow: "hidden",
+        }}
+      >
+        <CardContent
+          sx={{
+            p: {
+              xs: 3,
+              md: 4,
+            },
+          }}
+        >
+          <Stack
+            direction={{
+              xs: "column",
+              md: "row",
+            }}
+            spacing={3}
+            sx={{
+              alignItems: {
+                xs: "stretch",
+                md: "center",
+              },
+              justifyContent:
+                "space-between",
+            }}
+          >
+            <Box>
+              <Typography
+                variant="overline"
+                fontWeight={800}
+                sx={{
+                  color:
+                    getRiskColor(),
+                }}
+              >
+                {t("assessment.result.overallAssessment")}
+              </Typography>
+
+              <Typography
+                variant="h5"
+                fontWeight={800}
+                sx={{
+                  mt: 0.5,
+                  color: "var(--oa-text-900)",
+                }}
+              >
+                {t("assessment.result.riskLevelSuffix", {
+                  level: translateRiskLevel(riskLevel),
+                })}
+              </Typography>
+
+              <Typography
+                sx={{
+                  mt: 1,
+                  maxWidth: 620,
+                  color: "var(--oa-text-500)",
+                  lineHeight: 1.7,
+                }}
+              >
+                {t("assessment.result.probabilityText", {
+                  percent: probabilityPercent,
+                })}
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                minWidth: {
+                  md: 210,
+                },
+                p: 2.5,
+                borderRadius: 4,
+                bgcolor: "var(--oa-surface)",
+                border:
+                  "1px solid var(--oa-border-1)",
+                textAlign: "center",
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "var(--oa-text-500)",
+                }}
+              >
+                {t("assessment.result.estimatedProbability")}
+              </Typography>
+
+              <Typography
+                variant="h3"
+                fontWeight={800}
+                sx={{
+                  mt: 0.5,
+                  color:
+                    getRiskColor(),
+                }}
+              >
+                {probabilityPercent}%
+              </Typography>
+
+              <Chip
+                label={translateRiskLevel(riskLevel)}
+                size="small"
+                sx={{
+                  mt: 1,
+                  bgcolor:
+                    getRiskBackground(),
+                  color:
+                    getRiskColor(),
+                  fontWeight: 800,
+                }}
+              />
+            </Box>
+          </Stack>
+        </CardContent>
+      </Card>
+
+
+      {/* Ask OsteoAI */}
+
+      <ResultAssistant
+        predictionResult={result}
+      />
+
+
+      {/* Model Status */}
+
+      <Alert
+        severity={
+          isPositive
+            ? "warning"
+            : "success"
+        }
+        icon={
+          isPositive ? (
+            <WarningAmberIcon />
+          ) : (
+            <CheckCircleIcon />
+          )
+        }
+        sx={{
+          borderRadius: 3,
+        }}
+      >
+        <Typography
+          variant="body2"
+          fontWeight={700}
+        >
+          {t("assessment.result.modelPredictionLabel")}{" "}
+          {isPositive
+            ? t("assessment.result.positiveFlag")
+            : t("assessment.result.negativeFlag")}
+        </Typography>
+
+        <Typography
+          variant="body2"
+          sx={{ mt: 0.5 }}
+        >
+          {t("assessment.result.researchNote")}
+        </Typography>
+      </Alert>
+      {/* SHAP Explainability */}
+      {shapExplanations.length > 0 && (
+        <Card
+          elevation={0}
+          sx={{
+            borderRadius: 4,
+            border: "1px solid var(--oa-border-1)",
+            bgcolor: "var(--oa-surface)",
+          }}
+        >
+          <CardContent
+            sx={{
+              p: {
+                xs: 2.5,
+                md: 3,
+              },
+            }}
+          >
+            <Stack
+              direction="row"
+              spacing={1.25}
+              sx={{
+                alignItems: "center",
+              }}
+            >
+              <AutoAwesomeIcon
+                color="primary"
+              />
+
+              <Typography
+                variant="h6"
+                fontWeight={800}
+              >
+                {t("assessment.result.shapTitle")}
+              </Typography>
+            </Stack>
+
+            <Typography
+              variant="body2"
+              sx={{
+                mt: 1,
+                color: "var(--oa-text-500)",
+                lineHeight: 1.7,
+              }}
+            >
+              {t("assessment.result.shapDesc")}
+            </Typography>
+
+            <Stack
+              spacing={1.5}
+              sx={{
+                mt: 2.5,
+              }}
+            >
+              {shapExplanations.map((item) => {
+                const shapValue = Number(
+                  item.shap_value
+                );
+
+                const increases =
+                  item.direction ===
+                  "increases_model_output";
+
+                const magnitude = Number.isFinite(
+                  shapValue
+                )
+                  ? Math.abs(shapValue).toFixed(3)
+                  : "—";
+
+                return (
+                  <Box
+                    key={item.feature}
+                    sx={{
+                      p: 1.75,
+                      borderRadius: 3,
+                      bgcolor: "var(--oa-surface-2)",
+                      border: "1px solid var(--oa-border-1)",
+                    }}
+                  >
+                    <Stack
+                      direction={{
+                        xs: "column",
+                        sm: "row",
+                      }}
+                      spacing={1.5}
+                      sx={{
+                        justifyContent: "space-between",
+                        alignItems: {
+                          xs: "stretch",
+                          sm: "center",
+                        },
+                      }}
+                    >
+                      <Stack
+                        direction="row"
+                        spacing={1.25}
+                        sx={{
+                          alignItems: "center",
+                          minWidth: 0,
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: 38,
+                            height: 38,
+                            borderRadius: 2.5,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            bgcolor: increases
+                              ? "var(--oa-danger-soft)"
+                              : "var(--oa-success-soft)",
+                            color: increases
+                              ? "var(--oa-danger)"
+                              : "var(--oa-success)",
+                            flexShrink: 0,
+                          }}
+                        >
+                          {increases ? (
+                            <TrendingUpIcon />
+                          ) : (
+                            <TrendingDownIcon />
+                          )}
+                        </Box>
+
+                        <Box>
+                          <Typography
+                            variant="body1"
+                            fontWeight={800}
+                            sx={{
+                              color: "var(--oa-text-900)",
+                            }}
+                          >
+                            {item.label ||
+                              item.feature}
+                          </Typography>
+
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              mt: 0.25,
+                              color: "var(--oa-text-500)",
+                            }}
+                          >
+                            {increases
+                              ? t("assessment.result.increasedOutput")
+                              : t("assessment.result.decreasedOutput")}
+                          </Typography>
+                        </Box>
+                      </Stack>
+
+                      <Chip
+                        label={t("assessment.result.influence", {
+                          value: magnitude,
+                        })}
+                        size="small"
+                        sx={{
+                          alignSelf: {
+                            xs: "flex-start",
+                            sm: "center",
+                          },
+                          fontWeight: 800,
+                          bgcolor: "var(--oa-surface)",
+                          border:
+                            "1px solid var(--oa-border-1)",
+                        }}
+                      />
+                    </Stack>
+
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        display: "block",
+                        mt: 1,
+                        color: "var(--oa-text-400)",
+                      }}
+                    >
+                      {t("assessment.result.inputValueLabel", {
+                        value:
+                          item.value !== null &&
+                          item.value !== undefined
+                            ? String(item.value)
+                            : t("common.notProvided"),
+                      })}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </Stack>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Key Metrics */}
+
+      <Box>
+        <Typography
+          variant="h6"
+          fontWeight={800}
+          sx={{
+            mb: 2,
+            color: "var(--oa-text-900)",
+          }}
+        >
+          {t("assessment.result.keyMetricsTitle")}
+        </Typography>
+
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+            }}
+          >
+            <MetricCard
+              icon={<PersonIcon />}
+              label={t("assessment.result.ageLabel")}
+              value={
+                personal.age
+                  ? t("assessment.result.yearsSuffix", {
+                      value: personal.age,
+                    })
+                  : t("common.notProvided")
+              }
+            />
+          </Grid>
+
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+            }}
+          >
+            <MetricCard
+              icon={<HealthAndSafetyIcon />}
+              label={t("assessment.result.bmiLabel")}
+              value={
+                calculateBMI() ||
+                "—"
+              }
+              subtitle={translateBMICategory(getBMICategory())}
+            />
+          </Grid>
+
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+            }}
+          >
+            <MetricCard
+              icon={<FitnessCenterIcon />}
+              label={t("assessment.result.sedentaryTimeLabel")}
+              value={
+                lifestyle.sedentaryMinutes
+                  ? t("assessment.result.minSuffix", {
+                      value: lifestyle.sedentaryMinutes,
+                    })
+                  : t("common.notProvided")
+              }
+              subtitle={t("assessment.result.typicalDay")}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+
+
+      {/* Assessment Factors */}
+
+      <Card
+        elevation={0}
+        sx={{
+          borderRadius: 4,
+          border:
+            "1px solid var(--oa-border-1)",
+          bgcolor: "var(--oa-surface)",
+        }}
+      >
+        <CardContent
+          sx={{
+            p: {
+              xs: 2.5,
+              md: 3,
+            },
+          }}
+        >
+          <Stack
+            direction="row"
+            spacing={1.25}
+            sx={{
+              alignItems: "center",
+            }}
+          >
+            <InsightsIcon
+              color="primary"
+            />
+
+            <Typography
+              variant="h6"
+              fontWeight={800}
+            >
+              {t("assessment.result.assessmentFactorsTitle")}
+            </Typography>
+          </Stack>
+
+          <Typography
+            variant="body2"
+            sx={{
+              mt: 1,
+              color: "var(--oa-text-500)",
+              lineHeight: 1.7,
+            }}
+          >
+            {t("assessment.result.assessmentFactorsDesc")}
+          </Typography>
+
+          <Stack
+            spacing={1.5}
+            sx={{
+              mt: 2.5,
+            }}
+          >
+            <FactorRow
+              icon={<PersonIcon fontSize="small" />}
+              title={t("assessment.result.genderLabel")}
+              value={translateGender(personal.gender)}
+            />
+
+            <FactorRow
+              icon={<HealthAndSafetyIcon fontSize="small" />}
+              title={t("assessment.result.raceLabel")}
+              value={
+                personal.raceEthnicity
+                  ? t("assessment.result.provided")
+                  : ""
+              }
+            />
+
+            <FactorRow
+              icon={<FitnessCenterIcon fontSize="small" />}
+              title={t("assessment.result.smokingHistoryLabel")}
+              value={translateYesNo(
+                lifestyle.smoked100Cigarettes
+              )}
+            />
+
+            <FactorRow
+              icon={<MedicalInformationIcon fontSize="small" />}
+              title={t("assessment.result.steroidUseLabel")}
+              value={translateYesNo(
+                medicalHistory.longTermSteroidUse
+              )}
+            />
+
+            <FactorRow
+              icon={<HealthAndSafetyIcon fontSize="small" />}
+              title={t("assessment.result.familyHistoryLabel")}
+              value={translateYesNo(
+                medicalHistory.parentOsteoporosisHistory
+              )}
+            />
+          </Stack>
+        </CardContent>
+      </Card>
+
+
+      {/* Model Information */}
+
+      <Card
+        elevation={0}
+        sx={{
+          borderRadius: 4,
+          border:
+            "1px solid var(--oa-border-1)",
+          bgcolor: "var(--oa-surface-2)",
+        }}
+      >
+        <CardContent
+          sx={{
+            p: {
+              xs: 2.5,
+              md: 3,
+            },
+          }}
+        >
+          <Typography
+            variant="h6"
+            fontWeight={800}
+          >
+            {t("assessment.result.modelInfoTitle")}
+          </Typography>
+
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              mt: 0.5,
+            }}
+          >
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
+              <Typography
+                variant="body2"
+                color="text.secondary"
+              >
+                {t("assessment.result.modelVersionLabel")}
+              </Typography>
+
+              <Typography
+                fontWeight={800}
+                sx={{
+                  mt: 0.5,
+                }}
+              >
+                {result.model_version ||
+                  "—"}
+              </Typography>
+            </Grid>
+
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
+              <Typography
+                variant="body2"
+                color="text.secondary"
+              >
+                {t("assessment.result.decisionThresholdLabel")}
+              </Typography>
+
+              <Typography
+                fontWeight={800}
+                sx={{
+                  mt: 0.5,
+                }}
+              >
+                {result.threshold_used !==
+                  undefined
+                  ? result.threshold_used
+                  : "—"}
+              </Typography>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+
+
+      {/* Disclaimer */}
+
+      <Alert
+        severity="info"
+        sx={{
+          borderRadius: 3,
+        }}
+      >
+        {result.disclaimer ||
+          t("assessment.result.defaultDisclaimer")}
+      </Alert>
+
+
+      <Divider />
+
+      {/* Forecast & Recommendations, and nearby care */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          flexWrap: "wrap",
+          gap: 1.5,
+        }}
+      >
+        <Button
+          variant="contained"
+          endIcon={<ArrowForwardIcon />}
+          onClick={() =>
+            navigate("/forecast", {
+              state: { from: window.location.pathname },
+            })
+          }
+          sx={{
+            px: 3.5,
+            py: 1.3,
+            borderRadius: 3,
+            textTransform: "none",
+            fontWeight: 700,
+            boxShadow: "none",
+          }}
+        >
+          {t("assessment.result.viewForecast")}
+        </Button>
+
+        <Button
+          variant="outlined"
+          startIcon={<PlaceOutlinedIcon />}
+          onClick={() => navigate("/find-doctor")}
+          sx={{
+            px: 3.5,
+            py: 1.3,
+            borderRadius: 3,
+            textTransform: "none",
+            fontWeight: 700,
+          }}
+        >
+          {t("assessment.result.findDoctorLink")}
+        </Button>
+      </Box>
+
+      {/* Actions */}
+
+      <Stack
+        direction={{
+          xs: "column",
+          sm: "row",
+        }}
+        spacing={2}
+        sx={{
+          justifyContent: "center",
+        }}
+      >
+        {onEdit && (
+        <Button
+          variant="outlined"
+          startIcon={
+            <ArrowBackIcon />
+          }
+          onClick={onEdit}
+          sx={{
+            px: 3,
+            py: 1.2,
+            borderRadius: 3,
+            textTransform:
+              "none",
+            fontWeight: 700,
+          }}
+        >
+          {t("assessment.result.editAssessment")}
+        </Button>
+        )}
+
+        <Button
+          variant="contained"
+          startIcon={
+            <RestartAltIcon />
+          }
+          onClick={onRetake}
+          sx={{
+            px: 3,
+            py: 1.2,
+            borderRadius: 3,
+            textTransform:
+              "none",
+            fontWeight: 700,
+            boxShadow: "none",
+          }}
+        >
+          {t("assessment.result.retakeAssessment")}
+        </Button>
+      </Stack>
+    </Box>
+  );
+}
+
+
+export default AssessmentResult;

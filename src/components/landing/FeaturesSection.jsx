@@ -1,56 +1,132 @@
-import { Container, Typography, Grid } from "@mui/material";
-import FeatureCard from "./FeatureCard";
+import {
+  Container,
+  Typography,
+  Grid,
+  Box,
+} from "@mui/material";
 
-const features = [
-  {
-    icon: "🧠",
-    title: "Explainable AI",
-    description:
-      "Understand why the AI predicted your osteoporosis risk instead of receiving only a score.",
-  },
-  {
-    icon: "🤖",
-    title: "AI Personal Agent",
-    description:
-      "Interact with an intelligent assistant that answers your questions in simple language.",
-  },
-  {
-    icon: "📈",
-    title: "Lifestyle Simulator",
-    description:
-      "See how exercise, nutrition and healthy habits can improve your future bone health.",
-  },
-  {
-    icon: "📚",
-    title: "Knowledge Center",
-    description:
-      "Access trusted osteoporosis information and FAQs powered by Salesforce.",
-  },
-];
+import PsychologyIcon from "@mui/icons-material/Psychology";
+import ShowChartIcon from "@mui/icons-material/ShowChart";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import PieChartIcon from "@mui/icons-material/PieChart";
+
+import FeatureCard from "./FeatureCard";
+import { useLanguage } from "../../context/LanguageContext";
 
 function FeaturesSection() {
+  const { t } = useLanguage();
+
+  const features = [
+    {
+      icon: <PsychologyIcon />,
+      title: t("features.item1Title"),
+      description: t("features.item1Desc"),
+      tint: "var(--oa-brand-soft)",
+      iconColor: "var(--oa-brand)",
+    },
+    {
+      icon: <ShowChartIcon />,
+      title: t("features.item2Title"),
+      description: t("features.item2Desc"),
+      tint: "var(--oa-violet-soft)",
+      iconColor: "var(--oa-violet)",
+    },
+    {
+      icon: <FavoriteIcon />,
+      title: t("features.item3Title"),
+      description: t("features.item3Desc"),
+      tint: "var(--oa-success-soft)",
+      iconColor: "var(--oa-success)",
+    },
+    {
+      icon: <PieChartIcon />,
+      title: t("features.item4Title"),
+      description: t("features.item4Desc"),
+      tint: "var(--oa-warn-soft-2)",
+      iconColor: "var(--oa-warn-strong)",
+    },
+  ];
+
   return (
-    <Container sx={{ py: 10 }}>
-      <Typography variant="h3" align="center" gutterBottom>
-        Why OsteoAI?
-      </Typography>
+    <Box
+      id="features"
+      sx={{
+        py: { xs: 8, md: 12 },
+        bgcolor: "var(--oa-surface-2)",
+      }}
+    >
+      <Container maxWidth="lg">
+        <Typography
+          variant="h2"
+          align="center"
+          fontWeight={800}
+          sx={{
+            fontSize: {
+              xs: "2.2rem",
+              md: "3.2rem",
+            },
+            letterSpacing: "-0.02em",
+          }}
+        >
+          {t("features.title")}
+        </Typography>
 
-      <Typography align="center" color="text.secondary" sx={{ mb: 6 }}>
-        Everything you need for smarter bone health decisions.
-      </Typography>
+        <Typography
+          align="center"
+          color="text.secondary"
+          sx={{
+            maxWidth: 720,
+            mx: "auto",
+            mt: 2,
+            mb: 7,
+            fontSize: {
+              xs: "1rem",
+              md: "1.1rem",
+            },
+            lineHeight: 1.8,
+          }}
+        >
+          {t("features.subtitle")}
+        </Typography>
 
-      <Grid container spacing={4}>
-        {features.map((feature, index) => (
-          <Grid key={index} size={{ xs: 12, sm: 6, lg: 3 }}>
-            <FeatureCard
-              icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
-            />
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+        <Grid
+          container
+          spacing={3}
+        >
+          {features.map((feature) => (
+            <Grid
+              key={feature.title}
+              size={{
+                xs: 12,
+                sm: 6,
+                lg: 3,
+              }}
+            >
+              <FeatureCard
+                icon={
+                  <Box
+                    sx={{
+                      width: 54,
+                      height: 54,
+                      borderRadius: 3,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      bgcolor: feature.tint,
+                      color: feature.iconColor,
+                    }}
+                  >
+                    {feature.icon}
+                  </Box>
+                }
+                title={feature.title}
+                description={feature.description}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </Box>
   );
 }
 

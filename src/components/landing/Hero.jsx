@@ -1,120 +1,520 @@
 import { useNavigate } from "react-router-dom";
-import { Box, Typography, Stack } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Stack,
+  Chip,
+} from "@mui/material";
+
+import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+
 import PrimaryButton from "../ui/PrimaryButton";
+import { useLanguage } from "../../context/LanguageContext";
 
 function Hero() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
+
+  const scrollToFeatures = () => {
+    const element = document.getElementById("features");
+
+    if (!element) {
+      return;
+    }
+
+    const navbarOffset = 96;
+    const targetPosition =
+      element.getBoundingClientRect().top +
+      window.scrollY -
+      navbarOffset;
+
+    const startPosition = window.scrollY;
+    const distance = targetPosition - startPosition;
+    const duration = 850;
+    const startTime = performance.now();
+
+    const easeInOut = (t) =>
+      t < 0.5
+        ? 2 * t * t
+        : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+    const animateScroll = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeInOut(progress);
+
+      window.scrollTo(
+        0,
+        startPosition + distance * easedProgress
+      );
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
+  };
+
+  const assessmentSteps = [
+    {
+      number: 1,
+      title: t("hero.step1Title"),
+      description: t("hero.step1Desc"),
+    },
+    {
+      number: 2,
+      title: t("hero.step2Title"),
+      description: t("hero.step2Desc"),
+    },
+    {
+      number: 3,
+      title: t("hero.step3Title"),
+      description: t("hero.step3Desc"),
+    },
+  ];
+
   return (
     <Box
       sx={{
-        minHeight: "85vh",
+        minHeight: "88vh",
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
-        px: { xs: 3, md: 10 },
-        py: 6,
-        gap: 6,
-        flexDirection: { xs: "column", md: "row" },
+        px: { xs: 3, sm: 5, md: 8, lg: 12 },
+        py: { xs: 6, md: 10 },
+        background:
+          "radial-gradient(1000px circle at 70% 35%, rgba(37, 99, 235, 0.12) 0%, rgba(99, 102, 241, 0.055) 34%, rgba(255,255,255,0) 70%), linear-gradient(180deg, var(--oa-surface) 0%, var(--oa-surface-2) 100%)",
       }}
     >
-      {/* Left Side */}
-      <Box sx={{ flex: 1 }}>
-        <Typography
-          variant="overline"
-          color="primary"
-          fontWeight={700}
-        >
-          AI-POWERED HEALTHCARE PLATFORM
-        </Typography>
-
-        <Typography
-          variant="h1"
-          sx={{
-            mt: 2,
-            mb: 3,
-            lineHeight: 1.2,
-          }}
-        >
-          AI That Protects
-          <br />
-          Your Bone Health.
-        </Typography>
-
-        <Typography
-          variant="body1"
-          color="text.secondary"
-          sx={{
-            maxWidth: 550,
-            mb: 4,
-            fontSize: "1.1rem",
-          }}
-        >
-          Predict osteoporosis risk early using Explainable AI,
-          lifestyle analysis, and a personal AI assistant that
-          helps you understand and improve your bone health.
-        </Typography>
-
-        <Stack direction="row" spacing={2}>
-          <PrimaryButton
-            onClick={() => navigate("/assessment")}
-          >
-            Start Free Assessment
-          </PrimaryButton>
-
-          <PrimaryButton
-            variant="outlined"
-            sx={{
-              bgcolor: "white",
-              color: "primary.main",
-            }}
-          >
-            Learn More
-          </PrimaryButton>
-        </Stack>
-      </Box>
-
-      {/* Right Side */}
       <Box
         sx={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
+          width: "100%",
+          maxWidth: 1400,
+          mx: "auto",
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            md: "1.05fr 0.95fr",
+          },
+          alignItems: "center",
+          gap: { xs: 6, md: 8 },
         }}
       >
+        {/* LEFT SIDE */}
+        <Box>
+          <Chip
+            icon={<HealthAndSafetyIcon />}
+            label={t("hero.badge")}
+            color="primary"
+            variant="outlined"
+            sx={{
+              mb: 3,
+              fontWeight: 700,
+              borderRadius: 2,
+            }}
+          />
+
+          <Typography
+            variant="h1"
+            sx={{
+              fontSize: {
+                xs: "2.8rem",
+                sm: "3.5rem",
+                md: "4.2rem",
+              },
+              fontWeight: 800,
+              lineHeight: 1.08,
+              letterSpacing: "-0.03em",
+              maxWidth: 760,
+              color: "var(--oa-text-900)",
+            }}
+          >
+            {t("hero.titleLine1")}
+            <Box
+              component="span"
+              sx={{
+                display: "block",
+                color: "primary.main",
+              }}
+            >
+              {t("hero.titleLine2")}
+            </Box>
+          </Typography>
+
+          <Typography
+            variant="body1"
+            sx={{
+              mt: 3,
+              maxWidth: 680,
+              fontSize: {
+                xs: "1rem",
+                md: "1.12rem",
+              },
+              lineHeight: 1.8,
+              color: "var(--oa-text-600)",
+            }}
+          >
+            {t("hero.subtitle")}
+          </Typography>
+
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={2}
+            sx={{ mt: 4 }}
+          >
+            <PrimaryButton
+              onClick={() => navigate("/assessment")}
+              endIcon={<ArrowForwardIcon />}
+            >
+              {t("hero.ctaStart")}
+            </PrimaryButton>
+
+            <PrimaryButton
+              variant="outlined"
+              onClick={scrollToFeatures}
+              sx={{
+                bgcolor: "var(--oa-surface-glass)",
+                color: "primary.main",
+              }}
+            >
+              {t("hero.ctaLearnMore")}
+            </PrimaryButton>
+          </Stack>
+
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={3}
+            sx={{
+              mt: 4,
+              color: "var(--oa-text-500)",
+            }}
+          >
+            <Box>
+              <Typography
+                variant="body2"
+                fontWeight={700}
+                sx={{
+                  color: "var(--oa-text-900)",
+                }}
+              >
+                {t("hero.statMultiFactorTitle")}
+              </Typography>
+
+              <Typography variant="body2">
+                {t("hero.statMultiFactorDesc")}
+              </Typography>
+            </Box>
+
+            <Box>
+              <Typography
+                variant="body2"
+                fontWeight={700}
+                sx={{
+                  color: "var(--oa-text-900)",
+                }}
+              >
+                {t("hero.statAiTitle")}
+              </Typography>
+
+              <Typography variant="body2">
+                {t("hero.statAiDesc")}
+              </Typography>
+            </Box>
+          </Stack>
+        </Box>
+
+        {/* RIGHT SIDE */}
         <Box
           sx={{
-            width: 320,
-            height: 320,
-            borderRadius: "24px",
-            bgcolor: "white",
-            boxShadow: "0 20px 40px rgba(0,0,0,0.08)",
+            position: "relative",
             display: "flex",
-            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            minHeight: { xs: 500, md: 600 },
+
+            "&::before": {
+              content: '""',
+              position: "absolute",
+              width: { xs: 430, md: 700 },
+              height: { xs: 430, md: 700 },
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, rgba(37, 99, 235, 0.24) 0%, rgba(59, 130, 246, 0.15) 28%, rgba(99, 102, 241, 0.08) 48%, rgba(255,255,255,0) 72%)",
+              filter: "blur(18px)",
+              zIndex: 0,
+              pointerEvents: "none",
+            },
+
+            "&::after": {
+              content: '""',
+              position: "absolute",
+              width: { xs: 260, md: 360 },
+              height: { xs: 260, md: 360 },
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, rgba(129, 140, 248, 0.08) 40%, rgba(255,255,255,0) 72%)",
+              filter: "blur(14px)",
+              right: { xs: "0%", md: "5%" },
+              top: { xs: "15%", md: "8%" },
+              zIndex: 0,
+              pointerEvents: "none",
+            },
           }}
         >
-          <Typography variant="h2">
-            🦴
-          </Typography>
-
-          <Typography
-            variant="h5"
-            fontWeight={700}
+          <Box
+            sx={{
+              position: "relative",
+              zIndex: 1,
+              width: {
+                xs: "100%",
+                sm: 440,
+              },
+              maxWidth: 440,
+              borderRadius: 6,
+              p: { xs: 3, sm: 4 },
+              bgcolor: "var(--oa-surface-glass)",
+              border: "1px solid var(--oa-border-1)",
+              boxShadow:
+                "0 24px 60px rgba(15, 23, 42, 0.08)",
+              backdropFilter: "blur(12px)",
+            }}
           >
-            Bone Health Score
-          </Typography>
+            {/* Assessment Header */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 1.5,
+              }}
+            >
+              <Box
+                sx={{
+                  width: 54,
+                  height: 54,
+                  borderRadius: 3,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  bgcolor: "var(--oa-brand-soft)",
+                  color: "primary.main",
+                  flexShrink: 0,
+                }}
+              >
+                <HealthAndSafetyIcon
+                  sx={{
+                    fontSize: 32,
+                  }}
+                />
+              </Box>
 
-          <Typography
-            variant="h2"
-            color="primary"
-          >
-            82
-          </Typography>
+              <Box
+                sx={{
+                  minWidth: 0,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  fontWeight={800}
+                  sx={{
+                    lineHeight: 1.2,
+                    color: "var(--oa-text-900)",
+                  }}
+                >
+                  {t("hero.cardTitle")}
+                </Typography>
 
-          <Typography color="text.secondary">
-            Low Risk
-          </Typography>
+                <Box
+                  sx={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 0.75,
+                    mt: 1,
+                    px: 1.25,
+                    py: 0.6,
+                    borderRadius: 999,
+                    bgcolor: "var(--oa-success-soft)",
+                    border: "1px solid #D1FAE5",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 7,
+                      height: 7,
+                      borderRadius: "50%",
+                      bgcolor: "var(--oa-success-bright)",
+                      boxShadow:
+                        "0 0 0 4px rgba(34, 197, 94, 0.12)",
+                      flexShrink: 0,
+                    }}
+                  />
+
+                  <Typography
+                    variant="caption"
+                    fontWeight={700}
+                    sx={{
+                      color: "var(--oa-success-strong)",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {t("hero.cardBadge")}
+                  </Typography>
+                </Box>
+
+                <Typography
+                  variant="body2"
+                  sx={{
+                    mt: 1,
+                    lineHeight: 1.5,
+                    color: "var(--oa-text-500)",
+                  }}
+                >
+                  {t("hero.cardNote")}
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Assessment Timeline */}
+            <Box
+              sx={{
+                position: "relative",
+                mt: 4,
+              }}
+            >
+              {assessmentSteps.map((step, index) => (
+                <Box
+                  key={step.number}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: 1.5,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: 34,
+                        height: 34,
+                        minWidth: 34,
+                        borderRadius: "50%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        bgcolor:
+                          index === 0
+                            ? "var(--oa-brand-solid)"
+                            : "var(--oa-brand-soft)",
+                        color:
+                          index === 0
+                            ? "white"
+                            : "primary.main",
+                        border:
+                          index === 0
+                            ? "none"
+                            : "1px solid var(--oa-indigo-soft)",
+                        fontWeight: 800,
+                        boxShadow:
+                          index === 0
+                            ? "0 5px 14px rgba(37,99,235,0.20)"
+                            : "none",
+                      }}
+                    >
+                      {step.number}
+                    </Box>
+
+                    <Box
+                      sx={{
+                        pt: 0.25,
+                        minWidth: 0,
+                      }}
+                    >
+                      <Typography
+                        variant="body1"
+                        fontWeight={800}
+                        sx={{
+                          color: "var(--oa-text-900)",
+                        }}
+                      >
+                        {step.title}
+                      </Typography>
+
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          mt: 0.35,
+                          lineHeight: 1.5,
+                          color: "var(--oa-text-500)",
+                        }}
+                      >
+                        {step.description}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  {index <
+                    assessmentSteps.length - 1 && (
+                    <Box
+                      sx={{
+                        width: 34,
+                        height: 34,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          flex: 1,
+                          borderLeft:
+                            "2px dotted var(--oa-indigo-soft)",
+                        }}
+                      />
+
+                      <KeyboardArrowDownIcon
+                        sx={{
+                          color: "primary.main",
+                          fontSize: 18,
+                          mt: "-7px",
+                        }}
+                      />
+                    </Box>
+                  )}
+                </Box>
+              ))}
+            </Box>
+
+            {/* Bottom Note */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 1,
+                mt: 3,
+                pt: 2.5,
+                borderTop: "1px solid var(--oa-border-1)",
+              }}
+            >
+              <AccessTimeIcon
+                sx={{
+                  fontSize: 18,
+                  color: "var(--oa-text-500)",
+                }}
+              />
+
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "var(--oa-text-500)",
+                }}
+              >
+                {t("hero.bottomNote")}
+              </Typography>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </Box>

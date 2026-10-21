@@ -1,5 +1,379 @@
+import {
+  Box,
+  Container,
+  Paper,
+  Typography,
+  Button,
+} from "@mui/material";
+
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
+import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
+import PsychologyIcon from "@mui/icons-material/Psychology";
+import DescriptionIcon from "@mui/icons-material/Description";
+import HistoryIcon from "@mui/icons-material/History";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import InsightsIcon from "@mui/icons-material/Insights";
+
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
+import { useLanguage } from "../../context/LanguageContext";
+
 function LoginPage() {
-  return <h1>Login Page</h1>;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { t } = useLanguage();
+
+  // The URL is the single source of truth for which form is shown.
+  const mode =
+    location.pathname === "/signup" ||
+    location.pathname === "/register"
+      ? "register"
+      : "login";
+
+  const handleModeChange = (newMode) => {
+    navigate(
+      newMode === "login"
+        ? "/login"
+        : "/signup",
+      {
+        replace: true,
+        // Keep the page the user was heading to.
+        state: location.state,
+      }
+    );
+  };
+
+  const isLogin = mode === "login";
+
+  const loginBenefits = [
+    {
+      icon: <HistoryIcon />,
+      text: t("auth.loginBenefit1"),
+    },
+    {
+      icon: <InsightsIcon />,
+      text: t("auth.loginBenefit2"),
+    },
+    {
+      icon: <PsychologyIcon />,
+      text: t("auth.loginBenefit3"),
+    },
+  ];
+
+  const registerBenefits = [
+    {
+      icon: <PersonAddAltIcon />,
+      text: t("auth.registerBenefit1"),
+    },
+    {
+      icon: <HistoryIcon />,
+      text: t("auth.registerBenefit2"),
+    },
+    {
+      icon: <DescriptionIcon />,
+      text: t("auth.registerBenefit3"),
+    },
+  ];
+
+  const benefits = isLogin
+    ? loginBenefits
+    : registerBenefits;
+
+  return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        py: { xs: 3, md: 6 },
+        background:
+          "radial-gradient(1000px circle at 20% 20%, rgba(37,99,235,0.10) 0%, rgba(255,255,255,0) 60%), linear-gradient(135deg, var(--oa-surface-2) 0%, var(--oa-brand-soft) 100%)",
+      }}
+    >
+      <Container maxWidth="lg">
+        <Paper
+          elevation={0}
+          sx={{
+            overflow: "hidden",
+            borderRadius: { xs: 4, md: 6 },
+            border: "1px solid var(--oa-border-3)",
+            bgcolor: "var(--oa-surface-glass)",
+            backdropFilter: "blur(16px)",
+            boxShadow:
+              "0 24px 70px rgba(15,23,42,0.08)",
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              md: "0.9fr 1.1fr",
+            },
+          }}
+        >
+          {/* LEFT PANEL */}
+          <Box
+            sx={{
+              p: { xs: 4, md: 6 },
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              bgcolor: "var(--oa-surface-2)",
+              background:
+                "radial-gradient(600px circle at 40% 30%, rgba(37,99,235,0.13) 0%, rgba(255,255,255,0) 68%)",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1.5,
+              }}
+            >
+              <Box
+                sx={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: 3,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  bgcolor: "var(--oa-brand-solid)",
+                  color: "white",
+                  boxShadow:
+                    "0 8px 22px rgba(37,99,235,0.18)",
+                }}
+              >
+                <HealthAndSafetyIcon />
+              </Box>
+
+              <Box>
+                <Typography
+                  variant="h5"
+                  fontWeight={800}
+                  sx={{
+                    color: "var(--oa-text-900)",
+                    lineHeight: 1,
+                  }}
+                >
+                  {t("brand.name")}
+                </Typography>
+
+                <Typography
+                  variant="body2"
+                  sx={{
+                    mt: 0.5,
+                    color: "var(--oa-text-500)",
+                  }}
+                >
+                  {t("brand.tagline")}
+                </Typography>
+              </Box>
+            </Box>
+
+            <Typography
+              variant="h3"
+              fontWeight={800}
+              sx={{
+                mt: 6,
+                maxWidth: 520,
+                fontSize: {
+                  xs: "2rem",
+                  md: "3rem",
+                },
+                lineHeight: 1.1,
+                letterSpacing: "-0.03em",
+                color: "var(--oa-text-900)",
+              }}
+            >
+              {isLogin ? (
+                <>
+                  {t("auth.welcomeBack1")}
+                  <Box
+                    component="span"
+                    sx={{
+                      display: "block",
+                      color: "primary.main",
+                    }}
+                  >
+                    {t("auth.welcomeBack2")}
+                  </Box>
+                </>
+              ) : (
+                <>
+                  {t("auth.startJourney1")}
+                  <Box
+                    component="span"
+                    sx={{
+                      display: "block",
+                      color: "primary.main",
+                    }}
+                  >
+                    {t("auth.startJourney2")}
+                  </Box>
+                </>
+              )}
+            </Typography>
+
+            <Typography
+              sx={{
+                mt: 2,
+                maxWidth: 500,
+                lineHeight: 1.8,
+                color: "var(--oa-text-500)",
+              }}
+            >
+              {isLogin
+                ? t("auth.loginSubtitle")
+                : t("auth.registerSubtitle")}
+            </Typography>
+
+            <Box
+              sx={{
+                mt: 4,
+                display: "flex",
+                flexDirection: "column",
+                gap: 1.5,
+              }}
+            >
+              {benefits.map((item) => (
+                <Box
+                  key={item.text}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1.5,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 38,
+                      height: 38,
+                      borderRadius: 2.5,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      bgcolor: "var(--oa-brand-soft)",
+                      color: "primary.main",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {item.icon}
+                  </Box>
+
+                  <Typography
+                    variant="body2"
+                    fontWeight={600}
+                    sx={{
+                      color: "var(--oa-text-700)",
+                    }}
+                  >
+                    {item.text}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+
+          {/* RIGHT PANEL */}
+          <Box
+            sx={{
+              p: { xs: 3, sm: 5, md: 6 },
+              bgcolor:
+                "var(--oa-surface-glass)",
+            }}
+          >
+            {/* Mode selector */}
+            <Box
+              sx={{
+                display: "inline-flex",
+                p: 0.5,
+                borderRadius: 3,
+                bgcolor: "var(--oa-surface-3)",
+                border: "1px solid var(--oa-border-1)",
+                mb: 4,
+              }}
+            >
+              <Button
+                onClick={() =>
+                  handleModeChange("login")
+                }
+                sx={{
+                  minWidth: 105,
+                  px: 2,
+                  py: 1,
+                  borderRadius: 2.5,
+                  textTransform: "none",
+                  fontWeight: 700,
+                  color: isLogin
+                    ? "white"
+                    : "var(--oa-text-500)",
+                  bgcolor: isLogin
+                    ? "primary.main"
+                    : "transparent",
+                  boxShadow: isLogin
+                    ? "0 5px 14px rgba(37,99,235,0.18)"
+                    : "none",
+                  "&:hover": {
+                    bgcolor: isLogin
+                      ? "primary.dark"
+                      : "rgba(37,99,235,0.05)",
+                  },
+                }}
+              >
+                {t("auth.signIn")}
+              </Button>
+
+              <Button
+                onClick={() =>
+                  handleModeChange("register")
+                }
+                sx={{
+                  minWidth: 105,
+                  px: 2,
+                  py: 1,
+                  borderRadius: 2.5,
+                  textTransform: "none",
+                  fontWeight: 700,
+                  color: !isLogin
+                    ? "white"
+                    : "var(--oa-text-500)",
+                  bgcolor: !isLogin
+                    ? "primary.main"
+                    : "transparent",
+                  boxShadow: !isLogin
+                    ? "0 5px 14px rgba(37,99,235,0.18)"
+                    : "none",
+                  "&:hover": {
+                    bgcolor: !isLogin
+                      ? "primary.dark"
+                      : "rgba(37,99,235,0.05)",
+                  },
+                }}
+              >
+                {t("auth.signUp")}
+              </Button>
+            </Box>
+
+            {isLogin ? (
+              <LoginForm
+                onSwitch={() =>
+                  handleModeChange("register")
+                }
+              />
+            ) : (
+              <RegisterForm
+                onSwitch={() =>
+                  handleModeChange("login")
+                }
+              />
+            )}
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
+  );
 }
 
 export default LoginPage;

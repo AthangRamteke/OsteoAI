@@ -1,0 +1,132 @@
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import { Box, Container } from "@mui/material";
+
+import Navbar from "../../components/common/Navbar";
+import { latestKey } from "../../services/userStorage";
+import RiskForecastRecommendations from "../../components/forecast/RiskForecastRecommendations";
+
+/*
+|--------------------------------------------------------------------------
+| ForecastPage
+|--------------------------------------------------------------------------
+| Thin wrapper around RiskForecastRecommendations. It reads the same
+| "osteoai_latest_assessment" record from localStorage that
+| DashboardPage.jsx already reads (written by pages/Assessment/Assessment.jsx
+| right after a prediction succeeds) so this screen always reflects the
+| existing ML model's most recent actual output — never a value computed
+| here.
+*/
+
+function ForecastPage() {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+
+  const [latestAssessment, setLatestAssessment] =
+    useState(null);
+
+  useEffect(() => {
+    const readLatestAssessment = () => {
+      try {
+        const stored = localStorage.getItem(
+          latestKey()
+        );
+
+        if (!stored) {
+          setLatestAssessment(null);
+          return;
+        }
+
+        const parsed = JSON.parse(stored);
+
+        setLatestAssessment(
+          parsed?.assessmentData && parsed?.predictionResult
+            ? parsed
+            : null
+        );
+      } catch (error) {
+        console.warn(
+          "OsteoAI forecast data could not be read:",
+          error
+        );
+        setLatestAssessment(null);
+      }
+    };
+
+    readLatestAssessment();
+
+    window.addEventListener(
+      "osteoai:assessment-updated",
+      readLatestAssessment
+    );
+    window.addEventListener("storage", readLatestAssessment);
+
+    return () => {
+      window.removeEventListener(
+        "osteoai:assessment-updated",
+        readLatestAssessment
+      );
+      window.removeEventListener(
+        "storage",
+        readLatestAssessment
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  return (
+    <>
+      <Navbar />
+
+      <Box
+        sx={{
+          minHeight: "100vh",
+          py: { xs: 3, md: 5 },
+          background:
+            "radial-gradient(1200px circle at 50% 0%, rgba(37, 99, 235, 0.06) 0%, var(--oa-surface-2) 100%)",
+        }}
+      >
+        <Container maxWidth="md">
+          <Box
+            sx={{
+              borderRadius: { xs: 3, md: 5 },
+              border: "1px solid var(--oa-border-1)",
+              bgcolor: "var(--oa-surface-glass)",
+              backdropFilter: "blur(10px)",
+              overflow: "hidden",
+              p: { xs: 2.5, sm: 4, md: 5 },
+            }}
+          >
+            <RiskForecastRecommendations
+              assessmentData={
+                latestAssessment?.assessmentData
+              }
+              predictionResult={
+                latestAssessment?.predictionResult
+              }
+              onBack={() => {
+                // Return to the exact result screen the user came from.
+                const from = state?.from;
+
+                if (from?.startsWith("/history/")) {
+                  navigate(from);
+                } else {
+                  navigate("/assessment", {
+                    state: { restoreResult: true },
+                  });
+                }
+              }}
+              onRetake={() => navigate("/assessment")}
+            />
+          </Box>
+        </Container>
+      </Box>
+    </>
+  );
+}
+
+export default ForecastPage;

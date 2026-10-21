@@ -1,0 +1,778 @@
+import { useRef, useState } from "react";
+import { useAssessment } from "../../context/AssessmentContext";
+
+import CircularProgress from "@mui/material/CircularProgress";
+import AutofillReview from "./AutofillReview";
+import { addDocument } from "../../services/documentStore";
+import { extractAssessmentDocument } from "../../services/documentExtractionService";
+import { useLanguage } from "../../context/LanguageContext";
+
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Stack,
+  Typography,
+} from "@mui/material";
+
+const ChoiceIcon = ({ type }) => {
+  if (type === "ai") {
+    return (
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M8 9.5C8 7.57 9.57 6 11.5 6H12.5C14.43 6 16 7.57 16 9.5V14.5C16 16.43 14.43 18 12.5 18H11.5C9.57 18 8 16.43 8 14.5V9.5Z"
+          stroke="currentColor"
+          strokeWidth="1.8"
+        />
+        <path d="M6 11V14M18 11V14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M10 2V6M14 2V6M10 18V22M14 18V22" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <circle cx="10.5" cy="12" r="0.8" fill="currentColor" />
+        <circle cx="13.5" cy="12" r="0.8" fill="currentColor" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M6 4.5C6 3.67 6.67 3 7.5 3H16.5C17.33 3 18 3.67 18 4.5V19.5C18 20.33 17.33 21 16.5 21H7.5C6.67 21 6 20.33 6 19.5V4.5Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      />
+      <path d="M9 8H15M9 12H15M9 16H13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+};
+
+const UploadIcon = ({ size = 30 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M12 16V4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M8 8L12 4L16 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M5 13V18.5C5 19.33 5.67 20 6.5 20H17.5C18.33 20 19 19.33 19 18.5V13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+  </svg>
+);
+
+const ArrowIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M5 12H18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M13 6L19 12L13 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const BackIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M19 12H6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M11 6L5 12L11 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const FileIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path
+      d="M7 3.5H13.5L18 8V20.5H7C5.9 20.5 5 19.6 5 18.5V5.5C5 4.4 5.9 3.5 7 3.5Z"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinejoin="round"
+    />
+    <path d="M13 3.5V8.5H18" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+    <path d="M8 12H15M8 15.5H13" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+  </svg>
+);
+
+const RemoveIcon = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M6 7H18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    <path d="M9 7V5H15V7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M8 7L8.7 19H15.3L16 7" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+    <path d="M10.5 10.5V16M13.5 10.5V16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+  </svg>
+);
+
+function ChoiceCard({ iconType, title, description, eyebrow, actionLabel, onClick, muted = false }) {
+  return (
+    <Card
+      elevation={0}
+      sx={{
+        height: "100%",
+        borderRadius: 4,
+        border: muted ? "1px dashed var(--oa-border-4)" : "1px solid var(--oa-border-brand-soft)",
+        bgcolor: muted ? "var(--oa-surface-2)" : "var(--oa-surface)",
+        transition: "transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease",
+        "&:hover": muted
+          ? undefined
+          : {
+              transform: "translateY(-3px)",
+              borderColor: "var(--oa-brand-200)",
+              boxShadow: "0 16px 34px rgba(37,99,235,0.10)",
+            },
+      }}
+    >
+      <CardContent sx={{ p: { xs: 2.5, md: 3.25 } }}>
+        <Stack spacing={2.3} sx={{ height: "100%" }}>
+          <Box
+            sx={{
+              width: 54,
+              height: 54,
+              borderRadius: 3,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: muted ? "var(--oa-text-500)" : "var(--oa-brand)",
+              bgcolor: muted ? "var(--oa-surface-3)" : "var(--oa-brand-soft)",
+            }}
+          >
+            <ChoiceIcon type={iconType} />
+          </Box>
+
+          <Box>
+            <Typography
+              variant="overline"
+              sx={{
+                color: muted ? "var(--oa-text-400)" : "var(--oa-brand)",
+                fontWeight: 800,
+                letterSpacing: "0.08em",
+              }}
+            >
+              {eyebrow}
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                mt: 0.35,
+                fontWeight: 800,
+                color: "var(--oa-text-900)",
+              }}
+            >
+              {title}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                mt: 0.8,
+                color: "var(--oa-text-500)",
+                lineHeight: 1.7,
+              }}
+            >
+              {description}
+            </Typography>
+          </Box>
+
+          <Box sx={{ mt: "auto" }}>
+            <Button
+              fullWidth
+              variant={muted ? "outlined" : "contained"}
+              disabled={muted}
+              onClick={onClick}
+              endIcon={!muted ? <ArrowIcon /> : undefined}
+              sx={{
+                py: 1.15,
+                borderRadius: 2.5,
+                textTransform: "none",
+                fontWeight: 700,
+              }}
+            >
+              {actionLabel}
+            </Button>
+          </Box>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+}
+
+const formatFileSize = (bytes) => {
+  if (!Number.isFinite(bytes) || bytes <= 0) {
+    return "0 KB";
+  }
+
+  if (bytes < 1024 * 1024) {
+    return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  }
+
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+};
+
+function AssessmentEntryChoice({ mode = "choice", onSelfFill, onAIAutofill, onBack }) {
+  const { t } = useLanguage();
+  const { updatePersonal, updateLifestyle, updateMedicalHistory } = useAssessment();
+  const fileInputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [fileMessage, setFileMessage] = useState("");
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [extractionResult, setExtractionResult] = useState(null);
+
+  if (mode === "ai") {
+    const handleFileChange = (event) => {
+      const file = event.target.files?.[0] || null;
+      setFileMessage("");
+
+      if (!file) {
+        return;
+      }
+
+      setSelectedFile(file);
+      event.target.value = "";
+    };
+
+    const handleRemoveFile = () => {
+      setSelectedFile(null);
+      setFileMessage("");
+      setExtractionResult(null);
+    };
+
+    const handleConfirmAutofill = () => {
+      const extracted = extractionResult?.assessment_data;
+
+      if (!extracted) {
+        setFileMessage(
+          t("assessment.aiEntry.noDataReturned")
+        );
+        return;
+      }
+
+      // Remember the document the user accepted, so the dashboard can
+      // list it and the Agent can answer questions about it later.
+      addDocument(extractionResult, selectedFile?.name);
+
+      try {
+        // The document extractor stores model-friendly binary values as
+        // "1" / "0", while the assessment cards use "Yes" / "No".
+        // Normalize those values here at the AI -> form boundary so the
+        // existing Lifestyle and Medical forms can show the correct
+        // selected card without changing their working UI.
+        const binaryKeys = new Set([
+          "smoked100Cigarettes",
+          "alcoholEver",
+          "vigorousWorkActivity",
+          "moderateWorkActivity",
+          "walkOrBicycle",
+          "vigorousRecreation",
+          "moderateRecreation",
+          "otherBoneFractureAfter20",
+          "longTermSteroidUse",
+          "parentOsteoporosisHistory",
+          "motherHipFracture",
+          "fatherHipFracture",
+        ]);
+
+        const normalizeBinaryChoice = (value, fieldValue) => {
+          const candidates = [fieldValue, value];
+
+          for (const candidate of candidates) {
+            if (candidate === null || candidate === undefined) {
+              continue;
+            }
+
+            const normalized = String(candidate).trim().toLowerCase();
+
+            if (["yes", "y", "true", "1"].includes(normalized)) {
+              return "Yes";
+            }
+
+            if (["no", "n", "false", "0"].includes(normalized)) {
+              return "No";
+            }
+          }
+
+          return null;
+        };
+
+        const safeSection = (section = {}, fields = []) =>
+          fields.reduce((approved, field) => {
+            const status = field?.status;
+
+            if (
+              status === "manual_mapping_required" ||
+              status === "reference_only"
+            ) {
+              return approved;
+            }
+
+            const key = field?.key;
+
+            if (!key || !Object.prototype.hasOwnProperty.call(section, key)) {
+              return approved;
+            }
+
+            const rawValue = section[key];
+
+            if (
+              rawValue === null ||
+              rawValue === undefined ||
+              String(rawValue).trim() === ""
+            ) {
+              return approved;
+            }
+
+            if (binaryKeys.has(key)) {
+              const binaryValue = normalizeBinaryChoice(rawValue, field?.value);
+
+              // Never insert an ambiguous binary value. The user can choose
+              // it manually in the assessment form instead.
+              if (binaryValue !== null) {
+                approved[key] = binaryValue;
+              }
+
+              return approved;
+            }
+
+            approved[key] = rawValue;
+            return approved;
+          }, {});
+
+        const fields = Array.isArray(extractionResult?.fields)
+          ? extractionResult.fields
+          : [];
+
+        const personalFields = fields.filter(
+          (field) => field.section === "personal"
+        );
+        const lifestyleFields = fields.filter(
+          (field) => field.section === "lifestyle"
+        );
+        const medicalFields = fields.filter(
+          (field) => field.section === "medical"
+        );
+
+        const personal = safeSection(
+          extracted.personal,
+          personalFields
+        );
+        const lifestyle = safeSection(
+          extracted.lifestyle,
+          lifestyleFields
+        );
+        const medicalHistory = safeSection(
+          extracted.medicalHistory,
+          medicalFields
+        );
+
+        if (
+          Object.keys(personal).length > 0 &&
+          typeof updatePersonal === "function"
+        ) {
+          updatePersonal(personal);
+        }
+
+        if (
+          Object.keys(lifestyle).length > 0 &&
+          typeof updateLifestyle === "function"
+        ) {
+          updateLifestyle(lifestyle);
+        }
+
+        if (
+          Object.keys(medicalHistory).length > 0 &&
+          typeof updateMedicalHistory === "function"
+        ) {
+          updateMedicalHistory(medicalHistory);
+        }
+
+        onSelfFill?.();
+      } catch (error) {
+        console.error(
+          "OsteoAI autofill confirmation failed:",
+          error
+        );
+
+        setFileMessage(
+          t("assessment.aiEntry.confirmationFailed")
+        );
+      }
+    };
+
+    const handleSelectDocument = () => {
+      setFileMessage("");
+      fileInputRef.current?.click();
+    };
+
+    const handleAnalyze = async () => {
+      if (!selectedFile) {
+        setFileMessage(t("assessment.aiEntry.pleaseChooseDocument"));
+        return;
+      }
+
+      setFileMessage("");
+      setExtractionResult(null);
+      setIsAnalyzing(true);
+
+      try {
+        const result = await extractAssessmentDocument(selectedFile);
+        setExtractionResult(result);
+      } catch (error) {
+        console.error(
+          "OsteoAI document extraction failed:",
+          error
+        );
+        setFileMessage(
+          error?.message ||
+            t("assessment.aiEntry.extractionFailed")
+        );
+      } finally {
+        setIsAnalyzing(false);
+      }
+    };
+
+    if (extractionResult) {
+      return (
+        <AutofillReview
+          result={extractionResult}
+          fileName={selectedFile?.name || "selected document"}
+          onBack={() => setExtractionResult(null)}
+          onContinue={handleConfirmAutofill}
+        />
+      );
+    }
+
+    return (
+      <Box>
+        <Box sx={{ textAlign: "center", mb: { xs: 3, md: 4 } }}>
+          <Chip
+            label={t("assessment.aiEntry.badge")}
+            size="small"
+            sx={{
+              mb: 1.2,
+              fontWeight: 800,
+              color: "var(--oa-brand-strong)",
+              bgcolor: "var(--oa-brand-soft)",
+            }}
+          />
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 800,
+              letterSpacing: "-0.02em",
+              fontSize: { xs: "2rem", sm: "2.4rem", md: "2.8rem" },
+            }}
+          >
+            {t("assessment.aiEntry.title")}
+          </Typography>
+          <Typography
+            color="text.secondary"
+            sx={{ mt: 1, lineHeight: 1.7, maxWidth: 700, mx: "auto" }}
+          >
+            {t("assessment.aiEntry.subtitle")}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            border: "1.5px dashed #93C5FD",
+            borderRadius: 4,
+            bgcolor: "var(--oa-surface-2)",
+            p: { xs: 3, md: 4 },
+            textAlign: "center",
+          }}
+        >
+          <input
+            ref={fileInputRef}
+            type="file"
+            hidden
+            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+            onChange={handleFileChange}
+          />
+
+          {!selectedFile ? (
+            <>
+              <Box
+                sx={{
+                  mx: "auto",
+                  width: 64,
+                  height: 64,
+                  borderRadius: 3,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "var(--oa-brand)",
+                  bgcolor: "var(--oa-brand-soft)",
+                }}
+              >
+                <UploadIcon />
+              </Box>
+
+              <Typography sx={{ mt: 2, fontWeight: 800, color: "var(--oa-text-900)" }}>
+                {t("assessment.aiEntry.chooseDocument")}
+              </Typography>
+              <Typography variant="body2" sx={{ mt: 0.6, color: "var(--oa-text-500)" }}>
+                {t("assessment.aiEntry.fileTypes")}
+              </Typography>
+
+              <Button
+                variant="contained"
+                onClick={handleSelectDocument}
+                sx={{
+                  mt: 2.2,
+                  px: 2.6,
+                  py: 1.15,
+                  borderRadius: 2.5,
+                  textTransform: "none",
+                  fontWeight: 700,
+                }}
+              >
+                {t("assessment.aiEntry.selectDocument")}
+              </Button>
+            </>
+          ) : (
+            <Box sx={{ textAlign: "left" }}>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  mb: 1.3,
+                  color: "var(--oa-text-600)",
+                  fontWeight: 800,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                }}
+              >
+                {t("assessment.aiEntry.selectedDocument")}
+              </Typography>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.5,
+                  p: 1.7,
+                  borderRadius: 3,
+                  bgcolor: "var(--oa-surface)",
+                  border: "1px solid var(--oa-border-brand-soft)",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 44,
+                    height: 44,
+                    flexShrink: 0,
+                    borderRadius: 2.5,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--oa-brand)",
+                    bgcolor: "var(--oa-brand-soft)",
+                  }}
+                >
+                  <FileIcon />
+                </Box>
+
+                <Box sx={{ minWidth: 0, flex: 1 }}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontWeight: 800,
+                      color: "var(--oa-text-900)",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                    title={selectedFile.name}
+                  >
+                    {selectedFile.name}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: "var(--oa-text-500)" }}>
+                    {formatFileSize(selectedFile.size)}
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={1.2} sx={{ mt: 1.6 }}>
+                <Button
+                  variant="outlined"
+                  onClick={handleSelectDocument}
+                  startIcon={<UploadIcon size={18} />}
+                  sx={{
+                    flex: 1,
+                    py: 1.05,
+                    borderRadius: 2.5,
+                    textTransform: "none",
+                    fontWeight: 700,
+                  }}
+                >
+                  {t("assessment.aiEntry.changeDocument")}
+                </Button>
+                <Button
+                  variant="text"
+                  onClick={handleRemoveFile}
+                  startIcon={<RemoveIcon />}
+                  sx={{
+                    minWidth: { sm: 135 },
+                    py: 1.05,
+                    borderRadius: 2.5,
+                    textTransform: "none",
+                    fontWeight: 700,
+                    color: "var(--oa-text-500)",
+                    "&:hover": {
+                      color: "var(--oa-danger)",
+                      bgcolor: "var(--oa-danger-soft)",
+                    },
+                  }}
+                >
+                  {t("assessment.aiEntry.remove")}
+                </Button>
+              </Stack>
+
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={handleAnalyze}
+                disabled={isAnalyzing}
+                startIcon={
+                  isAnalyzing ? (
+                    <CircularProgress size={18} color="inherit" />
+                  ) : (
+                    <UploadIcon size={18} />
+                  )
+                }
+                sx={{
+                  mt: 1.6,
+                  py: 1.15,
+                  borderRadius: 2.5,
+                  textTransform: "none",
+                  fontWeight: 800,
+                }}
+              >
+                {isAnalyzing
+                  ? t("assessment.aiEntry.analyzing")
+                  : t("assessment.aiEntry.analyzeDocument")}
+              </Button>
+            </Box>
+          )}
+        </Box>
+
+        <Alert severity="info" icon={false} sx={{ mt: 2.2, borderRadius: 3 }}>
+          <Typography variant="body2" sx={{ lineHeight: 1.7 }}>
+            {t("assessment.aiEntry.infoNote")}
+          </Typography>
+        </Alert>
+
+        {fileMessage && (
+          <Alert
+            severity="info"
+            icon={false}
+            sx={{
+              mt: 1.4,
+              borderRadius: 3,
+            }}
+          >
+            <Typography variant="body2" sx={{ lineHeight: 1.65 }}>
+              {fileMessage}
+            </Typography>
+          </Alert>
+        )}
+
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={1.5}
+          sx={{ mt: 3 }}
+        >
+          <Button
+            variant="outlined"
+            startIcon={<BackIcon />}
+            onClick={onBack}
+            sx={{
+              flex: 1,
+              py: 1.15,
+              borderRadius: 2.5,
+              textTransform: "none",
+              fontWeight: 700,
+            }}
+          >
+            {t("common.back")}
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={onSelfFill}
+            sx={{
+              flex: 1,
+              py: 1.15,
+              borderRadius: 2.5,
+              textTransform: "none",
+              fontWeight: 700,
+            }}
+          >
+            {t("assessment.aiEntry.continueSelfFill")}
+          </Button>
+        </Stack>
+      </Box>
+    );
+  }
+
+  return (
+    <Box>
+      <Box sx={{ textAlign: "center", mb: { xs: 3.5, md: 4.5 } }}>
+        <Chip
+          label={t("assessment.entryChoice.badge")}
+          size="small"
+          sx={{
+            mb: 1.2,
+            fontWeight: 800,
+            color: "var(--oa-brand-strong)",
+            bgcolor: "var(--oa-brand-soft)",
+          }}
+        />
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 800,
+            letterSpacing: "-0.02em",
+            fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+          }}
+        >
+          {t("assessment.entryChoice.title")}
+        </Typography>
+        <Typography
+          color="text.secondary"
+          sx={{ mt: 1, lineHeight: 1.7, maxWidth: 700, mx: "auto" }}
+        >
+          {t("assessment.entryChoice.subtitle")}
+        </Typography>
+      </Box>
+
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={2.2}
+        sx={{ alignItems: "stretch" }}
+      >
+        <Box sx={{ flex: 1 }}>
+          <ChoiceCard
+            iconType="ai"
+            eyebrow={t("assessment.entryChoice.aiEyebrow")}
+            title={t("assessment.entryChoice.aiTitle")}
+            description={t("assessment.entryChoice.aiDesc")}
+            actionLabel={t("assessment.entryChoice.aiAction")}
+            onClick={onAIAutofill}
+          />
+        </Box>
+
+        <Box sx={{ flex: 1 }}>
+          <ChoiceCard
+            iconType="self"
+            eyebrow={t("assessment.entryChoice.selfEyebrow")}
+            title={t("assessment.entryChoice.selfTitle")}
+            description={t("assessment.entryChoice.selfDesc")}
+            actionLabel={t("assessment.entryChoice.selfAction")}
+            onClick={onSelfFill}
+          />
+        </Box>
+      </Stack>
+
+      <Box
+        sx={{
+          mt: 2.5,
+          p: 2,
+          borderRadius: 3,
+          bgcolor: "var(--oa-surface-2)",
+          border: "1px solid var(--oa-border-1)",
+        }}
+      >
+        <Typography variant="caption" sx={{ color: "var(--oa-text-500)", lineHeight: 1.7 }}>
+          {t("assessment.entryChoice.note")}
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+export default AssessmentEntryChoice;

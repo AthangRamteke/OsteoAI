@@ -1,0 +1,292 @@
+/*
+ * OsteoAI colour tokens.
+ *
+ * Light values are exactly the colours the app used before dark mode,
+ * so switching back to light reproduces the original design.
+ * Dark mode re-points the same tokens, which is why components do not
+ * need to know which theme is active.
+ */
+
+:root {
+  /* Text */
+  --oa-text-900: #0f172a;
+  --oa-text-700: #334155;
+  --oa-text-600: #475569;
+  --oa-text-500: #64748b;
+  --oa-text-400: #94a3b8;
+
+  /* Surfaces */
+  --oa-surface: #ffffff;
+  --oa-surface-2: #f8fafc;
+  --oa-surface-3: #f1f5f9;
+  --oa-surface-inset: #f8fafc;
+
+  /* Borders */
+  --oa-border-1: #e2e8f0;
+  --oa-border-2: #edf2f7;
+  --oa-border-3: #e7edf5;
+  --oa-border-4: #cbd5e1;
+  --oa-border-5: #f1f5f9;
+  --oa-border-brand: #bfdbfe;
+  --oa-border-brand-soft: #dbeafe;
+  --oa-border-sky: #bae6fd;
+
+  /* Brand */
+  --oa-brand: #2563eb;
+  --oa-brand-strong: #1d4ed8;
+  --oa-brand-solid: #2563eb;
+  --oa-brand-solid-strong: #1d4ed8;
+  --oa-brand-soft: #eef4ff;
+  --oa-brand-soft-2: #eff6ff;
+  --oa-brand-200: #93c5fd;
+  --oa-teal: #14b8a6;
+
+  /* Status */
+  --oa-danger: #dc2626;
+  --oa-danger-strong: #b91c1c;
+  --oa-danger-deep: #7f1d1d;
+  --oa-danger-soft: #fef2f2;
+  --oa-danger-border: #fecaca;
+  --oa-success: #16a34a;
+  --oa-success-bright: #22c55e;
+  --oa-success-strong: #15803d;
+  --oa-success-deep: #166534;
+  --oa-success-soft: #f0fdf4;
+  --oa-success-soft-2: #dcfce7;
+  --oa-success-border: #bbf7d0;
+  --oa-warn: #f59e0b;
+  --oa-warn-strong: #d97706;
+  --oa-warn-deep: #b45309;
+  --oa-warn-deeper: #92400e;
+  --oa-warn-soft: #fef3c7;
+  --oa-warn-soft-2: #fffbeb;
+  --oa-info-deep: #075985;
+  --oa-info-soft: #f0f9ff;
+  --oa-violet: #7c3aed;
+  --oa-violet-soft: #f3eeff;
+  --oa-cyan: #0891b2;
+  --oa-sky: #38bdf8;
+  --oa-sky-strong: #0284c7;
+  --oa-indigo: #6366f1;
+  --oa-indigo-soft: #c7d2fe;
+  --oa-warn-border: #fde68a;
+
+  /* Page canvas and decorative layers */
+  --oa-ink: #0f172a;
+  --oa-canvas: #f6f8fc;
+  --oa-canvas-glow-1: #eaf2ff;
+  --oa-canvas-glow-2: #e6fbf7;
+  --oa-header-gradient: linear-gradient(120deg, #ffffff 0%, #f4f8ff 55%, #effbf8 100%);
+  --oa-shell-gradient: linear-gradient(135deg, #eff6ff 0%, #f0fdfa 55%, #f8fafc 100%);
+  --oa-brand-gradient: linear-gradient(135deg, #2563eb, #14b8a6);
+
+  /* Elevation */
+  --oa-shadow-card: 0 10px 30px rgba(15, 23, 42, 0.05);
+  --oa-shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.04);
+  --oa-shadow-raised: 0 12px 32px rgba(37, 99, 235, 0.07);
+
+  /* Glass: plain surfaces in light mode, frosted in dark */
+  --oa-glass-blur: none;
+  --oa-glass-border: var(--oa-border-1);
+  --oa-surface-glass: rgba(255, 255, 255, 0.92);
+  --oa-surface-glass-strong: rgba(255, 255, 255, 0.98);
+}
+
+:root[data-theme="dark"] {
+  /* Text */
+  --oa-text-900: #f1f5f9;
+  --oa-text-700: #dbe3ee;
+  --oa-text-600: #c3cedd;
+  --oa-text-500: #9aa8bd;
+  --oa-text-400: #7c8aa0;
+
+  /* Surfaces: translucent for the frosted-glass layering */
+  --oa-surface: rgba(24, 33, 51, 0.72);
+  --oa-surface-2: rgba(16, 24, 39, 0.66);
+  --oa-surface-3: rgba(32, 43, 64, 0.72);
+  --oa-surface-inset: rgba(10, 16, 28, 0.55);
+
+  /* Borders: light edges, which is what sells depth on dark glass */
+  --oa-border-1: rgba(148, 170, 205, 0.18);
+  --oa-border-2: rgba(148, 170, 205, 0.13);
+  --oa-border-3: rgba(148, 170, 205, 0.15);
+  --oa-border-4: rgba(148, 170, 205, 0.26);
+  --oa-border-5: rgba(148, 170, 205, 0.1);
+  --oa-border-brand: rgba(96, 165, 250, 0.42);
+  --oa-border-brand-soft: rgba(96, 165, 250, 0.28);
+  --oa-border-sky: rgba(56, 189, 248, 0.35);
+
+  /* Brand: lifted so it stays readable on a dark canvas */
+  --oa-brand: #60a5fa;
+  --oa-brand-strong: #3b82f6;
+  --oa-brand-solid: #1d4ed8;
+  --oa-brand-solid-strong: #1e40af;
+  --oa-brand-soft: rgba(96, 165, 250, 0.16);
+  --oa-brand-soft-2: rgba(96, 165, 250, 0.12);
+  --oa-brand-200: #93c5fd;
+  --oa-teal: #2dd4bf;
+
+  /* Status */
+  --oa-danger: #f87171;
+  --oa-danger-strong: #fca5a5;
+  --oa-danger-deep: #fecaca;
+  --oa-danger-soft: rgba(248, 113, 113, 0.14);
+  --oa-danger-border: rgba(248, 113, 113, 0.32);
+  --oa-success: #4ade80;
+  --oa-success-bright: #4ade80;
+  --oa-success-strong: #86efac;
+  --oa-success-deep: #bbf7d0;
+  --oa-success-soft: rgba(74, 222, 128, 0.14);
+  --oa-success-soft-2: rgba(74, 222, 128, 0.18);
+  --oa-success-border: rgba(74, 222, 128, 0.32);
+  --oa-warn: #fbbf24;
+  --oa-warn-strong: #fcd34d;
+  --oa-warn-deep: #fde68a;
+  --oa-warn-deeper: #fcd34d;
+  --oa-warn-soft: rgba(251, 191, 36, 0.16);
+  --oa-warn-soft-2: rgba(251, 191, 36, 0.1);
+  --oa-info-deep: #7dd3fc;
+  --oa-info-soft: rgba(56, 189, 248, 0.12);
+  --oa-violet: #a78bfa;
+  --oa-violet-soft: rgba(167, 139, 250, 0.16);
+  --oa-cyan: #22d3ee;
+  --oa-sky: #38bdf8;
+  --oa-sky-strong: #7dd3fc;
+  --oa-indigo: #818cf8;
+  --oa-indigo-soft: rgba(129, 140, 248, 0.3);
+  --oa-warn-border: rgba(251, 191, 36, 0.38);
+
+  /* Canvas */
+  --oa-ink: #060b16;
+  --oa-canvas: #070b14;
+  --oa-canvas-glow-1: rgba(37, 99, 235, 0.22);
+  --oa-canvas-glow-2: rgba(20, 184, 166, 0.16);
+  --oa-header-gradient: linear-gradient(
+    120deg,
+    rgba(30, 41, 66, 0.78) 0%,
+    rgba(20, 30, 52, 0.72) 55%,
+    rgba(16, 36, 46, 0.72) 100%
+  );
+  --oa-shell-gradient: linear-gradient(
+    135deg,
+    rgba(23, 37, 66, 0.75) 0%,
+    rgba(16, 32, 45, 0.7) 55%,
+    rgba(10, 16, 28, 0.7) 100%
+  );
+  --oa-brand-gradient: linear-gradient(135deg, #3b82f6, #14b8a6);
+
+  /* Depth: outer shadow plus a lit top edge (skeuomorphic lighting) */
+  --oa-shadow-card: 0 18px 40px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --oa-shadow-soft: 0 14px 30px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --oa-shadow-raised: 0 22px 48px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+
+  --oa-glass-blur: blur(18px) saturate(140%);
+  --oa-glass-border: rgba(255, 255, 255, 0.1);
+  --oa-surface-glass: rgba(22, 31, 48, 0.78);
+  --oa-surface-glass-strong: rgba(16, 24, 39, 0.92);
+}
+
+/* ---------------------------------------------------------
+   Page canvas
+   --------------------------------------------------------- */
+
+body {
+  background-color: var(--oa-canvas);
+}
+
+:root[data-theme="dark"] body {
+  /* Faint aurora behind the glass panels */
+  background-image:
+    radial-gradient(1200px 600px at 8% -10%, var(--oa-canvas-glow-1) 0%, transparent 60%),
+    radial-gradient(1000px 520px at 95% 0%, var(--oa-canvas-glow-2) 0%, transparent 55%);
+  background-attachment: fixed;
+}
+
+/* ---------------------------------------------------------
+   Theme transition
+   --------------------------------------------------------- */
+
+/* The old and new theme are cross-revealed by ThemeModeContext; the
+   browser default cross-fade is turned off so only the circle shows. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+/* ---------------------------------------------------------
+   Dark mode material: frosted glass with lit edges
+   --------------------------------------------------------- */
+
+:root[data-theme="dark"] .MuiPaper-root,
+:root[data-theme="dark"] .MuiCard-root,
+:root[data-theme="dark"] .MuiAccordion-root {
+  backdrop-filter: var(--oa-glass-blur);
+  -webkit-backdrop-filter: var(--oa-glass-blur);
+}
+
+:root[data-theme="dark"] .MuiAppBar-root {
+  /* The navbar is a floating pill that carries its own glass; the bar
+     behind it stays invisible so no dark strip shows across the top. */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background-color: transparent !important;
+  border-bottom: 0;
+  box-shadow: none;
+}
+
+:root[data-theme="dark"] .MuiMenu-paper,
+:root[data-theme="dark"] .MuiDialog-paper,
+:root[data-theme="dark"] .MuiPopover-paper {
+  background-color: rgba(22, 31, 48, 0.9) !important;
+  border: 1px solid var(--oa-glass-border);
+  box-shadow: var(--oa-shadow-card);
+}
+
+/* Inputs read as recessed, buttons as raised. */
+:root[data-theme="dark"] .MuiOutlinedInput-root {
+  background-color: rgba(8, 13, 24, 0.5);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+:root[data-theme="dark"] .MuiOutlinedInput-notchedOutline {
+  border-color: var(--oa-border-1);
+}
+
+:root[data-theme="dark"] .MuiButton-contained {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+:root[data-theme="dark"] .MuiAvatar-colorDefault {
+  color: #e8eefc;
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: rgba(148, 170, 205, 0.25);
+  border-radius: 99px;
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 170, 205, 0.4);
+}

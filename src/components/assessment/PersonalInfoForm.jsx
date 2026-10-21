@@ -1,13 +1,7 @@
-import { useState } from "react";
 import {
   Box,
   Typography,
   TextField,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   Grid,
   Card,
   CardContent,
@@ -15,41 +9,107 @@ import {
 
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import WarningAmberIcon from "@mui/icons-material/ReportProblem";
 import ErrorIcon from "@mui/icons-material/Error";
+import PersonIcon from "@mui/icons-material/Person";
+import WcIcon from "@mui/icons-material/Person";
+
+import { useAssessment } from "../../context/AssessmentContext";
+import SelectableCard from "../ui/SelectableCard";
+import { useLanguage } from "../../context/LanguageContext";
 
 function PersonalInfoForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    age: "",
-    gender: "",
-    height: "",
-    weight: "",
-  });
+  const { t } = useLanguage();
+
+  const {
+    assessmentData,
+    updatePersonal,
+  } = useAssessment();
+
+  const formData = assessmentData.personal;
+
+  const raceOptions = [
+    {
+      value: "1",
+      title: t("assessment.personal.raceMexicanAmerican"),
+      subtitle: t("assessment.personal.raceMexicanAmerican"),
+    },
+    {
+      value: "2",
+      title: t("assessment.personal.raceOtherHispanic"),
+      subtitle: t("assessment.personal.raceHispanicLatino"),
+    },
+    {
+      value: "3",
+      title: t("assessment.personal.raceWhite"),
+      subtitle: t("assessment.personal.raceWhiteSubtitle"),
+    },
+    {
+      value: "4",
+      title: t("assessment.personal.raceBlack"),
+      subtitle: t("assessment.personal.raceBlackSubtitle"),
+    },
+    {
+      value: "6",
+      title: t("assessment.personal.raceAsian"),
+      subtitle: t("assessment.personal.raceAsianSubtitle"),
+    },
+  ];
 
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    console.log(name, value);
-
-    setFormData((prev) => ({
-      ...prev,
+    updatePersonal({
       [name]: value,
-    }));
+    });
+  };
+
+  const handleNumericChange = (event) => {
+    const { name, value } = event.target;
+
+    if (value === "") {
+      updatePersonal({
+        [name]: "",
+      });
+      return;
+    }
+
+    if (/^\d+$/.test(value)) {
+      updatePersonal({
+        [name]: value,
+      });
+    }
+  };
+
+  const handleGenderChange = (value) => {
+    updatePersonal({
+      gender: value,
+    });
+  };
+
+  const handleRaceChange = (value) => {
+    updatePersonal({
+      raceEthnicity: value,
+    });
   };
 
   const calculateBMI = () => {
-    const heightInMeters = Number(formData.height) / 100;
+    const heightInMeters =
+      Number(formData.height) / 100;
+
     const weight = Number(formData.weight);
 
     if (!heightInMeters || !weight) {
       return "";
     }
 
-    const bmi = weight / (heightInMeters * heightInMeters);
+    const bmi =
+      weight /
+      (heightInMeters * heightInMeters);
 
     return bmi.toFixed(1);
   };
+
   const getBMICategory = () => {
     const bmi = Number(calculateBMI());
 
@@ -71,26 +131,7 @@ function PersonalInfoForm() {
 
     return "Obese";
   };
-  const getBMIRecommendation = () => {
-    const category = getBMICategory();
 
-    switch (category) {
-      case "Underweight":
-        return "Your BMI is below the healthy range. Consider consulting a healthcare professional and improving your nutrition.";
-
-      case "Healthy Weight":
-        return "Your BMI is within the healthy range. Maintain a balanced diet, regular exercise, and healthy lifestyle habits to support strong bones.";
-
-      case "Overweight":
-        return "Your BMI is above the healthy range. Regular exercise and a balanced diet may help improve your overall bone health.";
-
-      case "Obese":
-        return "Your BMI is significantly above the healthy range. Please consult a healthcare professional for personalized advice.";
-
-      default:
-        return "";
-    }
-  };
   const getBMIColor = () => {
     const category = getBMICategory();
 
@@ -111,6 +152,7 @@ function PersonalInfoForm() {
         return "text.primary";
     }
   };
+
   const getBMIIcon = () => {
     const category = getBMICategory();
 
@@ -119,23 +161,16 @@ function PersonalInfoForm() {
         return (
           <CheckCircleIcon
             color="success"
-            sx={{ fontSize: 32 }}
+            sx={{ fontSize: 30 }}
           />
         );
 
       case "Underweight":
-        return (
-          <WarningAmberIcon
-            color="warning"
-            sx={{ fontSize: 32 }}
-          />
-        );
-
       case "Overweight":
         return (
           <WarningAmberIcon
             color="warning"
-            sx={{ fontSize: 32 }}
+            sx={{ fontSize: 30 }}
           />
         );
 
@@ -143,7 +178,7 @@ function PersonalInfoForm() {
         return (
           <ErrorIcon
             color="error"
-            sx={{ fontSize: 32 }}
+            sx={{ fontSize: 30 }}
           />
         );
 
@@ -151,223 +186,383 @@ function PersonalInfoForm() {
         return null;
     }
   };
-  const getRiskLevel = () => {
-    const category = getBMICategory();
 
+  const translateBMICategory = (category) => {
     switch (category) {
-      case "Healthy Weight":
-        return "LOW";
-
       case "Underweight":
-        return "MODERATE";
-
+        return t("assessment.personal.bmiUnderweight");
+      case "Healthy Weight":
+        return t("assessment.personal.bmiHealthy");
       case "Overweight":
-        return "MODERATE";
-
+        return t("assessment.personal.bmiOverweight");
       case "Obese":
-        return "HIGH";
-
+        return t("assessment.personal.bmiObese");
       default:
         return "";
     }
   };
+
+  const numericInput = (
+    name,
+    value,
+    min,
+    max,
+    label
+  ) => (
+    <TextField
+      label={label}
+      name={name}
+      type="text"
+      value={value}
+      onChange={handleNumericChange}
+      autoComplete="new-password"
+      spellCheck={false}
+      fullWidth
+      slotProps={{
+        htmlInput: {
+          inputMode: "numeric",
+          pattern: "[0-9]*",
+          min,
+          max,
+        },
+      }}
+    />
+  );
+
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 1,
+        gap: 4,
       }}
     >
-      <Typography
-        variant="h5"
-        fontWeight="bold"
-      >
-        Personal Information
-      </Typography>
-
-      <Typography
-        variant="body1"
-        color="text.secondary"
-      >
-        Tell us about yourself before we assess your bone health.
-      </Typography>
-
-      <TextField
-        label="Full Name"
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-      />
-
-      <TextField
-        label="Age"
-        name="age"
-        type="number"
-        value={formData.age}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-      />
-
-      <FormControl margin="normal">
-        <FormLabel>Gender</FormLabel>
-
-        <RadioGroup
-          row
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
+      {/* Header */}
+      <Box>
+        <Typography
+          variant="h5"
+          fontWeight={800}
         >
-          <FormControlLabel
-            value="Male"
-            control={<Radio />}
-            label="Male"
-          />
+          {t("assessment.personal.title")}
+        </Typography>
 
-          <FormControlLabel
-            value="Female"
-            control={<Radio />}
-            label="Female"
-          />
+        <Typography
+          color="text.secondary"
+          sx={{
+            mt: 1,
+            lineHeight: 1.7,
+          }}
+        >
+          {t("assessment.personal.subtitle")}
+        </Typography>
+      </Box>
 
-          <FormControlLabel
-            value="Other"
-            control={<Radio />}
-            label="Other"
-          />
-        </RadioGroup>
-      </FormControl>
-
+      {/* Name + Age */}
       <Grid
         container
         spacing={2}
       >
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, sm: 8 }}>
           <TextField
-            label="Height (cm)"
-            name="height"
-            type="number"
-            value={formData.height}
+            label={t("assessment.personal.fullName")}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
-            onWheel={(event) => event.target.blur()}
+            autoComplete="off"
+            spellCheck={false}
+            autoCorrect="off"
             fullWidth
           />
         </Grid>
 
-        <Grid size={{ xs: 12, md: 6 }}>
-          <TextField
-            label="Weight (kg)"
-            name="weight"
-            type="number"
-            value={formData.weight}
-            onChange={handleChange}
-            onWheel={(event) => event.target.blur()}
-            fullWidth
-          />
+        <Grid size={{ xs: 12, sm: 4 }}>
+          {numericInput(
+            "age",
+            formData.age,
+            18,
+            120,
+            t("assessment.personal.age")
+          )}
         </Grid>
       </Grid>
 
+      {/* Gender */}
+      <Box>
+        <Typography
+          variant="h6"
+          fontWeight={700}
+          sx={{ mb: 1 }}
+        >
+          {t("assessment.personal.genderTitle")}
+        </Typography>
+
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ mb: 2 }}
+        >
+          {t("assessment.personal.genderSubtitle")}
+        </Typography>
+
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <SelectableCard
+              selected={
+                formData.gender === "Male"
+              }
+              onClick={() =>
+                handleGenderChange("Male")
+              }
+              icon={<PersonIcon />}
+              title={t("assessment.personal.male")}
+              subtitle={t("assessment.personal.male")}
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <SelectableCard
+              selected={
+                formData.gender === "Female"
+              }
+              onClick={() =>
+                handleGenderChange("Female")
+              }
+              icon={<PersonIcon />}
+              title={t("assessment.personal.female")}
+              subtitle={t("assessment.personal.female")}
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <SelectableCard
+              selected={
+                formData.gender === "Other"
+              }
+              onClick={() =>
+                handleGenderChange("Other")
+              }
+              icon={<WcIcon />}
+              title={t("assessment.personal.other")}
+              subtitle={t("assessment.personal.otherSubtitle")}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+
+      {/* Race / Ethnicity */}
+      <Box>
+        <Typography
+          variant="h6"
+          fontWeight={700}
+          sx={{ mb: 1 }}
+        >
+          {t("assessment.personal.raceTitle")}
+        </Typography>
+
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ mb: 2 }}
+        >
+          {t("assessment.personal.raceSubtitle")}
+        </Typography>
+
+        <Grid
+          container
+          spacing={2}
+        >
+          {raceOptions.map((option) => (
+            <Grid
+              key={option.value}
+              size={{ xs: 12, sm: 6 }}
+            >
+              <SelectableCard
+                selected={
+                  formData.raceEthnicity ===
+                  option.value
+                }
+                onClick={() =>
+                  handleRaceChange(
+                    option.value
+                  )
+                }
+                icon={<WcIcon />}
+                title={option.title}
+                subtitle={option.subtitle}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+
+      {/* Height + Weight */}
+      <Grid
+        container
+        spacing={2}
+      >
+        <Grid size={{ xs: 12, sm: 6 }}>
+          {numericInput(
+            "height",
+            formData.height,
+            50,
+            250,
+            t("assessment.personal.height")
+          )}
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6 }}>
+          {numericInput(
+            "weight",
+            formData.weight,
+            20,
+            300,
+            t("assessment.personal.weight")
+          )}
+        </Grid>
+      </Grid>
+
+      {/* Waist + Hip */}
+      <Grid
+        container
+        spacing={2}
+      >
+        <Grid size={{ xs: 12, sm: 6 }}>
+          {numericInput(
+            "waist",
+            formData.waist,
+            40,
+            200,
+            t("assessment.personal.waist")
+          )}
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6 }}>
+          {numericInput(
+            "hip",
+            formData.hip,
+            40,
+            200,
+            t("assessment.personal.hip")
+          )}
+        </Grid>
+      </Grid>
+
+      {/* BMI */}
       <Card
         elevation={0}
         sx={{
-          mt: 4,
-          borderRadius: 3,
-          border: "1px solid #E2E8F0",
-          bgcolor: "#F8FAFC",
+          borderRadius: 4,
+          border: "1px solid var(--oa-border-1)",
+          bgcolor: "var(--oa-surface-2)",
         }}
       >
-        <CardContent>
+        <CardContent
+          sx={{
+            p: { xs: 2.5, md: 3 },
+          }}
+        >
           <Box
             sx={{
               display: "flex",
-              justifyContent: "center",
               alignItems: "center",
               gap: 1,
+              justifyContent: "center",
             }}
-
           >
             <HealthAndSafetyIcon
               color="primary"
-              sx={{ fontSize: 32 }}
+              sx={{ fontSize: 30 }}
             />
 
             <Typography
-              variant="h5"
-              fontWeight={700}
+              variant="h6"
+              fontWeight={800}
             >
-              Bone Health Summary
+              {t("assessment.personal.bmiTitle")}
             </Typography>
           </Box>
 
           <Typography
             variant="h2"
             align="center"
-            fontWeight={700}
+            fontWeight={800}
             color="primary"
-            sx={{ mt: 2 }}
+            sx={{
+              mt: 2,
+              letterSpacing: "-0.03em",
+            }}
           >
-            {calculateBMI()}
-
+            {calculateBMI() || "—"}
           </Typography>
+
           <Box
             sx={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               gap: 1,
-              mt: 2,
+              mt: 1.5,
             }}
           >
             {getBMIIcon()}
 
             <Typography
-              variant="h5"
-              fontWeight={600}
+              variant="h6"
+              fontWeight={700}
               sx={{
                 color: getBMIColor(),
               }}
             >
-              {getBMICategory()}
+              {translateBMICategory(getBMICategory()) ||
+                t("assessment.personal.bmiWaiting")}
             </Typography>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              mt: 3,
-              mb: 2,
-            }}
-          >
-            <Typography
-              variant="body2"
-              sx={{
-                px: 2,
-                py: 0.8,
-                borderRadius: 5,
-                bgcolor: "#E8F5E9",
-                color: "success.main",
-                fontWeight: 700,
-              }}
-            >
-              Risk Level: {getRiskLevel()}
-            </Typography>
-          </Box>
+
           <Typography
-            variant="body1"
             align="center"
             color="text.secondary"
             sx={{
               mt: 2,
-              maxWidth: 500,
+              maxWidth: 560,
               mx: "auto",
-              lineHeight: 1.8,
+              lineHeight: 1.7,
             }}
           >
-            {getBMIRecommendation()}
+            {t("assessment.personal.bmiNote")}
           </Typography>
+
+          <Box
+            sx={{
+              mt: 2.5,
+              p: 2,
+              borderRadius: 3,
+              bgcolor: "var(--oa-surface)",
+              border: "1px solid var(--oa-border-1)",
+              textAlign: "center",
+            }}
+          >
+            <Typography
+              variant="body2"
+              fontWeight={700}
+              color="text.primary"
+            >
+              {t("assessment.personal.completeNoteTitle")}
+            </Typography>
+
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                mt: 0.5,
+                lineHeight: 1.6,
+              }}
+            >
+              {t("assessment.personal.completeNoteDesc")}
+            </Typography>
+          </Box>
         </CardContent>
       </Card>
     </Box>

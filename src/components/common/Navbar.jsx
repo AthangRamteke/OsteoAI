@@ -1,41 +1,815 @@
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 
-function Navbar() {
-  return (
-    <AppBar
-      position="static"
-      elevation={0}
-      color="transparent"
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  useMediaQuery,
+  useTheme,
+  Divider,
+} from "@mui/material";
+
+import { useNavigate } from "react-router-dom";
+
+import { useLanguage } from "../../context/LanguageContext";
+import { useAuth } from "../../context/authContext";
+import ThemeToggle from "./ThemeToggle";
+
+/*
+|--------------------------------------------------------------------------
+| OsteoAI Brand Mark
+|--------------------------------------------------------------------------
+*/
+
+const OsteoLogo = ({ size = 40 }) => (
+  <Box
+    sx={{
+      width: size,
+      height: size,
+      borderRadius: 2.5,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      bgcolor: "var(--oa-brand-solid)",
+      color: "white",
+      boxShadow:
+        "0 5px 16px rgba(37, 99, 235, 0.20)",
+      flexShrink: 0,
+    }}
+  >
+    <svg
+      width={size * 0.56}
+      height={size * 0.56}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
     >
-      <Toolbar
+      {/* Shield */}
+      <path
+        d="M12 2.8L19 5.8V11.5C19 16.1 16.1 19.5 12 21.2C7.9 19.5 5 16.1 5 11.5V5.8L12 2.8Z"
+        fill="white"
+        fillOpacity="0.98"
+      />
+
+      {/* Medical cross */}
+      <path
+        d="M10.1 7.6H13.9V10.1H16.4V13.9H13.9V16.4H10.1V13.9H7.6V10.1H10.1V7.6Z"
+        fill="var(--oa-brand)"
+      />
+    </svg>
+  </Box>
+);
+
+const MenuSvg = ({ open = false }) => (
+  <svg
+    width="23"
+    height="23"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    {open ? (
+      <>
+        <path
+          d="M6 6L18 18"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+        <path
+          d="M18 6L6 18"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </>
+    ) : (
+      <>
+        <path
+          d="M4 7H20"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+        <path
+          d="M4 12H20"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+        <path
+          d="M4 17H20"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </>
+    )}
+  </svg>
+);
+
+function Navbar({ sidebarOpen = false }) {
+  const navigate = useNavigate();
+  const { t } = useLanguage();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(
+    theme.breakpoints.down("md")
+  );
+
+  const [drawerOpen, setDrawerOpen] =
+    useState(false);
+
+  const [navbarVisible, setNavbarVisible] =
+    useState(true);
+
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY <= 20) {
+        setNavbarVisible(true);
+        lastScrollY.current =
+          currentScrollY;
+        return;
+      }
+
+      if (
+        currentScrollY >
+        lastScrollY.current
+      ) {
+        setNavbarVisible(false);
+      } else {
+        setNavbarVisible(true);
+      }
+
+      lastScrollY.current =
+        currentScrollY;
+    };
+
+    window.addEventListener(
+      "scroll",
+      handleScroll,
+      {
+        passive: true,
+      }
+    );
+
+    return () => {
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
+    };
+  }, []);
+
+  const scrollToSection = (sectionId) => {
+    const section =
+      document.getElementById(sectionId);
+
+    if (!section) return;
+
+    const heading =
+      section.querySelector(
+        "h1, h2, h3"
+      );
+
+    const target =
+      heading || section;
+
+    const navbarOffset = 92;
+
+    const targetPosition =
+      target.getBoundingClientRect().top +
+      window.scrollY -
+      navbarOffset;
+
+    const startPosition =
+      window.scrollY;
+
+    const distance =
+      targetPosition -
+      startPosition;
+
+    const duration = 850;
+    const startTime =
+      performance.now();
+
+    const easeInOut = (t) =>
+      t < 0.5
+        ? 2 * t * t
+        : 1 -
+          Math.pow(
+            -2 * t + 2,
+            2
+          ) /
+            2;
+
+    const animateScroll = (
+      currentTime
+    ) => {
+      const elapsed =
+        currentTime -
+        startTime;
+
+      const progress = Math.min(
+        elapsed / duration,
+        1
+      );
+
+      const easedProgress =
+        easeInOut(progress);
+
+      window.scrollTo(
+        0,
+        startPosition +
+          distance *
+            easedProgress
+      );
+
+      if (progress < 1) {
+        requestAnimationFrame(
+          animateScroll
+        );
+      }
+    };
+
+    setNavbarVisible(true);
+
+    requestAnimationFrame(
+      animateScroll
+    );
+  };
+
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    setDrawerOpen(false);
+    logout();
+    navigate("/login", { replace: true });
+  };
+
+  const handleNavigation = (path) => {
+    if (path.startsWith("/#")) {
+      const sectionId =
+        path.replace("/#", "");
+
+      if (
+        window.location.pathname ===
+        "/"
+      ) {
+        scrollToSection(
+          sectionId
+        );
+      } else {
+        navigate("/");
+
+        setTimeout(() => {
+          scrollToSection(
+            sectionId
+          );
+        }, 350);
+      }
+
+      setDrawerOpen(false);
+      return;
+    }
+
+    navigate(path);
+    setDrawerOpen(false);
+  };
+
+  const menuItems = [
+    {
+      label: t("nav.home"),
+      path: "/",
+    },
+    {
+      label: t("nav.features"),
+      path: "/#features",
+    },
+    {
+      label: t("nav.howItWorks"),
+      path: "/#how-it-works",
+    },
+    {
+      label: t("nav.about"),
+      path: "/#about",
+    },
+  ];
+
+  return (
+    <>
+      <AppBar
+        position="sticky"
+        elevation={0}
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          py: 1,
+          top: 0,
+          zIndex: 1100,
+
+          pt: {
+            xs: 1,
+            md: 1.5,
+          },
+
+          px: {
+            xs: 1,
+            md: 2,
+          },
+
+          bgcolor:
+            "transparent",
+
+          // The landing page's left sidebar always runs the full height
+          // of the viewport now, starting flush at the top — collapsed
+          // (icon rail) or expanded — so the navbar shrinks and shifts
+          // clear of whichever width it currently is, at rest or open,
+          // instead of the two overlapping or leaving a gap.
+          ml: sidebarOpen
+            ? {
+                xs: "280px",
+                sm: "300px",
+                md: "310px",
+              }
+            : {
+                xs: "64px",
+                sm: "68px",
+                md: "72px",
+              },
+
+          width: sidebarOpen
+            ? {
+                xs: "calc(100% - 280px)",
+                sm: "calc(100% - 300px)",
+                md: "calc(100% - 310px)",
+              }
+            : {
+                xs: "calc(100% - 64px)",
+                sm: "calc(100% - 68px)",
+                md: "calc(100% - 72px)",
+              },
+
+          transformOrigin: "top right",
+
+          transform: !navbarVisible
+            ? "translateY(-120%)"
+            : sidebarOpen
+              ? "translateY(0) scale(0.97)"
+              : "translateY(0)",
+
+          transition:
+            "transform 0.32s ease-in-out, margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1), width 0.28s cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
-        <Typography
-          variant="h5"
-          fontWeight="bold"
-          color="primary"
+        <Toolbar
+          sx={{
+            width: "100%",
+            maxWidth: 1350,
+            mx: "auto",
+
+            minHeight:
+              "64px !important",
+
+            px: {
+              xs: 1.5,
+              md: 2.5,
+            },
+
+            py: 1,
+
+            border:
+              "1px solid var(--oa-glass-border)",
+
+            borderRadius: 4,
+
+            bgcolor:
+              "var(--oa-surface-glass)",
+
+            backdropFilter:
+              "blur(14px)",
+
+            WebkitBackdropFilter:
+              "blur(14px)",
+
+            boxShadow:
+              "0 8px 28px rgba(15, 23, 42, 0.05)",
+
+            display: "grid",
+
+            gridTemplateColumns: {
+              xs: "1fr auto",
+              md: "1fr auto 1fr",
+            },
+
+            alignItems:
+              "center",
+          }}
         >
-          🦴 OsteoAI
-        </Typography>
+          {/* BRAND */}
+          <Box
+            onClick={() =>
+              handleNavigation("/")
+            }
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1.25,
 
-        <Box>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit">Features</Button>
-          <Button color="inherit">About</Button>
+              cursor: "pointer",
 
-          <Button
-            variant="contained"
-            sx={{ ml: 2 }}
+              justifySelf:
+                "start",
+            }}
           >
-            Login
-          </Button>
+            <OsteoLogo />
+
+            <Box>
+              <Typography
+                variant="h6"
+                fontWeight={800}
+                sx={{
+                  lineHeight: 1,
+                  letterSpacing:
+                    "-0.02em",
+                  color:
+                    "var(--oa-text-900)",
+                }}
+              >
+                OsteoAI
+              </Typography>
+
+              <Typography
+                variant="caption"
+                sx={{
+                  display: "block",
+                  mt: 0.4,
+                  whiteSpace:
+                    "nowrap",
+                  lineHeight: 1,
+                  color:
+                    "var(--oa-text-500)",
+                }}
+              >
+                {t("brand.tagline")}
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* DESKTOP NAVIGATION */}
+          {!isMobile && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems:
+                  "center",
+                justifyContent:
+                  "center",
+                gap: 0.75,
+              }}
+            >
+              {menuItems.map(
+                (item) => (
+                  <Button
+                    key={
+                      item.label
+                    }
+                    onClick={() =>
+                      handleNavigation(
+                        item.path
+                      )
+                    }
+                    sx={{
+                      px: 1.5,
+                      py: 1,
+
+                      minWidth:
+                        "auto",
+
+                      borderRadius: 2.5,
+
+                      textTransform:
+                        "none",
+
+                      fontWeight: 600,
+
+                      color:
+                        "var(--oa-text-900)",
+
+                      whiteSpace:
+                        "nowrap",
+
+                      "&:hover": {
+                        bgcolor:
+                          "rgba(37, 99, 235, 0.06)",
+                        color:
+                          "var(--oa-brand)",
+                      },
+                    }}
+                  >
+                    {
+                      item.label
+                    }
+                  </Button>
+                )
+              )}
+            </Box>
+          )}
+
+          {/* AUTH BUTTONS */}
+          {!isMobile && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems:
+                  "center",
+                justifyContent:
+                  "flex-end",
+                gap: 1,
+              }}
+            >
+              <ThemeToggle />
+
+              <Box
+                sx={{
+                  width: "1px",
+                  height: 28,
+                  bgcolor:
+                    "var(--oa-border-1)",
+                  mr: 0.5,
+                }}
+              />
+
+              {user ? (
+                <Button
+                  variant="outlined"
+                  onClick={handleLogout}
+                  sx={{
+                    px: 2,
+                    borderRadius:
+                      2.5,
+                    textTransform:
+                      "none",
+                    fontWeight: 700,
+                    whiteSpace:
+                      "nowrap",
+                  }}
+                >
+                  {t("sidebar.logout")}
+                </Button>
+              ) : (
+                <>
+                <Button
+                  variant="outlined"
+                  onClick={() =>
+                    handleNavigation(
+                      "/login"
+                    )
+                  }
+                  sx={{
+                    px: 2,
+                    borderRadius:
+                      2.5,
+                    textTransform:
+                      "none",
+                    fontWeight: 700,
+                    whiteSpace:
+                      "nowrap",
+                  }}
+                >
+                  {t("nav.login")}
+                </Button>
+
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    handleNavigation(
+                      "/signup"
+                    )
+                  }
+                  sx={{
+                    px: 2,
+                    borderRadius:
+                      2.5,
+                    textTransform:
+                      "none",
+                    fontWeight: 700,
+                    whiteSpace:
+                      "nowrap",
+                    boxShadow:
+                      "none",
+                  }}
+                >
+                  {t("nav.signUp")}
+                </Button>
+                </>
+              )}
+            </Box>
+          )}
+
+          {/* MOBILE MENU */}
+          {isMobile && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                justifySelf: "end",
+              }}
+            >
+              <ThemeToggle size="small" />
+
+              <IconButton
+                onClick={() => setDrawerOpen(true)}
+                aria-label="open navigation menu"
+                sx={{ color: "var(--oa-brand)" }}
+              >
+                <MenuSvg />
+              </IconButton>
+            </Box>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      {/* MOBILE DRAWER */}
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={() =>
+          setDrawerOpen(false)
+        }
+      >
+        <Box
+          sx={{
+            width: 300,
+            height: "100%",
+            p: 2,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems:
+                "center",
+              justifyContent:
+                "space-between",
+              mb: 2,
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems:
+                  "center",
+                gap: 1,
+              }}
+            >
+              <OsteoLogo
+                size={32}
+              />
+
+              <Typography
+                fontWeight={800}
+                sx={{
+                  color:
+                    "var(--oa-text-900)",
+                }}
+              >
+                OsteoAI
+              </Typography>
+            </Box>
+
+            <IconButton
+              onClick={() =>
+                setDrawerOpen(
+                  false
+                )
+              }
+              aria-label="close navigation menu"
+            >
+              <MenuSvg open />
+            </IconButton>
+          </Box>
+
+          <Divider
+            sx={{ mb: 1 }}
+          />
+
+          <List>
+            {menuItems.map(
+              (item) => (
+                <ListItem
+                  key={
+                    item.label
+                  }
+                  disablePadding
+                >
+                  <ListItemButton
+                    onClick={() =>
+                      handleNavigation(
+                        item.path
+                      )
+                    }
+                    sx={{
+                      borderRadius:
+                        2,
+                      mb: 0.5,
+                    }}
+                  >
+                    <ListItemText
+                      primary={
+                        item.label
+                      }
+                    />
+                  </ListItemButton>
+                </ListItem>
+              )
+            )}
+
+            {user ? (
+              <ListItem
+                disablePadding
+              >
+                <ListItemButton
+                  onClick={handleLogout}
+                  sx={{
+                    borderRadius:
+                      2,
+                    mt: 1,
+                  }}
+                >
+                  <ListItemText
+                    primary={t("sidebar.logout")}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ) : (
+              <>
+              <ListItem
+                disablePadding
+              >
+                <ListItemButton
+                  onClick={() =>
+                    handleNavigation(
+                      "/login"
+                    )
+                  }
+                  sx={{
+                    borderRadius:
+                      2,
+                    mt: 1,
+                  }}
+                >
+                  <ListItemText
+                    primary={t("nav.login")}
+                  />
+                </ListItemButton>
+              </ListItem>
+
+              <ListItem
+                disablePadding
+              >
+                <ListItemButton
+                  onClick={() =>
+                    handleNavigation(
+                      "/signup"
+                    )
+                  }
+                  sx={{
+                    borderRadius:
+                      2,
+                    mt: 0.5,
+                    bgcolor:
+                      "var(--oa-brand-solid)",
+                    color:
+                      "white",
+                    "&:hover": {
+                      bgcolor:
+                        "primary.dark",
+                    },
+                  }}
+                >
+                  <ListItemText
+                    primary={t("nav.signUp")}
+                  />
+                </ListItemButton>
+              </ListItem>
+              </>
+            )}
+          </List>
         </Box>
-      </Toolbar>
-    </AppBar>
+      </Drawer>
+    </>
   );
 }
 

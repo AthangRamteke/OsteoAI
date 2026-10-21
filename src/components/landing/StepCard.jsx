@@ -18,7 +18,7 @@ function StepCard({
                 borderRadius: 4,
                 p: 2,
                 // height: "100%",
-                border: "1px solid #E2E8F0",
+                border: "1px solid var(--oa-border-1)",
                 transition: "0.3s",
 
                 "&:hover": {
@@ -40,7 +40,7 @@ function StepCard({
                 >
                     <Avatar
                         sx={{
-                            bgcolor: "primary.main",
+                            bgcolor: "var(--oa-brand-solid)",
                             width: 60,
                             height: 60,
                             fontSize: "1.3rem",

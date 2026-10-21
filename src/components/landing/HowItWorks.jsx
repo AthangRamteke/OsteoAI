@@ -1,69 +1,86 @@
 import { Box, Container, Typography, Grid } from "@mui/material";
 import StepCard from "./StepCard";
-
-const steps = [
-  {
-    step: 1,
-    title: "Enter Health Details",
-    description:
-      "Provide your age, BMI, lifestyle habits, medical history, and optional DXA report.",
-  },
-  {
-    step: 2,
-    title: "AI Predicts Risk",
-    description:
-      "Our machine learning model analyzes your data and predicts your osteoporosis risk.",
-  },
-  {
-    step: 3,
-    title: "Understand Results",
-    description:
-      "Explainable AI (SHAP) shows why the prediction was made in simple language.",
-  },
-  {
-    step: 4,
-    title: "Improve Bone Health",
-    description:
-      "Receive personalized lifestyle suggestions and future risk simulation.",
-  },
-];
+import { useLanguage } from "../../context/LanguageContext";
 
 function HowItWorks() {
+  const { t } = useLanguage();
+
+  const steps = [
+    {
+      step: 1,
+      title: t("howItWorks.step1Title"),
+      description: t("howItWorks.step1Desc"),
+    },
+    {
+      step: 2,
+      title: t("howItWorks.step2Title"),
+      description: t("howItWorks.step2Desc"),
+    },
+    {
+      step: 3,
+      title: t("howItWorks.step3Title"),
+      description: t("howItWorks.step3Desc"),
+    },
+    {
+      step: 4,
+      title: t("howItWorks.step4Title"),
+      description: t("howItWorks.step4Desc"),
+    },
+  ];
+
   return (
     <Box
+      id="how-it-works"
       sx={{
-        py: 10,
-        backgroundColor: "#F8FAFC",
+        scrollMarginTop: "115px",
+        py: { xs: 8, md: 12 },
+        bgcolor: "var(--oa-surface)",
       }}
     >
       <Container maxWidth="lg">
         <Typography
-          variant="h3"
-          fontWeight={700}
+          variant="h2"
+          fontWeight={800}
           align="center"
-          gutterBottom
+          sx={{
+            fontSize: {
+              xs: "2.2rem",
+              md: "3.2rem",
+            },
+            letterSpacing: "-0.02em",
+          }}
         >
-          How OsteoAI Works
+          {t("howItWorks.title")}
         </Typography>
 
         <Typography
           variant="h6"
           color="text.secondary"
           align="center"
-          sx={{ mb: 6 }}
+          sx={{
+            maxWidth: 760,
+            mx: "auto",
+            mt: 2,
+            mb: 7,
+            fontWeight: 400,
+            lineHeight: 1.7,
+          }}
         >
-          Get your osteoporosis risk assessment in four simple steps.
+          {t("howItWorks.subtitle")}
         </Typography>
 
-        <Grid container spacing={4}>
+        <Grid
+          container
+          spacing={3}
+        >
           {steps.map((item) => (
             <Grid
+              key={item.step}
               size={{
                 xs: 12,
                 sm: 6,
                 lg: 3,
               }}
-              key={item.step}
             >
               <StepCard
                 step={item.step}

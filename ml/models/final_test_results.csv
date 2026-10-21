@@ -1,0 +1,2 @@
+selected_model,selected_threshold,accuracy,precision,recall,f1_score,roc_auc,pr_auc_average_precision,specificity,npv,brier_score,tn,fp,fn,tp,test_size,positive_count,negative_count
+LogisticRegression_standard,0.09,0.6881720430107527,0.2593856655290102,0.8351648351648352,0.3958333333333333,0.8096359995288019,0.38869617713671223,0.667687595712098,0.9667405764966741,0.09095683705160933,436,217,15,76,744,91,653
