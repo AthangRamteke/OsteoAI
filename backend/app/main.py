@@ -6,6 +6,7 @@ OsteoAI FastAPI application entry point.
 """
 
 import logging
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -94,10 +95,19 @@ app = FastAPI(
 # and a fixed list silently blocks every API call from that origin,
 # which the browser reports only as "Failed to fetch".
 #
-# TODO before production deployment: replace with the real frontend origin(s).
+# Deployed frontend: any *.vercel.app URL (production + preview deploys),
+# plus an optional comma-separated CORS_ORIGINS for a custom domain.
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
+    allow_origins=[
+        o.strip()
+        for o in os.environ.get("CORS_ORIGINS", "").split(",")
+        if o.strip()
+    ],
+    allow_origin_regex=(
+        r"http://(localhost|127\.0\.0\.1)(:\d+)?"
+        r"|https://[a-z0-9-]+\.vercel\.app"
+    ),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
